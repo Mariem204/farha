@@ -8,6 +8,6 @@
 //   - SUPABASE_ANON_KEY : clé « anon public » (eyJ...) ou « publishable » (sb_publishable_...)
 window.FARHA_CONFIG = {
   SUPABASE_URL: 'https://hxipvvqtqpuhjgkkcdzw.supabase.co',
-  SUPABASE_ANON_KEY: 'COLLE_ICI_TA_CLE_PUBLISHABLE_COMPLETE'
+  SUPABASE_ANON_KEY: 'sb_publishable_-haJpQ7FQ2Z1p5Sisc3ScA_oCuc8xFX'
 };
 
