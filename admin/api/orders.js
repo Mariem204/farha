@@ -3,6 +3,8 @@
 //   SUPABASE_URL               https://xxxx.supabase.co
 //   SUPABASE_SERVICE_ROLE_KEY  clé « service_role » (ou « secret » sb_secret_...) — jamais dans le code.
 // Le prix est toujours recalculé ici depuis la base : le montant envoyé par le navigateur est ignoré.
+// Étape 5 : chaque commande de modèle crée aussi son invitation (lien /i/<slug>) :
+//   test gratuit → publiée tout de suite ; commande payante → brouillon, publiée par l'admin.
 
 const SUR_MESURE_PRICE = 50;          // Création sur mesure, en DT
 const MAX_PER_EMAIL_10_MIN = 5;       // Limite anti-abus
@@ -26,6 +28,19 @@ function cleanDetails(obj) {
     if (s && !/^blob:/i.test(s)) out[key] = s;
   });
   return out;
+}
+
+// Champs de l'invitation (ceux de readData() dans le site), sans le nom du modèle ajouté pour l'admin.
+const INVITATION_FIELDS = ['bride', 'groom', 'date', 'time', 'place', 'map', 'message', 'color', 'music'];
+
+function slugBase(s) {
+  return String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 60);
+}
+function randomSuffix() {
+  const a = 'abcdefghjkmnpqrstuvwxyz23456789';
+  const b = require('crypto').randomBytes(6);
+  return Array.from(b, x => a[x % a.length]).join('');
 }
 
 function headers(key, extra) {
@@ -122,10 +137,29 @@ module.exports = async function handler(req, res) {
       headers: { Prefer: 'return=minimal' },
       body: JSON.stringify({ order_id: order.id, template_id: template ? template.id : null, label, unit_price_dt: unit, quantity: 1, details })
     });
-    return res.status(201).json({ reference: order.reference, total_dt: Number(order.total_dt) });
+    let invitation = null;
+    if (template) {
+      const data = {};
+      INVITATION_FIELDS.forEach(k => { if (details[k]) data[k] = details[k]; });
+      const status = kind === 'test' ? 'published' : 'draft';
+      const slugStart = slugBase([data.bride, data.groom].filter(Boolean).join(' ')) || 'invitation';
+      for (let i = 0; i < 3 && !invitation; i++) {
+        try {
+          [invitation] = await rest(base, key, 'invitations?select=slug,status', {
+            method: 'POST',
+            headers: { Prefer: 'return=representation' },
+            body: JSON.stringify({ slug: slugStart + '-' + randomSuffix(), order_id: order.id, template_id: template.id, data, status })
+          });
+        } catch (e) { if (e.status !== 409) throw e; } // lien déjà pris : nouveau tirage
+      }
+    }
+    return res.status(201).json({
+      reference: order.reference,
+      total_dt: Number(order.total_dt),
+      invitation: invitation ? { slug: invitation.slug, status: invitation.status } : null
+    });
   } catch (e) {
     console.error('orders:', e.status || '', e.message);
     return res.status(500).json({ error: 'Enregistrement impossible pour le moment' });
   }
 };
-
