@@ -1,4 +1,5 @@
-// Farha · back-office · étape 1 : authentification, structure, journal.
+// Farha · back-office · socle : authentification, navigation, journal.
+// Les modules (modeles.js, …) s'enregistrent via window.FarhaAdmin.
 // Toutes les autorisations sont vérifiées par Supabase (RLS + is_admin()) ;
 // ce fichier ne fait qu'afficher ce que la base accepte de renvoyer.
 (function () {
@@ -51,6 +52,17 @@
     });
   }
   window.farhaConfirm = confirmAction;
+
+  // Message bref en bas d'écran (succès ou erreur).
+  let toastTimer = null;
+  function toast(text, kind) {
+    let t = $('toast');
+    if (!t) { t = el('div', { id: 'toast', class: 'toast', role: 'status', 'aria-live': 'polite' }); document.body.append(t); }
+    t.textContent = text;
+    t.className = 'toast show' + (kind ? ' ' + kind : '');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => { t.className = 'toast'; }, kind === 'error' ? 6000 : 3000);
+  }
 
   // ---------- Authentification ----------
   async function isAdmin() {
@@ -127,7 +139,6 @@
   const routes = {
     dashboard:   { title: 'Tableau de bord', lead: 'Commandes, chiffre d’affaires confirmé, invitations publiées et derniers avis.', render: placeholder('Le tableau de bord sera activé à l’étape 6, une fois les commandes, avis et invitations enregistrés.') },
     commandes:   { title: 'Commandes', lead: 'Recherche, filtres, statut de paiement et statut de traitement.', render: placeholder('Ce module sera activé à l’étape 4. Les commandes du site ne sont pas encore enregistrées.') },
-    modeles:     { title: 'Modèles', lead: 'Catalogue, catégories, images et prix.', render: placeholder('Ce module sera activé à l’étape 2. Les 12 modèles de la v19 sont déjà importés dans la base.') },
     avis:        { title: 'Avis clients', lead: 'Modération avant publication sur le site.', render: placeholder('Ce module sera activé à l’étape 5. Aucun avis n’est encore enregistré.') },
     invitations: { title: 'Invitations', lead: 'Liens publics, brouillons, publiées et désactivées.', render: placeholder('Ce module sera activé à l’étape 5. Aucune invitation n’est encore enregistrée.') },
     journal:     { title: 'Journal', lead: 'Les 100 dernières actions sensibles, enregistrées automatiquement par la base.', render: renderJournal }
@@ -188,9 +199,19 @@
     )));
   }
 
-  // ---------- Démarrage ----------
-  db.auth.getSession().then(({ data }) => {
-    if (recovering) return;
-    enter(data.session, false);
+  // ---------- API pour les modules ----------
+  // Un module ajoute une entrée dans routes ; l'ordre du menu reste celui de index.html.
+  window.FarhaAdmin = {
+    db, el, fmtDate, toast, confirm: confirmAction,
+    registerRoute(name, def) { routes[name] = def; },
+    rerender: () => route()
+  };
+
+  // ---------- Démarrage (après chargement de tous les modules) ----------
+  window.addEventListener('DOMContentLoaded', () => {
+    db.auth.getSession().then(({ data }) => {
+      if (recovering) return;
+      enter(data.session, false);
+    });
   });
 })();
