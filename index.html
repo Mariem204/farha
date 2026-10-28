@@ -493,7 +493,7 @@ SOURCES["sarah"]="<!DOCTYPE html>\n<html lang=\"fr\">\n<head>\n<meta charset=\"u
 const templates=[{id:'lake',name:'Lake Como · Enveloppe interactive',category:'Mariage',style:'lake',base:'lake',color:'#b48a43'},{id:'sidi',name:'Sidi Bou Said · Portes bleues',category:'Mariage',style:'sidi',base:'sidi',color:'#1f56a5'},{id:'sarah',name:'Jardin des Oliviers · Sarah & Yassine',category:'Mariage',style:'sarah',base:'sarah',color:'#b88a44'},{id:'sand',name:'Sable doré',category:'Fiançailles',style:'sand',base:'royal',color:'#b88b50'},{id:'night',name:'Nuit étoilée',category:'Anniversaire',style:'night',base:'editorial',color:'#c3a268'},{id:'lavender',name:'Douce lavande',category:'Naissance',style:'lavender',base:'royal',color:'#9275b7'},{id:'sky',name:'Bleu ciel',category:'Événement',style:'sky',base:'editorial',color:'#5389aa'}];
 let chosen=templates[0],musicBlob=null,lastDoc='';const $=id=>document.getElementById(id);
 // Prix par catégorie de modèle (en DT). Les catégories non listées gardent le prix par défaut.
-const FARHA_PRICES={'Mariage':40,'Fiançailles':30,'Anniversaire':20,'Tahara':20,'Diplôme':15},FARHA_DEFAULT_PRICE=50;
+const FARHA_PRICES={'Mariage':40,'Fiançailles':30,'Anniversaire':20,'Tahara':20,'Diplôme':15,'Naissance':20,'Événement':20},FARHA_DEFAULT_PRICE=50;
 function farhaPrice(t){return FARHA_PRICES[t&&t.category]??FARHA_DEFAULT_PRICE}
 function farhaApplyPrice(){const p=farhaPrice(chosen);document.querySelectorAll('.farha-price').forEach(e=>e.textContent=p+' DT');const tot=document.getElementById('farhaTotal');if(tot)tot.textContent=p+',000 DT'}
 function show(id){if(typeof chosen!=='undefined')farhaApplyPrice();document.querySelectorAll('.view').forEach(e=>e.classList.toggle('active',e.id===id));window.scrollTo(0,0)}
@@ -701,7 +701,7 @@ function farhaDeliver(){
  $('deliveryLink').value=farhaInviteLink();$('deliveryToast').textContent='';show('complete')
 }
 // Lien d'invitation : le site Netlify relit le modèle et les informations depuis l'adresse (#i=...) et affiche l'invitation.
-const FARHA_SITE='https://clinquant-melba-0b3449.netlify.app/';
+const FARHA_SITE='https://farha-bay.vercel.app/';
 function farhaInviteLink(){const d=readData();if(/^blob:/.test(d.music))d.music='';const bytes=new TextEncoder().encode(JSON.stringify({t:chosen.id,d}));let bin='';bytes.forEach(b=>bin+=String.fromCharCode(b));return FARHA_SITE+'#i='+btoa(bin).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'')}
 function farhaReadInvite(){const m=location.hash.match(/^#i=([A-Za-z0-9_-]+)/);if(!m)return null;try{const bin=atob(m[1].replace(/-/g,'+').replace(/_/g,'/'));const o=JSON.parse(new TextDecoder().decode(Uint8Array.from(bin,c=>c.charCodeAt(0))));const t=templates.find(x=>x.id===o.t);return t&&o.d?{t,d:o.d}:null}catch(e){return null}}
 function farhaToast(t){$('deliveryToast').textContent=t}
@@ -791,4 +791,59 @@ function farhaRenderInspirations(){
 renderCatalog();
 // Un invité ouvre le lien partagé : on affiche uniquement son invitation, en plein écran.
 (function(){const inv=farhaReadInvite();if(!inv)return;const f=document.createElement('iframe');f.title='Invitation';f.style.cssText='position:fixed;inset:0;width:100%;height:100%;border:0;z-index:2147483647;background:#fff';f.srcdoc=buildDoc(inv.t,inv.d);document.body.style.overflow='hidden';document.body.append(f)})();
+</script>
+<script src="/admin/config.js"></script>
+<script>
+// FARHA-CATALOGUE-SUPABASE (étape 3) : le catalogue est lu depuis Supabase (modèles actifs, prix,
+// images, ordre). En cas d'absence de configuration, d'erreur ou de délai dépassé, le catalogue
+// intégré ci-dessus reste affiché tel quel. Lecture seule, avec la clé publique uniquement.
+(function(){
+ const cfg=window.FARHA_CONFIG||{};
+ if(!/^https:\/\/[a-z0-9-]+\.supabase\.co\/?$/.test(cfg.SUPABASE_URL||'')||!cfg.SUPABASE_ANON_KEY||/VOTRE-/.test(cfg.SUPABASE_ANON_KEY))return;
+ if(farhaReadInvite())return; // un invité qui ouvre son invitation n'a pas besoin du catalogue
+ const base=cfg.SUPABASE_URL.replace(/\/$/,'');
+ const RENDERERS=['royal','editorial','lake','sidi','sarah'];
+ const ctrl=new AbortController(),timer=setTimeout(()=>ctrl.abort(),5000);
+ const url=base+'/rest/v1/templates?select=slug,name,description,renderer,color,price_dt,preview_path,sort_order,category:categories(name,default_price_dt)&order=sort_order.asc,name.asc';
+ fetch(url,{headers:{apikey:cfg.SUPABASE_ANON_KEY,Accept:'application/json'},signal:ctrl.signal})
+  .then(r=>r.ok?r.json():Promise.reject(new Error('HTTP '+r.status)))
+  .then(rows=>{clearTimeout(timer);if(Array.isArray(rows)&&rows.length)farhaApplyCatalog(rows)})
+  .catch(e=>{clearTimeout(timer);console.warn('Farha : catalogue intégré utilisé ('+(e&&e.message||e)+').')});
+
+ function farhaApplyCatalog(rows){
+  const known=Object.fromEntries(templates.map(t=>[t.id,t]));
+  const img=src=>'<img class="card-shot" alt="" loading="lazy" src="'+String(src).replace(/[&"<>]/g,c=>({'&':'&amp;','"':'&quot;','<':'&lt;','>':'&gt;'}[c]))+'">';
+  const next=[];
+  rows.forEach(r=>{
+   if(!r||!r.slug||!r.category||!/^#[0-9a-fA-F]{6}$/.test(r.color||''))return;
+   let t=known[r.slug];
+   if(!t){
+    if(RENDERERS.indexOf(r.renderer)<0)return;
+    t={id:r.slug,style:r.renderer,base:r.renderer}; // nouveau modèle : mise en page existante
+    if(!previewMarkup[r.slug])previewMarkup[r.slug]=img('data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3 4"><rect width="3" height="4" fill="'+r.color+'"/></svg>'));
+   }
+   t.name=r.name;t.category=r.category.name;t.color=r.color;
+   t.price=r.price_dt!=null?Number(r.price_dt):null;
+   t.description=r.description||null;
+   if(r.preview_path)previewMarkup[r.slug]=img(base+'/storage/v1/object/public/template-previews/'+r.preview_path.split('/').map(encodeURIComponent).join('/'));
+   if(r.category.default_price_dt!=null)FARHA_PRICES[r.category.name]=Number(r.category.default_price_dt);
+   next.push(t);
+  });
+  if(!next.length)return;
+  // Seuls les modèles actifs restent proposés ; les invitations déjà partagées ne passent pas par cette liste.
+  templates.splice(0,templates.length,...next);
+  const cats=['Tous',...new Set(next.map(t=>t.category))];
+  categories.splice(0,categories.length,...cats);
+  if(!next.includes(chosen))chosen=next[0];
+  renderCatalog();
+  if(document.getElementById('inspirations')?.classList.contains('active'))farhaRenderInspirations();
+ }
+})();
+// Prix : celui du modèle s'il est défini dans l'admin, sinon celui de sa catégorie.
+const farhaPriceBefore=farhaPrice;
+farhaPrice=function(t){return t&&t.price!=null?t.price:farhaPriceBefore(t)};
+// Description : celle saisie dans l'admin remplace le texte par défaut de la carte.
+const farhaTemplateCardBefore=farhaTemplateCard;
+farhaTemplateCard=function(t){const card=farhaTemplateCardBefore(t);const p=t&&t.description&&card.querySelector('.template-meta p');if(p)p.textContent=t.description;return card};
+// /FARHA-CATALOGUE-SUPABASE
 </script></body></html>
