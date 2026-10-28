@@ -138,8 +138,6 @@
   // ---------- Navigation ----------
   const routes = {
     dashboard:   { title: 'Tableau de bord', lead: 'Commandes, chiffre d’affaires confirmé, invitations publiées et derniers avis.', render: placeholder('Le tableau de bord sera activé à l’étape 6, une fois les commandes, avis et invitations enregistrés.') },
-    avis:        { title: 'Avis clients', lead: 'Modération avant publication sur le site.', render: placeholder('Ce module sera activé à l’étape 5. Aucun avis n’est encore enregistré.') },
-    invitations: { title: 'Invitations', lead: 'Liens publics, brouillons, publiées et désactivées.', render: placeholder('Ce module sera activé à l’étape 5. Aucune invitation n’est encore enregistrée.') },
     journal:     { title: 'Journal', lead: 'Les 100 dernières actions sensibles, enregistrées automatiquement par la base.', render: renderJournal }
   };
 

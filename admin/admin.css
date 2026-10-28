@@ -146,3 +146,20 @@ dialog.sheet.wide{width:min(980px,calc(100% - 24px))}
 .timeline{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;font-size:14px}
 .timeline li{border-left:2px solid var(--line);padding-left:10px}
 @media (max-width:760px){.cards{grid-template-columns:1fr}}
+
+/* ---------- Étape 5 : invitations et avis ---------- */
+.badge.inv-draft{background:#f9eeda;color:var(--warn)}
+.badge.inv-published{background:#e5f4e4;color:var(--ok)}
+.badge.inv-disabled{background:#f0efec;color:var(--muted)}
+.badge.fb-pending{background:#f9eeda;color:var(--warn)}
+.badge.fb-published{background:#e5f4e4;color:var(--ok)}
+.badge.fb-hidden{background:#f0efec;color:var(--muted)}
+.review-list{display:flex;flex-direction:column;gap:12px}
+.review-admin{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:16px;display:flex;flex-direction:column;gap:10px}
+.review-head{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px}
+.review-head .badge{margin-left:auto}
+.review-admin .stars{color:var(--gold);letter-spacing:2px}
+.review-admin blockquote{margin:0;padding-left:12px;border-left:3px solid var(--sand);font-size:15px}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.inline input{flex:1;min-width:0}
+a.btn{text-decoration:none;display:inline-flex;align-items:center}

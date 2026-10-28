@@ -101,11 +101,13 @@
     dlg.addEventListener('close', () => dlg.remove());
     dlg.showModal();
 
-    const [o, h, admins] = await Promise.all([
+    const [o, h, admins, inv] = await Promise.all([
       db.from('orders').select('*,order_items(label,unit_price_dt,quantity,details)').eq('id', id).single(),
+      db.from('invitations').select('slug,status').eq('order_id', id).limit(1),
       db.from('audit_logs').select('id,actor_id,action,before,after,created_at').eq('entity', 'orders').eq('entity_id', id).order('id'),
       db.from('admin_users').select('user_id,email')
     ]);
+    const invitation = ((inv && inv.data) || [])[0];
     if (o.error) { body.replaceChildren(el('p', { class: 'status error' }, errText(o.error))); return; }
     const order = o.data;
     const who = Object.fromEntries((admins.data || []).map(a => [a.user_id, a.email]));
@@ -138,7 +140,11 @@
       el('p', {}, el('strong', {}, it.label), ' · ', money(it.unit_price_dt), it.quantity > 1 ? ' × ' + it.quantity : ''),
       el('dl', { class: 'kv' }, Object.entries(it.details || {}).filter(([, v]) => v).flatMap(([k, v]) =>
         [el('dt', {}, DETAIL_LABELS[k] || k), el('dd', {}, k === 'color' ? [el('span', { class: 'swatch', style: 'background:' + (/^#[0-9a-f]{6}$/i.test(v) ? v : '#fff') }), ' ', v] : v)]))));
-    const content = el('section', { class: 'card' }, el('h3', {}, 'Commande · ' + KIND[order.kind]), items.length ? items : el('p', { class: 'sub' }, 'Aucune ligne.'),
+    const INV = { draft: 'Brouillon', published: 'Publiée', disabled: 'Désactivée' };
+    const invLine = invitation ? el('p', { class: 'sub' }, 'Invitation : ',
+      el('a', { href: '#/invitations?q=' + encodeURIComponent(invitation.slug), onclick: 'this.closest("dialog").close()' }, '/i/' + invitation.slug),
+      ' · ', el('span', { class: 'badge inv-' + invitation.status }, INV[invitation.status])) : '';
+    const content = el('section', { class: 'card' }, el('h3', {}, 'Commande · ' + KIND[order.kind]), items.length ? items : el('p', { class: 'sub' }, 'Aucune ligne.'), invLine,
       el('p', { class: 'total' }, 'Total : ', el('strong', {}, money(order.total_dt))));
 
     // Paiement
