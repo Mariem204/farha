@@ -846,4 +846,42 @@ farhaPrice=function(t){return t&&t.price!=null?t.price:farhaPriceBefore(t)};
 const farhaTemplateCardBefore=farhaTemplateCard;
 farhaTemplateCard=function(t){const card=farhaTemplateCardBefore(t);const p=t&&t.description&&card.querySelector('.template-meta p');if(p)p.textContent=t.description;return card};
 // /FARHA-CATALOGUE-SUPABASE
+// FARHA-COMMANDES (étape 4) : enregistre les commandes via /api/orders (serveur Vercel).
+// Le parcours du client n'attend jamais le serveur : en cas d'échec, tout continue comme dans la v19.
+const farhaOrderSent={};
+function farhaRecordOrder(kind,payload){
+ const body=Object.assign({kind},payload);
+ const sig=JSON.stringify(body);
+ if(farhaOrderSent[sig])return farhaOrderSent[sig]; // pas de doublon si le client clique deux fois
+ const p=fetch('/api/orders',{method:'POST',headers:{'Content-Type':'application/json'},body:sig,keepalive:true})
+  .then(r=>r.ok?r.json():Promise.reject(new Error('HTTP '+r.status)))
+  .catch(e=>{delete farhaOrderSent[sig];console.warn('Farha : commande non enregistrée ('+(e&&e.message||e)+').');return null});
+ farhaOrderSent[sig]=p;return p;
+}
+function farhaInvitationPayload(){
+ const d=readData();if(/^blob:/.test(d.music))d.music='';
+ const c=farhaClient||{};
+ return {template_slug:chosen&&chosen.id,customer:{name:c.name,email:c.email,phone:c.phone,address:c.address},
+  details:Object.assign({modele:chosen&&chosen.name},d)};
+}
+// Bouton « Cliquer pour payer » : la commande est enregistrée, le règlement se fait hors ligne (D17, virement, espèces).
+const farhaSimulatePaymentBefore=simulatePayment;
+simulatePayment=function(){
+ farhaSimulatePaymentBefore();
+ if(!farhaClient)return;
+ farhaRecordOrder('template',farhaInvitationPayload()).then(r=>{
+  if(r&&r.reference)$('payStatus').textContent='Commande '+r.reference+' enregistrée. Le paiement en ligne sera bientôt disponible : nous vous contactons pour le règlement (D17, virement ou espèces).';
+ });
+};
+// Bouton « Terminé · test gratuit » : commande enregistrée à 0 DT, de type « test ».
+farhaFreeFinish=function(){farhaAskClient(()=>{$('payStatus').textContent='';farhaDeliver();$('deliveryStatus').textContent='Mode test : livraison sans paiement.';setTimeout(farhaOpenFeedback,1200);farhaRecordOrder('test',farhaInvitationPayload())})};
+// Formulaire « Création sur mesure » : demande enregistrée (50 DT), puis la messagerie s'ouvre comme avant.
+const farhaSendBespokeBefore=sendBespoke;
+sendBespoke=function(e){
+ const f=e.currentTarget,d=new FormData(f),v=k=>String(d.get(k)||'').trim();
+ if(v('client')&&v('email'))farhaRecordOrder('sur_mesure',{customer:{name:v('client'),email:v('email'),phone:v('phone')},
+  details:{evenement:v('event'),date:v('date'),noms:v('names'),lieu:v('venue'),reseaux:v('social'),description:v('description'),autres:v('other')}});
+ return farhaSendBespokeBefore(e);
+};
+// /FARHA-COMMANDES
 </script></body></html>
