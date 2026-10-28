@@ -343,12 +343,48 @@ html,body{overflow-x:clip}
 @media(max-width:480px){.delivery-share{grid-template-columns:1fr}.delivery-link{flex-direction:column}.delivery-actions button{width:100%}}
 /* FARHA-TEST-GRATUIT (temporaire) : supprimer avec le bouton */
 button.farha-free-test{background:#fff4d6;color:#7a5200;border:2px dashed #d4a017}button.farha-free-test:hover{background:#ffe9a8}
+/* Best sellers : pas de prix sur les cartes de l'accueil */
+#catalog .template-price{display:none}
+/* Avis clients : défilement horizontal + 3 points de suivi */
+.farha-reviews{padding:80px 0 30px;text-align:center}
+.reviews-track{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:6px 4px 14px}
+.reviews-track::-webkit-scrollbar{display:none}
+.review-card{flex:0 0 calc((100% - 20px)/3);scroll-snap-align:start;display:flex;flex-direction:column;gap:14px;margin:0;background:#632a40;color:#fff6e9;border:1px solid #632a40;border-radius:16px;padding:29px 25px;text-align:left;box-shadow:0 10px 30px #4c263010;font-family:'DM Sans',sans-serif}
+.review-label{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#efd1a5}
+.review-card h3{font-family:Georgia,serif;font-size:28px;font-weight:400;margin:0;color:#fff6e9}
+.review-stars{color:#f6d4a3;letter-spacing:4px;font-size:22px;line-height:1}
+.review-card blockquote{margin:0;flex:1;font-size:14px;line-height:1.7;opacity:.88}
+.review-pill{display:block;text-align:center;border-radius:30px;background:#f6e2c7;color:#632a40;padding:13px 16px;font-size:13px}
+@media(max-width:900px){.review-card{flex-basis:calc((100% - 10px)/2)}}
+@media(max-width:560px){.review-card{flex-basis:82%}}
+.reviews-dots{display:flex;justify-content:center;gap:10px;margin-top:14px}
+.reviews-dots button{width:11px;height:11px;padding:0;border-radius:50%;background:#e3d2c8;transition:background .2s,transform .2s}
+.reviews-dots button[aria-current="true"]{background:#68243b;transform:scale(1.2)}
+/* Popup avis : notation étoiles */
+.fb-stars{display:flex;justify-content:center;gap:6px;flex-direction:row-reverse}
+.fb-stars input{position:absolute;opacity:0;pointer-events:none}
+.idea-form .fb-stars label{font-size:38px;line-height:1;color:#e3d2c8;cursor:pointer;transition:color .15s,transform .15s;display:inline}
+.fb-stars input:checked~label,.fb-stars label:hover,.fb-stars label:hover~label{color:#c9a14a}
+.fb-stars input:focus-visible+label{outline:2px solid #c9a14a;outline-offset:2px;border-radius:6px}
+.fb-actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+.fb-skip{background:transparent;color:#7a6560;border-radius:999px;padding:14px 20px}
 </style></head><body><header class="farha-header"><a class="farha-logo" href="#home" onclick="goSection('home');return false">Farha · فرحة ✦</a><nav class="farha-nav" aria-label="Navigation principale"><a href="#home" onclick="goSection('home');return false">Home</a><a href="#themes" onclick="goSection('themes');return false">Themes</a><a href="#how-it-works" onclick="goSection('how-it-works');return false">How it works</a><a href="#packages" onclick="goSection('packages');return false">Packages</a><a href="#contact" onclick="goSection('contact');return false">Contact us</a></nav></header><main>
 <section class="view active" id="home"><div class="landing-hero hero-v2 hero-sky">
  <div class="sky-deco" aria-hidden="true"><i class="cloud c1"></i><i class="cloud c2"></i><i class="cloud c3"></i><i class="cloud c4"></i><i class="cloud c5"></i></div><div class="sky-icons" aria-hidden="true"><span class="sky-icon i1"><svg viewBox="0 0 100 100"><defs><linearGradient id="fgR" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fbeec2"/><stop offset=".45" stop-color="#d9ad55"/><stop offset="1" stop-color="#8a6224"/></linearGradient><linearGradient id="fgG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".5" stop-color="#dbeefa"/><stop offset="1" stop-color="#a9c9e6"/></linearGradient></defs><circle cx="50" cy="66" r="24" fill="none" stroke="url(#fgR)" stroke-width="7"/><circle cx="50" cy="66" r="24" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="1.4" stroke-dasharray="22 130" transform="rotate(200 50 66)"/><path d="M43 40 L57 40 L54 46 L46 46Z" fill="url(#fgR)"/><path d="M41 12 L59 12 L68 24 L32 24Z" fill="url(#fgG)" stroke="#fff" stroke-width="1"/><path d="M32 24 L68 24 L50 42Z" fill="url(#fgG)" stroke="#fff" stroke-width="1"/><path d="M41 12 L45 24 L50 12 L55 24 L59 12 M32 24 L45 24 L50 42 L55 24 L68 24" fill="none" stroke="#9fc1df" stroke-width=".8"/><path d="M80 14 l2 6 6 2 -6 2 -2 6 -2 -6 -6 -2 6 -2z" fill="#f3d58c"/></svg></span><span class="sky-icon i2"><svg viewBox="0 0 100 100"><defs><linearGradient id="fgB" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fbeec2"/><stop offset=".45" stop-color="#d9ad55"/><stop offset="1" stop-color="#8a6224"/></linearGradient><linearGradient id="fgW" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fffaf2"/><stop offset="1" stop-color="#e3cdb2"/></linearGradient><linearGradient id="fgL" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#eedfcb"/></linearGradient></defs><rect x="19" y="46" width="62" height="42" rx="4" fill="url(#fgW)"/><rect x="15" y="35" width="70" height="14" rx="3" fill="url(#fgL)"/><rect x="45" y="35" width="10" height="53" fill="url(#fgB)"/><path d="M50 34 C38 18 24 22 30 31 C34 36 44 35 50 34Z M50 34 C62 18 76 22 70 31 C66 36 56 35 50 34Z" fill="url(#fgB)"/><circle cx="50" cy="33" r="5" fill="#e6be6a"/><rect x="21" y="49" width="58" height="3" fill="#000" opacity=".12"/><path d="M24 52 L24 80" stroke="#fff" stroke-opacity=".25" stroke-width="3" stroke-linecap="round"/></svg></span><span class="sky-icon i3"><svg viewBox="0 0 100 100"><defs><linearGradient id="fgD" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fbeec2"/><stop offset=".45" stop-color="#d9ad55"/><stop offset="1" stop-color="#8a6224"/></linearGradient><linearGradient id="fgI" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".6" stop-color="#f6ecdf"/><stop offset="1" stop-color="#dcc7ad"/></linearGradient></defs><path d="M43 10 L45 26 M57 10 L55 26" stroke="#d9c3a5" stroke-width="2" stroke-linecap="round"/><path d="M40 26 Q50 33 60 26 L58 45 L42 45Z" fill="url(#fgI)" stroke="#e2d0b8" stroke-width=".8"/><path d="M42 48 L58 48 Q66 66 84 90 Q50 97 16 90 Q34 66 42 48Z" fill="url(#fgI)" stroke="#e2d0b8" stroke-width=".8"/><path d="M47 50 Q42 70 32 92 M53 50 Q58 70 68 92 M50 50 L50 94" fill="none" stroke="#e4d3bc" stroke-width="1.2"/><rect x="41" y="44" width="18" height="5" rx="2" fill="url(#fgD)"/><circle cx="50" cy="46.5" r="2.4" fill="#fff"/><circle cx="46" cy="33" r="1" fill="#e9cf96"/><circle cx="54" cy="36" r="1" fill="#e9cf96"/><circle cx="50" cy="39" r="1" fill="#e9cf96"/></svg></span><span class="sky-icon i4"><svg viewBox="0 0 100 100"><defs><linearGradient id="fgH" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".5" stop-color="#dbeefa"/><stop offset="1" stop-color="#a9c9e6"/></linearGradient></defs><path d="M30 22 L70 22 L86 42 L14 42Z" fill="url(#fgH)" stroke="#fff" stroke-width="1.2"/><path d="M14 42 L86 42 L50 86Z" fill="url(#fgH)" stroke="#fff" stroke-width="1.2"/><path d="M30 22 L38 42 L50 22 L62 42 L70 22 M14 42 L38 42 L50 86 L62 42 L86 42" fill="none" stroke="#9fc1df" stroke-width="1"/><path d="M80 12 l2 6 6 2 -6 2 -2 6 -2 -6 -6 -2 6 -2z" fill="#f3d58c"/></svg></span><span class="sky-icon i5 zaghrouta"><svg viewBox="0 0 170 110" overflow="visible"><defs><linearGradient id="fzG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fbeec2"/><stop offset=".45" stop-color="#d9ad55"/><stop offset="1" stop-color="#8a6224"/></linearGradient><linearGradient id="fzS" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fffaf2"/><stop offset=".6" stop-color="#f3e3cf"/><stop offset="1" stop-color="#dcc3a6"/></linearGradient><linearGradient id="fzH" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6a2a3c"/><stop offset="1" stop-color="#3a1220"/></linearGradient><linearGradient id="fzF" x1="0" y1="0" x2="0" y2="1"><stop offset=".72" stop-color="#fff"/><stop offset=".97" stop-color="#000"/></linearGradient><mask id="fzM" maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="110"><rect width="100" height="110" fill="url(#fzF)"/></mask></defs><g mask="url(#fzM)"><path d="M46 8 C24 6 10 22 12 42 C10 52 16 58 12 68 C8 80 16 88 12 100 C24 106 36 100 38 90 C36 82 42 76 38 66 Z" fill="url(#fzH)"/><path d="M46 10 C58 11 63 21 62 30 C62 34 66 38 68 42 C69 44 66 46 64 46 L64 47 C65 48 64.5 49.5 63.5 50 L60 51 L60 56 L63 57.5 C64 60 62 62 59 62 C59 66 55 69 50 70 C47 71 46 74 46 78 C52 82 58 85 61 92 L62 102 L18 102 L20 92 C26 84 32 80 34 76 C26 68 24 56 25 44 C26 26 34 10 46 10 Z" fill="url(#fzS)"/><path d="M63.5 50 L60 51 L60 56 L63 57.5 Z" fill="#6e1a2e"/><path d="M59.6 50.8 C61 49.6 62.8 49.4 64.2 49.8" fill="none" stroke="#b3263f" stroke-width="1.7" stroke-linecap="round"/><path d="M59.6 56.4 C61 57.8 62.6 58.2 63.6 57.6" fill="none" stroke="#b3263f" stroke-width="1.7" stroke-linecap="round"/><path d="M52.5 33.5 C54.5 35.5 57 35.5 58.5 33.8" fill="none" stroke="#5a2a30" stroke-width="1.1" stroke-linecap="round"/><path d="M53 35 l-1 1.6 M55 35.6 l-.4 1.8 M57.2 35 l.4 1.6" stroke="#5a2a30" stroke-width=".7" stroke-linecap="round"/><path d="M52 29.5 C54 28.2 57 28.2 59 29.4" fill="none" stroke="#6a3a3c" stroke-width="1.2" stroke-linecap="round"/><path d="M46 10 C36 11 30 20 31 32 C36 26 42 20 50 18 C52 22 56 24 60 22 C58 14 52 10 46 10 Z" fill="url(#fzH)"/><circle cx="37" cy="58" r="5.2" fill="none" stroke="url(#fzG)" stroke-width="2.2"/><path d="M70 102 L66 80 C64 74 64 70 66 66 L74 70 L76 102 Z" fill="url(#fzS)"/><path d="M65 80 L75 78 L75.5 83 L65.5 85 Z" fill="url(#fzG)"/><path d="M66 70 C64 62 66 54 70 48 C71 46 74 46 74 49 L73 54 L76 46 C77 44 80 45 79.5 47.5 L77.5 55 L80 50 C81 48 84 49 83 51.5 L79 62 C77 68 74 72 70 74 Z" fill="url(#fzS)" stroke="#e2cdb2" stroke-width=".7"/></g><g stroke="url(#fzG)" stroke-width="2.4" stroke-linecap="round" fill="none"><path d="M88 42 C92 46 92 52 88 56"/><path d="M94 36 C101 42 101 56 94 62"/><path d="M91 28 L96 22"/><path d="M92 70 L97 76"/></g><text x="140" y="55" text-anchor="middle" font-family="'Aref Ruqaa',serif" font-size="22" font-weight="700" fill="url(#fzG)">تزغريطة</text><path d="M152 16 l1.6 4.6 4.6 1.6 -4.6 1.6 -1.6 4.6 -1.6 -4.6 -4.6 -1.6 4.6 -1.6z" fill="#f3d58c"/><path d="M114 74 C124 81 142 81 154 72" fill="none" stroke="url(#fzG)" stroke-width="1.8" stroke-linecap="round"/></svg></span></div>
  <div class="hero-copy"><span class="landing-kicker">✦ FARHA · INVITATIONS DIGITALES ✦</span><div class="arabic-signature" lang="ar" dir="rtl">الفرحة فرحتنا</div><h1>Créez votre<br>invitation <em>inoubliable.</em></h1><p>Une invitation qui s’ouvre comme une lettre d’amour, s’anime au fil du scroll et raconte votre histoire. Personnalisez-la en quelques minutes.</p><div class="hero-actions"><button class="landing-button" onclick="document.getElementById('themes').scrollIntoView({behavior:'smooth'})">Choisir un template &nbsp; ↗</button><button class="hero-secondary" onclick="openIdeaForm()" aria-haspopup="dialog">Personnaliser mon invitation ✦</button></div><span class="hero-note">✧ Invitations animées · Musique · Google Maps · dès 15 DT</span></div>
  <div class="hero-art" aria-label="Illustration d'une invitation numérique sur téléphone et d'une enveloppe vintage"><span class="hero-star star-a">✦</span><span class="hero-star star-b">✧</span><span class="hero-star star-c">✦</span><div class="hero-orbit"></div><div class="hero-envelope"><div class="hero-env-flap"></div><div class="hero-letter"><span>ENSEMBLE AVEC LEURS FAMILLES</span><strong>Amira <i>&</i><br>Youssef</strong><small>19 JUIN 2027 · TUNIS</small></div><div class="hero-env-fold"></div><div class="hero-wax">✿</div></div><div class="hero-phone"><div class="hero-phone-screen"><div class="hero-island"></div><span class="hero-phone-kicker">THE WEDDING OF</span><span class="hero-phone-names">Amira<br><i>&</i> Youssef</span><span class="hero-phone-date">19 · 06 · 2027</span><div class="hero-phone-arch"></div><span class="hero-phone-bottom">SCROLL TO DISCOVER ↓</span></div></div><div class="hero-floating-label">✧ Une histoire à partager</div></div>
- </div><div id="themes"><h1 class="catalog-title">Choisissez votre invitation</h1><p class="catalog-subtitle">Découvrez le mini-site animé de chaque modèle, puis personnalisez-le. <b>Modèles dès 15 DT.</b></p><div class="grid" id="catalog"></div><div class="catalog-more"><button type="button" class="landing-button catalog-more-btn" onclick="farhaOpenInspirations()">Voir tous les modèles →</button></div></div>
+ </div><div id="themes"><h1 class="catalog-title">Nos best sellers</h1><p class="catalog-subtitle">Découvrez le mini-site animé de chaque modèle, puis personnalisez-le.</p><div class="grid" id="catalog"></div><div class="catalog-more"><button type="button" class="landing-button catalog-more-btn" onclick="farhaOpenInspirations()">Voir tous les modèles →</button></div></div>
+<section class="farha-reviews" id="avis" aria-labelledby="reviewsTitle"><span class="landing-eyebrow">ILS ONT CHOISI FARHA</span><h2 class="landing-heading" id="reviewsTitle">Ce que disent nos clients</h2>
+<div class="reviews-track" id="reviewsTrack" tabindex="0" aria-label="Avis clients, faites défiler horizontalement">
+<figure class="review-card"><span class="review-label">Mariage · Tunis</span><h3>Amira &amp; Youssef</h3><div class="review-stars" aria-label="5 étoiles sur 5">★★★★★</div><blockquote>« Nos invités ont adoré l'enveloppe animée. Tout le monde nous a demandé où on avait fait l'invitation ! »</blockquote><span class="review-pill">✓ Modèle Lake Como</span></figure>
+<figure class="review-card"><span class="review-label">Anniversaire · Sousse</span><h3>Salma B.</h3><div class="review-stars" aria-label="5 étoiles sur 5">★★★★★</div><blockquote>« Simple, rapide et tellement joli. En quelques minutes l'invitation d'anniversaire de ma fille était prête à partager. »</blockquote><span class="review-pill">✓ Modèle Nuit étoilée</span></figure>
+<figure class="review-card"><span class="review-label">Fiançailles · Sfax</span><h3>Mehdi K.</h3><div class="review-stars" aria-label="5 étoiles sur 5">★★★★★</div><blockquote>« Le lien Google Maps et le compte à rebours ont rendu l'organisation tellement plus facile. Je recommande ! »</blockquote><span class="review-pill">✓ Modèle Sable doré</span></figure>
+<figure class="review-card"><span class="review-label">Mariage · Sidi Bou Saïd</span><h3>Ines &amp; Karim</h3><div class="review-stars" aria-label="5 étoiles sur 5">★★★★★</div><blockquote>« Les portes bleues qui s'ouvrent, c'était magique. Nos familles en parlent encore. »</blockquote><span class="review-pill">✓ Modèle Sidi Bou Said</span></figure>
+<figure class="review-card"><span class="review-label">Sur mesure · Nabeul</span><h3>Rania T.</h3><div class="review-stars" aria-label="5 étoiles sur 5">★★★★★</div><blockquote>« L'équipe a créé exactement l'univers que j'imaginais pour la tahara de mon fils. Merci Farha ! »</blockquote><span class="review-pill">✓ Création sur mesure</span></figure>
+<figure class="review-card"><span class="review-label">Naissance · Monastir</span><h3>Yasmine &amp; Ali</h3><div class="review-stars" aria-label="5 étoiles sur 5">★★★★★</div><blockquote>« Une invitation toute douce pour la naissance de notre fille. Les couleurs lavande étaient parfaites. »</blockquote><span class="review-pill">✓ Modèle Douce lavande</span></figure>
+<figure class="review-card"><span class="review-label">Diplôme · Tunis</span><h3>Omar S.</h3><div class="review-stars" aria-label="5 étoiles sur 5">★★★★★</div><blockquote>« J'ai partagé l'invitation de ma soutenance sur WhatsApp en un clic. Élégant et très pratique. »</blockquote><span class="review-pill">✓ Modèle Diplôme</span></figure>
+<figure class="review-card"><span class="review-label">Anniversaire · Bizerte</span><h3>Nour H.</h3><div class="review-stars" aria-label="5 étoiles sur 5">★★★★★</div><blockquote>« Mon fils a adoré son invitation de super-héros. Tous ses copains voulaient la même ! »</blockquote><span class="review-pill">✓ Modèle Super-héros</span></figure>
+</div><div class="reviews-dots" id="reviewsDots" role="group" aria-label="Choisir un avis"></div></section>
 <section id="how-it-works" class="landing-steps" aria-labelledby="stepsTitle"><span class="landing-eyebrow">SIMPLE · PERSONNEL · INOUBLIABLE</span><h2 class="landing-heading" id="stepsTitle">Trois étapes en douceur</h2><p class="landing-lead">De votre première idée à une invitation que vos proches garderont en mémoire.</p><div class="steps-grid"><article class="step-card"><span class="step-number">I — LA DÉCOUVERTE</span><h3>Choisissez un thème</h3><p>Explorez nos invitations animées et découvrez chaque univers grâce à son aperçu interactif.</p></article><article class="step-card"><span class="step-number">II — VOTRE HISTOIRE</span><h3>Racontez votre histoire</h3><p>Ajoutez vos prénoms, la date, le lieu, Google Maps, vos couleurs et votre musique préférée.</p></article><article class="step-card"><span class="step-number">III — LE PARTAGE</span><h3>Partagez l'émotion</h3><p>Validez votre création, puis recevez votre invitation digitale à partager avec vos invités après publication.</p></article></div></section>
 <section id="packages" aria-labelledby="packagesTitle">
 <span class="pkg-eyebrow">✦ FARHA · NOS FORMULES ✦</span><h2 id="packagesTitle">À chaque fête, sa formule.</h2>
@@ -403,6 +439,46 @@ button.farha-free-test{background:#fff4d6;color:#7a5200;border:2px dashed #d4a01
 </div>
 <button type="submit" class="idea-submit">Envoyer mon idée ✦</button>
 <p class="idea-status" id="ideaStatus" role="status"></p>
+</form>
+</dialog>
+<dialog id="clientDialog" class="idea-dialog" aria-labelledby="clientTitle">
+<form class="idea-form" id="clientForm" onsubmit="farhaClientSubmit(event)">
+<button type="button" class="idea-close" onclick="farhaCloseDialog('clientDialog')" aria-label="Fermer">✕</button>
+<span class="idea-kicker">✦ Vos coordonnées ✦</span>
+<h2 id="clientTitle">Avant de continuer</h2>
+<p class="idea-lead">Indiquez vos coordonnées pour que nous puissions vous envoyer votre invitation et vous contacter si besoin.</p>
+<div class="idea-grid">
+<label>Nom et prénom *<input name="name" maxlength="80" autocomplete="name" required placeholder="Votre nom et prénom"></label>
+<label>E-mail *<input name="email" type="email" maxlength="120" autocomplete="email" required placeholder="vous@exemple.com"></label>
+<label>Téléphone *<input name="phone" type="tel" maxlength="30" autocomplete="tel" required pattern="[0-9+ ().-]{8,}" placeholder="+216 ..."></label>
+<label>Adresse *<input name="address" maxlength="200" autocomplete="street-address" required placeholder="Rue, ville"></label>
+</div>
+<button type="submit" class="idea-submit" id="clientSubmit">Continuer ✦</button>
+</form>
+</dialog>
+<dialog id="feedbackDialog" class="idea-dialog" aria-labelledby="feedbackTitle">
+<form class="idea-form" id="feedbackForm" onsubmit="farhaSendFeedback(event)">
+<button type="button" class="idea-close" onclick="farhaCloseDialog('feedbackDialog')" aria-label="Fermer">✕</button>
+<span class="idea-kicker">✦ Votre avis compte ✦</span>
+<h2 id="feedbackTitle">Comment s'est passée votre expérience ?</h2>
+<fieldset class="idea-set"><legend class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Votre note sur 5</legend><div class="fb-stars">
+<input type="radio" name="rating" id="fbS5" value="5"><label for="fbS5" title="5 étoiles">★</label>
+<input type="radio" name="rating" id="fbS4" value="4"><label for="fbS4" title="4 étoiles">★</label>
+<input type="radio" name="rating" id="fbS3" value="3"><label for="fbS3" title="3 étoiles">★</label>
+<input type="radio" name="rating" id="fbS2" value="2"><label for="fbS2" title="2 étoiles">★</label>
+<input type="radio" name="rating" id="fbS1" value="1"><label for="fbS1" title="1 étoile">★</label>
+</div></fieldset>
+<fieldset class="idea-set"><legend>En un mot (plusieurs choix possibles)</legend><div class="idea-chips">
+<label class="idea-chip"><input type="checkbox" name="tags" value="Très facile à utiliser"><span>Très facile à utiliser</span></label>
+<label class="idea-chip"><input type="checkbox" name="tags" value="Superbe design"><span>Superbe design</span></label>
+<label class="idea-chip"><input type="checkbox" name="tags" value="Rapide"><span>Rapide</span></label>
+<label class="idea-chip"><input type="checkbox" name="tags" value="Je recommande"><span>Je recommande</span></label>
+<label class="idea-chip"><input type="checkbox" name="tags" value="Plus de modèles svp"><span>Plus de modèles svp</span></label>
+<label class="idea-chip"><input type="checkbox" name="tags" value="Peut être amélioré"><span>Peut être amélioré</span></label>
+</div></fieldset>
+<label class="idea-full">Votre message (facultatif)<textarea name="message" maxlength="1000" placeholder="Dites-nous ce que vous avez aimé ou ce qu'on peut améliorer…"></textarea></label>
+<div class="fb-actions"><button type="submit" class="idea-submit" id="feedbackSubmit">Envoyer ✦</button><button type="button" class="fb-skip" onclick="farhaCloseDialog('feedbackDialog')">Plus tard</button></div>
+<p class="idea-status" id="feedbackStatus" role="status" aria-live="polite"></p>
 </form>
 </dialog>
 </main><div id="guestView"><button onclick="closeGuest()">✕ Fermer</button><iframe id="guestFrame" title="Invitation personnalisée"></iframe></div>
@@ -461,7 +537,7 @@ function resetPreview(){const defaults={bride:chosen.base==='lake'?'Elena':chose
 function showDetail(){show('detail');resetPreview()}
 function customize(){ $('color').value=chosen.color;$('bride').value=chosen.base==='lake'?'Elena':chosen.base==='sidi'?'Yasmine':chosen.base==='sarah'?'Sarah':'Amira';$('groom').value=chosen.base==='lake'?'Marco':chosen.base==='sidi'?'Omar':chosen.base==='sarah'?'Yassine':'Youssef';$('place').value=chosen.base==='lake'?'Lake Como, Italy':chosen.base==='sidi'?'Sidi Bou Saïd, Tunis':chosen.base==='sarah'?'Jardin des Oliviers, Tunis':'Tunis, Tunisie';$('date').value=chosen.base==='lake'?'2027-06-09':chosen.base==='sidi'?'2027-06-12':'2027-06-19';show('custom');refreshCustom()}
 function refreshCustom(){lastDoc=buildDoc(chosen,readData());setFrame('customFrame',lastDoc);$('formStatus').textContent='Aperçu actualisé. Ouvrez l’invitation et faites défiler.'}
-function toPayment(){if(!$('bride').value.trim()||!$('groom').value.trim()||!$('date').value||!$('place').value.trim()){alert('Veuillez remplir les prénoms, la date et le lieu.');return}refreshCustom();let d=readData();$('orderTemplate').textContent='Modèle : '+chosen.name;$('orderNames').textContent='Invitation : '+d.bride+' & '+d.groom;$('orderDate').textContent=fmt(d.date)+' · '+d.time+' · '+d.place;show('checkout')}
+function toPayment(){if(!$('bride').value.trim()||!$('groom').value.trim()||!$('date').value||!$('place').value.trim()){alert('Veuillez remplir les prénoms, la date et le lieu.');return}refreshCustom();let d=readData();$('orderTemplate').textContent='Modèle : '+chosen.name;$('orderNames').textContent='Invitation : '+d.bride+' & '+d.groom;$('orderDate').textContent=fmt(d.date)+' · '+d.time+' · '+d.place;farhaAskClient(()=>show('checkout'))}
 function simulatePayment(){$('payStatus').textContent='Mode démo : aucune transaction bancaire.';show('complete')}
 function openGuest(){lastDoc=buildDoc(chosen,readData());$('guestView').style.display='block';$('guestFrame').srcdoc=lastDoc;document.body.style.overflow='hidden'}
 function closeGuest(){$('guestView').style.display='none';$('guestFrame').removeAttribute('srcdoc');document.body.style.overflow=''}
@@ -644,8 +720,45 @@ function farhaDownloadSite(){const a=document.createElement('a');a.href=URL.crea
 // « Cliquer pour payer » : à brancher sur l'API de paiement. Une fois la transaction vérifiée côté serveur, appeler farhaDeliver().
 function simulatePayment(){$('payStatus').textContent='Le paiement en ligne sera bientôt disponible.'}
 // FARHA-TEST-GRATUIT (temporaire) : saute le paiement pour la démo. Supprimer avec le bouton.
-function farhaFreeFinish(){$('payStatus').textContent='';farhaDeliver();$('deliveryStatus').textContent='Mode test : livraison sans paiement.'}
+function farhaFreeFinish(){farhaAskClient(()=>{$('payStatus').textContent='';farhaDeliver();$('deliveryStatus').textContent='Mode test : livraison sans paiement.';setTimeout(farhaOpenFeedback,1200)})}
 // /FARHA-TEST-GRATUIT
+
+// Coordonnées client : demandées avant le paiement et avant le test gratuit (pré-remplies la 2e fois).
+let farhaClient=null,farhaClientNext=null;
+function farhaOpenDialog(id){const d=$(id);if(typeof d.showModal==='function')d.showModal();else d.setAttribute('open','')}
+function farhaCloseDialog(id){const d=$(id);if(typeof d.close==='function')d.close();else d.removeAttribute('open')}
+function farhaAskClient(next){
+  farhaClientNext=next;const f=$('clientForm');
+  if(farhaClient)Object.entries(farhaClient).forEach(([k,v])=>{if(f.elements[k])f.elements[k].value=v});
+  $('clientSubmit').textContent=farhaClient?'Confirmer et continuer ✦':'Continuer ✦';
+  farhaOpenDialog('clientDialog');
+}
+function farhaClientSubmit(e){
+  e.preventDefault();const d=new FormData(e.currentTarget);
+  farhaClient={name:String(d.get('name')).trim(),email:String(d.get('email')).trim(),phone:String(d.get('phone')).trim(),address:String(d.get('address')).trim()};
+  farhaCloseDialog('clientDialog');const next=farhaClientNext;farhaClientNext=null;if(next)next();
+}
+// Popup d'avis après le test gratuit. Envoi via FormSubmit (formsubmit.co) vers l'adresse ci-dessous :
+// au tout premier envoi, FormSubmit envoie un e-mail d'activation à cette adresse, il faut cliquer sur le lien une fois.
+const FARHA_FEEDBACK_EMAIL='maryemayadi05@gmail.com';
+function farhaOpenFeedback(){const f=$('feedbackForm');f.reset();$('feedbackStatus').textContent='';$('feedbackSubmit').disabled=false;farhaOpenDialog('feedbackDialog')}
+function farhaSendFeedback(e){
+  e.preventDefault();const f=e.currentTarget,d=new FormData(f);
+  const rating=d.get('rating');if(!rating){$('feedbackStatus').textContent='Choisissez une note de 1 à 5 étoiles.';return}
+  const c=farhaClient||{},tags=d.getAll('tags').join(', ')||'—',message=String(d.get('message')||'').trim()||'—';
+  const data={_subject:'Farha · Nouvel avis client ('+rating+'/5)',_template:'table',_captcha:'false',Note:rating+' / 5','Avis rapides':tags,Message:message,Modèle:chosen?chosen.name:'—',Nom:c.name||'—','E-mail':c.email||'—',Téléphone:c.phone||'—',Adresse:c.address||'—'};
+  if(c.email)data._replyto=c.email;
+  const btn=$('feedbackSubmit');btn.disabled=true;$('feedbackStatus').textContent='Envoi en cours…';
+  fetch('https://formsubmit.co/ajax/'+FARHA_FEEDBACK_EMAIL,{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify(data)})
+   .then(r=>r.ok?r.json():Promise.reject()).then(r=>{if(String(r.success)!=='true')throw 0;$('feedbackStatus').textContent='Merci pour votre avis ! ✦';setTimeout(()=>farhaCloseDialog('feedbackDialog'),1600)})
+   .catch(()=>{btn.disabled=false;const body=Object.entries(data).filter(([k])=>k[0]!=='_').map(([k,v])=>k+' : '+v).join('\n');$('feedbackStatus').textContent='Envoi impossible pour le moment, votre messagerie va s’ouvrir avec votre avis.';window.location.href='mailto:'+FARHA_FEEDBACK_EMAIL+'?subject='+encodeURIComponent(data._subject)+'&body='+encodeURIComponent(body)})
+}
+// Avis clients : les 3 points suivent le défilement et permettent d'aller à un avis.
+(function(){const track=$('reviewsTrack'),dots=$('reviewsDots');if(!track)return;const N=3,max=()=>Math.max(1,track.scrollWidth-track.clientWidth);
+  for(let i=0;i<N;i++){const b=document.createElement('button');b.type='button';b.setAttribute('aria-label','Avis, position '+(i+1)+' sur '+N);b.onclick=()=>track.scrollTo({left:max()*i/(N-1),behavior:'smooth'});dots.append(b)}
+  const sync=()=>{const cur=Math.round(track.scrollLeft/max()*(N-1));[...dots.children].forEach((b,i)=>b.setAttribute('aria-current',String(i===cur)))};
+  track.addEventListener('scroll',()=>requestAnimationFrame(sync),{passive:true});window.addEventListener('resize',sync);sync();
+})();
 
 // Page « Tous les modèles » : barre de recherche, filtres repliés dans un menu « Filtres », 15 par page.
 const FARHA_PER_PAGE=15,FARHA_BUDGETS=[['Tous',()=>true],['Jusqu’à 20 DT',p=>p<=20],['21 à 40 DT',p=>p>20&&p<=40],['Plus de 40 DT',p=>p>40]];
