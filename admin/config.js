@@ -7,6 +7,7 @@
 //   - SUPABASE_URL      : « Project URL », ex. https://abcdefghijkl.supabase.co
 //   - SUPABASE_ANON_KEY : clé « anon public » (eyJ...) ou « publishable » (sb_publishable_...)
 window.FARHA_CONFIG = {
-  SUPABASE_URL: 'https://VOTRE-PROJET.supabase.co',
-  SUPABASE_ANON_KEY: 'VOTRE-CLE-PUBLIQUE'
+  SUPABASE_URL: 'https://hxipvvqtqpuhjgkkcdzw.supabase.co',
+  SUPABASE_ANON_KEY: 'COLLE_ICI_TA_CLE_PUBLISHABLE_COMPLETE'
 };
+
