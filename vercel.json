@@ -24,6 +24,25 @@
           "value": "no-cache"
         }
       ]
+    },
+    {
+      "source": "/api/:path*",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        }
+      ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/i/:slug",
+      "destination": "/index.html"
     }
   ]
 }
