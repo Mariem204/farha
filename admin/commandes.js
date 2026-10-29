@@ -10,6 +10,7 @@
   const KIND = { template: 'Modèle', sur_mesure: 'Sur mesure', test: 'Test gratuit' };
   const PAY = { unpaid: 'Non payée', pending: 'En attente', paid: 'Payée', failed: 'Échouée', refunded: 'Remboursée' };
   const PROC = { new: 'Nouvelle', in_progress: 'En cours', completed: 'Terminée', cancelled: 'Annulée' };
+  const PROC_FILTER = Object.assign({ todo: 'À traiter (nouvelles et en cours)' }, PROC);
   const METHODS = { d17: 'D17', virement: 'Virement', especes: 'Espèces', konnect: 'Konnect', flouci: 'Flouci', clictopay: 'ClicToPay', autre: 'Autre' };
   const DETAIL_LABELS = { modele: 'Modèle', bride: 'Prénom 1', groom: 'Prénom 2', date: 'Date', time: 'Heure', place: 'Lieu',
     map: 'Lien Maps', message: 'Message', color: 'Couleur', music: 'Musique', evenement: 'Événement', noms: 'Nom(s)',
@@ -30,9 +31,15 @@
 
   // ---------- Liste ----------
   async function render(box) {
+    // Filtres reçus du tableau de bord : #/commandes?pay=unpaid ou ?proc=todo
+    const hash = new URLSearchParams((location.hash.split('?')[1]) || '');
+    if (hash.has('pay') || hash.has('proc')) {
+      Object.assign(state, { q: '', kind: '', period: 'all', page: 0, pay: PAY[hash.get('pay')] ? hash.get('pay') : '', proc: PROC_FILTER[hash.get('proc')] ? hash.get('proc') : '' });
+      history.replaceState(null, '', '#/commandes');
+    }
     const search = el('input', { type: 'search', placeholder: 'Référence, nom, e-mail, téléphone', 'aria-label': 'Rechercher une commande', value: state.q });
     const pay = select(PAY, state.pay, 'Paiement', 'Tous paiements');
-    const proc = select(PROC, state.proc, 'Traitement', 'Tous traitements');
+    const proc = select(PROC_FILTER, state.proc, 'Traitement', 'Tous traitements');
     const kind = select(KIND, state.kind, 'Type', 'Tous types');
     const period = select(PERIODS, state.period, 'Période');
     const list = el('div', {});
@@ -57,7 +64,8 @@
     const term = state.q.trim().replace(/[,()*%\\]/g, ' ').trim();
     if (term) q = q.or(['reference', 'customer_name', 'customer_email', 'customer_phone'].map(c => c + '.ilike.*' + term + '*').join(','));
     if (state.pay) q = q.eq('payment_status', state.pay);
-    if (state.proc) q = q.eq('processing_status', state.proc);
+    if (state.proc === 'todo') q = q.in('processing_status', ['new', 'in_progress']);
+    else if (state.proc) q = q.eq('processing_status', state.proc);
     if (state.kind) q = q.eq('kind', state.kind);
     if (state.period !== 'all') q = q.gte('created_at', new Date(Date.now() - Number(state.period) * 864e5).toISOString());
     const { data, error, count } = await q;
