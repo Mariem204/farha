@@ -9,6 +9,7 @@
   const BUCKET = 'template-previews';
   const MAX_IMAGE = 2 * 1024 * 1024;
   const IMAGE_TYPES = { 'image/png': 'png', 'image/jpeg': 'jpg', 'image/webp': 'webp' };
+  const MAX_HTML = 1024 * 1024;
   // Moteurs de rendu existants dans le code du site (champ « base » de la v19).
   const RENDERERS = {
     royal: 'Royal · romance classique',
@@ -114,8 +115,8 @@
       actions.append(edit);
       if (t.status === 'active') actions.append(statusBtn(t, 'inactive', 'Désactiver', area));
       if (t.status === 'inactive') actions.append(statusBtn(t, 'active', 'Activer', area));
-      if (t.status !== 'archived') actions.append(statusBtn(t, 'archived', 'Archiver', area));
-      else actions.append(statusBtn(t, 'inactive', 'Restaurer', area));
+      // Archivage désactivé : seuls les modèles déjà archivés peuvent être restaurés.
+      if (t.status === 'archived') actions.append(statusBtn(t, 'inactive', 'Restaurer', area));
       return el('tr', {},
         el('td', {}, img ? el('img', { class: 'thumb', src: img, alt: '' })
           : el('span', { class: 'thumb thumb-empty', style: 'background:' + t.color, title: 'Image intégrée au site' })),
@@ -150,6 +151,31 @@
     return b;
   }
 
+  // Aperçu du code HTML dans un téléphone, comme sur le site. Le code tourne dans une iframe
+  // isolée (sandbox sans allow-same-origin) : il n'a accès ni à la session ni à Supabase.
+  // Résout true si l'admin confirme, false s'il revient au formulaire.
+  function phonePreview(html, title, confirmLabel) {
+    return new Promise(resolve => {
+      const frame = el('iframe', { title: 'Aperçu mobile', sandbox: 'allow-scripts allow-popups', allow: 'autoplay' });
+      frame.srcdoc = html;
+      const replay = el('button', { type: 'button', class: 'btn ghost sm' }, '↻ Rejouer');
+      replay.onclick = () => { frame.srcdoc = html + '\n<!-- ' + Date.now() + ' -->'; };
+      const back = el('button', { type: 'button', class: 'btn ghost' }, confirmLabel ? 'Retour au formulaire' : 'Fermer');
+      const ok = confirmLabel ? el('button', { type: 'button', class: 'btn primary' }, confirmLabel) : null;
+      let result = false;
+      const dlg = el('dialog', { class: 'sheet phone-sheet' }, el('div', { class: 'sheet-form' },
+        el('div', { class: 'sheet-head' }, el('h2', {}, 'Aperçu · ' + title), replay),
+        el('p', { class: 'sub' }, 'Faites défiler l’écran du téléphone pour vérifier tout le modèle.'),
+        el('div', { class: 'iphone-device' }, el('span', { class: 'iphone-island' }), frame, el('span', { class: 'iphone-home' })),
+        el('div', { class: 'actions' }, back, ok || [])));
+      document.body.append(dlg);
+      dlg.addEventListener('close', () => { dlg.remove(); resolve(result); });
+      back.onclick = () => dlg.close();
+      if (ok) ok.onclick = () => { result = true; dlg.close(); };
+      dlg.showModal();
+    });
+  }
+
   function slugify(s) {
     return s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase()
       .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40);
@@ -175,7 +201,9 @@
     const price = el('input', { name: 'price', type: 'number', min: '0', step: '0.001', inputmode: 'decimal',
       placeholder: 'Prix de la catégorie', value: t && t.price_dt != null ? String(Number(t.price_dt)) : '' });
     const sort = el('input', { name: 'sort', type: 'number', step: '1', value: t ? String(t.sort_order) : String(state.templates.length + 1) });
-    const status = el('select', { name: 'status' }, Object.entries(STATUS).map(([k, v]) => el('option', { value: k }, v)));
+    const status = el('select', { name: 'status' }, Object.entries(STATUS)
+      .filter(([k]) => k !== 'archived' || (t && t.status === 'archived'))
+      .map(([k, v]) => el('option', { value: k }, v)));
     status.value = t ? t.status : 'inactive';
     const file = el('input', { name: 'image', type: 'file', accept: 'image/png,image/jpeg,image/webp' });
     const current = t && previewUrl(t.preview_path);
@@ -188,6 +216,31 @@
       if (x.size > MAX_IMAGE) { toast('Image trop lourde : 2 Mo maximum.', 'error'); file.value = ''; return; }
       preview.src = URL.createObjectURL(x); preview.hidden = false;
     };
+    // Code HTML du modèle (page complète de l'invitation).
+    const html = el('textarea', { name: 'html', rows: '10', spellcheck: 'false', class: 'code',
+      placeholder: '<!doctype html>\n<html>…</html>' });
+    let htmlInitial = '';
+    if (!isNew) {
+      html.disabled = true; html.placeholder = 'Chargement…';
+      db.from('templates').select('html').eq('id', t.id).single().then(({ data, error }) => {
+        html.disabled = false; html.placeholder = '<!doctype html>\n<html>…</html>';
+        if (!error && data && data.html) html.value = htmlInitial = data.html;
+      });
+    }
+    const htmlFile = el('input', { type: 'file', accept: '.html,.htm,text/html' });
+    htmlFile.onchange = async () => {
+      const x = htmlFile.files[0];
+      if (!x) return;
+      if (x.size > MAX_HTML) { toast('Fichier trop lourd : 1 Mo maximum.', 'error'); htmlFile.value = ''; return; }
+      html.value = await x.text();
+      htmlFile.value = '';
+    };
+    const showHtml = el('button', { type: 'button', class: 'btn ghost sm' }, 'Voir l’aperçu téléphone');
+    showHtml.onclick = () => {
+      if (!html.value.trim()) { toast('Collez ou importez d’abord le code HTML.', 'error'); return; }
+      phonePreview(html.value, name.value.trim() || 'nouveau modèle');
+    };
+
     const st = el('p', { class: 'status', role: 'status' });
     const save = el('button', { type: 'submit', class: 'btn primary' }, isNew ? 'Créer le modèle' : 'Enregistrer');
     const cancel = el('button', { type: 'button', class: 'btn ghost' }, 'Annuler');
@@ -207,6 +260,9 @@
         el('label', {}, 'Couleur', color),
         el('label', {}, 'Ordre', sort)),
       el('label', {}, 'Statut', status),
+      el('label', {}, 'Code HTML du modèle' + (isNew ? ' *' : ''), html,
+        el('span', { class: 'hint' }, 'Collez le code complet de la page, ou importez un fichier .html (1 Mo max.). Un aperçu téléphone s’affiche avant la confirmation.')),
+      el('div', { class: 'row-actions' }, el('label', { class: 'file-inline' }, 'Importer un fichier .html', htmlFile), showHtml),
       el('label', {}, 'Image d’aperçu (PNG, JPEG ou WebP, 2 Mo max.)', file, preview),
       st,
       el('div', { class: 'actions' }, cancel, save));
@@ -226,12 +282,22 @@
       if (!cat.value) return fail('Choisissez une catégorie.');
       const p = price.value.trim();
       if (p !== '' && !(Number(p) >= 0)) return fail('Prix invalide.');
+      const code = html.value.trim();
+      if (isNew && !code) return fail('Ajoutez le code HTML du modèle.');
+      if (code && !/<(html|body|div|section|main)\b/i.test(code)) return fail('Le code HTML ne semble pas valide.');
+      if (new Blob([code]).size > MAX_HTML) return fail('Code HTML trop lourd : 1 Mo maximum.');
+      const htmlChanged = code !== htmlInitial.trim();
+      if (code && (isNew || htmlChanged)) {
+        st.textContent = ''; st.className = 'status';
+        if (!(await phonePreview(code, n, isNew ? 'Confirmer la création' : 'Confirmer l’enregistrement'))) return;
+      }
       save.disabled = true; st.textContent = 'Enregistrement…'; st.className = 'status';
 
       const row = {
         name: n, description: desc.value.trim() || null, category_id: cat.value, color: color.value,
         price_dt: p === '' ? null : Number(p), sort_order: parseInt(sort.value, 10) || 0, status: status.value
       };
+      if (isNew || htmlChanged) row.html = code || null;
       const img = file.files[0];
       if (img) {
         const path = (isNew ? s : t.slug) + '/' + Date.now() + '.' + IMAGE_TYPES[img.type];
