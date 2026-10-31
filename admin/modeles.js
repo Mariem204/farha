@@ -1,4 +1,4 @@
-// Farha · back-office · étape 2 : modèles et catégories.
+// Farha · back-office · étape 2 : modèles (les collections sont gérées dans collections.js).
 // Lecture et écriture directes dans Supabase ; RLS et privilèges par colonne
 // (scripts 002 et 006) refusent toute action d'un compte non administrateur.
 (function () {
@@ -21,7 +21,7 @@
   const STATUS = { active: 'Actif', inactive: 'Inactif', archived: 'Archivé' };
   const money = v => v == null || v === '' ? '—' : Number(v).toLocaleString('fr-FR', { maximumFractionDigits: 3 }) + ' DT';
 
-  const state = { tab: 'modeles', q: '', cat: '', status: 'current', templates: [], categories: [] };
+  const state = { q: '', cat: '', status: 'current', templates: [], categories: [] };
 
   function previewUrl(path) {
     return path ? db.storage.from(BUCKET).getPublicUrl(path).data.publicUrl : null;
@@ -50,34 +50,26 @@
 
   // ---------- Page ----------
   async function render(box) {
-    const tabs = el('div', { class: 'tabs', role: 'tablist' },
-      tabBtn('modeles', 'Modèles'), tabBtn('categories', 'Catégories'));
     const note = el('p', { class: 'note' },
       'Les modifications sont enregistrées immédiatement. Elles apparaîtront sur le site public après l’étape 3 (synchronisation du catalogue).');
     const area = el('div', {}, el('p', { class: 'lead' }, 'Chargement…'));
-    box.append(tabs, note, area);
+    box.append(note, area);
     try { await load(); } catch (e) {
       area.replaceChildren(el('div', { class: 'empty' }, el('strong', {}, 'Lecture impossible'), errText(e)));
       return;
     }
     draw(area);
-
-    function tabBtn(key, label) {
-      const b = el('button', { type: 'button', role: 'tab', class: 'tab', 'aria-selected': String(state.tab === key) }, label);
-      b.onclick = () => { state.tab = key; tabs.querySelectorAll('.tab').forEach(x => x.setAttribute('aria-selected', String(x === b))); draw(area); };
-      return b;
-    }
   }
 
   function draw(area) {
-    area.replaceChildren(state.tab === 'modeles' ? templatesView(area) : categoriesView(area));
+    area.replaceChildren(templatesView(area));
   }
 
   // ---------- Modèles ----------
   function templatesView(area) {
     const wrap = el('div', {});
     const search = el('input', { type: 'search', placeholder: 'Rechercher un modèle', 'aria-label': 'Rechercher un modèle', value: state.q });
-    const cat = el('select', { 'aria-label': 'Catégorie' }, el('option', { value: '' }, 'Toutes les catégories'),
+    const cat = el('select', { 'aria-label': 'Collection' }, el('option', { value: '' }, 'Toutes les collections'),
       state.categories.map(c => el('option', { value: c.id }, c.name)));
     cat.value = state.cat;
     const status = el('select', { 'aria-label': 'Statut' },
@@ -122,12 +114,12 @@
           : el('span', { class: 'thumb thumb-empty', style: 'background:' + t.color, title: 'Image intégrée au site' })),
         el('td', {}, el('strong', {}, t.name), el('div', { class: 'sub mono' }, t.slug)),
         el('td', {}, c.name || '—'),
-        el('td', {}, money(effectivePrice(t)), t.price_dt == null ? el('div', { class: 'sub' }, 'prix de la catégorie') : ''),
+        el('td', {}, money(effectivePrice(t)), t.price_dt == null ? el('div', { class: 'sub' }, 'prix de la collection') : ''),
         el('td', {}, el('span', { class: 'badge status-' + t.status }, STATUS[t.status])),
         el('td', {}, actions));
     };
     return el('div', { class: 'table-wrap' }, el('table', {},
-      el('thead', {}, el('tr', {}, ['Aperçu', 'Modèle', 'Catégorie', 'Prix', 'Statut', 'Actions'].map(h => el('th', { scope: 'col' }, h)))),
+      el('thead', {}, el('tr', {}, ['Aperçu', 'Modèle', 'Collection', 'Prix', 'Statut', 'Actions'].map(h => el('th', { scope: 'col' }, h)))),
       el('tbody', {}, rows.map(tr))));
   }
 
@@ -190,7 +182,7 @@
     else name.oninput = () => { if (!slug.dataset.touched) slug.value = slugify(name.value); };
     slug.oninput = () => { slug.dataset.touched = '1'; };
     const desc = el('textarea', { name: 'description', maxlength: '300', rows: '2' }, t ? t.description || '' : '');
-    const cat = el('select', { name: 'category_id', required: '' }, el('option', { value: '' }, 'Choisir…'),
+    const cat = el('select', { name: 'category_id', required: '' }, el('option', { value: '' }, 'Choisir une collection…'),
       state.categories.map(c => el('option', { value: c.id }, c.name + (c.is_active ? '' : ' (inactive)'))));
     cat.value = t ? t.category_id : '';
     const renderer = el('select', { name: 'renderer', required: '' },
@@ -199,7 +191,7 @@
     if (!isNew) renderer.disabled = true;
     const color = el('input', { name: 'color', type: 'color', value: t ? t.color : '#b48a43' });
     const price = el('input', { name: 'price', type: 'number', min: '0', step: '0.001', inputmode: 'decimal',
-      placeholder: 'Prix de la catégorie', value: t && t.price_dt != null ? String(Number(t.price_dt)) : '' });
+      placeholder: 'Prix de la collection', value: t && t.price_dt != null ? String(Number(t.price_dt)) : '' });
     const sort = el('input', { name: 'sort', type: 'number', step: '1', value: t ? String(t.sort_order) : String(state.templates.length + 1) });
     const status = el('select', { name: 'status' }, Object.entries(STATUS)
       .filter(([k]) => k !== 'archived' || (t && t.status === 'archived'))
@@ -252,11 +244,12 @@
         el('span', { class: 'hint' }, isNew ? 'Ne pourra plus être modifié.' : 'Fixé à la création.')),
       el('label', {}, 'Description courte', desc),
       el('div', { class: 'grid2' },
-        el('label', {}, 'Catégorie *', cat),
+        el('label', {}, 'Collection *', cat,
+          el('span', { class: 'hint' }, 'Carte de la page « Thèmes » où le modèle apparaît. ', el('a', { href: '#/collections', onclick: "this.closest('dialog').close()" }, 'Gérer les collections'))),
         el('label', {}, 'Mise en page *', renderer,
           el('span', { class: 'hint' }, isNew ? 'Reprend une mise en page existante du site.' : 'Fixée à la création.'))),
       el('div', { class: 'grid3' },
-        el('label', {}, 'Prix (DT)', price, el('span', { class: 'hint' }, 'Vide = prix de la catégorie')),
+        el('label', {}, 'Prix (DT)', price, el('span', { class: 'hint' }, 'Vide = prix de la collection')),
         el('label', {}, 'Couleur', color),
         el('label', {}, 'Ordre', sort)),
       el('label', {}, 'Statut', status),
@@ -279,7 +272,7 @@
       const n = name.value.trim(), s = slug.value.trim();
       if (n.length < 2) return fail('Le nom doit contenir au moins 2 caractères.');
       if (isNew && !/^[a-z0-9-]{2,40}$/.test(s)) return fail('Identifiant : 2 à 40 caractères, minuscules, chiffres ou tirets.');
-      if (!cat.value) return fail('Choisissez une catégorie.');
+      if (!cat.value) return fail('Choisissez une collection.');
       const p = price.value.trim();
       if (p !== '' && !(Number(p) >= 0)) return fail('Prix invalide.');
       const code = html.value.trim();
@@ -318,80 +311,5 @@
     };
   }
 
-  // ---------- Catégories ----------
-  function categoriesView(area) {
-    const add = el('button', { type: 'button', class: 'btn primary' }, '+ Nouvelle catégorie');
-    add.onclick = () => categoryForm(null, area);
-    const count = id => state.templates.filter(t => t.category_id === id && t.status !== 'archived').length;
-    const rows = state.categories.map(c => {
-      const edit = el('button', { type: 'button', class: 'btn ghost sm' }, 'Modifier');
-      edit.onclick = () => categoryForm(c, area);
-      const toggle = el('button', { type: 'button', class: 'btn ghost sm' }, c.is_active ? 'Désactiver' : 'Activer');
-      toggle.onclick = async () => {
-        const text = c.is_active
-          ? `La catégorie « ${c.name} » et ses modèles ne seront plus proposés dans le catalogue. Rien n’est supprimé et les invitations publiées restent en ligne.`
-          : `La catégorie « ${c.name} » sera de nouveau proposée.`;
-        if (!(await confirm((c.is_active ? 'Désactiver' : 'Activer') + ' cette catégorie ?', text))) return;
-        const { error } = await db.from('categories').update({ is_active: !c.is_active }).eq('id', c.id);
-        if (error) { toast(errText(error), 'error'); return; }
-        c.is_active = !c.is_active;
-        toast('Catégorie enregistrée.', 'ok');
-        draw(area);
-      };
-      return el('tr', {},
-        el('td', {}, el('strong', {}, c.name)),
-        el('td', {}, money(c.default_price_dt)),
-        el('td', {}, String(count(c.id))),
-        el('td', {}, String(c.sort_order)),
-        el('td', {}, el('span', { class: 'badge status-' + (c.is_active ? 'active' : 'inactive') }, c.is_active ? 'Active' : 'Inactive')),
-        el('td', {}, el('div', { class: 'row-actions' }, edit, toggle)));
-    });
-    return el('div', {},
-      el('div', { class: 'toolbar' }, el('p', { class: 'sub' }, 'Le prix par défaut s’applique aux modèles sans prix propre.'), add),
-      rows.length ? el('div', { class: 'table-wrap' }, el('table', {},
-        el('thead', {}, el('tr', {}, ['Catégorie', 'Prix par défaut', 'Modèles', 'Ordre', 'Statut', 'Actions'].map(h => el('th', { scope: 'col' }, h)))),
-        el('tbody', {}, rows)))
-        : el('div', { class: 'empty' }, el('strong', {}, 'Aucune catégorie'), 'Créez une première catégorie.'));
-  }
-
-  function categoryForm(c, area) {
-    const isNew = !c;
-    const f = el('form', { class: 'sheet-form', novalidate: '' });
-    const name = el('input', { required: '', maxlength: '40', value: c ? c.name : '' });
-    const price = el('input', { type: 'number', min: '0', step: '0.001', required: '', value: c ? String(Number(c.default_price_dt)) : '' });
-    const sort = el('input', { type: 'number', step: '1', value: c ? String(c.sort_order) : String(state.categories.length + 1) });
-    const st = el('p', { class: 'status', role: 'status' });
-    const save = el('button', { type: 'submit', class: 'btn primary' }, isNew ? 'Créer' : 'Enregistrer');
-    const cancel = el('button', { type: 'button', class: 'btn ghost' }, 'Annuler');
-    f.append(el('h2', {}, isNew ? 'Nouvelle catégorie' : 'Modifier « ' + c.name + ' »'),
-      el('label', {}, 'Nom *', name),
-      el('div', { class: 'grid2' }, el('label', {}, 'Prix par défaut (DT) *', price), el('label', {}, 'Ordre', sort)),
-      st, el('div', { class: 'actions' }, cancel, save));
-    const dlg = el('dialog', { class: 'sheet' }, f);
-    document.body.append(dlg);
-    dlg.addEventListener('close', () => dlg.remove());
-    cancel.onclick = () => dlg.close();
-    dlg.showModal();
-    f.onsubmit = async e => {
-      e.preventDefault();
-      const fail = m => { st.textContent = m; st.className = 'status error'; };
-      const n = name.value.trim();
-      if (n.length < 2) return fail('Le nom doit contenir au moins 2 caractères.');
-      if (price.value.trim() === '' || !(Number(price.value) >= 0)) return fail('Indiquez un prix valide.');
-      const row = { name: n, default_price_dt: Number(price.value), sort_order: parseInt(sort.value, 10) || 0 };
-      save.disabled = true;
-      const res = isNew
-        ? await db.from('categories').insert(row).select().single()
-        : await db.from('categories').update(row).eq('id', c.id).select().single();
-      save.disabled = false;
-      if (res.error) return fail(errText(res.error));
-      if (isNew) state.categories.push(res.data); else Object.assign(c, res.data);
-      state.categories.sort((a, b) => a.sort_order - b.sort_order || a.name.localeCompare(b.name));
-      dlg.close();
-      toast(isNew ? 'Catégorie créée.' : 'Catégorie enregistrée.', 'ok');
-      draw(area);
-    };
-  }
-
-  registerRoute('modeles', { title: 'Modèles', lead: 'Catalogue, catégories, images et prix.', render });
+  registerRoute('modeles', { title: 'Modèles', lead: 'Catalogue, collections, images et prix.', render });
 })();

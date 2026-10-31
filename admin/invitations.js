@@ -20,7 +20,7 @@
   }
 
   async function render(box) {
-    const fromHash = (location.hash.match(/[?&]q=([^&]+)/) || [])[1];
+    const fromHash = (window.FarhaAdmin.hash().match(/[?&]q=([^&]+)/) || [])[1];
     if (fromHash) state.q = decodeURIComponent(fromHash);
     const search = el('input', { type: 'search', placeholder: 'Lien, prénoms, référence de commande', 'aria-label': 'Rechercher une invitation', value: state.q });
     const status = el('select', { 'aria-label': 'Statut' }, el('option', { value: '' }, 'Tous statuts'),

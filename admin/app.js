@@ -145,9 +145,18 @@
     return box => box.append(el('div', { class: 'empty' }, el('strong', {}, 'Bientôt disponible'), text));
   }
 
+  // Page courante : suit location.hash, mais reste utilisable quand le navigateur refuse
+  // de modifier l'adresse (fichier ouvert en local ou en data:, aperçu intégré…).
+  let currentHash = location.hash;
+  function go(hash) {
+    currentHash = hash;
+    try { if (location.hash !== hash) history.pushState(null, '', hash); } catch (e) { /* adresse non modifiable */ }
+    route();
+  }
+
   function route() {
     if (!currentUser) return;
-    const key = (location.hash.match(/^#\/(\w+)/) || [])[1];
+    const key = (currentHash.match(/^#\/(\w+)/) || [])[1];
     const name = routes[key] ? key : 'dashboard';
     const r = routes[name];
     document.querySelectorAll('.sidebar a[data-route]').forEach(a => {
@@ -161,7 +170,15 @@
     r.render(box);
     box.focus();
   }
-  window.addEventListener('hashchange', route);
+  window.addEventListener('hashchange', () => { currentHash = location.hash; route(); });
+  window.addEventListener('popstate', () => { currentHash = location.hash; route(); });
+  // Liens internes (#/…) du menu et des modules : navigation sans recharger ni changer de document.
+  document.addEventListener('click', e => {
+    const a = e.target.closest && e.target.closest('a[href^="#/"]');
+    if (!a || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    e.preventDefault();
+    go(a.getAttribute('href'));
+  });
   $('menuBtn').addEventListener('click', () => {
     const open = $('sidebar').classList.toggle('open');
     $('menuBtn').setAttribute('aria-expanded', String(open));
@@ -169,7 +186,7 @@
 
   // ---------- Journal ----------
   const ACTIONS = { insert: 'Création', update: 'Modification', delete: 'Suppression', login: 'Connexion', logout: 'Déconnexion' };
-  const ENTITIES = { orders: 'Commande', order_items: 'Ligne de commande', templates: 'Modèle', categories: 'Catégorie',
+  const ENTITIES = { orders: 'Commande', order_items: 'Ligne de commande', templates: 'Modèle', categories: 'Catégorie', music_tracks: 'Musique',
     feedbacks: 'Avis', invitations: 'Invitation', admin_users: 'Administrateur', session: 'Session' };
 
   async function renderJournal(box) {
@@ -201,7 +218,8 @@
   window.FarhaAdmin = {
     db, el, fmtDate, toast, confirm: confirmAction,
     registerRoute(name, def) { routes[name] = def; },
-    rerender: () => route()
+    rerender: () => route(),
+    hash: () => currentHash
   };
 
   // ---------- Démarrage (après chargement de tous les modules) ----------

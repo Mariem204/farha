@@ -216,3 +216,36 @@ dialog.phone-sheet{width:min(470px,calc(100% - 24px))}
 .iphone-device iframe{display:block;width:100%;height:100%;border:0;background:#fff}
 .iphone-island{position:absolute;z-index:4;top:9px;left:50%;transform:translateX(-50%);height:19px;width:33%;border-radius:20px;background:#272027;pointer-events:none}
 .iphone-home{position:absolute;z-index:4;bottom:7px;left:50%;transform:translateX(-50%);width:35%;height:4px;border-radius:8px;background:#272027;pointer-events:none}
+/* Musiques */
+.music-thumb{display:flex;align-items:center;justify-content:center;font-size:22px;color:var(--wine);background:#f6eef1;opacity:1}
+.sheet-form h3{margin:4px 0 0;font-size:16px}
+.sheet-form .check{display:flex;align-items:center;justify-content:flex-start;gap:8px;flex-direction:row}
+.sheet-form .check input{width:auto;margin:0}
+.form-audio{width:100%}
+.yt-preview iframe{width:100%;aspect-ratio:16/9;border:0;border-radius:10px;display:block}
+
+/* Collections */
+.coll-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:18px}
+.coll-card{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
+.coll-cover{position:relative;aspect-ratio:2/1;background:#f6eef1;display:flex;align-items:center;justify-content:center}
+.coll-cover img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.coll-empty{color:var(--muted);font-size:13px}
+.coll-flags{position:absolute;top:10px;left:10px;right:10px;display:flex;gap:6px;flex-wrap:wrap}
+.coll-flags .badge{box-shadow:0 2px 8px #0002}
+.badge.coll-featured{background:var(--wine);color:#fff}
+.coll-info{padding:14px 16px 16px;display:flex;flex-direction:column;gap:6px;flex:1}
+.coll-info h3{margin:0;font-size:18px}
+.coll-info p{margin:0}
+.coll-tagline{color:var(--ink);font-size:14px}
+.coll-info .row-actions{margin-top:auto;padding-top:8px}
+.sheet-form fieldset{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:0;display:flex;flex-direction:column;gap:10px;min-width:0}
+.sheet-form legend{font-weight:600;padding:0 6px}
+.coll-form-cover{width:100%;max-width:360px;aspect-ratio:2/1;object-fit:cover;border-radius:10px;border:1px solid var(--line)}
+.coll-pick-list{display:flex;flex-direction:column;gap:6px;max-height:320px;overflow:auto;padding-right:4px}
+.sheet-form .coll-pick{display:flex;flex-direction:row;align-items:center;gap:10px;padding:6px 8px;border:1px solid var(--line);border-radius:10px;cursor:pointer}
+.coll-pick:has(input:checked){border-color:var(--wine);background:#fbf4f6}
+.coll-pick input[type=checkbox]{width:auto;margin:0;flex:none}
+.coll-pick .thumb{width:40px;height:40px;flex:none}
+.coll-pick-name{display:flex;flex-direction:column;min-width:0;flex:1}
+.coll-pick-name strong{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.coll-move{width:auto;max-width:170px;flex:none}

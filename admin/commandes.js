@@ -32,7 +32,7 @@
   // ---------- Liste ----------
   async function render(box) {
     // Filtres reçus du tableau de bord : #/commandes?pay=unpaid ou ?proc=todo
-    const hash = new URLSearchParams((location.hash.split('?')[1]) || '');
+    const hash = new URLSearchParams((window.FarhaAdmin.hash().split('?')[1]) || '');
     if (hash.has('pay') || hash.has('proc')) {
       Object.assign(state, { q: '', kind: '', period: 'all', page: 0, pay: PAY[hash.get('pay')] ? hash.get('pay') : '', proc: PROC_FILTER[hash.get('proc')] ? hash.get('proc') : '' });
       history.replaceState(null, '', '#/commandes');
