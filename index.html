@@ -595,6 +595,7 @@ html.fi-reveal main,html.fi-reveal .farha-header{animation:fiReveal 1.5s cubic-b
 .col-art{position:relative;aspect-ratio:2/1;display:flex;justify-content:center;align-items:flex-end;gap:4%;padding:26px 24px 0;overflow:hidden;cursor:pointer;
  background:radial-gradient(ellipse at 50% 115%,color-mix(in srgb,var(--c) 32%,#f7efe7) 0%,#f3e9e1 62%,#efe4da 100%)}
 .col-art.has-photo{padding:0;background:#efe4da}
+.card-frame{border:0;pointer-events:none;background:#fff}
 .col-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
 .col-card:hover .col-photo{transform:scale(1.04)}
 .col-shot{position:relative;flex:0 0 27%;aspect-ratio:3/4.4;align-self:flex-end;margin-bottom:-14%;border-radius:14px;overflow:hidden;background:#f3ece4;box-shadow:0 14px 30px rgba(60,20,35,.22);transition:transform .35s}
@@ -1640,11 +1641,13 @@ window.farhaSetMusicLibrary=function(list){
    t.name=r.name;t.category=r.category.name;t.color=r.color;
    t.price=r.price_dt!=null?Number(r.price_dt):null;
    t.description=r.description||null;
+   t.hasPreviewImage=!!r.preview_path;
    if(r.preview_path)previewMarkup[r.slug]=img(base+'/storage/v1/object/public/template-previews/'+r.preview_path.split('/').map(encodeURIComponent).join('/'));
    if(r.category.default_price_dt!=null)FARHA_PRICES[r.category.name]=Number(r.category.default_price_dt);
    next.push(t);
   });
   if(!next.length)return;
+  farhaLoadCustomHtml(base,cfg.SUPABASE_ANON_KEY,next.filter(t=>!known[t.id]));
   // Seuls les modèles actifs restent proposés ; les invitations déjà partagées ne passent pas par cette liste.
   templates.splice(0,templates.length,...next);
   const cats=['Tous',...new Set(next.map(t=>t.category))];
@@ -1661,6 +1664,85 @@ farhaPrice=function(t){return t&&t.price!=null?t.price:farhaPriceBefore(t)};
 const farhaTemplateCardBefore=farhaTemplateCard;
 farhaTemplateCard=function(t){const card=farhaTemplateCardBefore(t);const p=t&&t.description&&card.querySelector('.template-meta p');if(p)p.textContent=t.description;return card};
 // /FARHA-CATALOGUE-SUPABASE
+// FARHA-MODELES-HTML : modèles créés dans le back-office avec leur propre code HTML (colonne templates.html).
+// Le site affiche ce code tel quel (carte, démo, invitation finale) ; si le modèle a un bloc « const CONFIG = {…} »,
+// les champs du formulaire (prénoms, date, lieu) y sont injectés, comme pour les modèles Diplôme et Tahara.
+const FARHA_CUSTOM_HTML={};
+function farhaCustomDefaults(html){
+ const m=html.match(/\nconst CONFIG = \{[\s\S]*?\n\};/),c=m?m[0]:'';
+ const f=k=>{const x=c.match(new RegExp('\\b'+k+'\\s*:\\s*"([^"\\n]*)"'));return x?x[1]:''};
+ const date=f('date'),venue=f('venue'),addr=f('address')||f('city'),def=FARHA_DEFAULTS.royal;
+ return {bride:f('bride')||def.bride,groom:f('groom')||def.groom,
+  date:/^\d{4}-\d{2}-\d{2}/.test(date)?date.slice(0,10):def.date,time:/T(\d{2}:\d{2})/.test(date)?date.match(/T(\d{2}:\d{2})/)[1]:def.time,
+  place:[venue,addr].filter(Boolean).join(', ')||def.place,message:def.message,hasConfig:!!c};
+}
+function farhaCustomPreview(html){
+ return '<iframe class="card-shot card-frame" title="" aria-hidden="true" tabindex="-1" loading="lazy" sandbox="allow-scripts" srcdoc="'+html.replace(/&/g,'&amp;').replace(/"/g,'&quot;')+'"></iframe>';
+}
+function farhaRegisterCustom(t,html){
+ FARHA_CUSTOM_HTML[t.id]=html;t.custom=true;t.defaults=farhaCustomDefaults(html);
+ if(!t.hasPreviewImage)previewMarkup[t.id]=farhaCustomPreview(html);
+}
+function farhaLoadCustomHtml(base,key,list){
+ if(!list.length)return;
+ fetch(base+'/rest/v1/templates?select=slug,html&slug=in.('+list.map(t=>'"'+t.id.replace(/"/g,'')+'"').join(',')+')',{headers:{apikey:key,Accept:'application/json'}})
+  .then(r=>r.ok?r.json():Promise.reject(new Error('HTTP '+r.status)))
+  .then(rows=>{let n=0;rows.forEach(r=>{const t=list.find(x=>x.id===r.slug);if(t&&r.html&&/<(html|body)\b/i.test(r.html)){farhaRegisterCustom(t,r.html);n++}});
+   if(!n)return;renderCatalog();if(document.getElementById('inspirations')?.classList.contains('active'))farhaRenderInspirations();
+   if(chosen&&chosen.custom&&document.getElementById('detail')?.classList.contains('active'))resetPreview()})
+  .catch(e=>console.warn('Farha : code HTML des nouveaux modèles indisponible ('+(e&&e.message||e)+').'));
+}
+const farhaKeyBefore=farhaKey;
+farhaKey=function(t){return t&&t.custom?'custom':farhaKeyBefore(t)};
+const farhaDefaultsBefore=farhaDefaults;
+farhaDefaults=function(t){return t&&t.custom?t.defaults:farhaDefaultsBefore(t)};
+const farhaTextPatchBefore=farhaTextPatch;
+farhaTextPatch=function(t,d){
+ if(!(t&&t.custom))return farhaTextPatchBefore(t,d);
+ const def=farhaDefaults(t),patch={bride:d.bride,groom:d.groom,date:d.date+'T'+d.time+':00'};
+ if(d.place!==def.place){const p=farhaSplitPlace(d.place);Object.assign(patch,{venue:p.name,address:p.addr,mapQuery:d.place})}
+ if(farhaHttpsUrl(d.map))patch.mapLink=d.map;
+ return patch;
+};
+const buildDocBefore=buildDoc;
+buildDoc=function(t,data,token){
+ if(!(t&&t.custom&&FARHA_CUSTOM_HTML[t.id]))return buildDocBefore(t,data,token);
+ const d=farhaClean(data,t),text=farhaTextPatch(t,d);
+ let html=FARHA_CUSTOM_HTML[t.id];
+ if(t.defaults.hasConfig)html=farhaSetConfig(html,text);
+ const cfg={key:'custom',token:token||'',color:/^#[0-9a-fA-F]{6}$/.test(t.color||'')?t.color:'#8d4565',profile:{},
+  state:{text,dress:d.dress,photos:d.photos,music:{type:d.musicType,src:d.music}}};
+ const bridge='<script>('+escapeScript(farhaBridge.toString())+')('+farhaJSON(cfg)+');<\/script>';
+ const i=html.lastIndexOf('</body>');
+ return i<0?html+bridge:html.slice(0,i)+bridge+html.slice(i);
+};
+// Aperçu en direct : le modèle se redessine depuis son CONFIG, donc on le recharge quand un texte change.
+let farhaCustomTimer=0,farhaCustomText='';
+function farhaCustomSync(){
+ if(!(chosen&&chosen.custom&&document.getElementById('custom')?.classList.contains('active')))return;
+ const j=JSON.stringify(farhaTextPatch(chosen,farhaClean(readData(),chosen)));
+ if(j===farhaCustomText)return;
+ clearTimeout(farhaCustomTimer);
+ farhaCustomTimer=setTimeout(()=>{farhaCustomText=j;refreshCustom()},450);
+}
+['bride','groom','date','time','place','map'].forEach(id=>{$(id).addEventListener('input',farhaCustomSync);$(id).addEventListener('change',farhaCustomSync)});
+const refreshCustomBefore=refreshCustom;
+refreshCustom=function(){if(chosen&&chosen.custom)farhaCustomText=JSON.stringify(farhaTextPatch(chosen,farhaClean(readData(),chosen)));return refreshCustomBefore()};
+// Lien invité vers un modèle importé : le modèle n'est pas dans la liste intégrée, on lit son code dans Supabase.
+(function(){
+ const m=location.hash.match(/^#i=([A-Za-z0-9_-]+)/);if(!m||farhaReadInvite())return;
+ let o;try{const bin=atob(m[1].replace(/-/g,'+').replace(/_/g,'/'));o=JSON.parse(new TextDecoder().decode(Uint8Array.from(bin,c=>c.charCodeAt(0))))}catch(e){return}
+ const cfg=window.FARHA_CONFIG||{};if(!o||!o.d||!/^[a-z0-9-]{2,40}$/.test(o.t||'')||!/^https:\/\/[a-z0-9-]+\.supabase\.co\/?$/.test(cfg.SUPABASE_URL||''))return;
+ const base=cfg.SUPABASE_URL.replace(/\/$/,'');
+ fetch(base+'/rest/v1/templates?select=slug,name,color,html&slug=eq.'+encodeURIComponent(o.t),{headers:{apikey:cfg.SUPABASE_ANON_KEY,Accept:'application/json'}})
+  .then(r=>r.ok?r.json():Promise.reject(new Error('HTTP '+r.status)))
+  .then(rows=>{const r=rows&&rows[0];if(!r||!r.html)return;
+   const t={id:r.slug,name:r.name,color:r.color,base:'editorial',style:'editorial'};farhaRegisterCustom(t,r.html);
+   const f=document.createElement('iframe');f.title='Invitation';f.style.cssText='position:fixed;inset:0;width:100%;height:100%;border:0;z-index:2147483647;background:#fff';
+   f.srcdoc=buildDoc(t,o.d);document.body.style.overflow='hidden';document.body.append(f)})
+  .catch(e=>console.warn('Farha : invitation introuvable ('+(e&&e.message||e)+').'));
+})();
+// /FARHA-MODELES-HTML
 // FARHA-COLLECTIONS : « Thèmes » et « Voir tous les modèles » ouvrent d'abord les collections (une par catégorie) ;
 // un clic sur une collection affiche ses modèles avec la recherche et les filtres existants.
 // farhaInsp.coll : null = liste des collections, 'Tous' = tous les modèles, sinon le nom de la catégorie.
