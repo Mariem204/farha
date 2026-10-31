@@ -1668,11 +1668,19 @@ farhaTemplateCard=function(t){const card=farhaTemplateCardBefore(t);const p=t&&t
 // Le site affiche ce code tel quel (carte, démo, invitation finale) ; si le modèle a un bloc « const CONFIG = {…} »,
 // les champs du formulaire (prénoms, date, lieu) y sont injectés, comme pour les modèles Diplôme et Tahara.
 const FARHA_CUSTOM_HTML={};
+// Deux familles de CONFIG : mariage (bride, groom) ou personne seule (name, degree…), ex. remise de diplôme.
 function farhaCustomDefaults(html){
  const m=html.match(/\nconst CONFIG = \{[\s\S]*?\n\};/),c=m?m[0]:'';
  const f=k=>{const x=c.match(new RegExp('\\b'+k+'\\s*:\\s*"([^"\\n]*)"'));return x?x[1]:''};
  const date=f('date'),venue=f('venue'),addr=f('address')||f('city'),def=FARHA_DEFAULTS.royal;
- return {bride:f('bride')||def.bride,groom:f('groom')||def.groom,
+ if(!f('bride')&&f('name')){
+  const second=f('degree')?'degree':f('family')?'family':'';
+  return {mode:'name',second,bride:f('name'),groom:second?f(second):'',
+   date:/^\d{4}-\d{2}-\d{2}/.test(date)?date.slice(0,10):def.date,time:/T(\d{2}:\d{2})/.test(date)?date.match(/T(\d{2}:\d{2})/)[1]:def.time,
+   place:[venue,addr].filter(Boolean).join(', ')||def.place,message:'Nous avons la joie de vous inviter à célébrer ce grand jour avec nous.',hasConfig:true,
+   labels:[second==='degree'?'Nom du diplômé(e)':'Nom',second==='degree'?'Diplôme obtenu':'La famille','Date de la cérémonie','Lieu de la cérémonie']};
+ }
+ return {mode:'couple',bride:f('bride')||def.bride,groom:f('groom')||def.groom,
   date:/^\d{4}-\d{2}-\d{2}/.test(date)?date.slice(0,10):def.date,time:/T(\d{2}:\d{2})/.test(date)?date.match(/T(\d{2}:\d{2})/)[1]:def.time,
   place:[venue,addr].filter(Boolean).join(', ')||def.place,message:def.message,hasConfig:!!c};
 }
@@ -1699,8 +1707,10 @@ farhaDefaults=function(t){return t&&t.custom?t.defaults:farhaDefaultsBefore(t)};
 const farhaTextPatchBefore=farhaTextPatch;
 farhaTextPatch=function(t,d){
  if(!(t&&t.custom))return farhaTextPatchBefore(t,d);
- const def=farhaDefaults(t),patch={bride:d.bride,groom:d.groom,date:d.date+'T'+d.time+':00'};
- if(d.place!==def.place){const p=farhaSplitPlace(d.place);Object.assign(patch,{venue:p.name,address:p.addr,mapQuery:d.place})}
+ const def=farhaDefaults(t),patch={date:d.date+'T'+d.time+':00'};
+ if(def.mode==='name'){patch.name=d.bride;if(def.second)patch[def.second]=d.groom}
+ else Object.assign(patch,{bride:d.bride,groom:d.groom});
+ if(d.place!==def.place){const p=farhaSplitPlace(d.place);Object.assign(patch,{venue:p.name,venueShort:p.name,address:p.addr,mapQuery:d.place})}
  if(farhaHttpsUrl(d.map))patch.mapLink=d.map;
  return patch;
 };
