@@ -347,7 +347,7 @@ button, input[type=button], input[type=submit], input[type=reset], .btn, [role=b
 @media(max-width:480px){.delivery-share{grid-template-columns:1fr}.delivery-link{flex-direction:column}.delivery-actions button{width:100%}}
 /* FARHA-TEST-GRATUIT (temporaire) : supprimer avec le bouton */
 button.farha-free-test{background:#fff4d6;color:#7a5200;border:2px dashed #d4a017}button.farha-free-test:hover{background:#ffe9a8}
-/* Best sellers : pas de prix sur les cartes de l'accueil */
+/* Nouveautés : pas de prix sur les cartes de l'accueil */
 #catalog .template-price{display:none}
 /* Avis clients : défilement horizontal + 3 points de suivi */
 .farha-reviews{padding:80px 0 30px;text-align:center}
@@ -650,7 +650,7 @@ fi.querySelector('.fi-seal').focus({preventScroll:true});})();</script><header c
  </div>
  <div class="fh-art" role="img" aria-label="Invitation de mariage Amira &amp; Youssef sur un téléphone, sous une arche dorée, avec des alliances et des fleurs"></div>
 </div>
-<div id="themes"><h1 class="catalog-title">Nos best sellers</h1><p class="catalog-subtitle">Découvrez le mini-site animé de chaque modèle, puis personnalisez-le.</p><div class="grid" id="catalog"></div><div class="catalog-more"><button type="button" class="landing-button catalog-more-btn" onclick="farhaOpenInspirations()">Voir tous les modèles →</button></div></div>
+<div id="themes"><h1 class="catalog-title">Nos nouveautés</h1><p class="catalog-subtitle">Les derniers modèles arrivés chez Farha : découvrez leur mini-site animé, puis personnalisez-le.</p><div class="grid" id="catalog"></div><div class="catalog-more"><button type="button" class="landing-button catalog-more-btn" onclick="farhaOpenInspirations()">Voir tous les modèles →</button></div></div>
 <section class="farha-reviews" id="avis" aria-labelledby="reviewsTitle" hidden><span class="landing-eyebrow">ILS ONT CHOISI FARHA</span><h2 class="landing-heading" id="reviewsTitle">Ce que disent nos clients</h2>
 <div class="reviews-track" id="reviewsTrack" tabindex="0" aria-label="Avis clients, faites défiler horizontalement">
 </div><div class="reviews-dots" id="reviewsDots" role="group" aria-label="Choisir un avis"></div></section>
@@ -817,8 +817,11 @@ function farhaTemplateCard(t){
 }
 // Accueil : 8 modèles seulement, le bouton « Voir tous les modèles » ouvre la page complète.
 const FARHA_HOME_COUNT=8;
+// Nouveautés : le dernier modèle ajouté (date Supabase) passe en premier ; sans date, le dernier ajouté au catalogue intégré.
 function renderCatalog(){
- $('catalog').replaceChildren(...templates.slice(0,FARHA_HOME_COUNT).map(farhaTemplateCard));
+ const order=new Map(templates.map((t,i)=>[t,i]));
+ const newest=templates.slice().sort((a,b)=>(b.createdAt||'').localeCompare(a.createdAt||'')||order.get(b)-order.get(a));
+ $('catalog').replaceChildren(...newest.slice(0,FARHA_HOME_COUNT).map(farhaTemplateCard));
 }
 
 // Birthday catalogue additions — the existing wedding templates remain unchanged.
@@ -1612,7 +1615,7 @@ window.farhaSetMusicLibrary=function(list){
  const base=cfg.SUPABASE_URL.replace(/\/$/,'');
  const RENDERERS=['royal','editorial','lake','sidi','sarah'];
  const ctrl=new AbortController(),timer=setTimeout(()=>ctrl.abort(),5000);
- const url=base+'/rest/v1/templates?select=slug,name,description,renderer,color,price_dt,preview_path,sort_order,category:categories(name,default_price_dt)&order=sort_order.asc,name.asc';
+ const url=base+'/rest/v1/templates?select=slug,name,description,renderer,color,price_dt,preview_path,sort_order,created_at,category:categories(name,default_price_dt)&order=sort_order.asc,name.asc';
  fetch(url,{headers:{apikey:cfg.SUPABASE_ANON_KEY,Accept:'application/json'},signal:ctrl.signal})
   .then(r=>r.ok?r.json():Promise.reject(new Error('HTTP '+r.status)))
   .then(rows=>{clearTimeout(timer);if(Array.isArray(rows)&&rows.length)farhaApplyCatalog(rows)})
@@ -1641,6 +1644,7 @@ window.farhaSetMusicLibrary=function(list){
    t.name=r.name;t.category=r.category.name;t.color=r.color;
    t.price=r.price_dt!=null?Number(r.price_dt):null;
    t.description=r.description||null;
+   t.createdAt=r.created_at||null;
    t.hasPreviewImage=!!r.preview_path;
    if(r.preview_path)previewMarkup[r.slug]=img(base+'/storage/v1/object/public/template-previews/'+r.preview_path.split('/').map(encodeURIComponent).join('/'));
    if(r.category.default_price_dt!=null)FARHA_PRICES[r.category.name]=Number(r.category.default_price_dt);
