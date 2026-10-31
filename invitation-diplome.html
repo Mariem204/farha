@@ -95,8 +95,8 @@ section{position:relative;padding:76px 28px;text-align:center}
 .toss:not(.done){animation:nudge 2.8s ease-in-out infinite}
 @keyframes nudge{0%,80%,100%{transform:none}86%{transform:rotate(-3deg)}92%{transform:rotate(3deg)}}
 .toss-hint{font-family:var(--caps);font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--muted);margin-top:16px}
-.toss-msg{font-family:var(--script);font-size:40px;color:var(--mauve-dk);height:0;opacity:0;transition:opacity 1s .6s,height .6s;overflow:hidden}
-.toss-msg.show{height:60px;opacity:1}
+.toss-msg{font-family:var(--script);font-size:40px;line-height:1.15;color:var(--mauve-dk);max-height:0;opacity:0;transition:opacity 1s .6s,max-height .8s;overflow:hidden;padding:0 12px;-webkit-user-select:none;user-select:none}
+.toss-msg.show{max-height:160px;padding-bottom:10px;opacity:1}
 .confetti{position:fixed;width:8px;height:12px;pointer-events:none;z-index:50;border-radius:2px}
 
 /* ---------- 3. Message ---------- */
