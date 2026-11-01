@@ -655,70 +655,91 @@ label.farha-pick:hover{background:#e0cbbf}
 @media (max-width:600px){.col-grid{gap:20px}.col-body{padding:22px 22px 24px}.col-btn{min-height:52px;font-size:15px}}
 </style>
 </head><body><style id="farha-portal">
-/* Ouverture au scroll : un voile bordeaux percé d'un anneau doré qui s'agrandit et laisse voir le site. */
-.fp{position:fixed;inset:0;z-index:9999;pointer-events:auto;overflow:hidden;--r:0px;touch-action:none}
-.fp-veil{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 45%,#6e2238 0%,#4d1426 48%,#2f0b16 100%);
- -webkit-mask:radial-gradient(circle at 50% 50%,transparent var(--r),#000 calc(var(--r) + 1px));mask:radial-gradient(circle at 50% 50%,transparent var(--r),#000 calc(var(--r) + 1px))}
-.fp-veil:after{content:'';position:absolute;inset:0;opacity:.07;background:repeating-linear-gradient(45deg,#e8cf9b 0 1px,transparent 1px 22px),repeating-linear-gradient(-45deg,#e8cf9b 0 1px,transparent 1px 22px)}
-.fp-ring{position:absolute;left:50%;top:50%;width:calc(var(--r) * 2);height:calc(var(--r) * 2);transform:translate(-50%,-50%);border-radius:50%;pointer-events:none;
- border:2px solid #e8cf9b;box-shadow:0 0 0 7px rgba(232,207,155,.16),0 0 40px rgba(232,207,155,.35),inset 0 0 40px rgba(46,8,20,.45)}
-.fp-ring:before{content:'✦';position:absolute;left:50%;top:-13px;transform:translateX(-50%);color:#e8cf9b;font-size:20px;line-height:1;text-shadow:0 0 12px rgba(232,207,155,.7)}
-.fp-top,.fp-bottom{position:absolute;left:0;right:0;text-align:center;color:#f3e3c4;pointer-events:none;transition:opacity .2s}
-.fp-top{top:calc(50% - var(--r0) - 150px)}
-.fp-logo{display:block;font:700 54px/1 'Amiri','Cormorant Garamond',serif;color:#e8cf9b;text-shadow:0 2px 20px rgba(0,0,0,.25)}
-.fp-tag{display:block;margin-top:14px;font:600 11px 'DM Sans',sans-serif;letter-spacing:.32em;text-transform:uppercase;color:#d9b98a}
-.fp-bottom{top:calc(50% + var(--r0) + 40px)}
-.fp-title{display:block;font:700 clamp(30px,4.2vw,52px)/1.05 'DM Sans',sans-serif;letter-spacing:-.03em;color:#fff4e3}
-.fp-title em{font:italic 400 1.12em/1 'Cormorant Garamond',serif;color:#e8cf9b}
-.fp-hint{display:inline-flex;flex-direction:column;align-items:center;gap:10px;margin-top:22px;font:600 10px 'DM Sans',sans-serif;letter-spacing:.3em;text-transform:uppercase;color:#d9b98a}
-.fp-hint i{width:22px;height:34px;border:1.5px solid #d9b98a;border-radius:12px;position:relative}
-.fp-hint i:after{content:'';position:absolute;left:50%;top:7px;width:3px;height:7px;margin-left:-1.5px;border-radius:2px;background:#e8cf9b;animation:fpWheel 1.6s ease-in-out infinite}
-.fp-hint.touch i{width:2px;height:30px;border:0;border-radius:2px;background:linear-gradient(transparent,#d9b98a)}
+/* Ouverture au scroll : sur un fond bordeaux uni, la bouche du personnage Farha s'ouvre et laisse voir le site. */
+.fp{position:fixed;inset:0;z-index:9999;overflow:hidden;touch-action:none;cursor:pointer;--mx:50%;--my:50%;--r:0px}
+.fp-stage{position:absolute;inset:0;background:#7a2440;
+ -webkit-mask:radial-gradient(circle at var(--mx) var(--my),transparent var(--r),#000 calc(var(--r) + .5px));mask:radial-gradient(circle at var(--mx) var(--my),transparent var(--r),#000 calc(var(--r) + .5px))}
+.fp-face{position:absolute;left:0;top:0;transform-origin:0 0;overflow:visible}
+.fp-face .fp-pupil{transform-box:fill-box;transform-origin:center;animation:fpBlink 4.2s infinite}
+@keyframes fpBlink{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.1)}}
+.fp-brand{position:absolute;left:22px;bottom:20px;z-index:2;font:700 20px/1 'Amiri','Cormorant Garamond',serif;color:#f1d7a3;pointer-events:none}
+.fp-hint{position:absolute;left:0;right:0;bottom:22px;z-index:2;display:flex;flex-direction:column;align-items:center;gap:10px;font:600 10px 'DM Sans',sans-serif;letter-spacing:.3em;text-transform:uppercase;color:#f1d7a3;pointer-events:none;transition:opacity .2s}
+.fp-hint i{width:22px;height:34px;border:1.5px solid #f1d7a3;border-radius:12px;position:relative}
+.fp-hint i:after{content:'';position:absolute;left:50%;top:7px;width:3px;height:7px;margin-left:-1.5px;border-radius:2px;background:#f1d7a3;animation:fpWheel 1.6s ease-in-out infinite}
+.fp-hint.touch i{width:2px;height:30px;border:0;border-radius:2px;background:linear-gradient(transparent,#f1d7a3)}
 .fp-hint.touch i:after{top:-2px;width:9px;height:9px;margin-left:-4.5px;border-radius:50%;animation:fpSwipe 1.6s ease-in-out infinite}
 @keyframes fpSwipe{0%{transform:translateY(26px);opacity:0}30%{opacity:1}100%{transform:translateY(0);opacity:0}}
 @keyframes fpWheel{0%{transform:translateY(0);opacity:1}70%{transform:translateY(10px);opacity:0}100%{opacity:0}}
-.fp-skip{position:absolute;top:18px;right:18px;z-index:2;border:0;background:none;color:rgba(240,214,170,.75);font:500 10px 'DM Sans',sans-serif;letter-spacing:.3em;text-transform:uppercase;cursor:pointer;padding:10px}
-.fp-skip:hover{color:#f3dcae}
-.fp-skip:focus-visible{outline:2px solid #e8cf9b;outline-offset:2px}
+.fp-skip{position:absolute;top:18px;right:18px;z-index:2;border:0;background:none;color:rgba(241,215,163,.8);font:500 10px 'DM Sans',sans-serif;letter-spacing:.3em;text-transform:uppercase;cursor:pointer;padding:10px}
+.fp-skip:hover{color:#fff}
+.fp-skip:focus-visible{outline:2px solid #f1d7a3;outline-offset:2px}
 html.fp-lock,html.fp-lock body{overflow:hidden}
-html.fp-lock main,html.fp-lock .farha-header{transform:scale(var(--fp-zoom,1.12));transform-origin:50% 45vh}
-@media(max-width:600px){.fp-logo{font-size:44px}.fp-top{top:calc(50% - var(--r0) - 128px)}.fp-bottom{padding:0 22px}}
-@media(prefers-reduced-motion:reduce){.fp-hint i:after,.fp-hint.touch i:after{animation:none}}
+html.fp-lock main,html.fp-lock .farha-header{transform:scale(var(--fp-zoom,1.15));transform-origin:50% 45vh}
+@media(max-width:600px){.fp-brand{bottom:auto;top:24px;left:20px}.fp-hint{bottom:30px}}
+@media(prefers-reduced-motion:reduce){.fp-hint i:after,.fp-face .fp-pupil{animation:none}}
 </style>
-<div class="fp" id="farhaPortal" role="dialog" aria-label="Bienvenue chez Farha : faites défiler pour entrer"><div class="fp-veil"></div><div class="fp-ring"></div>
-<div class="fp-top"><span class="fp-logo">فرحة ✦</span><span class="fp-tag">Invitations digitales</span></div>
-<div class="fp-bottom"><span class="fp-title">Votre fête commence <em>ici.</em></span><span class="fp-hint"><i></i>Faites défiler pour entrer</span></div>
+<div class="fp" id="farhaPortal" role="dialog" aria-label="Bienvenue chez Farha : faites défiler pour entrer"><div class="fp-stage">
+<svg class="fp-face" viewBox="0 0 400 440" aria-hidden="true">
+ <path d="M38 236Q38 52 200 46Q362 52 362 236V384Q296 400 200 400Q104 400 38 384Z" fill="#1d0a10"/>
+ <circle cx="200" cy="40" r="35" fill="#1d0a10"/>
+ <ellipse cx="200" cy="66" rx="30" ry="8" fill="#d9b46a"/>
+ <path d="M200 20l4 10 10 4-10 4-4 10-4-10-10-4 10-4z" fill="#f1d7a3"/>
+ <ellipse cx="200" cy="252" rx="122" ry="132" fill="#f8dfd2"/>
+ <path d="M76 232Q82 104 200 100Q318 104 324 232Q306 162 200 166Q94 162 76 232Z" fill="#1d0a10"/>
+ <path d="M122 196Q148 184 172 194M228 194Q252 184 278 196" fill="none" stroke="#1d0a10" stroke-width="5" stroke-linecap="round"/>
+ <g fill="rgba(255,255,255,.28)" stroke="#c9a14a" stroke-width="6"><circle cx="150" cy="246" r="38"/><circle cx="250" cy="246" r="38"/></g>
+ <path d="M188 244Q200 234 212 244" fill="none" stroke="#c9a14a" stroke-width="6" stroke-linecap="round"/>
+ <g class="fp-pupil"><circle cx="150" cy="248" r="7" fill="#1d0a10"/><circle cx="153" cy="245" r="2" fill="#fff"/></g>
+ <g class="fp-pupil"><circle cx="250" cy="248" r="7" fill="#1d0a10"/><circle cx="253" cy="245" r="2" fill="#fff"/></g>
+ <ellipse cx="116" cy="300" rx="19" ry="10" fill="#ee9aa4" opacity=".6"/><ellipse cx="284" cy="300" rx="19" ry="10" fill="#ee9aa4" opacity=".6"/>
+ <circle class="fp-lips" cx="200" cy="316" r="14" fill="none" stroke="#5a1426" stroke-width="7"/>
+</svg></div>
+<span class="fp-brand">فرحة ✦</span>
+<span class="fp-hint"><i></i>Faites défiler pour entrer</span>
 <button type="button" class="fp-skip">Passer</button></div>
 <script>
-// FARHA-PORTAL : la molette, le doigt ou les flèches agrandissent l'anneau ; au-delà de la moitié, l'ouverture se termine seule.
+// FARHA-PORTAL : la molette, le doigt ou les flèches ouvrent la bouche, puis on plonge dedans jusqu'au site ;
+// au-delà de la moitié, l'ouverture se termine seule.
 (function(){
  var fp=document.getElementById('farhaPortal');if(!fp)return;
  var root=document.documentElement;
  if(/[#&]i=/.test(location.hash)||matchMedia('(prefers-reduced-motion:reduce)').matches){fp.remove();return}
  if('scrollRestoration' in history)history.scrollRestoration='manual';scrollTo(0,0);root.classList.add('fp-lock');
- var p=0,shown=0,raf=0,auto=false,done=false,idle=0,ty=null,top=fp.querySelector('.fp-top'),bottom=fp.querySelector('.fp-bottom');
- if(matchMedia('(pointer:coarse)').matches){var h=fp.querySelector('.fp-hint');h.classList.add('touch');h.lastChild.textContent='Glissez vers le haut pour entrer'}
- function r0(){return Math.min(innerWidth,innerHeight)*(innerWidth<600?.24:.17)}
+ var p=0,shown=0,raf=0,auto=false,done=false,idle=0,ty=null;
+ var face=fp.querySelector('.fp-face'),lips=fp.querySelector('.fp-lips'),hint=fp.querySelector('.fp-hint');
+ if(matchMedia('(pointer:coarse)').matches){hint.classList.add('touch');hint.lastChild.textContent='Glissez vers le haut pour entrer'}
+ var MX=200,MY=316,LIP=7;
+ function ss(a,b,x){x=Math.max(0,Math.min(1,(x-a)/(b-a)));return x*x*(3-2*x)}
  function draw(){
-  var e=1-Math.pow(1-shown,3),a=r0(),max=Math.hypot(innerWidth,innerHeight)/2+40,r=a+(max-a)*e;
-  fp.style.setProperty('--r0',a+'px');fp.style.setProperty('--r',r+'px');
-  root.style.setProperty('--fp-zoom',(1.12-.12*e).toFixed(4));
-  var t=Math.max(0,1-shown*3.2);top.style.opacity=bottom.style.opacity=t;
-  top.style.transform='translateY('+(-60*shown)+'px)';bottom.style.transform='translateY('+(60*shown)+'px)';
-  fp.querySelector('.fp-ring').style.opacity=Math.max(0,1-Math.max(0,shown-.55)/.4);
+  var vw=innerWidth,vh=innerHeight,w=Math.min(vw*.7,vh*.56),k=w/400,e=shown;
+  var open=ss(0,.42,e),zoom=ss(.3,1,e);
+  var mr=14+38*open; // rayon de la bouche (unités du dessin)
+  var fx=(vw-w)/2,fy=(vh-440*k)/2-vh*.03; // visage centré
+  var m0x=fx+MX*k,m0y=fy+MY*k;
+  var smax=(Math.hypot(vw,vh)/2+30)/((mr-LIP/2)*k),S=Math.exp(Math.log(smax)*zoom);
+  var mx=m0x+(vw/2-m0x)*zoom,my=m0y+(vh/2-m0y)*zoom;
+  lips.setAttribute('r',mr.toFixed(2));
+  face.style.width=w+'px';face.style.height=440*k+'px';
+  face.style.transform='translate('+(mx-MX*k*S)+'px,'+(my-MY*k*S)+'px) scale('+S+')';
+  fp.style.setProperty('--mx',mx+'px');fp.style.setProperty('--my',my+'px');
+  fp.style.setProperty('--r',Math.max(0,(mr-LIP/2)*k*S)+'px');
+  root.style.setProperty('--fp-zoom',(1.15-.15*zoom).toFixed(4));
+  hint.style.opacity=Math.max(0,1-e*4);
  }
- function tick(){shown+=(p-shown)*(auto?.08:.16);if(Math.abs(p-shown)<.001)shown=p;draw();
+ function tick(){shown+=(p-shown)*(auto?.06:.16);if(Math.abs(p-shown)<.001)shown=p;draw();
   if(shown>=.999&&p>=1)return finish();raf=shown!==p?requestAnimationFrame(tick):0}
  function go(v){if(done)return;p=Math.max(0,Math.min(1,v));if(!raf)raf=requestAnimationFrame(tick);clearTimeout(idle);
   if(p>=.5){auto=true;p=1}else idle=setTimeout(function(){if(p>.12){auto=true;p=1;if(!raf)raf=requestAnimationFrame(tick)}},700)}
  function finish(){if(done)return;done=true;cancelAnimationFrame(raf);clearTimeout(idle);root.classList.remove('fp-lock');root.style.removeProperty('--fp-zoom');
-  removeEventListener('wheel',onWheel);removeEventListener('keydown',onKey);removeEventListener('resize',draw);fp.remove()}
- function onWheel(e){e.preventDefault();go(p+Math.max(-120,Math.min(120,e.deltaY))/(innerHeight*.9))}
+  removeEventListener('wheel',onWheel);removeEventListener('keydown',onKey);removeEventListener('resize',draw);fp.remove();scrollTo(0,0);
+  // l'élan de la molette ne doit pas faire défiler la page juste après l'ouverture
+  var calm=function(e){e.preventDefault()};addEventListener('wheel',calm,{passive:false});setTimeout(function(){removeEventListener('wheel',calm)},650)}
+ function onWheel(e){e.preventDefault();go(p+Math.max(-120,Math.min(120,e.deltaY))/(innerHeight*1.1))}
  function onKey(e){if(['ArrowDown','PageDown',' ','Enter'].indexOf(e.key)>-1){e.preventDefault();go(p+.5)}else if(e.key==='Escape'){auto=true;go(1)}}
  addEventListener('wheel',onWheel,{passive:false});addEventListener('keydown',onKey);addEventListener('resize',draw);
  fp.addEventListener('touchstart',function(e){ty=e.touches[0].clientY},{passive:true});
- fp.addEventListener('touchmove',function(e){e.preventDefault();if(ty==null)return;var y=e.touches[0].clientY;go(p+(ty-y)/(innerHeight*.7));ty=y},{passive:false});
- fp.addEventListener('click',function(e){auto=true;go(1)});
+ fp.addEventListener('touchmove',function(e){e.preventDefault();if(ty==null)return;var y=e.touches[0].clientY;go(p+(ty-y)/(innerHeight*.8));ty=y},{passive:false});
+ fp.addEventListener('click',function(){auto=true;go(1)});
  draw();
 })();
 </script>
