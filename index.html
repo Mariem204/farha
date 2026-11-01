@@ -975,7 +975,8 @@ function farhaDeliver(){
  $('deliveryLink').value=farhaInviteLink();$('deliveryToast').textContent='';show('complete')
 }
 // Lien d'invitation : le site Netlify relit le modèle et les informations depuis l'adresse (#i=...) et affiche l'invitation.
-const FARHA_SITE='https://farha-bay.vercel.app/';
+// Le lien ouvre le site qui l'a créé (production, ou aperçu test-admin) ; en local, le site de production.
+const FARHA_SITE=location.protocol==='https:'?location.origin+'/':'https://farha-bay.vercel.app/';
 function farhaInviteLink(){const d=readData();delete d.photos;if(d.musicType==='file'){const k=window.farhaDemoIndex?window.farhaDemoIndex():-1;d.music=k>=0?String(k):'';d.musicType=k>=0?'demo':''}const bytes=new TextEncoder().encode(JSON.stringify({t:chosen.id,d}));let bin='';bytes.forEach(b=>bin+=String.fromCharCode(b));return FARHA_SITE+'#i='+btoa(bin).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'')}
 function farhaReadInvite(){const m=location.hash.match(/^#i=([A-Za-z0-9_-]+)/);if(!m)return null;try{const bin=atob(m[1].replace(/-/g,'+').replace(/_/g,'/'));const o=JSON.parse(new TextDecoder().decode(Uint8Array.from(bin,c=>c.charCodeAt(0))));const t=templates.find(x=>x.id===o.t);return t&&o.d?{t,d:o.d}:null}catch(e){return null}}
 function farhaToast(t){$('deliveryToast').textContent=t}
