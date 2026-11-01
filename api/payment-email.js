@@ -54,8 +54,8 @@ async function send(key, sender, to, replyTo, subject, html, txt) {
   });
   if (!r.ok) {
     const t = await r.text();
-    let code = null; try { code = JSON.parse(t).code || null; } catch (e) {}
-    throw Object.assign(new Error('Brevo ' + r.status + ' ' + t.slice(0, 200)), { status: r.status, code });
+    let code = null, message = null; try { const j = JSON.parse(t); code = j.code || null; message = String(j.message || '').slice(0, 160) || null; } catch (e) {}
+    throw Object.assign(new Error('Brevo ' + r.status + ' ' + t.slice(0, 200)), { status: r.status, code, brevoMessage: message });
   }
 }
 
@@ -126,7 +126,10 @@ module.exports = async function handler(req, res) {
       'Farha · Votre commande et les détails du paiement', page(cTitle, cIntro, cRows, cOutro), text(cTitle, cIntro, cRows, cOutro));
   } catch (e) {
     console.error('payment-email: client', e.message);
-    return res.status(502).json({ error: 'E-mail client non envoyé', status: e.status || null, brevo: e.code || null });
+    // Diagnostic sans révéler la clé : son type (préfixe) et sa longueur.
+    const kind = /^xkeysib-/.test(key) ? 'api' : /^xsmtpsib-/.test(key) ? 'smtp' : 'inconnu';
+    return res.status(502).json({ error: 'E-mail client non envoyé', status: e.status || null, brevo: e.code || null, message: e.brevoMessage || null,
+      cle: { type: kind, longueur: key.length, espaces: key !== key.trim() } });
   }
   try {
     await send(key, sender, { email: admin, name: 'Farha' }, { email: customer.email, name: customer.name },
