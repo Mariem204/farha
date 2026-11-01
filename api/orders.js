@@ -166,6 +166,8 @@ module.exports = async function handler(req, res) {
     });
   } catch (e) {
     console.error('orders:', step, e.status || '', e.code || '', e.message);
-    return res.status(500).json({ error: 'Enregistrement impossible pour le moment', etape: step, code: e.code || e.status || null });
+    // Diagnostic sans révéler la clé : seulement son type.
+    const cle = /^sb_secret_/.test(key) ? 'secret' : /^sb_publishable_/.test(key) ? 'publishable' : /^eyJ/.test(key) ? 'jwt' : 'inconnu';
+    return res.status(500).json({ error: 'Enregistrement impossible pour le moment', etape: step, code: e.code || e.status || null, cle });
   }
 };
