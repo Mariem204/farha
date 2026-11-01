@@ -659,6 +659,34 @@ label.farha-pick:hover{background:#e0cbbf}
 #home .landing-hero.hero-sky{min-height:min(980px,100svh)!important;padding-bottom:clamp(220px,30vh,320px)!important;justify-content:center}
 @media(max-width:900px){#home .landing-hero.hero-sky{min-height:0!important;padding-bottom:clamp(200px,34vh,280px)!important}}
 </style>
+<style id="farha-hero-marquee">
+/* Sous les boutons du hero : nos derniers modèles défilent sur une ligne derrière un téléphone fixe ;
+   en approchant du centre, chaque modèle grandit puis s'affiche en grand dans le téléphone. */
+#home .landing-hero.hero-sky{padding-bottom:48px!important}
+.hm{--iw:128px;--ih:270px;--pw:250px;--ph:520px;position:relative;z-index:4;width:100vw;max-width:100vw;margin:42px calc(50% - 50vw) 0;height:calc(var(--ph) + 30px);display:flex;align-items:center;overflow:hidden;
+ -webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
+.hm-track{position:absolute;z-index:1;left:0;top:50%;height:var(--ih);margin-top:calc(var(--ih)/-2)}
+.hm-item{position:absolute;top:0;left:0;width:var(--iw);height:var(--ih);padding:0;border:0;border-radius:16px;overflow:hidden;background:#f6ece4;cursor:pointer;
+ box-shadow:0 0 0 4px #1f0c12,0 14px 30px rgba(52,8,22,.28);will-change:transform}
+.hm .hm-item,.hm .hm-phone{min-width:0;min-height:0;letter-spacing:normal;text-transform:none}
+.hm .hm-item{border-radius:16px!important}
+.hm .hm-phone{border-radius:42px!important}
+.hm-item:focus-visible{outline:3px solid #f1d7a3;outline-offset:5px}
+.hm-shot{position:absolute;left:0;top:0;width:360px;height:760px;transform-origin:0 0;pointer-events:none}
+.hm-shot>*,.hm-big>*{width:100%!important;height:100%!important;border:0;display:block;object-fit:cover;border-radius:0}
+.hm-phone{position:absolute;left:50%;top:50%;z-index:3;width:var(--pw);height:var(--ph);margin:calc(var(--ph)/-2) 0 0 calc(var(--pw)/-2);padding:10px;border:0;border-radius:42px;
+ background:linear-gradient(145deg,#2a1118,#120509);box-shadow:0 0 0 2px #c9a35c inset,0 30px 70px rgba(40,4,16,.45);cursor:pointer}
+.hm-phone:focus-visible{outline:3px solid #f1d7a3;outline-offset:6px}
+.hm-island{position:absolute;left:50%;top:20px;z-index:2;width:78px;height:22px;margin-left:-39px;border-radius:12px;background:#0b0306}
+.hm-screen{position:relative;display:block;width:100%;height:100%;overflow:hidden;border-radius:33px;background:#f6ece4}
+.hm-big{position:absolute;left:0;top:0;width:360px;height:760px;transform-origin:0 0;pointer-events:none;animation:hmZoom .6s cubic-bezier(.2,.8,.2,1) both}
+.hm-big.out{animation:hmOut .45s ease both;z-index:0}
+.hm-big[hidden]{display:none}
+@keyframes hmZoom{from{opacity:0;filter:blur(3px);transform:var(--hm-from)}to{opacity:1;filter:none;transform:var(--hm-to)}}
+@keyframes hmOut{from{opacity:1}to{opacity:0}}
+@media(max-width:700px){.hm{--iw:92px;--ih:194px;--pw:186px;--ph:388px;margin-top:30px}.hm .hm-item{border-radius:12px!important}.hm .hm-phone{border-radius:32px!important;padding:8px}.hm-screen{border-radius:25px}.hm-island{top:15px;width:56px;height:16px;margin-left:-28px}}
+@media(prefers-reduced-motion:reduce){.hm-big{animation:none}}
+</style>
 </head><body><style id="farha-portal">
 /* Ouverture au scroll : sur un fond bordeaux uni, la bouche du personnage Farha s'ouvre et laisse voir le site. */
 .fp{position:fixed;inset:0;z-index:9999;overflow:hidden;touch-action:none;cursor:pointer}
@@ -750,6 +778,8 @@ html.fp-lock main,html.fp-lock .farha-header{transform:scale(var(--fp-zoom,1.06)
 <section class="view active" id="home"><div class="landing-hero hero-v2 hero-sky">
  <div class="sky-deco" aria-hidden="true"><i class="cloud c1"></i><i class="cloud c2"></i><i class="cloud c3"></i><i class="cloud c4"></i><i class="cloud c5"></i></div><div class="sky-icons" aria-hidden="true"><span class="sky-icon i1"><svg viewBox="0 0 100 100"><defs><linearGradient id="fgR" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fbeec2"/><stop offset=".45" stop-color="#d9ad55"/><stop offset="1" stop-color="#8a6224"/></linearGradient><linearGradient id="fgG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".5" stop-color="#dbeefa"/><stop offset="1" stop-color="#a9c9e6"/></linearGradient></defs><circle cx="50" cy="66" r="24" fill="none" stroke="url(#fgR)" stroke-width="7"/><circle cx="50" cy="66" r="24" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="1.4" stroke-dasharray="22 130" transform="rotate(200 50 66)"/><path d="M43 40 L57 40 L54 46 L46 46Z" fill="url(#fgR)"/><path d="M41 12 L59 12 L68 24 L32 24Z" fill="url(#fgG)" stroke="#fff" stroke-width="1"/><path d="M32 24 L68 24 L50 42Z" fill="url(#fgG)" stroke="#fff" stroke-width="1"/><path d="M41 12 L45 24 L50 12 L55 24 L59 12 M32 24 L45 24 L50 42 L55 24 L68 24" fill="none" stroke="#9fc1df" stroke-width=".8"/><path d="M80 14 l2 6 6 2 -6 2 -2 6 -2 -6 -6 -2 6 -2z" fill="#f3d58c"/></svg></span><span class="sky-icon i2"><svg viewBox="0 0 100 100"><defs><linearGradient id="fgB" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fbeec2"/><stop offset=".45" stop-color="#d9ad55"/><stop offset="1" stop-color="#8a6224"/></linearGradient><linearGradient id="fgW" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fffaf2"/><stop offset="1" stop-color="#e3cdb2"/></linearGradient><linearGradient id="fgL" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#eedfcb"/></linearGradient></defs><rect x="19" y="46" width="62" height="42" rx="4" fill="url(#fgW)"/><rect x="15" y="35" width="70" height="14" rx="3" fill="url(#fgL)"/><rect x="45" y="35" width="10" height="53" fill="url(#fgB)"/><path d="M50 34 C38 18 24 22 30 31 C34 36 44 35 50 34Z M50 34 C62 18 76 22 70 31 C66 36 56 35 50 34Z" fill="url(#fgB)"/><circle cx="50" cy="33" r="5" fill="#e6be6a"/><rect x="21" y="49" width="58" height="3" fill="#000" opacity=".12"/><path d="M24 52 L24 80" stroke="#fff" stroke-opacity=".25" stroke-width="3" stroke-linecap="round"/></svg></span><span class="sky-icon i3"><svg viewBox="0 0 100 100"><defs><linearGradient id="fgD" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fbeec2"/><stop offset=".45" stop-color="#d9ad55"/><stop offset="1" stop-color="#8a6224"/></linearGradient><linearGradient id="fgI" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".6" stop-color="#f6ecdf"/><stop offset="1" stop-color="#dcc7ad"/></linearGradient></defs><path d="M43 10 L45 26 M57 10 L55 26" stroke="#d9c3a5" stroke-width="2" stroke-linecap="round"/><path d="M40 26 Q50 33 60 26 L58 45 L42 45Z" fill="url(#fgI)" stroke="#e2d0b8" stroke-width=".8"/><path d="M42 48 L58 48 Q66 66 84 90 Q50 97 16 90 Q34 66 42 48Z" fill="url(#fgI)" stroke="#e2d0b8" stroke-width=".8"/><path d="M47 50 Q42 70 32 92 M53 50 Q58 70 68 92 M50 50 L50 94" fill="none" stroke="#e4d3bc" stroke-width="1.2"/><rect x="41" y="44" width="18" height="5" rx="2" fill="url(#fgD)"/><circle cx="50" cy="46.5" r="2.4" fill="#fff"/><circle cx="46" cy="33" r="1" fill="#e9cf96"/><circle cx="54" cy="36" r="1" fill="#e9cf96"/><circle cx="50" cy="39" r="1" fill="#e9cf96"/></svg></span><span class="sky-icon i4"><svg viewBox="0 0 100 100"><defs><linearGradient id="fgH" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".5" stop-color="#dbeefa"/><stop offset="1" stop-color="#a9c9e6"/></linearGradient></defs><path d="M30 22 L70 22 L86 42 L14 42Z" fill="url(#fgH)" stroke="#fff" stroke-width="1.2"/><path d="M14 42 L86 42 L50 86Z" fill="url(#fgH)" stroke="#fff" stroke-width="1.2"/><path d="M30 22 L38 42 L50 22 L62 42 L70 22 M14 42 L38 42 L50 86 L62 42 L86 42" fill="none" stroke="#9fc1df" stroke-width="1"/><path d="M80 12 l2 6 6 2 -6 2 -2 6 -2 -6 -6 -2 6 -2z" fill="#f3d58c"/></svg></span><span class="sky-icon i5 zaghrouta"><svg viewBox="0 0 170 110" overflow="visible"><defs><linearGradient id="fzG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fbeec2"/><stop offset=".45" stop-color="#d9ad55"/><stop offset="1" stop-color="#8a6224"/></linearGradient><linearGradient id="fzS" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fffaf2"/><stop offset=".6" stop-color="#f3e3cf"/><stop offset="1" stop-color="#dcc3a6"/></linearGradient><linearGradient id="fzH" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6a2a3c"/><stop offset="1" stop-color="#3a1220"/></linearGradient><linearGradient id="fzF" x1="0" y1="0" x2="0" y2="1"><stop offset=".72" stop-color="#fff"/><stop offset=".97" stop-color="#000"/></linearGradient><mask id="fzM" maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="110"><rect width="100" height="110" fill="url(#fzF)"/></mask></defs><g mask="url(#fzM)"><path d="M46 8 C24 6 10 22 12 42 C10 52 16 58 12 68 C8 80 16 88 12 100 C24 106 36 100 38 90 C36 82 42 76 38 66 Z" fill="url(#fzH)"/><path d="M46 10 C58 11 63 21 62 30 C62 34 66 38 68 42 C69 44 66 46 64 46 L64 47 C65 48 64.5 49.5 63.5 50 L60 51 L60 56 L63 57.5 C64 60 62 62 59 62 C59 66 55 69 50 70 C47 71 46 74 46 78 C52 82 58 85 61 92 L62 102 L18 102 L20 92 C26 84 32 80 34 76 C26 68 24 56 25 44 C26 26 34 10 46 10 Z" fill="url(#fzS)"/><path d="M63.5 50 L60 51 L60 56 L63 57.5 Z" fill="#6e1a2e"/><path d="M59.6 50.8 C61 49.6 62.8 49.4 64.2 49.8" fill="none" stroke="#b3263f" stroke-width="1.7" stroke-linecap="round"/><path d="M59.6 56.4 C61 57.8 62.6 58.2 63.6 57.6" fill="none" stroke="#b3263f" stroke-width="1.7" stroke-linecap="round"/><path d="M52.5 33.5 C54.5 35.5 57 35.5 58.5 33.8" fill="none" stroke="#5a2a30" stroke-width="1.1" stroke-linecap="round"/><path d="M53 35 l-1 1.6 M55 35.6 l-.4 1.8 M57.2 35 l.4 1.6" stroke="#5a2a30" stroke-width=".7" stroke-linecap="round"/><path d="M52 29.5 C54 28.2 57 28.2 59 29.4" fill="none" stroke="#6a3a3c" stroke-width="1.2" stroke-linecap="round"/><path d="M46 10 C36 11 30 20 31 32 C36 26 42 20 50 18 C52 22 56 24 60 22 C58 14 52 10 46 10 Z" fill="url(#fzH)"/><circle cx="37" cy="58" r="5.2" fill="none" stroke="url(#fzG)" stroke-width="2.2"/><path d="M70 102 L66 80 C64 74 64 70 66 66 L74 70 L76 102 Z" fill="url(#fzS)"/><path d="M65 80 L75 78 L75.5 83 L65.5 85 Z" fill="url(#fzG)"/><path d="M66 70 C64 62 66 54 70 48 C71 46 74 46 74 49 L73 54 L76 46 C77 44 80 45 79.5 47.5 L77.5 55 L80 50 C81 48 84 49 83 51.5 L79 62 C77 68 74 72 70 74 Z" fill="url(#fzS)" stroke="#e2cdb2" stroke-width=".7"/></g><g stroke="url(#fzG)" stroke-width="2.4" stroke-linecap="round" fill="none"><path d="M88 42 C92 46 92 52 88 56"/><path d="M94 36 C101 42 101 56 94 62"/><path d="M91 28 L96 22"/><path d="M92 70 L97 76"/></g><text x="140" y="55" text-anchor="middle" font-family="'Aref Ruqaa',serif" font-size="22" font-weight="700" fill="url(#fzG)">تزغريطة</text><path d="M152 16 l1.6 4.6 4.6 1.6 -4.6 1.6 -1.6 4.6 -1.6 -4.6 -4.6 -1.6 4.6 -1.6z" fill="#f3d58c"/><path d="M114 74 C124 81 142 81 154 72" fill="none" stroke="url(#fzG)" stroke-width="1.8" stroke-linecap="round"/></svg></span></div>
  <div class="hero-copy"><span class="landing-kicker">✦ FARHA · INVITATIONS DIGITALES ✦</span><div class="arabic-signature" lang="ar" dir="rtl">الفرحة فرحتنا</div><h1>Créez votre<br>invitation <em>inoubliable.</em></h1><p>Une invitation qui s’ouvre comme une lettre d’amour, s’anime au fil du scroll et raconte votre histoire. Personnalisez-la en quelques minutes.</p><div class="hero-actions"><button class="landing-button" onclick="document.getElementById('themes').scrollIntoView({behavior:'smooth'})">Choisir un template &nbsp; ↗</button><button class="hero-secondary" onclick="openIdeaForm()" aria-haspopup="dialog">Personnaliser mon invitation ✦</button></div><span class="hero-note">✧ Invitations animées · Musique · Google Maps · dès 15 DT</span></div>
+ <div class="hm" id="heroMarquee" aria-label="Nos derniers modèles"><div class="hm-track" id="hmTrack"></div>
+  <button type="button" class="hm-phone" id="hmPhone" aria-label="Voir ce modèle"><span class="hm-island"></span><span class="hm-screen" id="hmScreen"></span></button></div>
 
  </div><div id="themes"><h1 class="catalog-title">Nos nouveautés</h1><p class="catalog-subtitle">Les derniers modèles arrivés chez Farha : découvrez leur mini-site animé, puis personnalisez-le.</p><div class="hc-carousel nv-carousel"><button type="button" class="hc-nav prev" aria-label="Nouveautés précédentes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg></button><div class="grid" id="catalog" aria-label="Nos nouveautés"></div><button type="button" class="hc-nav next" aria-label="Nouveautés suivantes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg></button></div><div class="catalog-more"><button type="button" class="landing-button catalog-more-btn" onclick="farhaOpenAllTemplates()">Voir tous les modèles →</button></div></div>
 <section class="hc" id="homeCollections" aria-labelledby="hcTitle"><div class="hc-head"><h2 id="hcTitle" class="catalog-title hc-title">Choisissez votre collection</h2><p class="catalog-subtitle">Parcourez chaque collection : les nouveaux modèles apparaissent en premier, à découvrir puis à personnaliser.</p><button type="button" class="hc-link" onclick="farhaOpenInspirations()">Toutes les collections <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div><div id="hcRows"></div></section>
@@ -882,13 +912,7 @@ let chosen=templates[0],lastDoc='';const $=id=>document.getElementById(id);
 // Prix par catégorie de modèle (en DT). Les catégories non listées gardent le prix par défaut.
 const FARHA_PRICES={'Mariage':40,'Fiançailles':30,'Anniversaire':20,'Tahara':20,'Diplôme':15,'Naissance':20,'Événement':20},FARHA_DEFAULT_PRICE=50;
 function farhaPrice(t){return FARHA_PRICES[t&&t.category]??FARHA_DEFAULT_PRICE}
-// Aperçus (démo, personnalisation, livraison) : déchargés dès qu'on quitte leur page, pour que leur musique s'arrête.
-const FARHA_VIEW_FRAMES={detail:'detailFrame',custom:'customFrame',complete:'deliveryFrame'};
-function show(id){if(typeof chosen!=='undefined')farhaApplyPrice();document.querySelectorAll('.view').forEach(e=>e.classList.toggle('active',e.id===id));
- Object.entries(FARHA_VIEW_FRAMES).forEach(([v,f])=>{const x=document.getElementById(f);if(v!==id&&x&&x.hasAttribute('srcdoc')){x.removeAttribute('srcdoc');if(v==='custom'&&typeof farhaLive!=='undefined')farhaLive.playing=farhaLive.blocked=false}});
- // Retour au formulaire (« Modifier l'invitation ») : l'aperçu est reconstruit avec les données actuelles.
- if(id==='custom')setTimeout(()=>{const x=document.getElementById('customFrame');if(x&&!x.hasAttribute('srcdoc')&&typeof chosen!=='undefined'&&chosen)refreshCustom()},0);
- window.scrollTo(0,0)}
+function show(id){if(typeof chosen!=='undefined')farhaApplyPrice();document.querySelectorAll('.view').forEach(e=>e.classList.toggle('active',e.id===id));window.scrollTo(0,0)}
 function fmt(d){if(!d)return 'Date à confirmer';let v=new Date(d+'T12:00:00');return Number.isNaN(v.getTime())?'Date à confirmer':v.toLocaleDateString('fr-TN',{day:'numeric',month:'long',year:'numeric'})}
 function escapeScript(s){return s.replace(/<\/script/gi,'<\\/script')}
 function openDetail(id){chosen=templates.find(t=>t.id===id)||templates[0];$('detailTitle').textContent=chosen.name;show('detail');resetPreview()}
@@ -975,9 +999,8 @@ function farhaDeliver(){
  $('deliveryLink').value=farhaInviteLink();$('deliveryToast').textContent='';show('complete')
 }
 // Lien d'invitation : le site Netlify relit le modèle et les informations depuis l'adresse (#i=...) et affiche l'invitation.
-// Le lien ouvre le site qui l'a créé (production, ou aperçu test-admin) ; en local, le site de production.
-const FARHA_SITE=location.protocol==='https:'?location.origin+'/':'https://farha-bay.vercel.app/';
-function farhaInviteLink(){const d=readData();delete d.photos;if(d.musicType==='file'){const k=window.farhaDemoIndex?window.farhaDemoIndex():-1;d.music=k>=0?String(k):'';d.musicType=k>=0?'demo':''}const bytes=new TextEncoder().encode(JSON.stringify({t:chosen.id,d}));let bin='';bytes.forEach(b=>bin+=String.fromCharCode(b));return FARHA_SITE+'#i='+btoa(bin).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'')}
+const FARHA_SITE='https://farha-bay.vercel.app/';
+function farhaInviteLink(){const d=readData();delete d.photos;if(d.musicType==='file'){d.music='';d.musicType=''}const bytes=new TextEncoder().encode(JSON.stringify({t:chosen.id,d}));let bin='';bytes.forEach(b=>bin+=String.fromCharCode(b));return FARHA_SITE+'#i='+btoa(bin).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'')}
 function farhaReadInvite(){const m=location.hash.match(/^#i=([A-Za-z0-9_-]+)/);if(!m)return null;try{const bin=atob(m[1].replace(/-/g,'+').replace(/_/g,'/'));const o=JSON.parse(new TextDecoder().decode(Uint8Array.from(bin,c=>c.charCodeAt(0))));const t=templates.find(x=>x.id===o.t);return t&&o.d?{t,d:o.d}:null}catch(e){return null}}
 function farhaToast(t){$('deliveryToast').textContent=t}
 function farhaCopy(text){if(navigator.clipboard&&window.isSecureContext)return navigator.clipboard.writeText(text);const i=$('deliveryLink');i.select();try{document.execCommand('copy')}catch(e){}return Promise.resolve()}
@@ -1140,12 +1163,6 @@ function farhaYoutubeId(u){
 }
 function farhaMapUrl(d){return farhaHttpsUrl(d.map)?d.map:'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(d.place)}
 function farhaSplitPlace(place){const parts=place.split(',').map(s=>s.trim()).filter(Boolean);return {name:parts[0]||place,addr:parts.length>1?parts.slice(1).join(', '):place}}
-// Mélodies de démonstration FARHA (0 à 19), générées dans le navigateur : bibliothèque et liens d'invitation.
-function farhaDemoWav(index){const note=[0,2,4,7,9,7,4,2],rate=11025,secs=5,frames=rate*secs,buffer=new ArrayBuffer(44+frames*2),dv=new DataView(buffer);function str(off,t){for(let j=0;j<t.length;j++)dv.setUint8(off+j,t.charCodeAt(j))}str(0,'RIFF');dv.setUint32(4,36+frames*2,true);str(8,'WAVE');str(12,'fmt ');dv.setUint32(16,16,true);dv.setUint16(20,1,true);dv.setUint16(22,1,true);dv.setUint32(24,rate,true);dv.setUint32(28,rate*2,true);dv.setUint16(32,2,true);dv.setUint16(34,16,true);str(36,'data');dv.setUint32(40,frames*2,true);
-const root=440*Math.pow(2,(index%6)/12),speed=2.1+(index%4)*.23; // une octave plus haut : audible sur les haut-parleurs de téléphone
-for(let i=0;i<frames;i++){const t=i/rate,step=Math.floor(t*speed),n=note[(step+index)%8]+(index%3)*2,f=root*Math.pow(2,n/12),phase=t*f*6.2831853,env=Math.pow(1-(t*speed%1),1.3),fade=Math.min(1,t*6,(secs-t)*3);const v=(Math.sin(phase)+.26*Math.sin(phase*2)+.14*Math.sin(phase*.5))*env*fade*.62;dv.setInt16(44+i*2,Math.max(-32767,Math.min(32767,v*32767)),true)}return new Blob([buffer],{type:'audio/wav'})}
-const farhaDemoUrls={};
-function farhaDemoUrl(k){return farhaDemoUrls[k]||(farhaDemoUrls[k]=URL.createObjectURL(farhaDemoWav(k)))}
 function farhaClean(d,t){
  d=d||{};const def=farhaDefaults(t);
  const s=(v,max)=>String(v==null?'':v).replace(/[\u0000-\u0009\u000b-\u001f\u007f]/g,' ').trim().slice(0,max);
@@ -1155,8 +1172,7 @@ function farhaClean(d,t){
   place:s(d.place,150)||def.place,message:s(d.message,500)};
  out.map=farhaHttpsUrl(d.map)?String(d.map).trim():'';
  // Musique : fichier importé (blob, aperçu de la session), lien YouTube ou lien audio https.
- let type=['file','url','youtube','demo'].includes(d.musicType)?d.musicType:'',src=String(d.music||'').trim();
- if(type==='demo'){const k=/^\d{1,2}$/.test(src)?Number(src):-1;type='file';src=k>=0&&k<20?farhaDemoUrl(k):''} // mélodie FARHA d'un lien d'invitation
+ let type=['file','url','youtube'].includes(d.musicType)?d.musicType:'',src=String(d.music||'').trim();
  if(!type&&src)type=farhaYoutubeId(src)?'youtube':farhaHttpsUrl(src)?'url':''; // anciens liens d'invitation
  if(type==='youtube')src=farhaYoutubeId(src);
  else if(type==='file')src=/^blob:/.test(src)?src:'';
@@ -1222,8 +1238,9 @@ function buildDoc(t,data,token){
  }else if(key==='huntrixConcert'){
   html=FARHA_HUNTRIX_CONCERT_ORIGINAL.replace(/\nvar CFG=\{[\s\S]*?\]\]\};/,m=>m+'\nObject.assign(CFG,'+farhaJSON(text)+');window.__farhaCFG=CFG;');
   html=farhaReplace(html,'var d=new Date(CFG.date+CFG.tz)','var d=window.__farhaDate=new Date(CFG.date+CFG.tz)');
-  // Plus de « Joyeux anniversaire » synthétisé : le bouton Play lance uniquement la musique choisie par le client.
-  html=farhaReplace(html,'function startMusic(){if(started)return;','function startMusic(){if(window.__farhaOwnMusic)window.__farhaOwnMusic();return;');
+  // La musique synthétisée du modèle laisse la place à la musique du client lorsqu'il en a choisi une.
+  html=farhaReplace(html,'function startMusic(){if(started)return;','function startMusic(){if(window.__farhaOwnMusic&&window.__farhaOwnMusic())return;if(started)return;');
+  html=farhaReplace(html,'mg.connect(AC.destination);song();','mg.connect(AC.destination);window.__farhaSynthMute=function(m){mg.gain.setTargetAtTime(m?0:.5,AC.currentTime,.05)};song();');
  }else if(key==='huntrix'){
   html=FARHA_HUNTRIX_ORIGINAL.replace(/var PARTY=new Date\([^)]*\);/,()=>'var PARTY=new Date('+farhaJSON(iso)+');');
  }else if(key==='superhero'){
@@ -1398,8 +1415,10 @@ function farhaBridge(cfg){
    claim:function(){try{Function('if(typeof AC!=="undefined"&&AC&&master){master.gain.setTargetAtTime(0,AC.currentTime,.15);playing=false}started=true')()}catch(e){}},
    release:function(){try{Function('if(!AC)started=false')()}catch(e){}}},
   diplome:{btn:'#music',own:true,ui:function(b,on){var f=G('setMusicUI');if(f)f(on)}},
-  huntrixConcert:{btn:'#snd',show:function(b,on){b.hidden=!on},
-   ui:function(b,on){b.textContent=on?'🔊':'🔇';b.classList.toggle('off',!on);b.setAttribute('aria-pressed',String(!on))}}
+  huntrixConcert:{btn:'#snd',show:function(b,on){if(on)b.hidden=false;else if(!window.__farhaSynthMute)b.hidden=true},
+   ui:function(b,on){b.textContent=on?'🔊':'🔇';b.classList.toggle('off',!on);b.setAttribute('aria-pressed',String(!on))},
+   claim:function(){if(window.__farhaSynthMute)window.__farhaSynthMute(true)},
+   release:function(b){if(window.__farhaSynthMute){window.__farhaSynthMute(false);if(b){b.textContent='🔊';b.classList.remove('off');b.setAttribute('aria-pressed','false')}}}}
  };
  AD.editorial=AD.royal;
  var A=AD[key]||{};
@@ -1421,9 +1440,9 @@ function farhaBridge(cfg){
  function arm(){
   if(M.armed)return;M.armed=true;
   var go=function(e){var b=button();if(b&&b.contains(e.target))return;
-   ['click','keydown','touchend'].forEach(function(t){window.removeEventListener(t,go,true)});M.armed=false;
+   ['pointerdown','keydown','touchend'].forEach(function(t){window.removeEventListener(t,go,true)});M.armed=false;
    if(M.type&&!M.playing&&M.want!==false)play()};
-  ['click','keydown','touchend'].forEach(function(t){window.addEventListener(t,go,true)});
+  ['pointerdown','keydown','touchend'].forEach(function(t){window.addEventListener(t,go,true)});
  }
  function ytCmd(fn){if(M.ytFrame&&M.ytReady)M.ytFrame.contentWindow.postMessage(JSON.stringify({event:'command',func:fn,args:[]}),'*')}
  function ytPlay(){ytCmd('playVideo');clearTimeout(M.ytT);M.ytT=setTimeout(function(){if(M.yt&&M.want&&M.ytState!==1&&M.ytState!==3)blocked()},3500)}
@@ -1685,7 +1704,9 @@ renderCatalog();
 const names=[['Rêve de jasmin','Romantique'],['Promesse au clair de lune','Romantique'],['Éclat de tendresse','Romantique'],['Premier regard','Romantique'],['Danse des amoureux','Mariage'],['Notre grand jour','Mariage'],['Valse des fleurs','Mariage'],['Éternelle union','Mariage'],['Bougies et sourires','Anniversaire'],['Jour de fête','Anniversaire'],['Confettis dorés','Anniversaire'],['Un an de plus','Anniversaire'],['Soleil de Carthage','Oriental'],['Brise de Sidi Bou Saïd','Oriental'],['Nuit de jasmin','Oriental'],['Étoiles du désert','Oriental'],['Piano du matin','Instrumental'],['Nuages légers','Instrumental'],['Douce lavande','Instrumental'],['Lumière du lac','Instrumental']];
 const host=document.getElementById('farhaLibrary'),choice=document.getElementById('musicChoice');if(!host||!choice)return;
 const note=[0,2,4,7,9,7,4,2],scale=[0,2,3,5,7,8,10];
-const wav=farhaDemoWav;
+function wav(index){const rate=11025,secs=5,frames=rate*secs,buffer=new ArrayBuffer(44+frames*2),dv=new DataView(buffer);function str(off,t){for(let j=0;j<t.length;j++)dv.setUint8(off+j,t.charCodeAt(j))}str(0,'RIFF');dv.setUint32(4,36+frames*2,true);str(8,'WAVE');str(12,'fmt ');dv.setUint32(16,16,true);dv.setUint16(20,1,true);dv.setUint16(22,1,true);dv.setUint32(24,rate,true);dv.setUint32(28,rate*2,true);dv.setUint16(32,2,true);dv.setUint16(34,16,true);str(36,'data');dv.setUint32(40,frames*2,true);
+const root=220*Math.pow(2,(index%6)/12),speed=2.1+(index%4)*.23;
+for(let i=0;i<frames;i++){const t=i/rate,step=Math.floor(t*speed),n=note[(step+index)%8]+(index%3)*2,f=root*Math.pow(2,n/12),phase=t*f*6.2831853,env=Math.pow(1-(t*speed%1),1.3),fade=Math.min(1,t*6,(secs-t)*3);const v=(Math.sin(phase)+.26*Math.sin(phase*2)+.14*Math.sin(phase*.5))*env*fade*.20;dv.setInt16(44+i*2,Math.max(-32767,Math.min(32767,v*32767)),true)}return new Blob([buffer],{type:'audio/wav'})}
 // Bibliothèque : les 20 démos intégrées, remplacées par les musiques actives du back-office dès qu'elles sont lues (farhaSetMusicLibrary).
 let tracks=names.map(([n,c],i)=>({n,c,kind:'demo',demo:i}));
 let filter='Pour vous',playing=-1,audio=null,previewUrl=null,selectedUrl=null,chosen=-1;
@@ -1705,7 +1726,6 @@ function listen(i){if(playing===i){stop();render();return}stop();const t=tracks[
 function render(){const tabs=el('fmTabs'),list=el('fmTracks'),q=el('fmSearch').value.toLocaleLowerCase(),filters=['Pour vous',...allFilters.filter(f=>tracks.some(t=>t.c===f))];if(!filters.includes(filter))filter='Pour vous';tabs.replaceChildren();filters.forEach(f=>{const b=document.createElement('button');b.type='button';b.textContent=f;b.className=filter===f?'active':'';b.onclick=()=>{filter=f;render()};tabs.append(b)});list.replaceChildren();const rows=[{n:'Sans musique',c:'Aucune'},...tracks];rows.forEach((t,j)=>{const i=j-1;if(filter!=='Pour vous'&&t.c!==filter)return;if(q&&!(t.n+' '+t.c).toLocaleLowerCase().includes(q))return;const row=document.createElement('div');row.className='farha-music-row';const pick=document.createElement('button');pick.type='button';pick.className='farha-music-pick';const strong=document.createElement('strong');strong.textContent=t.n+(chosen===i?' ✓':'');const small=document.createElement('small');small.textContent=i<0?'Aucun supplément':t.c+(t.kind==='demo'?' · Extrait de démonstration':t.kind==='youtube'?' · YouTube, écoute dans l’aperçu':'');pick.append(strong,small);pick.onclick=()=>select(i);row.append(pick);if(i>=0&&t.kind!=='youtube'){const play=document.createElement('button');play.type='button';play.className='farha-music-play';play.textContent=playing===i?'Ⅱ':'▶';play.setAttribute('aria-label','Écouter '+t.n);play.onclick=()=>listen(i);row.append(play)}list.append(row)})}
 el('fmTrigger').onclick=()=>{const open=el('fmPanel').hidden;el('fmPanel').hidden=!open;el('fmTrigger').setAttribute('aria-expanded',String(open));if(open){render();el('fmSearch').focus()}};el('fmSearch').oninput=render;render();
 $('musicRemove').addEventListener('click',()=>{stop();chosen=-1;el('fmSelected').textContent='Sans musique';render()});
-window.farhaDemoIndex=function(){const t=tracks[chosen];return t&&t.kind==='demo'&&selectedUrl&&farhaState.music.fileUrl===selectedUrl?t.demo:-1};
 window.farhaSetMusicLibrary=function(list){
  const cur=tracks[chosen];
  tracks=list;stop();options();
@@ -2156,6 +2176,63 @@ sendBespoke=function(e){
  addEventListener('resize',place);addEventListener('scroll',place,true);
  document.addEventListener('reset',function(e){setTimeout(function(){e.target.querySelectorAll('input[type="date"]').forEach(function(el){if(el.__fdp)el.__fdp.value=label(desc.get.call(el))})})},true);
  var q=0;scan();new MutationObserver(function(){if(!q)q=requestAnimationFrame(function(){q=0;scan()})}).observe(document.body,{childList:true,subtree:true});
+})();
+</script>
+<script>
+// FARHA-HERO-MARQUEE : ligne de nos derniers modèles qui défile derrière le téléphone du hero.
+(function(){
+ var box=document.getElementById('heroMarquee');if(!box)return;
+ var track=document.getElementById('hmTrack'),phone=document.getElementById('hmPhone'),screen=document.getElementById('hmScreen');
+ var bigs={},items=[],x=0,last=0,raf=0,cur=null,hover=false,still=matchMedia('(prefers-reduced-motion:reduce)').matches,SPEED=38,GAP=26,MAX=8;
+ function newest(){
+  if(typeof templates==='undefined')return[];
+  var order=new Map(templates.map(function(t,i){return[t,i]}));
+  return templates.slice().sort(function(a,b){return(b.createdAt||'').localeCompare(a.createdAt||'')||order.get(b)-order.get(a)}).slice(0,MAX);
+ }
+ function markup(t){return(typeof previewMarkup!=='undefined'&&(previewMarkup[t.id]||previewMarkup.royal))||''}
+ function dims(){var cs=getComputedStyle(box);return{iw:parseFloat(cs.getPropertyValue('--iw')),ih:parseFloat(cs.getPropertyValue('--ih')),pw:parseFloat(cs.getPropertyValue('--pw')),ph:parseFloat(cs.getPropertyValue('--ph'))}}
+ function build(){
+  var list=newest();if(!list.length)return;
+  track.replaceChildren();screen.replaceChildren();bigs={};items=[];cur=null;
+  var d=dims(),step=d.iw+GAP,need=Math.ceil((innerWidth+step*2)/step),copies=Math.max(1,Math.ceil(need/list.length));
+  for(var c=0;c<copies;c++)list.forEach(function(t){
+   var b=document.createElement('button');b.type='button';b.className='hm-item';b.setAttribute('aria-label',t.name);
+   var shot=document.createElement('div');shot.className='hm-shot';shot.innerHTML=markup(t);shot.style.transform='scale('+(d.iw/360)+','+(d.ih/760)+')';
+   b.appendChild(shot);b.addEventListener('click',function(){open(t)});track.appendChild(b);items.push({el:b,t:t});
+  });
+  x=0;draw(0);if(!raf&&!still)raf=requestAnimationFrame(loop);
+ }
+ function open(t){if(typeof openDetail==='function')openDetail(t)}
+ function show(t){
+  if(cur===t)return;cur=t;var d=dims(),sw=d.pw-(innerWidth<=700?16:20),sh=d.ph-(innerWidth<=700?16:20);
+  // chaque modèle n'est chargé qu'une fois dans le téléphone, puis simplement réaffiché
+  screen.querySelectorAll('.hm-big:not([hidden])').forEach(function(o){o.classList.add('out');clearTimeout(o.__t);o.__t=setTimeout(function(){o.hidden=true;o.classList.remove('out')},450)});
+  var big=bigs[t.id];if(!big){big=bigs[t.id]=document.createElement('div');big.className='hm-big';big.innerHTML=markup(t);screen.appendChild(big)}
+  var to='scale('+(sw/360)+','+(sh/760)+')',from='translate('+(sw*.3)+'px,'+(sh*.3)+'px) scale('+(sw*.4/360)+','+(sh*.4/760)+')';
+  big.style.setProperty('--hm-to',to);big.style.setProperty('--hm-from',from);big.style.transform=to;
+  clearTimeout(big.__t);big.classList.remove('out');big.hidden=false;big.style.animation='none';big.offsetWidth;big.style.animation='';screen.appendChild(big);phone.setAttribute('aria-label','Voir le modèle '+t.name);
+ }
+ function draw(dt){
+  var d=dims(),step=d.iw+GAP,total=step*items.length,mid=box.clientWidth/2,best=null,bd=1e9;
+  if(!hover&&!still)x+=SPEED*dt; // défile vers la gauchex=((x%total)+total)%total;
+  items.forEach(function(it,i){
+   var px=((i*step-x)%total+total)%total-step; // position de gauche, boucle continue
+   var cx=px+d.iw/2,dist=Math.abs(cx-mid),near=Math.max(0,1-dist/(d.pw*1.25));
+   var s=1+.32*near*near; // grandit en approchant du téléphone
+   it.el.style.transform='translate('+(px)+'px,0) scale('+s.toFixed(3)+')';
+   it.el.style.zIndex=Math.round(near*10);
+   if(dist<bd){bd=dist;best=it}
+  });
+  if(best)show(best.t);
+ }
+ function loop(t){var dt=last?Math.min(.05,(t-last)/1000):0;last=t;draw(dt);raf=requestAnimationFrame(loop)}
+ document.addEventListener('visibilitychange',function(){last=0});
+ box.addEventListener('mouseenter',function(){hover=true});box.addEventListener('mouseleave',function(){hover=false});
+ box.addEventListener('focusin',function(){hover=true});box.addEventListener('focusout',function(){hover=false});
+ phone.addEventListener('click',function(){if(cur)open(cur)});
+ var rt=0,lw=innerWidth;addEventListener('resize',function(){if(innerWidth===lw)return;lw=innerWidth;clearTimeout(rt);rt=setTimeout(build,200)});
+ if(typeof renderCatalog==='function'){var before=renderCatalog;renderCatalog=function(){before.apply(this,arguments);build()}}
+ build();
 })();
 </script>
 </body></html>
