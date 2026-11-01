@@ -563,9 +563,9 @@ label.farha-pick:hover{background:#e0cbbf}
 </style><style id="farha-home-collections">
 /* Accueil : trois collections en rangées, chacune avec un carrousel de ses modèles. */
 .hc{padding:84px 0 30px}
-.hc-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;padding-bottom:30px;border-bottom:1px solid #e3d3c4}
-.hc-head h2{font:700 clamp(38px,5.4vw,72px)/1 'DM Sans',sans-serif;letter-spacing:-.035em;color:#3b2228;margin:0 0 16px}
-.hc-head p{font:16px/1.6 'DM Sans',sans-serif;color:#7b6a66;margin:0;max-width:560px}
+.hc-head{text-align:center;padding-bottom:34px;border-bottom:1px solid #e3d3c4}
+.hc-head .catalog-subtitle{margin-bottom:22px}
+.hc-title:before{content:'NOS COLLECTIONS'}
 .hc-link{flex:none;display:inline-flex;align-items:center;gap:10px;border:0;background:none;padding:6px 0;cursor:pointer;font:700 15px 'DM Sans',sans-serif;color:#3b2228}
 .hc-link svg{width:17px;height:17px;transition:transform .2s}.hc-link:hover svg{transform:translateX(4px)}
 .hc-row{display:grid;grid-template-columns:minmax(230px,330px) minmax(0,1fr);gap:clamp(24px,5vw,90px);padding:38px 0;border-bottom:1px solid #e3d3c4}
@@ -605,7 +605,6 @@ label.farha-pick:hover{background:#e0cbbf}
 .hc-nav:focus-visible,.hc-go:focus-visible,.hc-top:focus-visible,.hc-all:focus-visible,.hc-link:focus-visible{outline:3px solid #b48a43;outline-offset:3px}
 @media(max-width:900px){
  .hc{padding:60px 0 20px}
- .hc-head{flex-direction:column;align-items:flex-start;gap:14px}
  .hc-row{grid-template-columns:1fr;gap:22px;padding:28px 0}
  .hc-name b{font-size:25px}.hc-thumb{width:64px;height:64px;border-radius:16px}
  .hc-tag{margin-top:14px}.hc-all{margin-top:14px}
@@ -675,7 +674,7 @@ label.farha-pick:hover{background:#e0cbbf}
  <div class="fh-art" role="img" aria-label="Invitation de mariage Amira &amp; Youssef sur un téléphone, sous une arche dorée, avec des alliances et des fleurs"></div>
 </div>
 <div id="themes"><h1 class="catalog-title">Nos nouveautés</h1><p class="catalog-subtitle">Les derniers modèles arrivés chez Farha : découvrez leur mini-site animé, puis personnalisez-le.</p><div class="hc-carousel nv-carousel"><button type="button" class="hc-nav prev" aria-label="Nouveautés précédentes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg></button><div class="grid" id="catalog" aria-label="Nos nouveautés"></div><button type="button" class="hc-nav next" aria-label="Nouveautés suivantes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg></button></div><div class="catalog-more"><button type="button" class="landing-button catalog-more-btn" onclick="farhaOpenAllTemplates()">Voir tous les modèles →</button></div></div>
-<section class="hc" id="homeCollections" aria-labelledby="hcTitle"><div class="hc-head"><div><h2 id="hcTitle">Choisissez votre collection</h2><p>Parcourez chaque collection : les nouveaux modèles apparaissent en premier, à découvrir puis à personnaliser.</p></div><button type="button" class="hc-link" onclick="farhaOpenInspirations()">Toutes les collections <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div><div id="hcRows"></div></section>
+<section class="hc" id="homeCollections" aria-labelledby="hcTitle"><div class="hc-head"><h2 id="hcTitle" class="catalog-title hc-title">Choisissez votre collection</h2><p class="catalog-subtitle">Parcourez chaque collection : les nouveaux modèles apparaissent en premier, à découvrir puis à personnaliser.</p><button type="button" class="hc-link" onclick="farhaOpenInspirations()">Toutes les collections <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div><div id="hcRows"></div></section>
 <section class="farha-reviews" id="avis" aria-labelledby="reviewsTitle" hidden><span class="landing-eyebrow">ILS ONT CHOISI FARHA</span><h2 class="landing-heading" id="reviewsTitle">Ce que disent nos clients</h2>
 <div class="reviews-track" id="reviewsTrack" tabindex="0" aria-label="Avis clients, faites défiler horizontalement">
 </div><div class="reviews-dots" id="reviewsDots" role="group" aria-label="Choisir un avis"></div></section>
