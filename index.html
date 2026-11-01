@@ -654,7 +654,75 @@ label.farha-pick:hover{background:#e0cbbf}
 .col-all button:hover{background:rgba(85,29,48,.06)}
 @media (max-width:600px){.col-grid{gap:20px}.col-body{padding:22px 22px 24px}.col-btn{min-height:52px;font-size:15px}}
 </style>
-</head><body><header class="farha-header"><a class="farha-logo" href="#home" onclick="goSection('home');return false">فرحة ✦</a><nav class="farha-nav" aria-label="Navigation principale"><a href="#home" onclick="goSection('home');return false">Accueil</a><a href="#themes" onclick="farhaOpenInspirations();return false">Thèmes</a><a href="#how-it-works" onclick="goSection('how-it-works');return false">L'Exception</a><a href="#packages" onclick="goSection('packages');return false">Tarifs</a><a href="#contact" onclick="goSection('contact');return false">Contact</a></nav></header><main>
+</head><body><style id="farha-portal">
+/* Ouverture au scroll : un voile bordeaux percé d'un anneau doré qui s'agrandit et laisse voir le site. */
+.fp{position:fixed;inset:0;z-index:9999;pointer-events:auto;overflow:hidden;--r:0px;touch-action:none}
+.fp-veil{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 45%,#6e2238 0%,#4d1426 48%,#2f0b16 100%);
+ -webkit-mask:radial-gradient(circle at 50% 50%,transparent var(--r),#000 calc(var(--r) + 1px));mask:radial-gradient(circle at 50% 50%,transparent var(--r),#000 calc(var(--r) + 1px))}
+.fp-veil:after{content:'';position:absolute;inset:0;opacity:.07;background:repeating-linear-gradient(45deg,#e8cf9b 0 1px,transparent 1px 22px),repeating-linear-gradient(-45deg,#e8cf9b 0 1px,transparent 1px 22px)}
+.fp-ring{position:absolute;left:50%;top:50%;width:calc(var(--r) * 2);height:calc(var(--r) * 2);transform:translate(-50%,-50%);border-radius:50%;pointer-events:none;
+ border:2px solid #e8cf9b;box-shadow:0 0 0 7px rgba(232,207,155,.16),0 0 40px rgba(232,207,155,.35),inset 0 0 40px rgba(46,8,20,.45)}
+.fp-ring:before{content:'✦';position:absolute;left:50%;top:-13px;transform:translateX(-50%);color:#e8cf9b;font-size:20px;line-height:1;text-shadow:0 0 12px rgba(232,207,155,.7)}
+.fp-top,.fp-bottom{position:absolute;left:0;right:0;text-align:center;color:#f3e3c4;pointer-events:none;transition:opacity .2s}
+.fp-top{top:calc(50% - var(--r0) - 150px)}
+.fp-logo{display:block;font:700 54px/1 'Amiri','Cormorant Garamond',serif;color:#e8cf9b;text-shadow:0 2px 20px rgba(0,0,0,.25)}
+.fp-tag{display:block;margin-top:14px;font:600 11px 'DM Sans',sans-serif;letter-spacing:.32em;text-transform:uppercase;color:#d9b98a}
+.fp-bottom{top:calc(50% + var(--r0) + 40px)}
+.fp-title{display:block;font:700 clamp(30px,4.2vw,52px)/1.05 'DM Sans',sans-serif;letter-spacing:-.03em;color:#fff4e3}
+.fp-title em{font:italic 400 1.12em/1 'Cormorant Garamond',serif;color:#e8cf9b}
+.fp-hint{display:inline-flex;flex-direction:column;align-items:center;gap:10px;margin-top:22px;font:600 10px 'DM Sans',sans-serif;letter-spacing:.3em;text-transform:uppercase;color:#d9b98a}
+.fp-hint i{width:22px;height:34px;border:1.5px solid #d9b98a;border-radius:12px;position:relative}
+.fp-hint i:after{content:'';position:absolute;left:50%;top:7px;width:3px;height:7px;margin-left:-1.5px;border-radius:2px;background:#e8cf9b;animation:fpWheel 1.6s ease-in-out infinite}
+.fp-hint.touch i{width:2px;height:30px;border:0;border-radius:2px;background:linear-gradient(transparent,#d9b98a)}
+.fp-hint.touch i:after{top:-2px;width:9px;height:9px;margin-left:-4.5px;border-radius:50%;animation:fpSwipe 1.6s ease-in-out infinite}
+@keyframes fpSwipe{0%{transform:translateY(26px);opacity:0}30%{opacity:1}100%{transform:translateY(0);opacity:0}}
+@keyframes fpWheel{0%{transform:translateY(0);opacity:1}70%{transform:translateY(10px);opacity:0}100%{opacity:0}}
+.fp-skip{position:absolute;top:18px;right:18px;z-index:2;border:0;background:none;color:rgba(240,214,170,.75);font:500 10px 'DM Sans',sans-serif;letter-spacing:.3em;text-transform:uppercase;cursor:pointer;padding:10px}
+.fp-skip:hover{color:#f3dcae}
+.fp-skip:focus-visible{outline:2px solid #e8cf9b;outline-offset:2px}
+html.fp-lock,html.fp-lock body{overflow:hidden}
+html.fp-lock main,html.fp-lock .farha-header{transform:scale(var(--fp-zoom,1.12));transform-origin:50% 45vh}
+@media(max-width:600px){.fp-logo{font-size:44px}.fp-top{top:calc(50% - var(--r0) - 128px)}.fp-bottom{padding:0 22px}}
+@media(prefers-reduced-motion:reduce){.fp-hint i:after,.fp-hint.touch i:after{animation:none}}
+</style>
+<div class="fp" id="farhaPortal" role="dialog" aria-label="Bienvenue chez Farha : faites défiler pour entrer"><div class="fp-veil"></div><div class="fp-ring"></div>
+<div class="fp-top"><span class="fp-logo">فرحة ✦</span><span class="fp-tag">Invitations digitales</span></div>
+<div class="fp-bottom"><span class="fp-title">Votre fête commence <em>ici.</em></span><span class="fp-hint"><i></i>Faites défiler pour entrer</span></div>
+<button type="button" class="fp-skip">Passer</button></div>
+<script>
+// FARHA-PORTAL : la molette, le doigt ou les flèches agrandissent l'anneau ; au-delà de la moitié, l'ouverture se termine seule.
+(function(){
+ var fp=document.getElementById('farhaPortal');if(!fp)return;
+ var root=document.documentElement;
+ if(/[#&]i=/.test(location.hash)||matchMedia('(prefers-reduced-motion:reduce)').matches){fp.remove();return}
+ if('scrollRestoration' in history)history.scrollRestoration='manual';scrollTo(0,0);root.classList.add('fp-lock');
+ var p=0,shown=0,raf=0,auto=false,done=false,idle=0,ty=null,top=fp.querySelector('.fp-top'),bottom=fp.querySelector('.fp-bottom');
+ if(matchMedia('(pointer:coarse)').matches){var h=fp.querySelector('.fp-hint');h.classList.add('touch');h.lastChild.textContent='Glissez vers le haut pour entrer'}
+ function r0(){return Math.min(innerWidth,innerHeight)*(innerWidth<600?.24:.17)}
+ function draw(){
+  var e=1-Math.pow(1-shown,3),a=r0(),max=Math.hypot(innerWidth,innerHeight)/2+40,r=a+(max-a)*e;
+  fp.style.setProperty('--r0',a+'px');fp.style.setProperty('--r',r+'px');
+  root.style.setProperty('--fp-zoom',(1.12-.12*e).toFixed(4));
+  var t=Math.max(0,1-shown*3.2);top.style.opacity=bottom.style.opacity=t;
+  top.style.transform='translateY('+(-60*shown)+'px)';bottom.style.transform='translateY('+(60*shown)+'px)';
+  fp.querySelector('.fp-ring').style.opacity=Math.max(0,1-Math.max(0,shown-.55)/.4);
+ }
+ function tick(){shown+=(p-shown)*(auto?.08:.16);if(Math.abs(p-shown)<.001)shown=p;draw();
+  if(shown>=.999&&p>=1)return finish();raf=shown!==p?requestAnimationFrame(tick):0}
+ function go(v){if(done)return;p=Math.max(0,Math.min(1,v));if(!raf)raf=requestAnimationFrame(tick);clearTimeout(idle);
+  if(p>=.5){auto=true;p=1}else idle=setTimeout(function(){if(p>.12){auto=true;p=1;if(!raf)raf=requestAnimationFrame(tick)}},700)}
+ function finish(){if(done)return;done=true;cancelAnimationFrame(raf);clearTimeout(idle);root.classList.remove('fp-lock');root.style.removeProperty('--fp-zoom');
+  removeEventListener('wheel',onWheel);removeEventListener('keydown',onKey);removeEventListener('resize',draw);fp.remove()}
+ function onWheel(e){e.preventDefault();go(p+Math.max(-120,Math.min(120,e.deltaY))/(innerHeight*.9))}
+ function onKey(e){if(['ArrowDown','PageDown',' ','Enter'].indexOf(e.key)>-1){e.preventDefault();go(p+.5)}else if(e.key==='Escape'){auto=true;go(1)}}
+ addEventListener('wheel',onWheel,{passive:false});addEventListener('keydown',onKey);addEventListener('resize',draw);
+ fp.addEventListener('touchstart',function(e){ty=e.touches[0].clientY},{passive:true});
+ fp.addEventListener('touchmove',function(e){e.preventDefault();if(ty==null)return;var y=e.touches[0].clientY;go(p+(ty-y)/(innerHeight*.7));ty=y},{passive:false});
+ fp.addEventListener('click',function(e){auto=true;go(1)});
+ draw();
+})();
+</script>
+<header class="farha-header"><a class="farha-logo" href="#home" onclick="goSection('home');return false">فرحة ✦</a><nav class="farha-nav" aria-label="Navigation principale"><a href="#home" onclick="goSection('home');return false">Accueil</a><a href="#themes" onclick="farhaOpenInspirations();return false">Thèmes</a><a href="#how-it-works" onclick="goSection('how-it-works');return false">L'Exception</a><a href="#packages" onclick="goSection('packages');return false">Tarifs</a><a href="#contact" onclick="goSection('contact');return false">Contact</a></nav></header><main>
 <section class="view active" id="home"><div class="fh-hero" aria-labelledby="fhTitle">
  <div class="fh-copy">
   <div class="fh-eyebrow">Farha · Invitations digitales</div>
