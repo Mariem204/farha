@@ -2032,7 +2032,7 @@ function farhaSendPaymentEmails(ref){
  const d=readData(),c=farhaClient||{},base=farhaPrice(chosen),sup=d.musicType?FARHA_MUSIC_PRICE:0,total=base+sup;
  const names=farhaOrderNames(d).replace(/^Invitation : /,''),link=farhaInviteLink();
  const music=d.musicType?(farhaState.music.fileName||d.music||'Oui'):'Sans musique';
- const order={model:chosen.name,names,date:fmt(d.date)+' · '+d.time,place:d.place,music,base,music_price:sup,total};
+ const order={model:chosen.name,names,date:fmt(d.date)+' · '+d.time,event_date:fmt(d.date),place:d.place,music,base,music_price:sup,total};
  // Secours : l'admin reçoit au moins la commande et le lien (FormSubmit ne peut pas écrire au client).
  const fallback=()=>fetch('https://formsubmit.co/ajax/'+FARHA_ADMIN_EMAIL,{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},
   body:JSON.stringify({_subject:'Farha · Nouvelle commande'+(ref?' '+ref:'')+' — '+names+' (RIB NON envoyé au client)',_template:'table',_captcha:'false',_replyto:c.email,
@@ -2046,8 +2046,8 @@ function farhaSendPaymentEmails(ref){
 }
 simulatePayment=function(){farhaAskClient(()=>{
  $('payStatus').textContent='';farhaPendingDelivery();
- // La référence de commande est ajoutée aux e-mails si le serveur répond vite ; sinon les e-mails partent sans elle.
- Promise.race([farhaRecordOrder('template',farhaInvitationPayload()),new Promise(r=>setTimeout(()=>r(null),4000))])
+ // Les e-mails attendent la référence du back-office (8 s au plus) ; sans réponse, ils partent avec « en attente ».
+ Promise.race([farhaRecordOrder('template',farhaInvitationPayload()),new Promise(r=>setTimeout(()=>r(null),8000))])
   .then(r=>farhaSendPaymentEmails(r&&r.reference));
 })};
 // Bouton « Terminé · test gratuit » : commande enregistrée à 0 DT, de type « test ».

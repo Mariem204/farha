@@ -13,6 +13,8 @@ const BANK = {
   banque: 'Banque de test',
   rib: '00 000 0000000000000 00 (RIB de test, ne pas utiliser)'
 };
+// NUMÉRO DE TEST : téléphone et WhatsApp de l'équipe, affichés en signature de l'e-mail client.
+const PHONE = '00 000 000';
 const MAX_PER_IP_10_MIN = 5; // limite anti-abus (par instance serveur)
 const recent = new Map();
 
@@ -84,7 +86,7 @@ module.exports = async function handler(req, res) {
   if (customer.name.length < 2) return res.status(400).json({ error: 'Nom manquant' });
   if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(customer.email)) return res.status(400).json({ error: 'E-mail invalide' });
   const order = {
-    reference: clean(body.reference, 40), model: clean(o.model, 120), names: clean(o.names, 160), date: clean(o.date, 80),
+    reference: clean(body.reference, 40), model: clean(o.model, 120), names: clean(o.names, 160), date: clean(o.date, 80), eventDate: clean(o.event_date, 60),
     place: clean(o.place, 200), music: clean(o.music, 120), base: money(o.base), musicPrice: money(o.music_price), total: money(o.total)
   };
   if (!order.model || order.total == null || order.base == null) return res.status(400).json({ error: 'Commande invalide' });
@@ -99,23 +101,27 @@ module.exports = async function handler(req, res) {
   if (list.length >= MAX_PER_IP_10_MIN) return res.status(429).json({ error: 'Trop de demandes, réessayez plus tard.' });
   list.push(now); recent.set(ip, list);
 
-  const motif = 'Farha ' + (order.reference || order.names || customer.name);
-  const price = order.base + ' DT' + (order.musicPrice ? ' + musique ' + order.musicPrice + ' DT' : '');
-  const recap = [['Modèle', order.model], ['Invitation', order.names], ['Date', order.date], ['Lieu', order.place],
-    ['Musique', order.music], ['Prix', price], ['Total à régler', order.total + ' DT']];
+  // Date et heure de la commande (heure de Tunis).
+  const placedAt = new Date().toLocaleString('fr-FR', { timeZone: 'Africa/Tunis', day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+  const ref = order.reference || 'en attente';
+  // Motif du virement : référence + nom du client + date de l'événement.
+  const motif = [order.reference || 'Farha', customer.name, order.eventDate].filter(Boolean).join(' · ');
+  const recap = [['Commande passée le', placedAt], ['Modèle', order.model], ['Invitation', order.names], ['Date de l’événement', order.date], ['Lieu', order.place],
+    ['Musique', order.music], ['Prix de l’invitation', order.base + ' DT'], ...(order.musicPrice ? [['Prix de la musique', order.musicPrice + ' DT']] : []),
+    ['Total à régler', order.total + ' DT']];
 
   // E-mail client : prix et virement.
   const cTitle = 'Votre invitation est prête ✦';
   const cIntro = ['Bonjour ' + customer.name + ',', 'Merci pour votre commande sur Farha ! Voici le récapitulatif et les informations pour le règlement.'];
-  const cRows = [...(order.reference ? [['Référence', order.reference]] : []), ...recap,
+  const cRows = [['Référence de la commande', ref], ...recap,
     ['Titulaire du compte', BANK.titulaire], ['Banque', BANK.banque], ['RIB', BANK.rib], ['Motif du virement', motif]];
   const cOutro = ['Pour confirmer votre commande, effectuez un virement de ' + order.total + ' DT avec le motif ci-dessus.',
     'Dès réception du virement, l’équipe Farha vous envoie le lien de votre invitation, prêt à partager avec vos invités.',
-    'Une question ? Répondez simplement à cet e-mail.', 'L’équipe Farha ✦'];
+    'Une question ? Répondez simplement à cet e-mail.', 'L’équipe Farha ✦ · Téléphone et WhatsApp : ' + PHONE];
 
   // E-mail admin : commande complète et lien non flouté.
   const aTitle = 'Nouvelle commande' + (order.reference ? ' ' + order.reference : '') + ' — ' + (order.names || customer.name);
-  const aRows = [['Référence', order.reference || '—'], ['Client', customer.name], ['E-mail', customer.email], ['Téléphone', customer.phone],
+  const aRows = [['Référence back-office', order.reference || 'Non enregistrée dans le back-office (vérifier la configuration Supabase)'], ['Client', customer.name], ['E-mail', customer.email], ['Téléphone', customer.phone],
     ['Adresse', customer.address], ...recap, ['Motif attendu', motif],
     ['Lien de l’invitation', linkOk ? link : 'Lien non valide, à recréer depuis le back-office', linkOk]];
   const aIntro = ['Un client vient de cliquer sur « Payer ». Il a reçu le RIB par e-mail.'];
@@ -123,7 +129,7 @@ module.exports = async function handler(req, res) {
 
   try {
     await send(key, sender, { email: customer.email, name: customer.name }, { email: admin, name: 'Farha' },
-      'Farha · Votre commande et les détails du paiement', page(cTitle, cIntro, cRows, cOutro), text(cTitle, cIntro, cRows, cOutro));
+      'Farha · Votre commande' + (order.reference ? ' ' + order.reference : '') + ' et les détails du paiement', page(cTitle, cIntro, cRows, cOutro), text(cTitle, cIntro, cRows, cOutro));
   } catch (e) {
     console.error('payment-email: client', e.message);
     // Diagnostic sans révéler la clé : son type (préfixe) et sa longueur.
