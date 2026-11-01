@@ -2078,4 +2078,17 @@ sendBespoke=function(e){
  farhaRenderHomeCollections();
 })();
 </script>
+<script>
+// FARHA-MIN-DATE : aucune date passée dans les calendriers (date d'événement à partir d'aujourd'hui).
+(function(){
+ function today(){var d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+ function arm(el){el.min=today()}
+ function check(el){arm(el);var bad=el.value&&el.value<el.min;el.setCustomValidity(bad?'Choisissez une date à partir d’aujourd’hui.':'');if(bad){el.value='';el.reportValidity()}}
+ function scan(){document.querySelectorAll('input[type="date"]').forEach(arm)}
+ document.addEventListener('focusin',function(e){if(e.target.matches&&e.target.matches('input[type="date"]'))arm(e.target)});
+ document.addEventListener('change',function(e){if(e.target.matches&&e.target.matches('input[type="date"]'))check(e.target)},true);
+ document.addEventListener('submit',function(e){e.target.querySelectorAll&&e.target.querySelectorAll('input[type="date"]').forEach(check)},true);
+ var q=0;scan();new MutationObserver(function(){if(!q)q=requestAnimationFrame(function(){q=0;scan()})}).observe(document.body,{childList:true,subtree:true});
+})();
+</script>
 </body></html>
