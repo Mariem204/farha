@@ -53,7 +53,7 @@ async function rest(base, key, path, opts) {
   const r = await fetch(base + '/rest/v1/' + path, Object.assign({}, opts, { headers: headers(key, opts && opts.headers) }));
   const text = await r.text();
   const data = text ? JSON.parse(text) : null;
-  if (!r.ok) throw Object.assign(new Error((data && data.message) || 'Erreur base de données'), { status: r.status });
+  if (!r.ok) throw Object.assign(new Error((data && data.message) || 'Erreur base de données'), { status: r.status, code: data && data.code });
   return data;
 }
 
@@ -92,6 +92,7 @@ module.exports = async function handler(req, res) {
   if (!customer.email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(customer.email)) return res.status(400).json({ error: 'E-mail invalide' });
   const details = cleanDetails(body.details);
 
+  let step = 'limite';  // étape en cours, renvoyée en cas d'erreur pour faciliter le diagnostic
   try {
     // Limite : 5 commandes par e-mail sur 10 minutes.
     const since = new Date(Date.now() - 10 * 60 * 1000).toISOString();
@@ -108,6 +109,7 @@ module.exports = async function handler(req, res) {
     } else {
       const slug = clean(body.template_slug, 40);
       if (!slug || !/^[a-zA-Z0-9-]{2,40}$/.test(slug)) return res.status(400).json({ error: 'Modèle invalide' });
+      step = 'modele';
       const rows = await rest(base, key,
         'templates?select=id,name,price_dt,status,category:categories(default_price_dt,is_active)&slug=eq.' + encodeURIComponent(slug));
       template = rows[0];
@@ -118,6 +120,7 @@ module.exports = async function handler(req, res) {
       label = template.name + (kind === 'test' ? ' (test gratuit)' : '');
     }
 
+    step = 'commande';
     const [order] = await rest(base, key, 'orders?select=id,reference,total_dt', {
       method: 'POST',
       headers: { Prefer: 'return=representation' },
@@ -132,13 +135,15 @@ module.exports = async function handler(req, res) {
         processing_status: kind === 'test' ? 'completed' : 'new'
       })
     });
+    step = 'article';
     await rest(base, key, 'order_items', {
       method: 'POST',
       headers: { Prefer: 'return=minimal' },
       body: JSON.stringify({ order_id: order.id, template_id: template ? template.id : null, label, unit_price_dt: unit, quantity: 1, details })
     });
+    // Le lien /i/<slug> est un plus : s'il échoue, la commande reste enregistrée et l'admin la voit.
     let invitation = null;
-    if (template) {
+    if (template) try {
       const data = {};
       INVITATION_FIELDS.forEach(k => { if (details[k]) data[k] = details[k]; });
       const status = kind === 'test' ? 'published' : 'draft';
@@ -152,14 +157,14 @@ module.exports = async function handler(req, res) {
           });
         } catch (e) { if (e.status !== 409) throw e; } // lien déjà pris : nouveau tirage
       }
-    }
+    } catch (e) { console.error('orders: invitation', e.status || '', e.code || '', e.message); }
     return res.status(201).json({
       reference: order.reference,
       total_dt: Number(order.total_dt),
       invitation: invitation ? { slug: invitation.slug, status: invitation.status } : null
     });
   } catch (e) {
-    console.error('orders:', e.status || '', e.message);
-    return res.status(500).json({ error: 'Enregistrement impossible pour le moment' });
+    console.error('orders:', step, e.status || '', e.code || '', e.message);
+    return res.status(500).json({ error: 'Enregistrement impossible pour le moment', etape: step, code: e.code || e.status || null });
   }
 };
