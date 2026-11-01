@@ -668,7 +668,7 @@ label.farha-pick:hover{background:#e0cbbf}
  -webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
 .hm-track{position:absolute;z-index:1;left:0;top:50%;height:var(--ih);margin-top:calc(var(--ih)/-2)}
 .hm .hm-item{position:absolute;top:0;left:0;width:var(--iw);height:var(--ih);min-width:0;min-height:0;padding:0;border:0;border-radius:12px!important;overflow:hidden;background:#f6ece4;cursor:pointer;
- box-shadow:0 12px 28px rgba(52,8,22,.22);will-change:transform;letter-spacing:normal;text-transform:none}
+ box-shadow:0 12px 28px rgba(52,8,22,.22);will-change:transform;backface-visibility:hidden;letter-spacing:normal;text-transform:none}
 .hm-item:focus-visible{outline:3px solid #f1d7a3;outline-offset:5px}
 .hm-shot{position:absolute;left:0;top:0;width:360px;height:760px;transform-origin:0 0;pointer-events:none}
 .hm-shot>*{width:100%!important;height:100%!important;border:0;display:block;object-fit:cover;border-radius:0}
@@ -764,7 +764,7 @@ html.fp-lock main,html.fp-lock .farha-header{transform:scale(var(--fp-zoom,1.06)
 <header class="farha-header"><a class="farha-logo" href="#home" onclick="goSection('home');return false">فرحة ✦</a><nav class="farha-nav" aria-label="Navigation principale"><a href="#home" onclick="goSection('home');return false">Accueil</a><a href="#themes" onclick="farhaOpenInspirations();return false">Thèmes</a><a href="#how-it-works" onclick="goSection('how-it-works');return false">L'Exception</a><a href="#packages" onclick="goSection('packages');return false">Tarifs</a><a href="#contact" onclick="goSection('contact');return false">Contact</a></nav></header><main>
 <section class="view active" id="home"><div class="landing-hero hero-v2 hero-sky">
  <div class="sky-deco" aria-hidden="true"><i class="cloud c1"></i><i class="cloud c2"></i><i class="cloud c3"></i><i class="cloud c4"></i><i class="cloud c5"></i></div>
- <div class="hero-copy"><span class="landing-kicker">✦ FARHA · INVITATIONS DIGITALES ✦</span><div class="arabic-signature" lang="ar" dir="rtl">الفرحة فرحتنا</div><h1>Créez votre<br>invitation <em>inoubliable.</em></h1><p>Une invitation qui s’ouvre comme une lettre d’amour, s’anime au fil du scroll et raconte votre histoire. Personnalisez-la en quelques minutes.</p><div class="hero-actions"><button class="landing-button" onclick="document.getElementById('themes').scrollIntoView({behavior:'smooth'})">Choisir un template &nbsp; ↗</button><button class="hero-secondary" onclick="openIdeaForm()" aria-haspopup="dialog">Personnaliser mon invitation ✦</button></div><span class="hero-note">✧ Invitations animées · Musique · Google Maps · dès 15 DT</span></div>
+ <div class="hero-copy"><span class="landing-kicker">✦ FARHA · INVITATIONS DIGITALES ✦</span><div class="arabic-signature" lang="ar" dir="rtl">الفرحة فرحتنا</div><h1>Créez votre<br>invitation <em>inoubliable.</em></h1><p>Une invitation qui s’ouvre comme une lettre d’amour, s’anime au fil du scroll et raconte votre histoire. Personnalisez-la en quelques minutes.</p><div class="hero-actions"><button class="landing-button" onclick="document.getElementById('themes').scrollIntoView({behavior:'smooth'})">Choisir un template &nbsp; ↗</button><button class="hero-secondary" onclick="openIdeaForm()" aria-haspopup="dialog">Personnaliser mon invitation ✦</button></div></div>
  <div class="hm" id="heroMarquee" aria-label="Nos derniers modèles"><div class="hm-track" id="hmTrack"></div></div>
 
  </div><div id="themes"><h1 class="catalog-title">Nos nouveautés</h1><p class="catalog-subtitle">Les derniers modèles arrivés chez Farha : découvrez leur mini-site animé, puis personnalisez-le.</p><div class="hc-carousel nv-carousel"><button type="button" class="hc-nav prev" aria-label="Nouveautés précédentes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg></button><div class="grid" id="catalog" aria-label="Nos nouveautés"></div><button type="button" class="hc-nav next" aria-label="Nouveautés suivantes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg></button></div><div class="catalog-more"><button type="button" class="landing-button catalog-more-btn" onclick="farhaOpenAllTemplates()">Voir tous les modèles →</button></div></div>
@@ -2180,7 +2180,7 @@ sendBespoke=function(e){
 (function(){
  var box=document.getElementById('heroMarquee');if(!box)return;
  var track=document.getElementById('hmTrack');
- var items=[],x=0,last=0,raf=0,hover=false,still=matchMedia('(prefers-reduced-motion:reduce)').matches,SPEED=38,GAP=26,MAX=8,GROW=.45;
+ var items=[],x=0,v=0,last=0,raf=0,hover=false,D=null,still=matchMedia('(prefers-reduced-motion:reduce)').matches,SPEED=72,GAP=26,MAX=8,GROW=.45;
  function newest(){
   if(typeof templates==='undefined')return[];
   var order=new Map(templates.map(function(t,i){return[t,i]}));
@@ -2191,7 +2191,7 @@ sendBespoke=function(e){
  function build(){
   var list=newest();if(!list.length)return;
   track.replaceChildren();items=[];
-  var d=dims(),step=d.iw+GAP,need=Math.ceil((innerWidth+step*3)/step),copies=Math.max(1,Math.ceil(need/list.length));
+  var d=D=dims(),step=d.iw+GAP,need=Math.ceil((innerWidth+step*3)/step),copies=Math.max(1,Math.ceil(need/list.length));
   for(var c=0;c<copies;c++)list.forEach(function(t){
    var b=document.createElement('button');b.type='button';b.className='hm-item';b.setAttribute('aria-label','Voir le modèle '+t.name);
    var shot=document.createElement('div');shot.className='hm-shot';shot.innerHTML=markup(t);shot.style.transform='scale('+(d.iw/360)+','+(d.ih/760)+')';
@@ -2200,18 +2200,19 @@ sendBespoke=function(e){
   x=0;draw(0);if(!raf&&!still)raf=requestAnimationFrame(loop);
  }
  function draw(dt){
-  var d=dims(),step=d.iw+GAP,total=step*items.length,mid=box.clientWidth/2,zone=step*1.6;
-  if(!hover&&!still)x+=SPEED*dt;x=((x%total)+total)%total; // défile vers la gauche
+  var d=D,step=d.iw+GAP,total=step*items.length,mid=box.clientWidth/2,zone=step*1.6;
+  // vitesse lissée : accélère et ralentit en douceur (pause au survol)
+  v+=((hover||still?0:SPEED)-v)*Math.min(1,dt*4);x+=v*dt;x=((x%total)+total)%total; // défile vers la gauche
   items.forEach(function(el,i){
    var px=((i*step-x)%total+total)%total-step; // position de gauche, boucle continue
    var dist=px+d.iw/2-mid,near=Math.max(0,1-Math.abs(dist)/zone),e=near*near*(3-2*near);
    // la carte du centre grandit ; ses voisines s'écartent pour lui laisser la place
    var push=Math.sign(dist)*d.iw*GROW*.5*Math.min(1,Math.abs(dist)/zone);
-   el.style.transform='translate('+(px+push).toFixed(1)+'px,0) scale('+(1+GROW*e).toFixed(3)+')';
+   el.style.transform='translate3d('+(px+push).toFixed(2)+'px,0,0) scale('+(1+GROW*e).toFixed(4)+')';
    el.style.zIndex=Math.round(e*10);
   });
  }
- function loop(t){var dt=last?Math.min(.05,(t-last)/1000):0;last=t;draw(dt);raf=requestAnimationFrame(loop)}
+ function loop(t){var dt=last?Math.min(.1,(t-last)/1000):0;last=t;draw(dt);raf=requestAnimationFrame(loop)}
  document.addEventListener('visibilitychange',function(){last=0});
  box.addEventListener('mouseenter',function(){hover=true});box.addEventListener('mouseleave',function(){hover=false});
  box.addEventListener('focusin',function(){hover=true});box.addEventListener('focusout',function(){hover=false});
