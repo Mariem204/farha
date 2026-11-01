@@ -68,10 +68,11 @@ module.exports = async function handler(req, res) {
     catch (e) { return res.status(403).json({ error: 'Origine refusée' }); }
   }
 
-  const base = (process.env.SUPABASE_URL || '').replace(/\/$/, '');
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
+  // Tolère les petites erreurs de saisie dans Vercel : espaces, « / » final, « /rest/v1 ».
+  const base = (process.env.SUPABASE_URL || '').trim().replace(/\/+$/, '').replace(/\/rest\/v1$/, '');
+  const key = (process.env.SUPABASE_SERVICE_ROLE_KEY || '').trim();
   if (!/^https:\/\/[a-z0-9-]+\.supabase\.co$/.test(base) || !key) {
-    return res.status(503).json({ error: 'Service non configuré' });
+    return res.status(503).json({ error: 'Service non configuré', manque: [!/^https:\/\/[a-z0-9-]+\.supabase\.co$/.test(base) && 'SUPABASE_URL', !key && 'SUPABASE_SERVICE_ROLE_KEY'].filter(Boolean) });
   }
 
   let body = req.body;
