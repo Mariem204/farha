@@ -2086,12 +2086,14 @@ sendBespoke=function(e){
 .fdp-nav{width:32px;height:32px;border:0;border-radius:50%;background:none;color:#6b061a;font-size:18px;cursor:pointer}
 .fdp-nav:hover:not(:disabled){background:rgba(107,6,26,.08)}
 .fdp-nav:disabled{opacity:.25;cursor:default}
-.fdp-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;text-align:center}
+.fdp-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:2px;text-align:center}
 .fdp-grid i{font-style:normal;font-size:10px;letter-spacing:.12em;color:#9c6f7b;padding:4px 0}
+.fdp button{min-width:0;max-width:none;width:auto;margin:0;box-sizing:border-box;letter-spacing:normal;text-transform:none;line-height:1;transform:none;box-shadow:none}
+.fdp .fdp-day{width:100%;padding:0}
 .fdp-day{height:36px;border:0;border-radius:50%;background:none;color:inherit;font:inherit;cursor:pointer}
 .fdp-day:hover:not(:disabled){background:rgba(107,6,26,.08)}
 .fdp-day:disabled{color:#c9b6ba;text-decoration:line-through;cursor:not-allowed}
-.fdp-day.today{box-shadow:inset 0 0 0 1.5px #c9a35c}
+.fdp .fdp-day.today{box-shadow:inset 0 0 0 1.5px #c9a35c}
 .fdp-day.on{background:#6b061a;color:#f1d7a3}
 .fdp-foot{display:flex;justify-content:space-between;margin-top:8px;padding-top:8px;border-top:1px solid rgba(107,6,26,.1)}
 .fdp-act{border:0;background:none;padding:8px 10px;border-radius:10px;font:600 12px 'DM Sans',sans-serif;color:#6b061a;cursor:pointer}
