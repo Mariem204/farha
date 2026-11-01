@@ -667,9 +667,9 @@ label.farha-pick:hover{background:#e0cbbf}
  -webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
 .hm-track{position:absolute;z-index:1;left:0;top:50%;height:var(--ih);margin-top:calc(var(--ih)/-2)}
 .hm-item{position:absolute;top:0;left:0;width:var(--iw);height:var(--ih);padding:0;border:0;border-radius:16px;overflow:hidden;background:#f6ece4;cursor:pointer;
- box-shadow:0 0 0 4px #1f0c12,0 14px 30px rgba(52,8,22,.28);will-change:transform}
+ box-shadow:0 12px 28px rgba(52,8,22,.22);will-change:transform}
 .hm .hm-item,.hm .hm-phone{min-width:0;min-height:0;letter-spacing:normal;text-transform:none}
-.hm .hm-item{border-radius:16px!important}
+.hm .hm-item{border-radius:10px!important}
 .hm .hm-phone{border-radius:42px!important}
 .hm-item:focus-visible{outline:3px solid #f1d7a3;outline-offset:5px}
 .hm-shot{position:absolute;left:0;top:0;width:360px;height:760px;transform-origin:0 0;pointer-events:none}
@@ -684,7 +684,7 @@ label.farha-pick:hover{background:#e0cbbf}
 .hm-big[hidden]{display:none}
 @keyframes hmZoom{from{opacity:0;filter:blur(3px);transform:var(--hm-from)}to{opacity:1;filter:none;transform:var(--hm-to)}}
 @keyframes hmOut{from{opacity:1}to{opacity:0}}
-@media(max-width:700px){.hm{--iw:92px;--ih:194px;--pw:186px;--ph:388px;margin-top:30px}.hm .hm-item{border-radius:12px!important}.hm .hm-phone{border-radius:32px!important;padding:8px}.hm-screen{border-radius:25px}.hm-island{top:15px;width:56px;height:16px;margin-left:-28px}}
+@media(max-width:700px){.hm{--iw:92px;--ih:194px;--pw:186px;--ph:388px;margin-top:30px}.hm .hm-item{border-radius:8px!important}.hm .hm-phone{border-radius:32px!important;padding:8px}.hm-screen{border-radius:25px}.hm-island{top:15px;width:56px;height:16px;margin-left:-28px}}
 @media(prefers-reduced-motion:reduce){.hm-big{animation:none}}
 </style>
 </head><body><style id="farha-portal">
@@ -912,7 +912,13 @@ let chosen=templates[0],lastDoc='';const $=id=>document.getElementById(id);
 // Prix par catégorie de modèle (en DT). Les catégories non listées gardent le prix par défaut.
 const FARHA_PRICES={'Mariage':40,'Fiançailles':30,'Anniversaire':20,'Tahara':20,'Diplôme':15,'Naissance':20,'Événement':20},FARHA_DEFAULT_PRICE=50;
 function farhaPrice(t){return FARHA_PRICES[t&&t.category]??FARHA_DEFAULT_PRICE}
-function show(id){if(typeof chosen!=='undefined')farhaApplyPrice();document.querySelectorAll('.view').forEach(e=>e.classList.toggle('active',e.id===id));window.scrollTo(0,0)}
+// Aperçus (démo, personnalisation, livraison) : déchargés dès qu'on quitte leur page, pour que leur musique s'arrête.
+const FARHA_VIEW_FRAMES={detail:'detailFrame',custom:'customFrame',complete:'deliveryFrame'};
+function show(id){if(typeof chosen!=='undefined')farhaApplyPrice();document.querySelectorAll('.view').forEach(e=>e.classList.toggle('active',e.id===id));
+ Object.entries(FARHA_VIEW_FRAMES).forEach(([v,f])=>{const x=document.getElementById(f);if(v!==id&&x&&x.hasAttribute('srcdoc')){x.removeAttribute('srcdoc');if(v==='custom'&&typeof farhaLive!=='undefined')farhaLive.playing=farhaLive.blocked=false}});
+ // Retour au formulaire (« Modifier l'invitation ») : l'aperçu est reconstruit avec les données actuelles.
+ if(id==='custom')setTimeout(()=>{const x=document.getElementById('customFrame');if(x&&!x.hasAttribute('srcdoc')&&typeof chosen!=='undefined'&&chosen)refreshCustom()},0);
+ window.scrollTo(0,0)}
 function fmt(d){if(!d)return 'Date à confirmer';let v=new Date(d+'T12:00:00');return Number.isNaN(v.getTime())?'Date à confirmer':v.toLocaleDateString('fr-TN',{day:'numeric',month:'long',year:'numeric'})}
 function escapeScript(s){return s.replace(/<\/script/gi,'<\\/script')}
 function openDetail(id){chosen=templates.find(t=>t.id===id)||templates[0];$('detailTitle').textContent=chosen.name;show('detail');resetPreview()}
@@ -999,8 +1005,9 @@ function farhaDeliver(){
  $('deliveryLink').value=farhaInviteLink();$('deliveryToast').textContent='';show('complete')
 }
 // Lien d'invitation : le site Netlify relit le modèle et les informations depuis l'adresse (#i=...) et affiche l'invitation.
-const FARHA_SITE='https://farha-bay.vercel.app/';
-function farhaInviteLink(){const d=readData();delete d.photos;if(d.musicType==='file'){d.music='';d.musicType=''}const bytes=new TextEncoder().encode(JSON.stringify({t:chosen.id,d}));let bin='';bytes.forEach(b=>bin+=String.fromCharCode(b));return FARHA_SITE+'#i='+btoa(bin).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'')}
+// Le lien ouvre le site qui l'a créé (production, ou aperçu test-admin) ; en local, le site de production.
+const FARHA_SITE=location.protocol==='https:'?location.origin+'/':'https://farha-bay.vercel.app/';
+function farhaInviteLink(){const d=readData();delete d.photos;if(d.musicType==='file'){const k=window.farhaDemoIndex?window.farhaDemoIndex():-1;d.music=k>=0?String(k):'';d.musicType=k>=0?'demo':''}const bytes=new TextEncoder().encode(JSON.stringify({t:chosen.id,d}));let bin='';bytes.forEach(b=>bin+=String.fromCharCode(b));return FARHA_SITE+'#i='+btoa(bin).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'')}
 function farhaReadInvite(){const m=location.hash.match(/^#i=([A-Za-z0-9_-]+)/);if(!m)return null;try{const bin=atob(m[1].replace(/-/g,'+').replace(/_/g,'/'));const o=JSON.parse(new TextDecoder().decode(Uint8Array.from(bin,c=>c.charCodeAt(0))));const t=templates.find(x=>x.id===o.t);return t&&o.d?{t,d:o.d}:null}catch(e){return null}}
 function farhaToast(t){$('deliveryToast').textContent=t}
 function farhaCopy(text){if(navigator.clipboard&&window.isSecureContext)return navigator.clipboard.writeText(text);const i=$('deliveryLink');i.select();try{document.execCommand('copy')}catch(e){}return Promise.resolve()}
@@ -1163,6 +1170,12 @@ function farhaYoutubeId(u){
 }
 function farhaMapUrl(d){return farhaHttpsUrl(d.map)?d.map:'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(d.place)}
 function farhaSplitPlace(place){const parts=place.split(',').map(s=>s.trim()).filter(Boolean);return {name:parts[0]||place,addr:parts.length>1?parts.slice(1).join(', '):place}}
+// Mélodies de démonstration FARHA (0 à 19), générées dans le navigateur : bibliothèque et liens d'invitation.
+function farhaDemoWav(index){const note=[0,2,4,7,9,7,4,2],rate=11025,secs=5,frames=rate*secs,buffer=new ArrayBuffer(44+frames*2),dv=new DataView(buffer);function str(off,t){for(let j=0;j<t.length;j++)dv.setUint8(off+j,t.charCodeAt(j))}str(0,'RIFF');dv.setUint32(4,36+frames*2,true);str(8,'WAVE');str(12,'fmt ');dv.setUint32(16,16,true);dv.setUint16(20,1,true);dv.setUint16(22,1,true);dv.setUint32(24,rate,true);dv.setUint32(28,rate*2,true);dv.setUint16(32,2,true);dv.setUint16(34,16,true);str(36,'data');dv.setUint32(40,frames*2,true);
+const root=440*Math.pow(2,(index%6)/12),speed=2.1+(index%4)*.23; // une octave plus haut : audible sur les haut-parleurs de téléphone
+for(let i=0;i<frames;i++){const t=i/rate,step=Math.floor(t*speed),n=note[(step+index)%8]+(index%3)*2,f=root*Math.pow(2,n/12),phase=t*f*6.2831853,env=Math.pow(1-(t*speed%1),1.3),fade=Math.min(1,t*6,(secs-t)*3);const v=(Math.sin(phase)+.26*Math.sin(phase*2)+.14*Math.sin(phase*.5))*env*fade*.62;dv.setInt16(44+i*2,Math.max(-32767,Math.min(32767,v*32767)),true)}return new Blob([buffer],{type:'audio/wav'})}
+const farhaDemoUrls={};
+function farhaDemoUrl(k){return farhaDemoUrls[k]||(farhaDemoUrls[k]=URL.createObjectURL(farhaDemoWav(k)))}
 function farhaClean(d,t){
  d=d||{};const def=farhaDefaults(t);
  const s=(v,max)=>String(v==null?'':v).replace(/[\u0000-\u0009\u000b-\u001f\u007f]/g,' ').trim().slice(0,max);
@@ -1172,7 +1185,8 @@ function farhaClean(d,t){
   place:s(d.place,150)||def.place,message:s(d.message,500)};
  out.map=farhaHttpsUrl(d.map)?String(d.map).trim():'';
  // Musique : fichier importé (blob, aperçu de la session), lien YouTube ou lien audio https.
- let type=['file','url','youtube'].includes(d.musicType)?d.musicType:'',src=String(d.music||'').trim();
+ let type=['file','url','youtube','demo'].includes(d.musicType)?d.musicType:'',src=String(d.music||'').trim();
+ if(type==='demo'){const k=/^\d{1,2}$/.test(src)?Number(src):-1;type='file';src=k>=0&&k<20?farhaDemoUrl(k):''} // mélodie FARHA d'un lien d'invitation
  if(!type&&src)type=farhaYoutubeId(src)?'youtube':farhaHttpsUrl(src)?'url':''; // anciens liens d'invitation
  if(type==='youtube')src=farhaYoutubeId(src);
  else if(type==='file')src=/^blob:/.test(src)?src:'';
@@ -1238,9 +1252,8 @@ function buildDoc(t,data,token){
  }else if(key==='huntrixConcert'){
   html=FARHA_HUNTRIX_CONCERT_ORIGINAL.replace(/\nvar CFG=\{[\s\S]*?\]\]\};/,m=>m+'\nObject.assign(CFG,'+farhaJSON(text)+');window.__farhaCFG=CFG;');
   html=farhaReplace(html,'var d=new Date(CFG.date+CFG.tz)','var d=window.__farhaDate=new Date(CFG.date+CFG.tz)');
-  // La musique synthétisée du modèle laisse la place à la musique du client lorsqu'il en a choisi une.
-  html=farhaReplace(html,'function startMusic(){if(started)return;','function startMusic(){if(window.__farhaOwnMusic&&window.__farhaOwnMusic())return;if(started)return;');
-  html=farhaReplace(html,'mg.connect(AC.destination);song();','mg.connect(AC.destination);window.__farhaSynthMute=function(m){mg.gain.setTargetAtTime(m?0:.5,AC.currentTime,.05)};song();');
+  // Plus de « Joyeux anniversaire » synthétisé : le bouton Play lance uniquement la musique choisie par le client.
+  html=farhaReplace(html,'function startMusic(){if(started)return;','function startMusic(){if(window.__farhaOwnMusic)window.__farhaOwnMusic();return;');
  }else if(key==='huntrix'){
   html=FARHA_HUNTRIX_ORIGINAL.replace(/var PARTY=new Date\([^)]*\);/,()=>'var PARTY=new Date('+farhaJSON(iso)+');');
  }else if(key==='superhero'){
@@ -1415,10 +1428,8 @@ function farhaBridge(cfg){
    claim:function(){try{Function('if(typeof AC!=="undefined"&&AC&&master){master.gain.setTargetAtTime(0,AC.currentTime,.15);playing=false}started=true')()}catch(e){}},
    release:function(){try{Function('if(!AC)started=false')()}catch(e){}}},
   diplome:{btn:'#music',own:true,ui:function(b,on){var f=G('setMusicUI');if(f)f(on)}},
-  huntrixConcert:{btn:'#snd',show:function(b,on){if(on)b.hidden=false;else if(!window.__farhaSynthMute)b.hidden=true},
-   ui:function(b,on){b.textContent=on?'🔊':'🔇';b.classList.toggle('off',!on);b.setAttribute('aria-pressed',String(!on))},
-   claim:function(){if(window.__farhaSynthMute)window.__farhaSynthMute(true)},
-   release:function(b){if(window.__farhaSynthMute){window.__farhaSynthMute(false);if(b){b.textContent='🔊';b.classList.remove('off');b.setAttribute('aria-pressed','false')}}}}
+  huntrixConcert:{btn:'#snd',show:function(b,on){b.hidden=!on},
+   ui:function(b,on){b.textContent=on?'🔊':'🔇';b.classList.toggle('off',!on);b.setAttribute('aria-pressed',String(!on))}}
  };
  AD.editorial=AD.royal;
  var A=AD[key]||{};
@@ -1440,9 +1451,9 @@ function farhaBridge(cfg){
  function arm(){
   if(M.armed)return;M.armed=true;
   var go=function(e){var b=button();if(b&&b.contains(e.target))return;
-   ['pointerdown','keydown','touchend'].forEach(function(t){window.removeEventListener(t,go,true)});M.armed=false;
+   ['click','keydown','touchend'].forEach(function(t){window.removeEventListener(t,go,true)});M.armed=false;
    if(M.type&&!M.playing&&M.want!==false)play()};
-  ['pointerdown','keydown','touchend'].forEach(function(t){window.addEventListener(t,go,true)});
+  ['click','keydown','touchend'].forEach(function(t){window.addEventListener(t,go,true)});
  }
  function ytCmd(fn){if(M.ytFrame&&M.ytReady)M.ytFrame.contentWindow.postMessage(JSON.stringify({event:'command',func:fn,args:[]}),'*')}
  function ytPlay(){ytCmd('playVideo');clearTimeout(M.ytT);M.ytT=setTimeout(function(){if(M.yt&&M.want&&M.ytState!==1&&M.ytState!==3)blocked()},3500)}
@@ -1704,9 +1715,7 @@ renderCatalog();
 const names=[['Rêve de jasmin','Romantique'],['Promesse au clair de lune','Romantique'],['Éclat de tendresse','Romantique'],['Premier regard','Romantique'],['Danse des amoureux','Mariage'],['Notre grand jour','Mariage'],['Valse des fleurs','Mariage'],['Éternelle union','Mariage'],['Bougies et sourires','Anniversaire'],['Jour de fête','Anniversaire'],['Confettis dorés','Anniversaire'],['Un an de plus','Anniversaire'],['Soleil de Carthage','Oriental'],['Brise de Sidi Bou Saïd','Oriental'],['Nuit de jasmin','Oriental'],['Étoiles du désert','Oriental'],['Piano du matin','Instrumental'],['Nuages légers','Instrumental'],['Douce lavande','Instrumental'],['Lumière du lac','Instrumental']];
 const host=document.getElementById('farhaLibrary'),choice=document.getElementById('musicChoice');if(!host||!choice)return;
 const note=[0,2,4,7,9,7,4,2],scale=[0,2,3,5,7,8,10];
-function wav(index){const rate=11025,secs=5,frames=rate*secs,buffer=new ArrayBuffer(44+frames*2),dv=new DataView(buffer);function str(off,t){for(let j=0;j<t.length;j++)dv.setUint8(off+j,t.charCodeAt(j))}str(0,'RIFF');dv.setUint32(4,36+frames*2,true);str(8,'WAVE');str(12,'fmt ');dv.setUint32(16,16,true);dv.setUint16(20,1,true);dv.setUint16(22,1,true);dv.setUint32(24,rate,true);dv.setUint32(28,rate*2,true);dv.setUint16(32,2,true);dv.setUint16(34,16,true);str(36,'data');dv.setUint32(40,frames*2,true);
-const root=220*Math.pow(2,(index%6)/12),speed=2.1+(index%4)*.23;
-for(let i=0;i<frames;i++){const t=i/rate,step=Math.floor(t*speed),n=note[(step+index)%8]+(index%3)*2,f=root*Math.pow(2,n/12),phase=t*f*6.2831853,env=Math.pow(1-(t*speed%1),1.3),fade=Math.min(1,t*6,(secs-t)*3);const v=(Math.sin(phase)+.26*Math.sin(phase*2)+.14*Math.sin(phase*.5))*env*fade*.20;dv.setInt16(44+i*2,Math.max(-32767,Math.min(32767,v*32767)),true)}return new Blob([buffer],{type:'audio/wav'})}
+const wav=farhaDemoWav;
 // Bibliothèque : les 20 démos intégrées, remplacées par les musiques actives du back-office dès qu'elles sont lues (farhaSetMusicLibrary).
 let tracks=names.map(([n,c],i)=>({n,c,kind:'demo',demo:i}));
 let filter='Pour vous',playing=-1,audio=null,previewUrl=null,selectedUrl=null,chosen=-1;
@@ -1726,6 +1735,7 @@ function listen(i){if(playing===i){stop();render();return}stop();const t=tracks[
 function render(){const tabs=el('fmTabs'),list=el('fmTracks'),q=el('fmSearch').value.toLocaleLowerCase(),filters=['Pour vous',...allFilters.filter(f=>tracks.some(t=>t.c===f))];if(!filters.includes(filter))filter='Pour vous';tabs.replaceChildren();filters.forEach(f=>{const b=document.createElement('button');b.type='button';b.textContent=f;b.className=filter===f?'active':'';b.onclick=()=>{filter=f;render()};tabs.append(b)});list.replaceChildren();const rows=[{n:'Sans musique',c:'Aucune'},...tracks];rows.forEach((t,j)=>{const i=j-1;if(filter!=='Pour vous'&&t.c!==filter)return;if(q&&!(t.n+' '+t.c).toLocaleLowerCase().includes(q))return;const row=document.createElement('div');row.className='farha-music-row';const pick=document.createElement('button');pick.type='button';pick.className='farha-music-pick';const strong=document.createElement('strong');strong.textContent=t.n+(chosen===i?' ✓':'');const small=document.createElement('small');small.textContent=i<0?'Aucun supplément':t.c+(t.kind==='demo'?' · Extrait de démonstration':t.kind==='youtube'?' · YouTube, écoute dans l’aperçu':'');pick.append(strong,small);pick.onclick=()=>select(i);row.append(pick);if(i>=0&&t.kind!=='youtube'){const play=document.createElement('button');play.type='button';play.className='farha-music-play';play.textContent=playing===i?'Ⅱ':'▶';play.setAttribute('aria-label','Écouter '+t.n);play.onclick=()=>listen(i);row.append(play)}list.append(row)})}
 el('fmTrigger').onclick=()=>{const open=el('fmPanel').hidden;el('fmPanel').hidden=!open;el('fmTrigger').setAttribute('aria-expanded',String(open));if(open){render();el('fmSearch').focus()}};el('fmSearch').oninput=render;render();
 $('musicRemove').addEventListener('click',()=>{stop();chosen=-1;el('fmSelected').textContent='Sans musique';render()});
+window.farhaDemoIndex=function(){const t=tracks[chosen];return t&&t.kind==='demo'&&selectedUrl&&farhaState.music.fileUrl===selectedUrl?t.demo:-1};
 window.farhaSetMusicLibrary=function(list){
  const cur=tracks[chosen];
  tracks=list;stop();options();
@@ -2202,7 +2212,7 @@ sendBespoke=function(e){
   });
   x=0;draw(0);if(!raf&&!still)raf=requestAnimationFrame(loop);
  }
- function open(t){if(typeof openDetail==='function')openDetail(t)}
+ function open(t){if(typeof openDetail==='function')openDetail(t.id)}
  function show(t){
   if(cur===t)return;cur=t;var d=dims(),sw=d.pw-(innerWidth<=700?16:20),sh=d.ph-(innerWidth<=700?16:20);
   // chaque modèle n'est chargé qu'une fois dans le téléphone, puis simplement réaffiché
@@ -2214,7 +2224,7 @@ sendBespoke=function(e){
  }
  function draw(dt){
   var d=dims(),step=d.iw+GAP,total=step*items.length,mid=box.clientWidth/2,best=null,bd=1e9;
-  if(!hover&&!still)x+=SPEED*dt; // défile vers la gauchex=((x%total)+total)%total;
+  if(!hover&&!still)x+=SPEED*dt;x=((x%total)+total)%total; // défile vers la gauche
   items.forEach(function(it,i){
    var px=((i*step-x)%total+total)%total-step; // position de gauche, boucle continue
    var cx=px+d.iw/2,dist=Math.abs(cx-mid),near=Math.max(0,1-dist/(d.pw*1.25));
