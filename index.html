@@ -669,7 +669,7 @@ label.farha-pick:hover{background:#e0cbbf}
 /* Sous les boutons du hero : nos derniers modèles défilent sur une ligne ;
    la carte qui passe au centre s'agrandit puis reprend sa taille. */
 #home .landing-hero.hero-sky{padding-top:4px!important;padding-bottom:40px!important}
-#home .landing-hero.hero-sky .hero-copy h1{font-size:clamp(46px,5.3vw,86px)}
+#home .landing-hero.hero-sky .hero-copy h1{font-size:clamp(40px,4.4vw,70px)}
 #home .landing-hero.hero-sky .hero-note{margin-bottom:0}
 .hm{--iw:150px;--ih:316px;position:relative;z-index:4;width:100vw;max-width:100vw;margin:30px calc(50% - 50vw) 0;height:calc(var(--ih)*1.4 + 10px);overflow:hidden;
  -webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
@@ -2227,7 +2227,7 @@ sendBespoke=function(e){
 (function(){
  var box=document.getElementById('heroMarquee');if(!box)return;
  var track=document.getElementById('hmTrack');
- var items=[],x=0,v=0,last=0,raf=0,hover=false,D=null,still=matchMedia('(prefers-reduced-motion:reduce)').matches,SPEED=72,GAP=26,MAX=8,GROW=.45;
+ var items=[],x=0,v=0,last=0,raf=0,hover=false,D=null,still=matchMedia('(prefers-reduced-motion:reduce)').matches,SPEED=55,GAP=26,MAX=8,GROW=.45;
  function newest(){
   if(typeof templates==='undefined')return[];
   var order=new Map(templates.map(function(t,i){return[t,i]}));
