@@ -2013,12 +2013,10 @@ simulatePayment=function(){
  });
 };
 // Paiement par virement : après « Cliquer pour payer », la page de l'invitation s'affiche floutée (aperçu, lien, partage).
-// Deux e-mails partent via FormSubmit : l'admin reçoit la commande avec le lien NON flouté ; le client reçoit
-// (réponse automatique FormSubmit) le prix et les coordonnées bancaires. Après réception du virement, l'admin lui envoie le lien.
-// Au tout premier envoi, FormSubmit envoie un e-mail d'activation à FARHA_ADMIN_EMAIL : cliquer une fois sur « Activate ».
+// Les e-mails partent du serveur (/api/payment-email, Brevo) : le client reçoit le prix et les coordonnées bancaires,
+// l'admin reçoit la commande avec le lien NON flouté, à envoyer au client après réception du virement.
+// Si l'envoi Brevo n'est pas configuré ou échoue, l'admin reçoit quand même la commande via FormSubmit.
 const FARHA_ADMIN_EMAIL='farhacontact0@gmail.com';
-// COORDONNÉES DE TEST : à remplacer par le vrai compte avant la mise en production.
-const FARHA_BANK={titulaire:'FARHA · compte de test',banque:'Banque de test',rib:'00 000 0000000000000 00 (RIB de test, ne pas utiliser)'};
 function farhaPendingDelivery(){
  farhaDeliver();
  $('complete').classList.add('pending');$('deliveryLabel').textContent='Commande enregistrée';
@@ -2029,21 +2027,19 @@ function farhaPendingDelivery(){
 }
 function farhaSendPaymentEmails(ref){
  const d=readData(),c=farhaClient||{},base=farhaPrice(chosen),sup=d.musicType?FARHA_MUSIC_PRICE:0,total=base+sup;
- const names=farhaOrderNames(d).replace(/^Invitation : /,''),motif='Farha '+(ref||names);
- const client=['Bonjour '+(c.name||'')+',','','Merci pour votre commande sur Farha ! Votre invitation est prête.','',
-  'Récapitulatif :','· Modèle : '+chosen.name,'· Invitation : '+names,'· Date : '+fmt(d.date)+' · '+d.time,'· Lieu : '+d.place,
-  '· Prix : '+base+' DT'+(sup?' + musique '+sup+' DT':''),'· Total à régler : '+total+' DT','',
-  'Pour confirmer votre commande, effectuez un virement bancaire de '+total+' DT :','· Titulaire : '+FARHA_BANK.titulaire,'· Banque : '+FARHA_BANK.banque,'· RIB : '+FARHA_BANK.rib,'· Motif : '+motif,'',
-  'Dès réception du virement, l’équipe Farha vous envoie le lien de votre invitation, prêt à partager avec vos invités.','',
-  'Une question ? Écrivez-nous à '+FARHA_ADMIN_EMAIL+'.','','L’équipe Farha ✦'].join('\n');
- const data={_subject:'Farha · Nouvelle commande'+(ref?' '+ref:'')+' — '+names,_template:'table',_captcha:'false',_replyto:c.email,
-  email:c.email,_autoresponse:client,
-  Référence:ref||'—',Client:c.name||'—','E-mail':c.email||'—',Téléphone:c.phone||'—',Adresse:c.address||'—',
-  Modèle:chosen.name,Invitation:names,Date:fmt(d.date)+' · '+d.time,Lieu:d.place,
-  Musique:d.musicType?(farhaState.music.fileName||d.music||'oui'):'Sans musique','Total à régler':total+' DT',
-  'Lien de l’invitation (à envoyer après le virement)':farhaInviteLink()};
- return fetch('https://formsubmit.co/ajax/'+FARHA_ADMIN_EMAIL,{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify(data)})
-  .then(r=>r.ok?r.json():Promise.reject(new Error('HTTP '+r.status))).catch(e=>console.warn('Farha : e-mails de commande non envoyés ('+(e&&e.message||e)+').'));
+ const names=farhaOrderNames(d).replace(/^Invitation : /,''),link=farhaInviteLink();
+ const music=d.musicType?(farhaState.music.fileName||d.music||'Oui'):'Sans musique';
+ const order={model:chosen.name,names,date:fmt(d.date)+' · '+d.time,place:d.place,music,base,music_price:sup,total};
+ // Secours : l'admin reçoit au moins la commande et le lien (FormSubmit ne peut pas écrire au client).
+ const fallback=()=>fetch('https://formsubmit.co/ajax/'+FARHA_ADMIN_EMAIL,{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},
+  body:JSON.stringify({_subject:'Farha · Nouvelle commande'+(ref?' '+ref:'')+' — '+names+' (RIB NON envoyé au client)',_template:'table',_captcha:'false',_replyto:c.email,
+   Référence:ref||'—',Client:c.name||'—','E-mail':c.email||'—',Téléphone:c.phone||'—',Adresse:c.address||'—',Modèle:chosen.name,Invitation:names,Date:order.date,Lieu:d.place,Musique:music,
+   'Total à régler':total+' DT','À faire':'Envoyer le RIB au client par e-mail','Lien de l’invitation (à envoyer après le virement)':link})})
+  .catch(e=>console.warn('Farha : e-mail admin non envoyé ('+(e&&e.message||e)+').'));
+ return fetch('/api/payment-email',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({reference:ref||'',customer:c,order,link})})
+  .then(r=>r.ok?r.json():r.json().catch(()=>({})).then(j=>Promise.reject(new Error((j&&j.error)||'HTTP '+r.status))))
+  .then(r=>{if(r&&r.admin===false)fallback()})
+  .catch(e=>{console.warn('Farha : e-mails de paiement via le serveur impossibles ('+(e&&e.message||e)+'), secours FormSubmit.');return fallback()});
 }
 simulatePayment=function(){farhaAskClient(()=>{
  $('payStatus').textContent='';farhaPendingDelivery();
