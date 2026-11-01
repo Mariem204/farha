@@ -2016,7 +2016,8 @@ simulatePayment=function(){
 // (réponse automatique FormSubmit) le prix et les coordonnées bancaires. Après réception du virement, l'admin lui envoie le lien.
 // Au tout premier envoi, FormSubmit envoie un e-mail d'activation à FARHA_ADMIN_EMAIL : cliquer une fois sur « Activate ».
 const FARHA_ADMIN_EMAIL='farhacontact0@gmail.com';
-const FARHA_BANK={titulaire:'À COMPLÉTER',banque:'À COMPLÉTER',rib:'À COMPLÉTER'};
+// COORDONNÉES DE TEST : à remplacer par le vrai compte avant la mise en production.
+const FARHA_BANK={titulaire:'FARHA · compte de test',banque:'Banque de test',rib:'00 000 0000000000000 00 (RIB de test, ne pas utiliser)'};
 function farhaPendingDelivery(){
  farhaDeliver();
  $('complete').classList.add('pending');$('deliveryLabel').textContent='Commande enregistrée';
