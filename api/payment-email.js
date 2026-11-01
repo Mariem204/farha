@@ -54,7 +54,8 @@ async function send(key, sender, to, replyTo, subject, html, txt) {
   });
   if (!r.ok) {
     const t = await r.text();
-    throw Object.assign(new Error('Brevo ' + r.status + ' ' + t.slice(0, 200)), { status: r.status });
+    let code = null; try { code = JSON.parse(t).code || null; } catch (e) {}
+    throw Object.assign(new Error('Brevo ' + r.status + ' ' + t.slice(0, 200)), { status: r.status, code });
   }
 }
 
@@ -72,11 +73,6 @@ module.exports = async function handler(req, res) {
   const sender = process.env.FARHA_SENDER_EMAIL || 'farhacontact0@gmail.com';
   const admin = process.env.FARHA_ADMIN_EMAIL || 'farhacontact0@gmail.com';
   if (!key) return res.status(503).json({ error: 'Envoi d’e-mails non configuré' });
-
-  const ip = String(req.headers['x-forwarded-for'] || '').split(',')[0].trim() || 'inconnu';
-  const now = Date.now(), list = (recent.get(ip) || []).filter(t => now - t < 10 * 60 * 1000);
-  if (list.length >= MAX_PER_IP_10_MIN) return res.status(429).json({ error: 'Trop de demandes, réessayez plus tard.' });
-  list.push(now); recent.set(ip, list);
 
   let body = req.body;
   if (typeof body === 'string') { try { body = JSON.parse(body); } catch (e) { body = null; } }
@@ -96,6 +92,12 @@ module.exports = async function handler(req, res) {
   const link = clean(body.link, 8000);
   let linkOk = false;
   try { const u = new URL(link); linkOk = u.protocol === 'https:' && (u.host === req.headers.host || u.host === 'farha-bay.vercel.app') && /^#i=[A-Za-z0-9_-]+$/.test(u.hash); } catch (e) {}
+
+  // Limite comptée uniquement sur les demandes valides.
+  const ip = String(req.headers['x-forwarded-for'] || '').split(',')[0].trim() || 'inconnu';
+  const now = Date.now(), list = (recent.get(ip) || []).filter(t => now - t < 10 * 60 * 1000);
+  if (list.length >= MAX_PER_IP_10_MIN) return res.status(429).json({ error: 'Trop de demandes, réessayez plus tard.' });
+  list.push(now); recent.set(ip, list);
 
   const motif = 'Farha ' + (order.reference || order.names || customer.name);
   const price = order.base + ' DT' + (order.musicPrice ? ' + musique ' + order.musicPrice + ' DT' : '');
@@ -124,7 +126,7 @@ module.exports = async function handler(req, res) {
       'Farha · Votre commande et les détails du paiement', page(cTitle, cIntro, cRows, cOutro), text(cTitle, cIntro, cRows, cOutro));
   } catch (e) {
     console.error('payment-email: client', e.message);
-    return res.status(502).json({ error: 'E-mail client non envoyé', status: e.status || null });
+    return res.status(502).json({ error: 'E-mail client non envoyé', status: e.status || null, brevo: e.code || null });
   }
   try {
     await send(key, sender, { email: admin, name: 'Farha' }, { email: customer.email, name: customer.name },
