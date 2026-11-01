@@ -2093,7 +2093,11 @@ sendBespoke=function(e){
 .fdp-day:disabled{color:#c9b6ba;text-decoration:line-through;cursor:not-allowed}
 .fdp-day.today{box-shadow:inset 0 0 0 1.5px #c9a35c}
 .fdp-day.on{background:#6b061a;color:#f1d7a3}
-.fdp-day:focus-visible,.fdp-nav:focus-visible{outline:2px solid #c9a35c;outline-offset:1px}
+.fdp-foot{display:flex;justify-content:space-between;margin-top:8px;padding-top:8px;border-top:1px solid rgba(107,6,26,.1)}
+.fdp-act{border:0;background:none;padding:8px 10px;border-radius:10px;font:600 12px 'DM Sans',sans-serif;color:#6b061a;cursor:pointer}
+.fdp-act:hover{background:rgba(107,6,26,.08)}
+.fdp-act.today-btn{background:#6b061a;color:#f1d7a3}
+.fdp-day:focus-visible,.fdp-nav:focus-visible,.fdp-act:focus-visible{outline:2px solid #c9a35c;outline-offset:1px}
 </style>
 <script>
 // FARHA-DATEPICKER : calendrier Farha pour toutes les dates d'événement.
@@ -2119,7 +2123,7 @@ sendBespoke=function(e){
   for(var i=0;i<first;i++)h+='<span></span>';
   for(var d=1;d<=dim;d++){var dt=new Date(y,m,d),v=iso(dt);
    h+='<button type="button" class="fdp-day'+(v===iso(t)?' today':'')+(v===sel?' on':'')+'" data-v="'+v+'"'+(dt<t?' disabled aria-disabled="true"':'')+' aria-label="'+d+' '+MONTHS[m]+' '+y+'">'+d+'</button>'}
-  pop.innerHTML=h+'</div>';
+  pop.innerHTML=h+'</div><div class="fdp-foot"><button type="button" class="fdp-act" data-v="">Effacer</button><button type="button" class="fdp-act today-btn" data-v="'+iso(t)+'">Aujourd’hui</button></div>';
  }
  function place(){if(!pop)return;var r=cur.__fdp.getBoundingClientRect(),w=pop.offsetWidth,ht=pop.offsetHeight;
   var x=Math.max(8,Math.min(r.left,innerWidth-w-8)),y=r.bottom+6;if(y+ht>innerHeight-8&&r.top-ht-6>8)y=r.top-ht-6;
