@@ -682,8 +682,8 @@ html.fp-lock main,html.fp-lock .farha-header{transform:scale(var(--fp-zoom,1.06)
 <button type="button" class="fp-skip">Passer</button></div>
 <script>
 // FARHA-PORTAL : la mariée Farha. Au scroll (molette, doigt, flèches) :
-// 1) la bouche s'ouvre en grand cercle, les lunettes rapetissent et remontent ;
-// 2) la mariée recule et s'efface pendant que la bouche sombre envahit l'écran ;
+// 1) la bouche s'ouvre en un grand trou noir cerclé de blanc, les yeux rapetissent en haut ;
+// 2) le trou mange tout le visage puis envahit l'écran ;
 // 3) le site apparaît en fondu. Au-delà de la moitié, l'ouverture se termine seule.
 (function(){
  var fp=document.getElementById('farhaPortal');if(!fp)return;
@@ -694,28 +694,32 @@ html.fp-lock main,html.fp-lock .farha-header{transform:scale(var(--fp-zoom,1.06)
  var face=fp.querySelector('.fp-face'),img=fp.querySelector('.fp-face-img'),lips=fp.querySelector('.fp-lips'),glasses=fp.querySelector('.fp-glasses'),hint=fp.querySelector('.fp-hint');
  if(matchMedia('(pointer:coarse)').matches){hint.classList.add('touch');hint.lastChild.textContent='Glissez vers le haut pour entrer'}
  var MX=539,MY=926,IW=1054,IH=1493,GX=540,GY=596;
+ // ovale du visage (unités d'image) et anneau de la bouche grande ouverte
+ var OX=536,OY=828,ORX=292,ORY=258,RX=536,RY=858,RR=196,RW=64;
  function ss(a,b,x){x=Math.max(0,Math.min(1,(x-a)/(b-a)));return x*x*(3-2*x)}
- function mix(a,b,t){return a.map(function(v,i){return Math.round(v+(b[i]-v)*t)})}
+ function lerp(a,b,t){return a+(b-a)*t}
  function draw(){
-  var vw=innerWidth,vh=innerHeight,h=vh*.97,w=h*IW/IH,k=w/IW,e=shown;
-  var open=ss(0,.42,e),back=ss(.48,.85,e),grow=ss(.48,.9,e),fade=ss(.86,1,e);
-  var sF=1+.06*open-.24*back; // la mariée grandit un peu, puis recule
-  var fx=(vw-w)/2,fy=vh-h,m0x=fx+MX*k,m0y=fy+MY*k; // bouche à l'écran (point fixe du recul)
-  var unit=k*sF; // pixels écran par unité d'image
-  face.style.width=w+'px';face.style.height=h+'px';
-  face.style.transform='translate('+(m0x-MX*unit)+'px,'+(m0y-MY*unit)+'px) scale('+sF+')';
-  // bouche : s'ouvre dans le visage, puis grandit jusqu'à couvrir l'écran en se recentrant
-  var r1=128,rA=40+(r1-40)*open,rxA=42.5+(r1-42.5)*open;
-  var rCover=(Math.hypot(vw,vh)/2+60)/unit,rB=r1+(rCover-r1)*grow;
-  var cx=MX+((vw/2-m0x)/unit)*grow,cy=MY+((vh/2-m0y)/unit)*grow;
+  var vw=innerWidth,vh=innerHeight,h=vh*.94,w=h*IW/IH;if(w>vw*1.15){w=vw*1.15;h=w*IH/IW}
+  var k=w/IW,e=shown;
+  var open=ss(0,.4,e),eat=ss(.44,.64,e),grow=ss(.62,.9,e),fade=ss(.86,1,e);
+  var fx=(vw-w)/2,fy=(vh-h)/2;
+  face.style.width=w+'px';face.style.height=h+'px';face.style.transform='translate('+fx+'px,'+fy+'px)';
+  // 1) la bouche devient un grand trou noir cerclé de blanc qui occupe presque tout le visage
+  var cx=lerp(MX,RX,open),cy=lerp(MY,RY,open),rx=lerp(42.5,RR,open),ry=lerp(40,RR,open),sw=RW*open;
+  // 2) le trou mange le visage : il prend la forme de l'ovale, l'anneau blanc disparaît
+  cx=lerp(cx,OX,eat);cy=lerp(cy,OY,eat);rx=lerp(rx,ORX,eat);ry=lerp(ry,ORY,eat);sw*=1-eat;
+  // 3) le noir envahit l'écran en se recentrant
+  var rCover=(Math.hypot(vw,vh)/2+40)/k;
+  cx=lerp(cx,(vw/2-fx)/k,grow);cy=lerp(cy,(vh/2-fy)/k,grow);rx=lerp(rx,rCover,grow);ry=lerp(ry,rCover,grow);
   lips.setAttribute('cx',cx.toFixed(2));lips.setAttribute('cy',cy.toFixed(2));
-  lips.setAttribute('rx',(grow>0?rB:rxA).toFixed(2));lips.setAttribute('ry',(grow>0?rB:rA).toFixed(2));
-  lips.setAttribute('fill','rgb('+mix([98,5,23],[30,3,10],open).join(',')+')');
-  lips.setAttribute('stroke-width',(16*open*(1-ss(.48,.66,e))).toFixed(2));
-  // yeux, sourcils et lunettes : plus petits et plus haut à mesure que la bouche s'ouvre
-  var g=1-.55*open;
-  glasses.setAttribute('transform','translate('+GX+' '+(GY-40*open)+') scale('+g+') translate('+(-GX)+' '+(-GY)+')');
-  glasses.style.opacity=img.style.opacity=(1-back).toFixed(3);
+  lips.setAttribute('rx',rx.toFixed(2));lips.setAttribute('ry',ry.toFixed(2));
+  lips.setAttribute('fill',open>0?'#1a0207':'#620517');
+  lips.setAttribute('stroke','#fffaf4');lips.setAttribute('stroke-width',sw.toFixed(2));
+  // yeux et lunettes : petits, tout en haut, au-dessus de l'anneau
+  var g=1-.5*open;
+  glasses.setAttribute('transform','translate('+GX+' '+(GY-22*open)+') scale('+g+') translate('+(-GX)+' '+(-GY)+')');
+  glasses.style.opacity=(1-ss(.46,.6,e)).toFixed(3);
+  img.style.opacity=(1-ss(.7,.9,e)).toFixed(3);
   fp.style.opacity=(1-fade).toFixed(3);
   root.style.setProperty('--fp-zoom',(1.06-.06*fade).toFixed(4));
   hint.style.opacity=Math.max(0,1-e*4);
