@@ -1141,8 +1141,8 @@ function farhaMapUrl(d){return farhaHttpsUrl(d.map)?d.map:'https://www.google.co
 function farhaSplitPlace(place){const parts=place.split(',').map(s=>s.trim()).filter(Boolean);return {name:parts[0]||place,addr:parts.length>1?parts.slice(1).join(', '):place}}
 // Mélodies de démonstration FARHA (0 à 19), générées dans le navigateur : bibliothèque et liens d'invitation.
 function farhaDemoWav(index){const note=[0,2,4,7,9,7,4,2],rate=11025,secs=5,frames=rate*secs,buffer=new ArrayBuffer(44+frames*2),dv=new DataView(buffer);function str(off,t){for(let j=0;j<t.length;j++)dv.setUint8(off+j,t.charCodeAt(j))}str(0,'RIFF');dv.setUint32(4,36+frames*2,true);str(8,'WAVE');str(12,'fmt ');dv.setUint32(16,16,true);dv.setUint16(20,1,true);dv.setUint16(22,1,true);dv.setUint32(24,rate,true);dv.setUint32(28,rate*2,true);dv.setUint16(32,2,true);dv.setUint16(34,16,true);str(36,'data');dv.setUint32(40,frames*2,true);
-const root=220*Math.pow(2,(index%6)/12),speed=2.1+(index%4)*.23;
-for(let i=0;i<frames;i++){const t=i/rate,step=Math.floor(t*speed),n=note[(step+index)%8]+(index%3)*2,f=root*Math.pow(2,n/12),phase=t*f*6.2831853,env=Math.pow(1-(t*speed%1),1.3),fade=Math.min(1,t*6,(secs-t)*3);const v=(Math.sin(phase)+.26*Math.sin(phase*2)+.14*Math.sin(phase*.5))*env*fade*.20;dv.setInt16(44+i*2,Math.max(-32767,Math.min(32767,v*32767)),true)}return new Blob([buffer],{type:'audio/wav'})}
+const root=440*Math.pow(2,(index%6)/12),speed=2.1+(index%4)*.23; // une octave plus haut : audible sur les haut-parleurs de téléphone
+for(let i=0;i<frames;i++){const t=i/rate,step=Math.floor(t*speed),n=note[(step+index)%8]+(index%3)*2,f=root*Math.pow(2,n/12),phase=t*f*6.2831853,env=Math.pow(1-(t*speed%1),1.3),fade=Math.min(1,t*6,(secs-t)*3);const v=(Math.sin(phase)+.26*Math.sin(phase*2)+.14*Math.sin(phase*.5))*env*fade*.62;dv.setInt16(44+i*2,Math.max(-32767,Math.min(32767,v*32767)),true)}return new Blob([buffer],{type:'audio/wav'})}
 const farhaDemoUrls={};
 function farhaDemoUrl(k){return farhaDemoUrls[k]||(farhaDemoUrls[k]=URL.createObjectURL(farhaDemoWav(k)))}
 function farhaClean(d,t){
