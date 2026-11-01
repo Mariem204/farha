@@ -674,7 +674,7 @@ label.farha-pick:hover{background:#e0cbbf}
  -webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
 .hm-track{position:absolute;z-index:1;left:0;top:50%;height:var(--ih);margin-top:calc(var(--ih)/-2)}
 .hm .hm-item{position:absolute;top:0;left:0;width:var(--iw);height:var(--ih);min-width:0;min-height:0;padding:0;border:0;border-radius:12px!important;overflow:hidden;background:#f6ece4;cursor:pointer;
- box-shadow:0 12px 28px rgba(52,8,22,.22);will-change:transform;backface-visibility:hidden;letter-spacing:normal;text-transform:none}
+ box-shadow:0 12px 28px rgba(52,8,22,.22);will-change:transform;backface-visibility:hidden;transition:box-shadow .3s!important;animation:none!important;letter-spacing:normal;text-transform:none}
 .hm-item:focus-visible{outline:3px solid #f1d7a3;outline-offset:5px}
 .hm-shot{position:absolute;left:0;top:0;width:360px;height:760px;transform-origin:0 0;pointer-events:none}
 .hm-shot>*{width:100%!important;height:100%!important;border:0;display:block;object-fit:cover;border-radius:0}
@@ -2248,13 +2248,19 @@ sendBespoke=function(e){
   var d=D,step=d.iw+GAP,total=step*items.length,mid=box.clientWidth/2,zone=step*1.6;
   // vitesse lissée : accélère et ralentit en douceur (pause au survol)
   v+=((hover||still?0:SPEED)-v)*Math.min(1,dt*4);x+=v*dt;x=((x%total)+total)%total; // défile vers la gauche
-  items.forEach(function(el,i){
-   var px=((i*step-x)%total+total)%total-step; // position de gauche, boucle continue
-   var dist=px+d.iw/2-mid,near=Math.max(0,1-Math.abs(dist)/zone),e=near*near*(3-2*near);
-   // la carte du centre grandit ; ses voisines s'écartent pour lui laisser la place
-   var push=Math.sign(dist)*d.iw*GROW*.5*Math.min(1,Math.abs(dist)/zone);
-   el.style.transform='translate3d('+(px+push).toFixed(2)+'px,0,0) scale('+(1+GROW*e).toFixed(4)+')';
-   el.style.zIndex=Math.round(e*10);
+  // écart constant : on part de la carte la plus proche du centre, puis chaque voisine est posée
+  // à GAP pixels du bord (agrandi) de la précédente ; la carte du centre peut grandir sans chevaucher.
+  var row=items.map(function(el,i){
+   var dd=((i*step-x)%total+total)%total-step+d.iw/2-mid,near=Math.max(0,1-Math.abs(dd)/zone),e=near*near*(3-2*near);
+   return{el:el,d:dd,e:e,w:d.iw*(1+GROW*e)};
+  }).sort(function(p,q){return p.d-q.d});
+  var a=0;row.forEach(function(r,i){if(Math.abs(r.d)<Math.abs(row[a].d))a=i});
+  row[a].c=row[a].d*(row[a].w+GAP)/step; // symétrique : aucun saut quand la carte du centre change
+  for(var j=a+1;j<row.length;j++)row[j].c=row[j-1].c+row[j-1].w/2+GAP+row[j].w/2;
+  for(j=a-1;j>=0;j--)row[j].c=row[j+1].c-row[j+1].w/2-GAP-row[j].w/2;
+  row.forEach(function(r){
+   r.el.style.transform='translate3d('+(mid+r.c-d.iw/2).toFixed(2)+'px,0,0) scale('+(1+GROW*r.e).toFixed(4)+')';
+   r.el.style.zIndex=Math.round(r.e*10);
   });
  }
  function loop(t){var dt=last?Math.min(.1,(t-last)/1000):0;last=t;draw(dt);raf=requestAnimationFrame(loop)}
