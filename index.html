@@ -2078,16 +2078,76 @@ sendBespoke=function(e){
  farhaRenderHomeCollections();
 })();
 </script>
+<style id="farha-datepicker">
+.fdp-field{cursor:pointer;caret-color:transparent}
+.fdp{position:fixed;z-index:10000;width:292px;padding:14px 14px 12px;border-radius:16px;background:#fffaf4;border:1px solid rgba(107,6,26,.14);box-shadow:0 18px 50px rgba(74,4,20,.22);font:500 13px 'DM Sans',sans-serif;color:#3b0a14}
+.fdp-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.fdp-head b{font:600 15px 'Cormorant Garamond','DM Sans',serif;text-transform:capitalize;letter-spacing:.02em}
+.fdp-nav{width:32px;height:32px;border:0;border-radius:50%;background:none;color:#6b061a;font-size:18px;cursor:pointer}
+.fdp-nav:hover:not(:disabled){background:rgba(107,6,26,.08)}
+.fdp-nav:disabled{opacity:.25;cursor:default}
+.fdp-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;text-align:center}
+.fdp-grid i{font-style:normal;font-size:10px;letter-spacing:.12em;color:#9c6f7b;padding:4px 0}
+.fdp-day{height:36px;border:0;border-radius:50%;background:none;color:inherit;font:inherit;cursor:pointer}
+.fdp-day:hover:not(:disabled){background:rgba(107,6,26,.08)}
+.fdp-day:disabled{color:#c9b6ba;text-decoration:line-through;cursor:not-allowed}
+.fdp-day.today{box-shadow:inset 0 0 0 1.5px #c9a35c}
+.fdp-day.on{background:#6b061a;color:#f1d7a3}
+.fdp-day:focus-visible,.fdp-nav:focus-visible{outline:2px solid #c9a35c;outline-offset:1px}
+</style>
 <script>
-// FARHA-MIN-DATE : aucune date passée dans les calendriers (date d'événement à partir d'aujourd'hui).
+// FARHA-DATEPICKER : calendrier Farha pour toutes les dates d'événement.
+// Les jours avant aujourd'hui sont grisés et non cliquables ; le champ date d'origine
+// reste dans le formulaire (caché) et garde sa valeur AAAA-MM-JJ.
 (function(){
- function today(){var d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
- function arm(el){el.min=today()}
- function check(el){arm(el);var bad=el.value&&el.value<el.min;el.setCustomValidity(bad?'Choisissez une date à partir d’aujourd’hui.':'');if(bad){el.value='';el.reportValidity()}}
+ var MONTHS=['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+ var desc=Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value');
+ var pop=null,cur=null,view=null;
+ function pad(n){return String(n).padStart(2,'0')}
+ function iso(d){return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())}
+ function today(){var d=new Date();d.setHours(0,0,0,0);return d}
+ function parse(v){var m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(v||'');return m?new Date(+m[1],m[2]-1,+m[3]):null}
+ function label(v){var d=parse(v);return d?pad(d.getDate())+'/'+pad(d.getMonth()+1)+'/'+d.getFullYear():''}
+ function set(el,v){desc.set.call(el,v);el.__fdp.value=label(v);
+  el.dispatchEvent(new Event('input',{bubbles:true}));el.dispatchEvent(new Event('change',{bubbles:true}))}
+ function close(){if(pop){pop.remove();pop=null;if(cur)cur.__fdp.setAttribute('aria-expanded','false');cur=null}}
+ function render(){
+  var t=today(),y=view.getFullYear(),m=view.getMonth(),sel=desc.get.call(cur);
+  var first=(new Date(y,m,1).getDay()+6)%7,dim=new Date(y,m+1,0).getDate();
+  var h='<div class="fdp-head"><button type="button" class="fdp-nav" data-n="-1" aria-label="Mois précédent"'+(y*12+m<=t.getFullYear()*12+t.getMonth()?' disabled':'')+'>‹</button><b>'+MONTHS[m]+' '+y+'</b><button type="button" class="fdp-nav" data-n="1" aria-label="Mois suivant">›</button></div><div class="fdp-grid">';
+  ['L','M','M','J','V','S','D'].forEach(function(d){h+='<i>'+d+'</i>'});
+  for(var i=0;i<first;i++)h+='<span></span>';
+  for(var d=1;d<=dim;d++){var dt=new Date(y,m,d),v=iso(dt);
+   h+='<button type="button" class="fdp-day'+(v===iso(t)?' today':'')+(v===sel?' on':'')+'" data-v="'+v+'"'+(dt<t?' disabled aria-disabled="true"':'')+' aria-label="'+d+' '+MONTHS[m]+' '+y+'">'+d+'</button>'}
+  pop.innerHTML=h+'</div>';
+ }
+ function place(){if(!pop)return;var r=cur.__fdp.getBoundingClientRect(),w=pop.offsetWidth,ht=pop.offsetHeight;
+  var x=Math.max(8,Math.min(r.left,innerWidth-w-8)),y=r.bottom+6;if(y+ht>innerHeight-8&&r.top-ht-6>8)y=r.top-ht-6;
+  pop.style.left=x+'px';pop.style.top=Math.max(8,y)+'px'}
+ function open(el){close();cur=el;var t=today(),s=parse(desc.get.call(el));view=new Date((s&&s>=t?s:t).getFullYear(),(s&&s>=t?s:t).getMonth(),1);
+  pop=document.createElement('div');pop.className='fdp';pop.setAttribute('role','dialog');pop.setAttribute('aria-label','Choisir une date');
+  pop.addEventListener('mousedown',function(e){e.preventDefault()});
+  pop.addEventListener('click',function(e){var b=e.target.closest('button');if(!b||b.disabled)return;
+   if(b.dataset.n){view=new Date(view.getFullYear(),view.getMonth()+ +b.dataset.n,1);render();place();return}
+   var f=cur.__fdp;set(cur,b.dataset.v);close();f.focus()});
+  document.body.appendChild(pop);el.__fdp.setAttribute('aria-expanded','true');render();place();
+  var on=pop.querySelector('.fdp-day.on,.fdp-day.today,.fdp-day:not(:disabled)');if(on&&matchMedia('(pointer:fine)').matches)on.focus({preventScroll:true})}
+ function arm(el){if(el.__fdp)return;
+  var f=document.createElement('input');f.type='text';f.readOnly=true;f.className=(el.className+' fdp-field').trim();
+  f.placeholder='jj/mm/aaaa';f.setAttribute('aria-haspopup','dialog');f.setAttribute('aria-expanded','false');
+  f.setAttribute('aria-label',(el.closest('label')||{}).textContent||el.getAttribute('aria-label')||'Date');
+  el.__fdp=f;el.min=iso(today());el.style.display='none';el.setAttribute('tabindex','-1');el.insertAdjacentElement('afterend',f);
+  Object.defineProperty(el,'value',{configurable:true,get:function(){return desc.get.call(el)},set:function(v){desc.set.call(el,v);f.value=label(v)}});
+  var v=desc.get.call(el);if(v&&parse(v)<today()){desc.set.call(el,'')}f.value=label(desc.get.call(el));
+  f.addEventListener('click',function(e){e.preventDefault();pop&&cur===el?close():open(el)});
+  f.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '||e.key==='ArrowDown'){e.preventDefault();open(el)}
+   else if(e.key==='Backspace'||e.key==='Delete'){e.preventDefault();set(el,'')}else if(e.key==='Escape')close()});
+ }
  function scan(){document.querySelectorAll('input[type="date"]').forEach(arm)}
- document.addEventListener('focusin',function(e){if(e.target.matches&&e.target.matches('input[type="date"]'))arm(e.target)});
- document.addEventListener('change',function(e){if(e.target.matches&&e.target.matches('input[type="date"]'))check(e.target)},true);
- document.addEventListener('submit',function(e){e.target.querySelectorAll&&e.target.querySelectorAll('input[type="date"]').forEach(check)},true);
+ document.addEventListener('mousedown',function(e){if(pop&&!pop.contains(e.target)&&e.target!==cur.__fdp)close()});
+ document.addEventListener('keydown',function(e){if(e.key==='Escape'&&pop){var f=cur.__fdp;close();f.focus()}});
+ addEventListener('resize',place);addEventListener('scroll',place,true);
+ document.addEventListener('reset',function(e){setTimeout(function(){e.target.querySelectorAll('input[type="date"]').forEach(function(el){if(el.__fdp)el.__fdp.value=label(desc.get.call(el))})})},true);
  var q=0;scan();new MutationObserver(function(){if(!q)q=requestAnimationFrame(function(){q=0;scan()})}).observe(document.body,{childList:true,subtree:true});
 })();
 </script>
