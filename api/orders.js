@@ -168,6 +168,6 @@ module.exports = async function handler(req, res) {
     console.error('orders:', step, e.status || '', e.code || '', e.message);
     // Diagnostic sans révéler la clé : seulement son type.
     const cle = /^sb_secret_/.test(key) ? 'secret' : /^sb_publishable_/.test(key) ? 'publishable' : /^eyJ/.test(key) ? 'jwt' : 'inconnu';
-    return res.status(500).json({ error: 'Enregistrement impossible pour le moment', etape: step, code: e.code || e.status || null, cle });
+    return res.status(500).json({ error: 'Enregistrement impossible pour le moment', etape: step, code: e.code || e.status || null, cle, detail: String(e.message || e).slice(0, 140) });
   }
 };
