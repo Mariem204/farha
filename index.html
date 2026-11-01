@@ -614,6 +614,12 @@ label.farha-pick:hover{background:#e0cbbf}
  .hc-nav{display:none}
  .hc-track{margin:0 -16px;padding-left:16px;padding-right:16px;scroll-padding-left:16px}
 }
+/* Nos nouveautés : une seule rangée qui défile, avec les flèches des collections. */
+#themes #catalog{display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;padding:4px 2px 26px;margin:0;max-width:none;scrollbar-width:none}
+#themes #catalog::-webkit-scrollbar{display:none}
+#themes #catalog>.template-card{flex:0 0 clamp(260px,23vw,310px);scroll-snap-align:start}
+.nv-carousel .hc-nav{top:150px}
+@media(max-width:900px){#themes #catalog{margin:0 -16px;padding-left:16px;padding-right:16px;scroll-padding-left:16px}#themes #catalog>.template-card{flex-basis:min(80vw,320px)}}
 </style>
 <style id="farha-collections">
 /* Page « Nos collections » : une carte par catégorie, puis les modèles de la collection choisie. */
@@ -668,7 +674,7 @@ label.farha-pick:hover{background:#e0cbbf}
  </div>
  <div class="fh-art" role="img" aria-label="Invitation de mariage Amira &amp; Youssef sur un téléphone, sous une arche dorée, avec des alliances et des fleurs"></div>
 </div>
-<div id="themes"><h1 class="catalog-title">Nos nouveautés</h1><p class="catalog-subtitle">Les derniers modèles arrivés chez Farha : découvrez leur mini-site animé, puis personnalisez-le.</p><div class="grid" id="catalog"></div><div class="catalog-more"><button type="button" class="landing-button catalog-more-btn" onclick="farhaOpenInspirations()">Voir tous les modèles →</button></div></div>
+<div id="themes"><h1 class="catalog-title">Nos nouveautés</h1><p class="catalog-subtitle">Les derniers modèles arrivés chez Farha : découvrez leur mini-site animé, puis personnalisez-le.</p><div class="hc-carousel nv-carousel"><button type="button" class="hc-nav prev" aria-label="Nouveautés précédentes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg></button><div class="grid" id="catalog" aria-label="Nos nouveautés"></div><button type="button" class="hc-nav next" aria-label="Nouveautés suivantes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg></button></div><div class="catalog-more"><button type="button" class="landing-button catalog-more-btn" onclick="farhaOpenAllTemplates()">Voir tous les modèles →</button></div></div>
 <section class="hc" id="homeCollections" aria-labelledby="hcTitle"><div class="hc-head"><div><h2 id="hcTitle">Choisissez votre collection</h2><p>Parcourez chaque collection : les nouveaux modèles apparaissent en premier, à découvrir puis à personnaliser.</p></div><button type="button" class="hc-link" onclick="farhaOpenInspirations()">Toutes les collections <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div><div id="hcRows"></div></section>
 <section class="farha-reviews" id="avis" aria-labelledby="reviewsTitle" hidden><span class="landing-eyebrow">ILS ONT CHOISI FARHA</span><h2 class="landing-heading" id="reviewsTitle">Ce que disent nos clients</h2>
 <div class="reviews-track" id="reviewsTrack" tabindex="0" aria-label="Avis clients, faites défiler horizontalement">
@@ -1973,6 +1979,14 @@ sendBespoke=function(e){
   el.replaceChildren(...rows.map(([n,l])=>row(n,l,fresh)));
   document.getElementById('homeCollections').hidden=!rows.length;
  };
+ window.farhaOpenAllTemplates=function(){show('inspirations');farhaOpenCollection('Tous')};
+ (function(){const car=document.querySelector('.nv-carousel');if(!car)return;
+  const track=car.querySelector('#catalog'),prev=car.querySelector('.prev'),next=car.querySelector('.next');
+  const sync=()=>{const max=track.scrollWidth-track.clientWidth;prev.disabled=track.scrollLeft<4;next.disabled=track.scrollLeft>max-4;prev.hidden=next.hidden=max<4};
+  const go=dir=>{const w=track.querySelector('.template-card');track.scrollBy({left:dir*((w?w.offsetWidth:290)+18),behavior:'smooth'})};
+  prev.onclick=()=>go(-1);next.onclick=()=>go(1);
+  track.addEventListener('scroll',sync,{passive:true});addEventListener('resize',sync);new MutationObserver(()=>requestAnimationFrame(sync)).observe(track,{childList:true});requestAnimationFrame(sync);
+ })();
  const before=renderCatalog;
  renderCatalog=function(){before.apply(this,arguments);farhaRenderHomeCollections()};
  farhaRenderHomeCollections();
