@@ -687,12 +687,12 @@ html.fp-lock main,html.fp-lock .farha-header{transform:scale(var(--fp-zoom,1.15)
  <ellipse cx="200" cy="252" rx="122" ry="132" fill="#f8dfd2"/>
  <path d="M76 232Q82 104 200 100Q318 104 324 232Q306 162 200 166Q94 162 76 232Z" fill="#1d0a10"/>
  <path d="M122 196Q148 184 172 194M228 194Q252 184 278 196" fill="none" stroke="#1d0a10" stroke-width="5" stroke-linecap="round"/>
+ <circle class="fp-lips" cx="200" cy="318" r="14" fill="#2a0a12" stroke="#5a1426" stroke-width="7"/>
  <g fill="rgba(255,255,255,.28)" stroke="#c9a14a" stroke-width="6"><circle cx="150" cy="246" r="38"/><circle cx="250" cy="246" r="38"/></g>
  <path d="M188 244Q200 234 212 244" fill="none" stroke="#c9a14a" stroke-width="6" stroke-linecap="round"/>
  <g class="fp-pupil"><circle cx="150" cy="248" r="7" fill="#1d0a10"/><circle cx="153" cy="245" r="2" fill="#fff"/></g>
  <g class="fp-pupil"><circle cx="250" cy="248" r="7" fill="#1d0a10"/><circle cx="253" cy="245" r="2" fill="#fff"/></g>
  <ellipse cx="116" cy="300" rx="19" ry="10" fill="#ee9aa4" opacity=".6"/><ellipse cx="284" cy="300" rx="19" ry="10" fill="#ee9aa4" opacity=".6"/>
- <circle class="fp-lips" cx="200" cy="316" r="14" fill="none" stroke="#5a1426" stroke-width="7"/>
 </svg></div>
 <span class="fp-brand">فرحة ✦</span>
 <span class="fp-hint"><i></i>Faites défiler pour entrer</span>
@@ -708,12 +708,12 @@ html.fp-lock main,html.fp-lock .farha-header{transform:scale(var(--fp-zoom,1.15)
  var p=0,shown=0,raf=0,auto=false,done=false,idle=0,ty=null;
  var face=fp.querySelector('.fp-face'),lips=fp.querySelector('.fp-lips'),hint=fp.querySelector('.fp-hint');
  if(matchMedia('(pointer:coarse)').matches){hint.classList.add('touch');hint.lastChild.textContent='Glissez vers le haut pour entrer'}
- var MX=200,MY=316,LIP=7;
+ var MX=200,MY=318,LIP=7;
  function ss(a,b,x){x=Math.max(0,Math.min(1,(x-a)/(b-a)));return x*x*(3-2*x)}
  function draw(){
   var vw=innerWidth,vh=innerHeight,w=Math.min(vw*.7,vh*.56),k=w/400,e=shown;
-  var open=ss(0,.42,e),zoom=ss(.3,1,e);
-  var mr=14+38*open; // rayon de la bouche (unités du dessin)
+  var open=ss(0,.4,e),zoom=ss(.38,1,e);
+  var mr=14+48*open; // rayon de la bouche (unités du dessin)
   var fx=(vw-w)/2,fy=(vh-440*k)/2-vh*.03; // visage centré
   var m0x=fx+MX*k,m0y=fy+MY*k;
   var smax=(Math.hypot(vw,vh)/2+30)/((mr-LIP/2)*k),S=Math.exp(Math.log(smax)*zoom);
@@ -722,7 +722,8 @@ html.fp-lock main,html.fp-lock .farha-header{transform:scale(var(--fp-zoom,1.15)
   face.style.width=w+'px';face.style.height=440*k+'px';
   face.style.transform='translate('+(mx-MX*k*S)+'px,'+(my-MY*k*S)+'px) scale('+S+')';
   fp.style.setProperty('--mx',mx+'px');fp.style.setProperty('--my',my+'px');
-  fp.style.setProperty('--r',Math.max(0,(mr-LIP/2)*k*S)+'px');
+  // l'intérieur de la bouche reste sombre, puis le site apparaît depuis le centre quand on plonge dedans
+  fp.style.setProperty('--r',Math.max(0,(mr-LIP/2)*k*S*ss(.5,.86,e))+'px');
   root.style.setProperty('--fp-zoom',(1.15-.15*zoom).toFixed(4));
   hint.style.opacity=Math.max(0,1-e*4);
  }
