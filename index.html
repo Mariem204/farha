@@ -2317,7 +2317,8 @@ sendBespoke=function(e){
  function draw(dt){
   var d=D,step=d.iw+GAP,total=step*items.length,mid=box.clientWidth/2,zone=step*1.6;
   // vitesse lissée : accélère et ralentit en douceur (pause au survol)
-  v+=((still?0:SPEED)-v)*Math.min(1,dt*4);x+=v*dt;x=((x%total)+total)%total; // défile vers la gauche, sans pause au survol
+  var held=items.some(function(el){return el.__hv}); // carte survolée : le défilé s'arrête en douceur pour la regarder
+  v+=((still||held?0:SPEED)-v)*Math.min(1,dt*4);x+=v*dt;x=((x%total)+total)%total; // défile vers la gauche
   // écart constant : on part de la carte la plus proche du centre, puis chaque voisine est posée
   // à GAP pixels du bord (agrandi) de la précédente ; la carte du centre peut grandir sans chevaucher.
   var row=items.map(function(el,i){
