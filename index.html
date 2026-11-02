@@ -715,22 +715,23 @@ html.fp-lock main,html.fp-lock .farha-header{transform:scale(var(--fp-zoom,1.06)
 <button type="button" class="fp-skip">Passer</button></div>
 <style id="farha-portal-zaghrouta">
 /* Portail « zaghrouta » : la dame sourit ; au scroll, au toucher ou au clic, elle lève la main et lance une zaghrouta, puis le site apparaît. */
-.fz-scene{position:absolute;left:50%;top:0;height:100%;aspect-ratio:1/1;transform:translateX(-50%);max-width:none}
-@media(max-aspect-ratio:1/1){.fz-scene{top:50%;height:auto;width:min(100vw,100vh);transform:translate(-50%,-50%)}}
-.fz-img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block;transition:opacity .28s ease}
+.fz-scene{position:absolute;left:50%;top:9%;height:78%;aspect-ratio:1/1;transform:translateX(-50%);max-width:none}
+@media(max-aspect-ratio:1/1){.fz-scene{top:50%;height:auto;width:min(84vw,78vh);transform:translate(-50%,-50%)}}
+.fz-img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block;transition:opacity .7s ease}
 .fz-b{opacity:0}
 .fp.fz-on .fz-a{opacity:0}.fp.fz-on .fz-b{opacity:1}
-.fp.fz-on .fz-scene{animation:fzJoy 1.5s ease-in-out}
+.fp.fz-on .fz-scene{animation:fzJoy 3s ease-in-out}
 @keyframes fzJoy{0%{transform:translateX(-50%) scale(1)}12%{transform:translateX(-50%) scale(1.035) rotate(-.6deg)}30%{transform:translateX(-50%) scale(1.02) rotate(.5deg)}48%{transform:translateX(-50%) scale(1.03) rotate(-.4deg)}70%,100%{transform:translateX(-50%) scale(1.02)}}
 @media(max-aspect-ratio:1/1){@keyframes fzJoy{0%{transform:translate(-50%,-50%) scale(1)}12%{transform:translate(-50%,-50%) scale(1.035) rotate(-.6deg)}30%{transform:translate(-50%,-50%) scale(1.02) rotate(.5deg)}48%{transform:translate(-50%,-50%) scale(1.03) rotate(-.4deg)}70%,100%{transform:translate(-50%,-50%) scale(1.02)}}}
 .fz-fx{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
 .fz-waves path{fill:none;stroke:#f3c66b;filter:drop-shadow(0 0 3px rgba(80,0,20,.6));stroke-linecap:round;opacity:0;transform-box:view-box}
-.fp.fz-on .fz-waves path{animation:fzWave 1.1s ease-out infinite}
+.fp.fz-on .fz-waves path{animation:fzWave 1.8s ease-out infinite}
 @keyframes fzWave{0%{opacity:0;transform:scale(.55)}20%{opacity:.95}100%{opacity:0;transform:scale(1.35)}}
+.fz-words{display:none}
 .fz-words text{font:700 54px 'Aref Ruqaa','Amiri',serif;fill:#f6e3c2;opacity:0;paint-order:stroke;stroke:#4f0217;stroke-width:6px}
 .fp.fz-on .fz-words text{animation:fzWord 1.6s ease-out forwards}
 @keyframes fzWord{0%{opacity:0;transform:translate(0,0) scale(.6)}15%{opacity:1}80%{opacity:1}100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(1.15)}}
-.fp.fz-out{opacity:0;transition:opacity .7s ease}
+.fp.fz-out{opacity:0;transition:opacity 1.1s ease}
 @media(prefers-reduced-motion:reduce){.fp.fz-on .fz-scene,.fp.fz-on .fz-waves path,.fp.fz-on .fz-words text{animation:none}}
 </style>
 <script>
@@ -756,8 +757,8 @@ html.fp-lock main,html.fp-lock .farha-header{transform:scale(var(--fp-zoom,1.06)
  function finish(){if(done)return;done=true;clearTimeout(timer);root.classList.remove('fp-lock');root.style.removeProperty('--fp-zoom');
   removeEventListener('wheel',onWheel);removeEventListener('keydown',onKey);fp.remove();scrollTo(0,0);
   var calm=function(e){e.preventDefault()};addEventListener('wheel',calm,{passive:false});setTimeout(function(){removeEventListener('wheel',calm)},650)}
- function leave(){fp.classList.add('fz-out');root.style.setProperty('--fp-zoom','1');setTimeout(finish,720)}
- function start(){if(started)return;started=true;hint.style.opacity=0;fp.classList.add('fz-on');timer=setTimeout(leave,1700)}
+ function leave(){fp.classList.add('fz-out');root.style.setProperty('--fp-zoom','1');setTimeout(finish,1150)}
+ function start(){if(started)return;started=true;hint.style.opacity=0;fp.classList.add('fz-on');timer=setTimeout(leave,3400)}
  function onWheel(e){e.preventDefault();if(Math.abs(e.deltaY)>4)start()}
  function onKey(e){if(['ArrowDown','PageDown',' ','Enter'].indexOf(e.key)>-1){e.preventDefault();start()}else if(e.key==='Escape'){started=true;leave()}}
  addEventListener('wheel',onWheel,{passive:false});addEventListener('keydown',onKey);
@@ -2274,12 +2275,13 @@ sendBespoke=function(e){
 </script>
 <!-- FARHA-HERO-PETALES : pétales de fleurs de cerisier qui tombent avec le vent sur le hero. Pour les retirer, supprimer ce bloc jusqu'à /FARHA-HERO-PETALES. -->
 <style id="farha-hero-petales">
-#home .landing-hero .sky-deco.fpt-layer{background:none!important;z-index:3;overflow:hidden;pointer-events:none}
+#home .landing-hero .sky-deco.fpt-layer{background:none!important;z-index:3;overflow:hidden;pointer-events:none;display:none!important} /* pétales du hero masqués pour l'instant */
 .fpt-layer canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 </style>
 <script>
 (function(){
  var hero=document.querySelector('#home .landing-hero');if(!hero)return;
+ return; // pétales du hero masqués pour l'instant (supprimer cette ligne pour les remettre)
  if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
  var layer=document.createElement('div');layer.className='sky-deco fpt-layer';layer.setAttribute('aria-hidden','true');
  var cv=document.createElement('canvas');layer.append(cv);hero.append(layer);
