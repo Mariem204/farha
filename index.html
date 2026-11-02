@@ -737,33 +737,31 @@ html.fp-lock main,html.fp-lock .farha-header{transform:scale(var(--fp-zoom,1.06)
  </svg></span><span class="fp-l fp-l2">IRE</span><span class="fp-script">Votre</span></div>
  <p class="fp-tag">Chaque invitation raconte une histoire</p>
 </div>
-<div class="fp-shards" aria-hidden="true"></div>
 </div>
 <span class="fp-brand">فرحة ✦</span>
 <span class="fp-hint"><i></i>Faites défiler pour entrer</span>
 <button type="button" class="fp-skip">Passer</button></div>
 <style id="farha-portal-miroir">
-/* Portail « Votre HISTOIRE » : miroir doré à la place du O, cœur doré, pétales ; au scroll on entre dans le miroir, le verre se brise. */
+/* Portail « Votre HISTOIRE » : miroir doré à la place du O, cœur doré, pétales ; au scroll ou au clic on entre dans le miroir, puis fondu vers la landing. */
 .fp-petals{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:3}
 .fp-scene{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;transform-origin:0 0;will-change:transform}
 .fp-word{position:relative;display:flex;align-items:center;font:300 min(17vw,26vh)/1 'Playfair Display','Cormorant Garamond',Georgia,serif;letter-spacing:-.01em;color:#f6e7d2;user-select:none}
 .fp-l{display:inline-block;transform:scaleY(1.32);transform-origin:50% 55%;text-shadow:0 6px 24px rgba(20,2,8,.35)}
 .fp-mirror{display:inline-block;width:.86em;height:1.25em;margin:0 .02em;position:relative;top:-.04em}
 .fp-mirror svg{width:100%;height:100%;overflow:visible;filter:drop-shadow(0 14px 22px rgba(20,2,8,.45))}
+.fp-moving .fp-mirror svg{filter:none}
+.fp-stage.fp-in{background:radial-gradient(ellipse at 42% 38%,#fde3ec 0,#f3c9da 35%,#cdd9f3 75%,#b9c8ec 100%)}
 .fp-heart{transform-box:fill-box;transform-origin:50% 50%;animation:fpBob 3.2s ease-in-out infinite}
 @keyframes fpBob{0%,100%{transform:translateY(-3px) rotate(-2deg)}50%{transform:translateY(4px) rotate(2deg)}}
 .fp-script{position:absolute;left:-.12em;top:.14em;font:400 .5em/1 'Pinyon Script',cursive;color:#e9c98a;transform:rotate(-8deg);text-shadow:0 3px 12px rgba(20,2,8,.4);pointer-events:none}
 .fp-tag{margin:min(5vh,34px) 0 0;font:600 11px 'DM Sans',sans-serif;letter-spacing:.32em;text-transform:uppercase;color:#f1d7a3;opacity:.9}
-.fp-shards{position:absolute;inset:0;pointer-events:none;z-index:2}
-.fp-shard{position:absolute;inset:0;background:radial-gradient(ellipse at 42% 38%,#fde3ec 0,#f3c9da 35%,#cdd9f3 75%,#b9c8ec 100%);opacity:0;will-change:transform,opacity;backface-visibility:hidden}
 @media(max-width:600px){.fp-word{font-size:min(16vw,22vh)}.fp-tag{font-size:9.5px;letter-spacing:.24em}}
 @media(prefers-reduced-motion:reduce){.fp-heart{animation:none}}
 </style>
 <script>
 // FARHA-PORTAL (miroir) : au scroll (molette, doigt, flèches) :
 // 1) on avance dans le miroir doré jusqu'à ce que son verre remplisse l'écran ;
-// 2) le verre se brise en éclats qui s'envolent ;
-// 3) le site apparaît. Au-delà de la moitié, l'ouverture se termine seule.
+// 2) la page d'entrée s'efface en fondu et la landing apparaît. Au-delà de la moitié, l'ouverture se termine seule.
 (function(){
  var fp=document.getElementById('farhaPortal');if(!fp)return;
  var root=document.documentElement;
@@ -771,18 +769,10 @@ html.fp-lock main,html.fp-lock .farha-header{transform:scale(var(--fp-zoom,1.06)
  if('scrollRestoration' in history)history.scrollRestoration='manual';scrollTo(0,0);root.classList.add('fp-lock');
  var p=0,shown=0,raf=0,auto=false,done=false,idle=0,ty=null;
  var stage=fp.querySelector('.fp-stage'),scene=fp.querySelector('.fp-scene'),glass=fp.querySelector('.fp-glass'),letters=fp.querySelectorAll('.fp-l,.fp-script,.fp-tag'),
-  shardsBox=fp.querySelector('.fp-shards'),heart=fp.querySelector('.fp-heart'),hint=fp.querySelector('.fp-hint'),brand=fp.querySelector('.fp-brand'),skip=fp.querySelector('.fp-skip');
+  heart=fp.querySelector('.fp-heart'),hint=fp.querySelector('.fp-hint'),brand=fp.querySelector('.fp-brand'),skip=fp.querySelector('.fp-skip');
  if(matchMedia('(pointer:coarse)').matches){hint.classList.add('touch');hint.lastChild.textContent='Glissez vers le haut pour entrer'}
  // perles du cadre
  (function(){var g=fp.querySelector('.fp-beads'),h='';for(var i=0;i<36;i++){var a=i/36*Math.PI*2;h+='<circle cx="'+(100+84*Math.cos(a)).toFixed(1)+'" cy="'+(158+116*Math.sin(a)).toFixed(1)+'" r="2.3"/>'}g.innerHTML=h})();
- // éclats de verre : triangles d'une grille irrégulière couvrant l'écran
- var shards=[];
- (function(){var C=6,R=5,pts=[];for(var r=0;r<=R;r++){pts[r]=[];for(var c=0;c<=C;c++){var j=(r>0&&r<R&&c>0&&c<C)?1:0;pts[r][c]=[c/C*100+j*(Math.random()-.5)*11,r/R*100+j*(Math.random()-.5)*13]}}
-  function add(a,b,c){var el=document.createElement('i');el.className='fp-shard';el.style.clipPath='polygon('+[a,b,c].map(function(q){return q[0].toFixed(2)+'% '+q[1].toFixed(2)+'%'}).join(',')+')';
-   var cx=(a[0]+b[0]+c[0])/3,cy=(a[1]+b[1]+c[1])/3,dx=cx-50,dy=cy-50,d=Math.hypot(dx,dy)||1;
-   el.style.transformOrigin=cx+'% '+cy+'%';el.style.filter='brightness('+(.9+Math.random()*.25).toFixed(2)+')';
-   shardsBox.append(el);shards.push({el:el,dx:dx/d,dy:dy/d,sp:.7+Math.random()*.8,rx:Math.random()*2-1,ry:Math.random()*2-1,rz:(Math.random()*2-1)*140,delay:Math.random()*.08})}
-  for(var r=0;r<R;r++)for(var c=0;c<C;c++){var A=pts[r][c],B=pts[r][c+1],Cc=pts[r+1][c],D=pts[r+1][c+1];if((r+c)%2){add(A,B,D);add(A,D,Cc)}else{add(A,B,Cc);add(B,D,Cc)}}})();
  // pétales qui tombent
  var cv=fp.querySelector('.fp-petals'),ctx=cv.getContext('2d'),PET=[],dpr=Math.min(2,devicePixelRatio||1);
  function sizeCv(){cv.width=innerWidth*dpr;cv.height=innerHeight*dpr}
@@ -799,24 +789,18 @@ html.fp-lock main,html.fp-lock .farha-header{transform:scale(var(--fp-zoom,1.06)
  function draw(){
   if(!base)measure();
   var vw=innerWidth,vh=innerHeight,e=shown;
-  var zoom=ss(0,.6,e),brk=ss(.58,.95,e),fade=ss(.88,1,e);
+  var zoom=ss(0,.62,e),fade=ss(.5,1,e);
   // 1) on entre dans le miroir : zoom centré sur le verre jusqu'à ce qu'il couvre l'écran
   var Z=Math.max(vw/base.w,vh/base.h)*1.45,k=Math.pow(Z,zoom);
   var tx=(vw/2-base.cx*k)*zoom+(base.cx-base.cx*k)*(1-zoom),ty2=(vh/2-base.cy*k)*zoom+(base.cy-base.cy*k)*(1-zoom);
   scene.style.transform='translate('+tx.toFixed(1)+'px,'+ty2.toFixed(1)+'px) scale('+k.toFixed(4)+')';
   var lo=1-ss(.18,.45,e);letters.forEach(function(l){l.style.opacity=lo.toFixed(3)});
   heart.style.opacity=(1-ss(.3,.52,e)).toFixed(3); // le cœur s'efface avant que le verre ne remplisse l'écran
-  scene.style.opacity=e<.6?1:0;
-  // 2) le verre se brise
-  var on=e>=.58;
-  shards.forEach(function(s){var t=Math.max(0,Math.min(1,(brk-s.delay)/(1-s.delay))),d=t*t*(vw+vh)*.55*s.sp;
-   s.el.style.opacity=on?(1-ss(.55,1,t)).toFixed(3):0;
-   s.el.style.transform=on?'translate3d('+(s.dx*d).toFixed(1)+'px,'+(s.dy*d+t*t*vh*.25).toFixed(1)+'px,0) rotate3d('+s.rx.toFixed(2)+','+s.ry.toFixed(2)+',.4,'+(s.rz*t).toFixed(1)+'deg) scale('+(1-.35*t).toFixed(3)+')':'none'});
-  // 3) le site apparaît derrière les éclats
-  stage.style.background=on?'transparent':'';
+  // 2) fondu vers la landing une fois dans le miroir (le verre, qui couvre l'écran, est remplacé par un fond identique, plus léger)
+  var inside=zoom>=.999;scene.style.visibility=inside?'hidden':'';stage.classList.toggle('fp-in',inside);fp.classList.toggle('fp-moving',e>.02);
   cv.style.opacity=(1-ss(.5,.8,e)).toFixed(3);
   fp.style.opacity=(1-fade).toFixed(3);
-  root.style.setProperty('--fp-zoom',(1.06-.06*ss(.6,1,e)).toFixed(4));
+  root.style.setProperty('--fp-zoom',(1.06-.06*fade).toFixed(4));
   hint.style.opacity=Math.max(0,1-e*4);brand.style.opacity=skip.style.opacity=(1-ss(.3,.6,e)).toFixed(3);
  }
  function tick(){shown+=(p-shown)*(auto?.05:.14);if(Math.abs(p-shown)<.001)shown=p;draw();
