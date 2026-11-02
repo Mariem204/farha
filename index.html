@@ -1012,11 +1012,13 @@ function farhaCopyLink(){farhaCopy($('deliveryLink').value).then(()=>farhaToast(
 function farhaShare(app){
  const url=$('deliveryLink').value,text='Vous êtes invités ! '+$('orderNames').textContent.replace(/^Invitation : /,'')+' ✦ '+url;
  const mobile=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
- if(app==='whatsapp'){window.open('https://wa.me/?text='+encodeURIComponent(text),'_blank','noopener');return}
- if(app==='messenger'){if(mobile){location.href='fb-messenger://share/?link='+encodeURIComponent(url);return}farhaCopy(url).then(()=>{farhaToast('Lien copié ✓ Collez-le dans votre conversation Messenger.');window.open('https://www.messenger.com/','_blank','noopener')});return}
- // Instagram n'a pas de lien de partage web : on passe par le partage natif du téléphone, sinon on copie le lien.
+ // Ouverture par un vrai lien (moins bloquée que window.open) ; sur téléphone, dans le même onglet pour lancer l'appli.
+ const go=href=>{if(mobile){location.href=href;return}const a=document.createElement('a');a.href=href;a.target='_blank';a.rel='noopener';document.body.append(a);a.click();a.remove()};
+ if(app==='whatsapp'){go('https://wa.me/?text='+encodeURIComponent(text));farhaToast('WhatsApp s’ouvre avec votre lien ✓ Choisissez la discussion ou le groupe.');return}
+ if(app==='messenger'){if(mobile){location.href='fb-messenger://share/?link='+encodeURIComponent(url);return}farhaCopy(url).then(()=>{farhaToast('Lien copié ✓ Collez-le dans votre conversation Messenger.');go('https://www.messenger.com/')});return}
+ // Instagram n'a pas de lien de partage web : sur téléphone, le partage natif (choisir Instagram) ; sinon lien copié + messages Instagram.
  if(navigator.share&&mobile){navigator.share({title:'Invitation Farha',text,url}).catch(()=>{});return}
- farhaCopy(url).then(()=>{farhaToast('Lien copié ✓ Collez-le dans votre story, votre bio ou un message Instagram.');window.open('https://www.instagram.com/','_blank','noopener')})
+ farhaCopy(url).then(()=>{farhaToast('Lien copié ✓ Collez-le dans un message, votre story ou votre bio Instagram.');go(mobile?'instagram://direct-inbox':'https://www.instagram.com/direct/inbox/')})
 }
 function farhaDownloadSite(){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([lastDoc||buildDoc(chosen,readData())],{type:'text/html'}));a.download='invitation-'+farhaSlug()+'.html';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),2000);farhaToast('Site téléchargé ✓')}
 // « Cliquer pour payer » : à brancher sur l'API de paiement. Une fois la transaction vérifiée côté serveur, appeler farhaDeliver().
@@ -2346,10 +2348,9 @@ sendBespoke=function(e){
 #inspirations .insp-panel .insp-reset,#inspirations .insp-panel .insp-reset:hover,#inspirations .insp-panel .insp-reset:focus{background:transparent!important;color:#7a5560!important;box-shadow:none!important;transform:none!important}
 #inspirations .insp-panel .insp-reset:hover{border-color:#632a40!important;color:#632a40!important}
 #inspirations .insp-panel .insp-reset[hidden]{display:none!important}
-/* En-tête : sans l'étiquette « Thèmes » ; « Retour » sans fond, le fond n'apparaît qu'au survol. */
+/* En-tête : sans l'étiquette « Thèmes » ; « Retour » avec fond beige fixe. */
 #inspirations .insp-head .sectionlabel{display:none}
-#inspirations #inspBack{background:transparent;box-shadow:none;transition:background .2s}
-#inspirations #inspBack:hover,#inspirations #inspBack:focus-visible{background:#e0cbbf}
+#inspirations #inspBack,#inspirations #inspBack:hover{background:#e0cbbf;box-shadow:none}
 @media(max-width:600px){#inspBudgetSel{font-size:13px;padding:10px 30px 10px 10px;background-position:right 8px center}}
 </style>
 <script>
@@ -2459,10 +2460,9 @@ body #home #how-it-works.landing-steps{padding-top:56px}
 })();
 </script>
 <!-- /FARHA-FORM-SCROLL -->
-<!-- FARHA-BOUTONS-RETOUR : tous les boutons « ← Retour… » sans fond au repos, fond beige au survol. -->
+<!-- FARHA-BOUTONS-RETOUR : tous les boutons « ← Retour… » avec le même fond beige, sans effet au survol. -->
 <style id="farha-boutons-retour">
-.view button.secondary.farha-back{background:transparent;box-shadow:none;transition:background .2s}
-.view button.secondary.farha-back:hover,.view button.secondary.farha-back:focus-visible{background:#e0cbbf}
+.view button.secondary.farha-back,.view button.secondary.farha-back:hover,.view button.secondary.farha-back:focus,#inspirations #inspBack,#inspirations #inspBack:hover{background:#e0cbbf!important;color:#6e263e;box-shadow:none;transform:none;filter:none}
 </style>
 <script>document.querySelectorAll('.view button.secondary').forEach(function(b){if(/^\s*←/.test(b.textContent))b.classList.add('farha-back')});</script>
 <!-- /FARHA-BOUTONS-RETOUR -->
