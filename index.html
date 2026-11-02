@@ -2481,4 +2481,33 @@ body #home #how-it-works.landing-steps{padding-top:56px}
 })();
 </script>
 <!-- /FARHA-SCROLL-FIN -->
+<!-- FARHA-RETOUR-HISTORIQUE : les boutons « ← … » ramènent à la page précédente, à l'endroit où l'utilisateur s'était arrêté. -->
+<script>
+(function(){
+ if(typeof show!=='function')return;
+ var stack=[],goingBack=false,base=show;
+ // Chaque changement de page retient la page quittée et sa position de défilement.
+ show=function(id){
+  var cur=document.querySelector('.view.active'),from=cur&&cur.id;
+  if(!goingBack&&from&&from!==id){stack.push({view:from,y:scrollY});if(stack.length>40)stack.shift()}
+  return base.apply(this,arguments);
+ };
+ window.farhaBack=function(fallback){
+  var cur=(document.querySelector('.view.active')||{}).id,e;
+  while(stack.length&&(e=stack.pop())&&e.view===cur)e=null;
+  if(!e){if(typeof fallback==='function')fallback();return}
+  goingBack=true;
+  try{if(e.view==='detail'&&typeof showDetail==='function')showDetail();else show(e.view)}finally{goingBack=false}
+  var y=e.y,put=function(){window.scrollTo({top:y,left:0,behavior:'instant'})};
+  requestAnimationFrame(function(){put();setTimeout(put,60);setTimeout(put,250)});
+ };
+ // Boutons « ← … » : historique d'abord, sinon leur ancienne action.
+ document.querySelectorAll('.view button.secondary').forEach(function(b){
+  var code=b.getAttribute('onclick');if(!code||!/^\s*←/.test(b.textContent))return;
+  var fallback=new Function(code);b.removeAttribute('onclick');
+  b.addEventListener('click',function(){farhaBack(fallback)});
+ });
+})();
+</script>
+<!-- /FARHA-RETOUR-HISTORIQUE -->
 </body></html>
