@@ -2424,6 +2424,20 @@ body #home #how-it-works.landing-steps{padding-top:56px}
 <!-- /FARHA-MODELES-HTML-CHAMPS -->
 <!-- FARHA-FORM-SCROLL : sur ordinateur, le formulaire de personnalisation défile dans son cadre, l'aperçu téléphone ne bouge pas. -->
 <style id="farha-form-scroll">
+/* Aperçu en iPhone récent : cadre métal, bord noir fin, grands arrondis, Dynamic Island */
+#custom .fi-wrap{position:relative;width:fit-content;margin:0 auto}
+#custom .phone{position:relative;margin:0;border:9px solid #0d0d0f;border-radius:56px;background:#000;
+ box-shadow:0 0 0 1.5px #3a3a3e,0 0 0 4px #b9b4ae,0 0 0 5.5px #807b76,0 26px 60px rgba(30,15,20,.28)}
+#custom .phone iframe{border-radius:47px}
+#custom .fi-island{position:absolute;z-index:4;top:11px;left:50%;transform:translateX(-50%);width:31%;height:27px;border-radius:20px;background:#000;pointer-events:none}
+#custom .fi-home{position:absolute;z-index:4;bottom:7px;left:50%;transform:translateX(-50%);width:34%;height:5px;border-radius:5px;background:rgba(20,20,22,.55);pointer-events:none}
+#custom .fi-btn{position:absolute;width:4px;border-radius:2px;background:linear-gradient(90deg,#8a857f,#cfc9c3 60%,#9b958f);pointer-events:none}
+#custom .fi-action{left:-8px;top:17%;height:4.5%}
+#custom .fi-vol1{left:-8px;top:24.5%;height:8%}
+#custom .fi-vol2{left:-8px;top:34%;height:8%}
+#custom .fi-power{right:-8px;top:27%;height:12%}
+#custom .fi-cam{right:-8px;top:52%;height:7%;opacity:.8}
+@media(max-width:800px){#custom .phone{width:min(86vw,340px)!important;height:auto!important;aspect-ratio:.482}}
 @media(min-width:801px){
  #custom .custom-layout>.panel{overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#d6c0b4 transparent}
  #custom .custom-layout>.panel::-webkit-scrollbar{width:8px}
@@ -2435,13 +2449,18 @@ body #home #how-it-works.landing-steps{padding-top:56px}
 (function(){
  var view=document.getElementById('custom');if(!view)return;
  var phone=view.querySelector('.phone'),panel=view.querySelector('.custom-layout>.panel'),cap=view.querySelector('.sticky p');if(!phone||!panel)return;
+ var RATIO=.482; // proportions d'un iPhone récent (largeur / hauteur, cadre compris)
+ // Habillage iPhone : Dynamic Island, barre d'accueil, boutons latéraux.
+ var wrap=document.createElement('div');wrap.className='fi-wrap';phone.before(wrap);wrap.append(phone);
+ phone.insertAdjacentHTML('beforeend','<span class="fi-island" aria-hidden="true"></span><span class="fi-home" aria-hidden="true"></span>');
+ wrap.insertAdjacentHTML('beforeend','<i class="fi-btn fi-action"></i><i class="fi-btn fi-vol1"></i><i class="fi-btn fi-vol2"></i><i class="fi-btn fi-power"></i><i class="fi-btn fi-cam"></i>');
  function fit(){
-  phone.style.height='';panel.style.maxHeight='';
+  phone.style.height='';phone.style.width='';panel.style.maxHeight='';
   if(innerWidth<=800||!view.classList.contains('active'))return;
   var r=phone.getBoundingClientRect(),z=r.height/phone.offsetHeight||1,pz=panel.getBoundingClientRect().height/panel.offsetHeight||1;
   var capH=cap?cap.getBoundingClientRect().height+18:30;
   var vis=Math.max(520,Math.min(740,innerHeight-(r.top+scrollY)-capH-14));
-  phone.style.height=(vis/z)+'px';panel.style.maxHeight=(vis/pz)+'px';
+  phone.style.height=(vis/z)+'px';phone.style.width=(vis*RATIO/z)+'px';panel.style.maxHeight=(vis/pz)+'px';
  }
  var t;addEventListener('resize',function(){clearTimeout(t);t=setTimeout(fit,100)});
  new MutationObserver(function(){requestAnimationFrame(fit)}).observe(view,{attributes:true,attributeFilter:['class']});
