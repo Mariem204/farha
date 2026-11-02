@@ -2390,6 +2390,9 @@ body #home .partner-panel>div{max-width:640px}
 body #home .partner-panel p{margin-left:auto;margin-right:auto}
 body #home .partner-panel .partner-tag{position:absolute;top:0;left:50%;transform:translate(-50%,-50%);display:inline-flex;align-items:center;gap:10px;padding:13px 30px;border-radius:999px;background:#f5dfc3;color:#572239;font:600 15px 'DM Sans',sans-serif;letter-spacing:.02em;white-space:nowrap;box-shadow:0 10px 24px rgba(66,21,37,.25);pointer-events:none}
 body #home .partner-panel .partner-tag svg{width:18px;height:18px}
+/* Même contour intérieur que le bloc « Une invitation. Mille émotions. » */
+body #home .partner-panel:before{content:'';position:absolute;inset:14px;border:1px solid #d8b68b55;border-radius:22px;pointer-events:none}
+body #home .partner-panel .partner-tag{z-index:2}
 /* Menu un peu moins haut */
 body .farha-header{padding-top:6px;padding-bottom:6px}
 body .farha-header .farha-nav a{padding-top:7px;padding-bottom:7px}
