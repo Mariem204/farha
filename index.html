@@ -1863,7 +1863,7 @@ buildDoc=function(t,data,token){
  const d=farhaClean(data,t),text=farhaTextPatch(t,d);
  let html=FARHA_CUSTOM_HTML[t.id];
  if(t.defaults.hasConfig)html=farhaSetConfig(html,text);
- const cfg={key:'custom',token:token||'',color:/^#[0-9a-fA-F]{6}$/.test(t.color||'')?t.color:'#8d4565',profile:{},
+ const cfg={key:'custom',token:token||'',color:/^#[0-9a-fA-F]{6}$/.test(t.color||'')?t.color:'#8d4565',profile:FARHA_PROFILES.custom||{},
   state:{text,dress:d.dress,photos:d.photos,music:{type:d.musicType,src:d.music}}};
  const bridge='<script>('+escapeScript(farhaBridge.toString())+')('+farhaJSON(cfg)+');<\/script>';
  const i=html.lastIndexOf('</body>');
@@ -2372,4 +2372,52 @@ body #home #how-it-works.landing-steps{padding-top:56px}
 @media(max-width:750px){body #home .landing-hero.hero-v2.hero-sky{padding-bottom:8px;margin-bottom:16px!important}body #home #how-it-works.landing-steps{padding-top:42px}}
 </style>
 <!-- /FARHA-ESPACEMENTS -->
+<!-- FARHA-MODELES-HTML-CHAMPS : modèles créés dans le back-office — champs supplémentaires de leur CONFIG (école, famille, année, verset…) et photo (#photo). -->
+<style id="farha-modeles-html-champs">#farhaExtra:empty{display:none}</style>
+<script>
+(function(){
+ if(typeof farhaCustomDefaults!=='function')return;
+ // Libellés des clés connues ; les autres textes simples du CONFIG reçoivent un libellé tiré de leur nom.
+ var LABELS={school:'École / université',family:'La famille',degree:'Diplôme obtenu',year:'Année (promotion)',verse:'Verset / citation',whatsapp:'WhatsApp pour les réponses (ex. 21612345678)',
+  title:'Titre',subtitle:'Sous-titre',host:'Invité par',parents:'Les parents',quote:'Citation',hashtag:'Hashtag',dressNote:'Indication Dress Code',childName:'Prénom de l’enfant',age:'Âge',city:'Ville'};
+ var SKIP=['bride','groom','name','date','venue','venueShort','address','mapQuery','mapImage','mapLink'];
+ FARHA_PROFILES.custom={photos:[{sel:'#photo',mode:'bg',label:'Photo'},{sel:'img[data-photo]',mode:'img',label:'Photo encadrée'}]};
+ var before=farhaCustomDefaults;
+ farhaCustomDefaults=function(html){
+  var d=before(html),m=html.match(/\nconst CONFIG = \{[\s\S]*?\n\};/),extras=[];
+  if(m){var re=/\n  ([A-Za-z][A-Za-z0-9_]{0,29})\s*:\s*"([^"\n]*)"/g,x;
+   while((x=re.exec(m[0]))){var k=x[1];if(SKIP.indexOf(k)>=0||k===d.second)continue;
+    extras.push({key:k,def:x[2],label:LABELS[k]||k.replace(/([A-Z])/g,' $1').replace(/^./,function(c){return c.toUpperCase()})})}}
+  d.extras=extras;d.hasMessage=!m||/\n  message\s*:/.test(m[0]);return d;
+ };
+ // Les modèles déjà chargés sont relus avec le nouveau calcul.
+ if(typeof FARHA_CUSTOM_HTML==='object'&&typeof templates!=='undefined')templates.forEach(function(t){if(t.custom&&FARHA_CUSTOM_HTML[t.id])t.defaults=farhaCustomDefaults(FARHA_CUSTOM_HTML[t.id])});
+ farhaState.extra=farhaState.extra||{};
+ function extrasOf(t){return t&&t.custom&&t.defaults&&t.defaults.extras||[]}
+ // Zone des champs, juste après le lien Google Maps.
+ var host=document.createElement('div');host.id='farhaExtra';var map=document.getElementById('map');if(map)map.after(host);
+ function renderExtra(){
+  var t=chosen,list=extrasOf(t),vals=farhaState.extra[t&&t.id]||{};
+  // Message personnalisé masqué si le modèle importé ne l'utilise pas.
+  var msg=document.getElementById('message'),ml=document.querySelector('label[for="message"]'),hide=!!(t&&t.custom&&t.defaults&&t.defaults.hasMessage===false);
+  if(msg)msg.hidden=hide;if(ml)ml.hidden=hide;
+  host.replaceChildren.apply(host,[].concat.apply([],list.map(function(e){
+   var id='fx_'+e.key,lb=document.createElement('label'),inp=document.createElement(e.def.length>70?'textarea':'input');
+   lb.htmlFor=id;lb.textContent=e.label;inp.id=id;inp.maxLength=200;inp.value=vals[e.key]!=null?vals[e.key]:e.def;inp.dataset.key=e.key;
+   if(/[؀-ۿ]/.test(e.def))inp.dir='auto';
+   inp.addEventListener('input',function(){(farhaState.extra[t.id]=farhaState.extra[t.id]||{})[e.key]=inp.value;if(typeof farhaCustomSync==='function')farhaCustomSync()});
+   return[lb,inp]})));
+ }
+ var rc=farhaRenderControls;farhaRenderControls=function(){rc.apply(this,arguments);try{renderExtra()}catch(e){}};
+ // Les valeurs suivent le formulaire : aperçu, lien invité, commande.
+ var rd=readData;readData=function(){var d=rd.apply(this,arguments);if(chosen&&chosen.custom){var v=farhaState.extra[chosen.id];if(v)d.extra=Object.assign({},v)}return d};
+ var cl=farhaClean;farhaClean=function(d,t){var o=cl.apply(this,arguments);
+  if(t&&t.custom&&d&&d.extra&&typeof d.extra==='object'){var keys=extrasOf(t).map(function(e){return e.key}),x={};
+   Object.keys(d.extra).forEach(function(k){if(keys.indexOf(k)>=0)x[k]=String(d.extra[k]==null?'':d.extra[k]).replace(/[\u0000-\u0009\u000b-\u001f\u007f]/g,' ').trim().slice(0,200)});o.extra=x}
+  return o};
+ var tp=farhaTextPatch;farhaTextPatch=function(t,d){var p=tp.apply(this,arguments);
+  if(t&&t.custom&&d&&d.extra)Object.keys(d.extra).forEach(function(k){if(d.extra[k])p[k]=d.extra[k]});return p};
+})();
+</script>
+<!-- /FARHA-MODELES-HTML-CHAMPS -->
 </body></html>
