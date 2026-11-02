@@ -1830,7 +1830,10 @@ function farhaCustomDefaults(html){
   place:[venue,addr].filter(Boolean).join(', ')||def.place,message:def.message,hasConfig:!!c};
 }
 function farhaCustomPreview(html){
- return '<iframe class="card-shot card-frame" title="" aria-hidden="true" tabindex="-1" loading="lazy" sandbox="allow-scripts" srcdoc="'+html.replace(/&/g,'&amp;').replace(/"/g,'&quot;')+'"></iframe>';
+ // Miniature : sans barre de défilement (cartes du catalogue et défilé du hero).
+ const noBar='<style>html,body{scrollbar-width:none!important;overflow:hidden!important}::-webkit-scrollbar{display:none!important;width:0!important;height:0!important}</style>';
+ const i=html.search(/<\/head>/i);html=i<0?noBar+html:html.slice(0,i)+noBar+html.slice(i);
+ return '<iframe class="card-shot card-frame" title="" aria-hidden="true" tabindex="-1" loading="lazy" scrolling="no" sandbox="allow-scripts" srcdoc="'+html.replace(/&/g,'&amp;').replace(/"/g,'&quot;')+'"></iframe>';
 }
 function farhaRegisterCustom(t,html){
  FARHA_CUSTOM_HTML[t.id]=html;t.custom=true;t.defaults=farhaCustomDefaults(html);
