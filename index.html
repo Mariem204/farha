@@ -756,7 +756,7 @@ html.fp-lock main,html.fp-lock .farha-header{transform:scale(var(--fp-zoom,1.06)
    for(var i=0;i<d.length;i+=4){var a=d[i]-rr,b=d[i+1]-rg,c=d[i+2]-rb,q=a*a+b*b+c*c;if(q<1600){var w=q<196?1:1-(Math.sqrt(q)-14)/26;d[i]+=dr*w;d[i+1]+=dg*w;d[i+2]+=db*w}}
    cx.putImageData(im,0,0);if(!cv.classList.contains('on')){cv.classList.add('on');scene.classList.add('cv')}}catch(e){cvOk=false;cv.classList.remove('on');scene.classList.remove('cv')}}
  (function frame(){if(done)return;if(!vid.paused||!cv.classList.contains('on'))paint();requestAnimationFrame(frame)})();
- function play(){var pr=vid.play();if(pr&&pr.catch)pr.catch(function(){});if(!playing){playing=true;shout();sayT=setInterval(shout,900)}}
+ function play(){var pr=vid.play();if(pr&&pr.catch)pr.catch(function(){});if(!playing){playing=true;jasmins();shout();sayT=setInterval(shout,900)}} // jasmins, voix et danse démarrent ensemble
  // fleurs de jasmin qui tombent sur toute la page pendant la zaghrouta
  function jasmins(){if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;
   var cv=document.createElement('canvas');cv.className='fz-jas';fp.querySelector('.fp-stage').append(cv);
@@ -783,7 +783,6 @@ html.fp-lock main,html.fp-lock .farha-header{transform:scale(var(--fp-zoom,1.06)
  fp.addEventListener('touchstart',function(e){ty=e.touches[0].clientY},{passive:true});
  fp.addEventListener('touchmove',function(e){e.preventDefault();if(ty!=null&&ty-e.touches[0].clientY>12)enter()},{passive:false});
  fp.addEventListener('click',function(e){if(e.target.closest('.fp-skip')){entering=true;clearTimeout(timer);leave();return}enter()});
- jasmins(); // jasmins sur toute la page dès l'arrivée
  root.style.setProperty('--fp-zoom','1.06');
 })();
 </script>
