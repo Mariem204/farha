@@ -2226,7 +2226,7 @@ sendBespoke=function(e){
 (function(){
  var box=document.getElementById('heroMarquee');if(!box)return;
  var track=document.getElementById('hmTrack');
- var items=[],x=0,v=0,last=0,raf=0,hover=false,D=null,still=matchMedia('(prefers-reduced-motion:reduce)').matches,SPEED=55,GAP=26,MAX=8,GROW=.45;
+ var items=[],x=0,v=0,last=0,raf=0,hover=false,D=null,still=matchMedia('(prefers-reduced-motion:reduce)').matches,SPEED=55,GAP=26,MAX=8,GROW=.45,CURVE_S=.5,CURVE_A=36;
  function newest(){
   if(typeof templates==='undefined')return[];
   var order=new Map(templates.map(function(t,i){return[t,i]}));
@@ -2253,14 +2253,15 @@ sendBespoke=function(e){
   // à GAP pixels du bord (agrandi) de la précédente ; la carte du centre peut grandir sans chevaucher.
   var row=items.map(function(el,i){
    var dd=((i*step-x)%total+total)%total-step+d.iw/2-mid,near=Math.max(0,1-Math.abs(dd)/zone),e=near*near*(3-2*near);
-   return{el:el,d:dd,e:e,w:d.iw*(1+GROW*e)};
+   var t=Math.max(-1.15,Math.min(1.15,dd/mid)),sc=1+CURVE_S*t*t,ang=-t*CURVE_A; // cylindre : bords plus grands et tournés vers le centre
+   return{el:el,d:dd,e:Math.abs(t),s:sc,a:ang,w:d.iw*sc*Math.cos(ang*Math.PI/180)};
   }).sort(function(p,q){return p.d-q.d});
   var a=0;row.forEach(function(r,i){if(Math.abs(r.d)<Math.abs(row[a].d))a=i});
   row[a].c=row[a].d*(row[a].w+GAP)/step; // symétrique : aucun saut quand la carte du centre change
   for(var j=a+1;j<row.length;j++)row[j].c=row[j-1].c+row[j-1].w/2+GAP+row[j].w/2;
   for(j=a-1;j>=0;j--)row[j].c=row[j+1].c-row[j+1].w/2-GAP-row[j].w/2;
   row.forEach(function(r){
-   r.el.style.transform='translate3d('+(mid+r.c-d.iw/2).toFixed(2)+'px,0,0) scale('+(1+GROW*r.e).toFixed(4)+')';
+   r.el.style.transform='translate3d('+(mid+r.c-d.iw/2).toFixed(2)+'px,0,0) perspective(900px) rotateY('+r.a.toFixed(2)+'deg) scale('+r.s.toFixed(4)+')';
    r.el.style.zIndex=Math.round(r.e*10);
   });
  }
@@ -2273,4 +2274,62 @@ sendBespoke=function(e){
  build();
 })();
 </script>
+<!-- FARHA-HERO-PETALES : pétales de fleurs de cerisier qui tombent avec le vent sur le hero. Pour les retirer, supprimer ce bloc jusqu'à /FARHA-HERO-PETALES. -->
+<style id="farha-hero-petales">
+#home .landing-hero .sky-deco.fpt-layer{background:none!important;z-index:3;overflow:hidden;pointer-events:none}
+.fpt-layer canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+</style>
+<script>
+(function(){
+ var hero=document.querySelector('#home .landing-hero');if(!hero)return;
+ if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+ var layer=document.createElement('div');layer.className='sky-deco fpt-layer';layer.setAttribute('aria-hidden','true');
+ var cv=document.createElement('canvas');layer.append(cv);hero.append(layer);
+ var ctx=cv.getContext('2d'),W=0,H=0,DPR=Math.min(2,window.devicePixelRatio||1);
+ // Sprites de pétales (dessinés une fois) : 3 teintes × 4 niveaux de flou. Le flou passe par shadowBlur (marche aussi sur Safari).
+ var S=96,tints=[['#ffe3ea','#ffb3c6','#f58aa8'],['#fff0f3','#ffc6d3','#f7a0b8'],['#ffd6e0','#ff9fb8','#ec7698']],blurs=[0,2,6,14],SP=[];
+ function petal(c,t){c.beginPath();c.moveTo(0,-S*.36);c.bezierCurveTo(S*.30,-S*.30,S*.30,S*.12,0,S*.38);c.bezierCurveTo(-S*.30,S*.12,-S*.30,-S*.30,0,-S*.36);c.closePath();
+  var g=c.createLinearGradient(0,-S*.36,0,S*.38);g.addColorStop(0,t[0]);g.addColorStop(.45,t[1]);g.addColorStop(1,t[2]);return g}
+ function sharp(t){var cc=document.createElement('canvas');cc.width=cc.height=S;var c=cc.getContext('2d');c.translate(S/2,S/2);
+  c.fillStyle=petal(c,t);c.fill();
+  // petite encoche au bout du pétale et nervure claire
+  c.globalCompositeOperation='destination-out';c.beginPath();c.moveTo(-S*.06,-S*.37);c.lineTo(0,-S*.27);c.lineTo(S*.06,-S*.37);c.fill();
+  c.globalCompositeOperation='source-over';c.strokeStyle='rgba(255,255,255,.45)';c.lineWidth=1.2;c.beginPath();c.moveTo(0,-S*.2);c.quadraticCurveTo(S*.04,S*.08,0,S*.32);c.stroke();return cc}
+ tints.forEach(function(t){var base=sharp(t);SP.push(blurs.map(function(b){if(!b)return base;var pad=b*3,cc=document.createElement('canvas');cc.width=cc.height=S+pad*2;var c=cc.getContext('2d');
+  if('filter' in c){c.filter='blur('+b+'px)';c.drawImage(base,pad,pad)}
+  else{c.shadowColor=t[1];c.shadowBlur=b*1.6;c.shadowOffsetX=cc.width;c.drawImage(base,pad-cc.width,pad)} // Safari : flou par l'ombre
+  return cc}))});
+ var mobile=innerWidth<700,N=mobile?34:70,P=[],wind=0,windT=Math.random()*100,near=null,nextNear=1500;
+ function rnd(a,b){return a+Math.random()*(b-a)}
+ function spawn(p,anywhere){var z=Math.random();// profondeur : 0 loin, 1 proche
+  p.z=z;p.size=(mobile?.65:1)*(z<.5?rnd(14,22):z<.88?rnd(22,36):rnd(38,58));
+  p.blur=z<.35?1:z<.9?0:1;p.tint=(Math.random()*3)|0;
+  p.x=anywhere?rnd(-.1,1.1)*W:rnd(-.25,.9)*W;p.y=anywhere?rnd(-.1,1)*H:rnd(-.15,-.03)*H-p.size;
+  p.vx=rnd(.35,.9)*(.5+z);p.vy=rnd(.45,.9)*(.6+z*.8);
+  p.rot=rnd(0,6.28);p.vr=rnd(-.02,.02);p.flip=rnd(0,6.28);p.vf=rnd(.02,.06);p.sway=rnd(0,6.28);p.vs=rnd(.01,.03);p.alpha=rnd(.75,1);return p}
+ function size(){var r=layer.getBoundingClientRect();W=r.width;H=r.height;cv.width=Math.round(W*DPR);cv.height=Math.round(H*DPR)}
+ size();for(var i=0;i<N;i++)P.push(spawn({},true));
+ var rt;addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(size,150)});
+ function draw(p){var sp=SP[p.tint][p.blur],sc=p.size/S,f=Math.cos(p.flip);
+  ctx.save();ctx.globalAlpha=p.alpha*(.55+.45*Math.abs(f));ctx.translate(p.x,p.y);ctx.rotate(p.rot);ctx.scale(sc,sc*(.25+.75*Math.abs(f)));
+  ctx.drawImage(sp,-sp.width/2,-sp.height/2);ctx.restore()}
+ var last=0,visible=true;
+ function frame(t){requestAnimationFrame(frame);if(!visible||document.hidden){last=0;return}
+  var dt=last?Math.min(3,(t-last)/16.7):1;last=t;
+  windT+=.004*dt;wind=Math.sin(windT)*.6+Math.sin(windT*2.7)*.3+.4; // rafales douces, vent vers la droite
+  ctx.setTransform(DPR,0,0,DPR,0,0);ctx.clearRect(0,0,W,H);
+  P.forEach(function(p){p.sway+=p.vs*dt;p.flip+=p.vf*dt;p.rot+=p.vr*dt+Math.sin(p.sway)*.004*dt;
+   p.x+=(p.vx*(.6+wind)+Math.sin(p.sway)*.6)*dt*(mobile?.8:1);p.y+=(p.vy+Math.cos(p.sway*1.3)*.25)*dt*(mobile?.8:1);
+   if(p.y>H+40||p.x>W+60)spawn(p,false);draw(p)});
+  // de temps en temps, un gros pétale flou passe tout près « devant la caméra »
+  nextNear-=16.7*dt;
+  if(!near&&nextNear<=0){var big=(mobile?.5:1)*rnd(110,190);near={tint:(Math.random()*3)|0,blur:3,size:big,x:rnd(-.1,.5)*W,y:-big,vx:rnd(3.5,5.5),vy:rnd(3,4.5),rot:rnd(0,6.28),vr:rnd(-.02,.02),flip:0,vf:rnd(.02,.04),alpha:.8,sway:0,vs:0}}
+  if(near){near.x+=near.vx*dt;near.y+=near.vy*dt;near.rot+=near.vr*dt;near.flip+=near.vf*dt;draw(near);
+   if(near.y>H+near.size||near.x>W+near.size){near=null;nextNear=rnd(2500,5500)}}
+ }
+ if('IntersectionObserver' in window)new IntersectionObserver(function(e){visible=e[0].isIntersecting}).observe(layer);
+ requestAnimationFrame(frame);
+})();
+</script>
+<!-- /FARHA-HERO-PETALES -->
 </body></html>
