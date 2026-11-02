@@ -2346,6 +2346,10 @@ sendBespoke=function(e){
 #inspirations .insp-panel .insp-reset,#inspirations .insp-panel .insp-reset:hover,#inspirations .insp-panel .insp-reset:focus{background:transparent!important;color:#7a5560!important;box-shadow:none!important;transform:none!important}
 #inspirations .insp-panel .insp-reset:hover{border-color:#632a40!important;color:#632a40!important}
 #inspirations .insp-panel .insp-reset[hidden]{display:none!important}
+/* En-tête : sans l'étiquette « Thèmes » ; « Retour » sans fond, le fond n'apparaît qu'au survol. */
+#inspirations .insp-head .sectionlabel{display:none}
+#inspirations #inspBack{background:transparent;box-shadow:none;transition:background .2s}
+#inspirations #inspBack:hover,#inspirations #inspBack:focus-visible{background:#e0cbbf}
 @media(max-width:600px){#inspBudgetSel{font-size:13px;padding:10px 30px 10px 10px;background-position:right 8px center}}
 </style>
 <script>
