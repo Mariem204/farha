@@ -13,7 +13,7 @@
 :root{--night:#120607;--red:#c3121f;--red-d:#8f0b16;--wine:#5e0710;--cream:#f3ead9;--cream-d:#d9cbb3;--gold:#d7b26a;--ink:#2a1a14}
 *{box-sizing:border-box}
 html{background:var(--night)}
-body{margin:0;font-family:"Cormorant Garamond",Georgia,serif;font-size:1.12rem;line-height:1.6;color:var(--cream);overflow-x:hidden;background:var(--wine)}
+body{margin:0;font-family:"Cormorant Garamond",Georgia,serif;font-size:1.12rem;line-height:1.6;color:var(--cream);overflow-x:hidden;background:radial-gradient(ellipse at 50% 0%,#8b0e1a 0,var(--wine) 60%) no-repeat,var(--wine)}
 body.locked{overflow:hidden;height:100vh}
 .caps{font-family:Cinzel,serif;letter-spacing:.14em;text-transform:uppercase}
 .script{font-family:"Great Vibes",cursive;font-weight:400;line-height:1.1}
@@ -50,8 +50,7 @@ body.locked{overflow:hidden;height:100vh}
 .enter:focus-visible{outline:2px solid var(--gold);outline-offset:4px}
 
 /* ---------- Page principale ---------- */
-main{position:relative;max-width:480px;margin:0 auto;padding:0 1.4rem 2rem;text-align:center;
- background:radial-gradient(ellipse at 50% 0%,#8b0e1a 0,var(--wine) 60%),var(--wine)}
+main{position:relative;max-width:480px;margin:0 auto;padding:0 1.4rem 2rem;text-align:center}
 main::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.12;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E")}
 section{position:relative;padding:3.2rem 0 1.2rem}
 .top-note{font-family:Cinzel,serif;font-size:.72rem;letter-spacing:.2em;padding-top:1.4rem;opacity:.75}
@@ -105,7 +104,7 @@ footer .script{font-size:2.6rem}
 
 /* fleurs floues qui flottent devant et derrière le contenu */
 .bokeh{position:fixed;inset:0;pointer-events:none;overflow:hidden}
-.bokeh.back{z-index:0}.bokeh.front{z-index:20}
+.bokeh.back,.bokeh.front{z-index:0} /* toutes les fleurs derrière le contenu */
 .bokeh img{position:absolute;will-change:transform;animation:drift var(--d,18s) ease-in-out infinite alternate}
 @keyframes drift{from{transform:translate(0,0) rotate(0)}to{transform:translate(var(--x,20px),var(--y,-30px)) rotate(var(--r,25deg))}}
 main{z-index:1}
