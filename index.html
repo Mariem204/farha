@@ -2575,4 +2575,9 @@ body .farha-header .farha-logo{line-height:1.1}
 .template-price,.hc-foot strong,.col-price,.pkg-price,.showcase-price,#orderMusic,#checkout .total,#inspBudgetSel,#inspirations .insp-group:has(#inspBudgets),.bespoke-price{display:none!important}
 </style>
 <!-- /FARHA-SANS-PRIX -->
+<!-- FARHA-TEST-PROD : le bouton « Terminé · test gratuit » est masqué sur le site en ligne (farha-bay.vercel.app, farha.tn), visible sur les previews. -->
+<script>
+(function(){if(/^(www\.)?(farha-bay\.vercel\.app|farha\.tn)$/i.test(location.hostname))document.querySelectorAll('.farha-free-test').forEach(function(b){b.hidden=true;b.style.display='none'})})();
+</script>
+<!-- /FARHA-TEST-PROD -->
 </body></html>
