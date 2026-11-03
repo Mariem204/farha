@@ -2580,4 +2580,17 @@ body .farha-header .farha-logo{line-height:1.1}
 (function(){if(/^(www\.)?(farha-bay\.vercel\.app|farha\.tn)$/i.test(location.hostname))document.querySelectorAll('.farha-free-test').forEach(function(b){b.hidden=true;b.style.display='none'})})();
 </script>
 <!-- /FARHA-TEST-PROD -->
+<!-- FARHA-MODELES-DESACTIVES : modèles retirés du catalogue (les liens d'invitation déjà envoyés restent valides). -->
+<script>
+(function(){
+ var OFF=['superhero','night','lavender']; // Superhero · Birthday Boy, Nuit étoilée, Douce lavande
+ if(/^#i=/.test(location.hash)||typeof templates==='undefined')return;
+ function prune(){for(var i=templates.length-1;i>=0;i--)if(OFF.indexOf(templates[i].id)>=0)templates.splice(i,1);
+  if(typeof chosen!=='undefined'&&chosen&&OFF.indexOf(chosen.id)>=0)chosen=templates[0]}
+ if(typeof renderCatalog==='function'){var rc=renderCatalog;renderCatalog=function(){prune();return rc.apply(this,arguments)}}
+ if(typeof farhaRenderInspirations==='function'){var ri=farhaRenderInspirations;farhaRenderInspirations=function(){prune();return ri.apply(this,arguments)}}
+ prune();if(typeof renderCatalog==='function')renderCatalog();
+})();
+</script>
+<!-- /FARHA-MODELES-DESACTIVES -->
 </body></html>
