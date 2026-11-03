@@ -119,7 +119,7 @@ main{z-index:1}
  <div class="pocket-wrap" id="pocket" role="button" tabindex="0" aria-label="Sortir la bande photo">
   <div class="card-back"><div class="t"><span class="caps">Save</span><span class="script">the</span><span class="caps">Date</span></div></div>
   <div class="strip-clip"><div class="strip" aria-hidden="true">
-   <img id="photo" data-photo alt="">
+   <img class="main-photo" data-photo alt="">
    <img data-strip="1" alt=""><img data-strip="2" alt="">
    <div class="foot">SAVE THE DATE<b data-date-short></b></div>
   </div></div>
@@ -253,7 +253,7 @@ const CONFIG = {
 
   // ----- Photos : #photo = la photo du haut (remplaçable depuis le formulaire), puis la bande
   const strip = (C.images && C.images.strip) || [];
-  const ph = $("#photo"); if (!ph.getAttribute("src")) ph.src = (C.images && C.images.photo) || strip[0] || "";
+  const ph = $(".main-photo"); if (!ph.getAttribute("src")) ph.src = (C.images && C.images.photo) || strip[0] || "";
   all("img[data-strip]").forEach(img => { const k = +img.dataset.strip; img.src = k === 0 ? (ph.getAttribute("src") || strip[0] || "") : (strip[k] || strip[0] || ""); img.loading = "lazy"; });
   new MutationObserver(() => { const s = ph.getAttribute("src"); all('img[data-strip="0"]').forEach(i => i.src = s); $("[data-stamp]").style.backgroundImage = 'url("' + s + '")'; }).observe(ph, { attributes: true, attributeFilter: ["src"] });
   $("[data-stamp]").style.backgroundImage = 'url("' + (ph.getAttribute("src") || "") + '")';

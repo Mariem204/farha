@@ -2448,7 +2448,7 @@ body .farha-header .farha-logo{line-height:1.1}
  if(typeof farhaCustomDefaults!=='function')return;
  // Libellés des clés connues ; les autres textes simples du CONFIG reçoivent un libellé tiré de leur nom.
  var LABELS={school:'École / université',family:'La famille',degree:'Diplôme obtenu',year:'Année (promotion)',verse:'Verset / citation',whatsapp:'WhatsApp pour les réponses (ex. 21612345678)',
-  title:'Titre',subtitle:'Sous-titre',host:'Invité par',parents:'Les parents',quote:'Citation',hashtag:'Hashtag',dressNote:'Indication Dress Code',childName:'Prénom de l’enfant',age:'Âge',city:'Ville'};
+  title:'Titre',subtitle:'Sous-titre',host:'Invité par',parents:'Les parents',quote:'Citation',hashtag:'Hashtag',dressNote:'Indication Dress Code',childName:'Prénom de l’enfant',age:'Âge',city:'Ville',tagline:'Phrase d’accroche',story:'Notre histoire',venueType:'Type de lieu'};
  var SKIP=['bride','groom','name','date','venue','venueShort','address','mapQuery','mapImage','mapLink','music'];
  FARHA_PROFILES.custom={photos:[{sel:'#photo',mode:'bg',label:'Photo'},{sel:'img[data-photo]',mode:'img',label:'Photo encadrée'}]};
  var before=farhaCustomDefaults;
@@ -2608,4 +2608,27 @@ body .farha-header .farha-logo{line-height:1.1}
 .landing-footer{align-items:center}
 </style>
 <!-- /FARHA-RESEAUX -->
+<!-- FARHA-MODELES-PREVIEW : nouveaux modèles ajoutés au catalogue de la preview (lus depuis /templates/), pour les tester dans le formulaire avant de les mettre dans l'admin. -->
+<script>
+(function(){
+ if(/^(www\.)?(farha-bay\.vercel\.app|farha\.tn)$/i.test(location.hostname))return; // jamais en prod
+ if(typeof templates==='undefined'||typeof farhaRegisterCustom!=='function')return;
+ var NEW=[
+  {id:'save-the-date-red',name:'Save the date · Rouge',category:'Mariage',color:'#c3121f',file:'templates/save-the-date-red.html'},
+  {id:'lotus-wedding',name:'Mariage · Lotus',category:'Mariage',color:'#c96d84',file:'templates/lotus-wedding.html'}
+ ];
+ var ready={};
+ function ensure(){NEW.forEach(function(n){if(!ready[n.id])return;if(!templates.some(function(t){return t.id===n.id}))templates.unshift(ready[n.id])})}
+ if(typeof renderCatalog==='function'){var rc=renderCatalog;renderCatalog=function(){ensure();return rc.apply(this,arguments)}}
+ if(typeof farhaRenderInspirations==='function'){var ri=farhaRenderInspirations;farhaRenderInspirations=function(){ensure();return ri.apply(this,arguments)}}
+ NEW.forEach(function(n){
+  fetch(n.file,{cache:'no-store'}).then(function(r){return r.ok?r.text():Promise.reject(r.status)}).then(function(html){
+   var t={id:n.id,name:n.name,category:n.category,color:n.color,style:'editorial',base:'editorial',createdAt:new Date().toISOString(),description:'Nouveau modèle (preview)'};
+   farhaRegisterCustom(t,html);ready[n.id]=t;ensure();renderCatalog();
+   if(document.getElementById('inspirations')&&document.getElementById('inspirations').classList.contains('active'))farhaRenderInspirations();
+  }).catch(function(e){console.warn('Farha : modèle preview indisponible',n.file,e)});
+ });
+})();
+</script>
+<!-- /FARHA-MODELES-PREVIEW -->
 </body></html>
