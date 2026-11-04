@@ -39,13 +39,13 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,button:focus-vis
 .showcase-price{color:#84685f;font-size:13px;margin:15px 0 20px}.showcase-price strong{font:600 24px 'Cormorant Garamond',Georgia,serif;color:#4a0916;margin-left:10px}
 .showcase-intro .actions{justify-content:center;margin-top:16px}
 .showcase-stage{display:flex;align-items:center;justify-content:center;position:relative;padding:6px 0 10px}
-.iphone-device{position:relative;width:min(330px,90vw);height:570px;min-height:0;border:9px solid #272027;border-radius:46px;background:white;overflow:hidden;box-shadow:0 24px 45px #321b2860,0 0 0 2px #aa8d7b,0 0 0 7px #e8d7c8}
+.iphone-device{position:relative;width:min(300px,82vw);height:620px;min-height:0;border:9px solid #272027;border-radius:46px;background:white;overflow:hidden;box-shadow:0 24px 45px #321b2860,0 0 0 2px #aa8d7b,0 0 0 7px #e8d7c8}
 .iphone-device iframe{display:block;width:100%;height:100%;border:0;background:#fff;overflow:auto}
 .iphone-island{position:absolute;z-index:4;top:9px;left:50%;transform:translateX(-50%);height:19px;width:33%;border-radius:20px;background:#272027;pointer-events:none}
 .iphone-home{position:absolute;z-index:4;bottom:7px;left:50%;transform:translateX(-50%);width:35%;height:4px;border-radius:8px;background:#272027;pointer-events:none}
 .preview-tip{font:italic 18px 'Cormorant Garamond',Georgia,serif;color:#9b7769;margin:20px 0 0}
-@media(max-width:650px){main{padding:22px 15px}.grid{grid-template-columns:repeat(2,1fr);gap:12px}.mini{height:220px}.tile footer strong{font-size:19px}.showcase{padding:22px 13px}.iphone-device{width:min(310px,87vw);height:545px}.showcase-intro h2{font-size:45px}.showcase-intro .actions{flex-direction:column}.showcase-intro .actions button{width:100%}}
-@media(max-width:420px){.grid{grid-template-columns:1fr}.mini{height:260px}.iphone-device{width:min(295px,85vw);height:520px}.catalog-title{font-size:48px}}
+@media(max-width:650px){main{padding:22px 15px}.grid{grid-template-columns:repeat(2,1fr);gap:12px}.mini{height:220px}.tile footer strong{font-size:19px}.showcase{padding:22px 13px}.iphone-device{width:min(285px,78vw);height:588px}.showcase-intro h2{font-size:45px}.showcase-intro .actions{flex-direction:column}.showcase-intro .actions button{width:100%}}
+@media(max-width:420px){.grid{grid-template-columns:1fr}.mini{height:260px}.iphone-device{width:min(268px,76vw);height:552px}.catalog-title{font-size:48px}}
 
 /* Nouvelle grille éditoriale : aperçu immersif et bouton superposé */
 .catalog-filters{display:flex;justify-content:center;flex-wrap:wrap;gap:9px;margin:-10px auto 28px}
@@ -2449,15 +2449,22 @@ body .farha-header .farha-logo{line-height:1.1}
  // Libellés des clés connues ; les autres textes simples du CONFIG reçoivent un libellé tiré de leur nom.
  var LABELS={school:'École / université',family:'La famille',degree:'Diplôme obtenu',year:'Année (promotion)',verse:'Verset / citation',whatsapp:'WhatsApp pour les réponses (ex. 21612345678)',
   title:'Titre',subtitle:'Sous-titre',host:'Invité par',parents:'Les parents',quote:'Citation',hashtag:'Hashtag',dressNote:'Indication Dress Code',childName:'Prénom de l’enfant',age:'Âge',city:'Ville',tagline:'Phrase d’accroche',story:'Notre histoire',venueType:'Type de lieu'};
- var SKIP=['bride','groom','name','date','venue','venueShort','address','mapQuery','mapImage','mapLink','music'];
- FARHA_PROFILES.custom={photos:[{sel:'#photo',mode:'bg',label:'Photo'},{sel:'img[data-photo]',mode:'img',label:'Photo encadrée'}]};
+ var SKIP=['bride','groom','name','date','venue','venueShort','address','mapQuery','mapImage','mapLink','music','city','whatsapp'];
+ var DEFAULT_PROFILE={photos:[{sel:'#photo',mode:'bg',label:'Photo'},{sel:'img[data-photo]',mode:'img',label:'Photo encadrée'}],dress:'#swatches .swatch, #swatches span'};
+ FARHA_PROFILES.custom=DEFAULT_PROFILE;
+ // Emplacements photo nommés dans le modèle : <img data-farha-photo="Photo 1 du photomaton"> ou <div data-farha-photo="Photo de fond">
+ function profileFor(html){var re=/<(\w+)[^>]*\sdata-farha-photo="([^"]+)"/g,m,ph=[];
+  while((m=re.exec(html)))ph.push({sel:'[data-farha-photo="'+m[2].replace(/"/g,'')+'"]',mode:m[1].toLowerCase()==='img'?'img':'bg',label:m[2]});
+  return ph.length?{photos:ph,dress:DEFAULT_PROFILE.dress}:DEFAULT_PROFILE}
+ function useProfile(t){FARHA_PROFILES.custom=(t&&t.custom&&t.defaults&&t.defaults.profile)||DEFAULT_PROFILE}
+ var bd=buildDoc;buildDoc=function(t){useProfile(t);return bd.apply(this,arguments)};
  var before=farhaCustomDefaults;
  farhaCustomDefaults=function(html){
   var d=before(html),m=html.match(/\nconst CONFIG = \{[\s\S]*?\n\};/),extras=[];
   if(m){var re=/\n  ([A-Za-z][A-Za-z0-9_]{0,29})\s*:\s*"([^"\n]*)"/g,x;
    while((x=re.exec(m[0]))){var k=x[1];if(SKIP.indexOf(k)>=0||k===d.second)continue;
     extras.push({key:k,def:x[2],label:LABELS[k]||k.replace(/([A-Z])/g,' $1').replace(/^./,function(c){return c.toUpperCase()})})}}
-  d.extras=extras;d.hasMessage=!m||/\n  message\s*:/.test(m[0]);return d;
+  d.profile=profileFor(html);d.extras=extras;d.hasMessage=!m||/\n  message\s*:/.test(m[0]);return d;
  };
  // Les modèles déjà chargés sont relus avec le nouveau calcul.
  if(typeof FARHA_CUSTOM_HTML==='object'&&typeof templates!=='undefined')templates.forEach(function(t){if(t.custom&&FARHA_CUSTOM_HTML[t.id])t.defaults=farhaCustomDefaults(FARHA_CUSTOM_HTML[t.id])});
@@ -2479,7 +2486,7 @@ body .farha-header .farha-logo{line-height:1.1}
    inp.addEventListener('input',function(){(farhaState.extra[t.id]=farhaState.extra[t.id]||{})[e.key]=inp.value;if(t.custom){if(typeof farhaCustomSync==='function')farhaCustomSync()}else if(typeof farhaSync==='function')farhaSync()});
    return[lb,inp]})));
  }
- var rc=farhaRenderControls;farhaRenderControls=function(){rc.apply(this,arguments);try{renderExtra()}catch(e){}};
+ var rc=farhaRenderControls;farhaRenderControls=function(){useProfile(chosen);rc.apply(this,arguments);try{renderExtra()}catch(e){}};
  // Les valeurs suivent le formulaire : aperçu, lien invité, commande.
  var rd=readData;readData=function(){var d=rd.apply(this,arguments);if(extrasOf(chosen).length){var v=farhaState.extra[chosen.id];if(v)d.extra=Object.assign({},v)}return d};
  var cl=farhaClean;farhaClean=function(d,t){var o=cl.apply(this,arguments);
@@ -2498,7 +2505,7 @@ body .farha-header .farha-logo{line-height:1.1}
 #custom .phone{position:relative;margin:0;border:9px solid #272027;border-radius:46px;background:white;box-shadow:0 24px 45px #321b2860,0 0 0 2px #aa8d7b,0 0 0 7px #e8d7c8}
 #custom .fi-island{position:absolute;z-index:4;top:9px;left:50%;transform:translateX(-50%);height:19px;width:33%;border-radius:20px;background:#272027;pointer-events:none}
 #custom .fi-home{position:absolute;z-index:4;bottom:7px;left:50%;transform:translateX(-50%);width:35%;height:4px;border-radius:8px;background:#272027;pointer-events:none}
-@media(max-width:800px){#custom .phone{width:min(86vw,340px)!important;height:auto!important;aspect-ratio:.579}}
+@media(max-width:800px){#custom .phone{width:min(80vw,330px)!important;height:auto!important;aspect-ratio:.485}}
 @media(min-width:801px){
  #custom .custom-layout>.panel{overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#d6c0b4 transparent}
  #custom .custom-layout>.panel::-webkit-scrollbar{width:8px}
@@ -2510,7 +2517,7 @@ body .farha-header .farha-logo{line-height:1.1}
 (function(){
  var view=document.getElementById('custom');if(!view)return;
  var phone=view.querySelector('.phone'),panel=view.querySelector('.custom-layout>.panel'),cap=view.querySelector('.sticky p');if(!phone||!panel)return;
- var RATIO=330/570; // mêmes proportions que le téléphone de la page de détail
+ var RATIO=.485; // proportions d'un iPhone récent (15 / 17)
  // Habillage du téléphone : Dynamic Island et barre d'accueil.
  var wrap=document.createElement('div');wrap.className='fi-wrap';phone.before(wrap);wrap.append(phone);
  phone.insertAdjacentHTML('beforeend','<span class="fi-island" aria-hidden="true"></span><span class="fi-home" aria-hidden="true"></span>');
@@ -2519,7 +2526,7 @@ body .farha-header .farha-logo{line-height:1.1}
   if(innerWidth<=800||!view.classList.contains('active'))return;
   var r=phone.getBoundingClientRect(),z=r.height/phone.offsetHeight||1,pz=panel.getBoundingClientRect().height/panel.offsetHeight||1;
   var capH=cap?cap.getBoundingClientRect().height+18:30;
-  var vis=Math.max(520,Math.min(740,innerHeight-(r.top+scrollY)-capH-14));
+  var vis=Math.max(560,Math.min(800,innerHeight-(r.top+scrollY)-capH-14));
   phone.style.height=(vis/z)+'px';phone.style.width=(vis*RATIO/z)+'px';panel.style.maxHeight=(vis/pz)+'px';
  }
  var t;addEventListener('resize',function(){clearTimeout(t);t=setTimeout(fit,100)});
