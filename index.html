@@ -2763,4 +2763,41 @@ body .farha-header .farha-logo{line-height:1.1}
 })();
 </script>
 <!-- /FARHA-PROGRAMME -->
+<!-- FARHA-CARTES-MOCKUP : aperçu des modèles façon mockup (téléphone + carte de l'invitation sur fond beige). -->
+<style id="farha-cartes-mockup">
+.template-artwork.mk{background:#ebe5db!important;padding:0!important;overflow:hidden}
+.mk-stage{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:6%}
+.mk-phone{position:relative;height:82%;aspect-ratio:9/19;border-radius:22px;background:#18181a;padding:5px;box-shadow:0 14px 26px rgba(60,40,30,.28),inset 0 0 0 1.5px #3a3a3e;flex:none}
+.mk-phone::before{content:"";position:absolute;left:50%;top:9px;width:30%;height:9px;margin-left:-15%;border-radius:9px;background:#0b0b0c;z-index:3}
+.mk-phone .scr{position:relative;width:100%;height:100%;border-radius:17px;overflow:hidden;background:#fff}
+.mk-card{position:relative;height:74%;aspect-ratio:9/18;border-radius:12px;overflow:hidden;background:#f3ece4;box-shadow:0 12px 22px rgba(60,40,30,.2);flex:none;margin-top:6%}
+.mk .scr>*,.mk-card>*{position:absolute!important;inset:0;width:100%!important;height:100%!important;border-radius:0!important;transform:none}
+.mk-card img.card-shot{object-position:50% 72%!important}
+.mk .scr iframe.card-frame,.mk-card iframe.card-frame{width:390px!important;height:844px!important;transform-origin:0 0;inset:auto!important;left:0;top:0}
+.mk .demo-cta{z-index:5}
+</style>
+<script>
+(function(){
+ if(typeof farhaTemplateCard!=='function')return;
+ var base=farhaTemplateCard;
+ function fitFrames(box){box.querySelectorAll('iframe.card-frame').forEach(function(f){var p=f.parentElement,w=p.clientWidth;if(w)f.style.transform='scale('+(w/390)+')'})}
+ farhaTemplateCard=function(t){
+  var card=base.apply(this,arguments),art=card.querySelector('.template-artwork');if(!art)return card;
+  var btn=art.querySelector('.demo-cta');var html=(typeof previewMarkup!=='undefined'&&(previewMarkup[t.id]||previewMarkup.royal))||'';
+  art.classList.add('mk');art.innerHTML='';
+  var st=document.createElement('div');st.className='mk-stage';
+  var ph=document.createElement('div');ph.className='mk-phone';ph.innerHTML='<div class="scr">'+html+'</div>';
+  var cd=document.createElement('div');cd.className='mk-card';cd.innerHTML=html;
+  // la carte montre la suite de l'invitation (iframe : on fait défiler la page)
+  var fr=cd.querySelector('iframe[srcdoc]');if(fr)fr.setAttribute('srcdoc',fr.getAttribute('srcdoc').replace(/<\/body>/i,'<script>addEventListener("load",function(){setTimeout(function(){scrollTo(0,innerHeight*1.15)},400)})<\/script></body>'));
+  st.append(ph,cd);art.append(st);if(btn)art.append(btn);
+  requestAnimationFrame(function(){fitFrames(art)});
+  return card;
+ };
+ addEventListener('resize',function(){document.querySelectorAll('.template-artwork.mk').forEach(fitFrames)});
+ if(typeof renderCatalog==='function')renderCatalog();
+ if(document.getElementById('inspirations')&&document.getElementById('inspirations').classList.contains('active')&&typeof farhaRenderInspirations==='function')farhaRenderInspirations();
+})();
+</script>
+<!-- /FARHA-CARTES-MOCKUP -->
 </body></html>
