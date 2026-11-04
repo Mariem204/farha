@@ -39,13 +39,13 @@ input:focus-visible,textarea:focus-visible,select:focus-visible,button:focus-vis
 .showcase-price{color:#84685f;font-size:13px;margin:15px 0 20px}.showcase-price strong{font:600 24px 'Cormorant Garamond',Georgia,serif;color:#4a0916;margin-left:10px}
 .showcase-intro .actions{justify-content:center;margin-top:16px}
 .showcase-stage{display:flex;align-items:center;justify-content:center;position:relative;padding:6px 0 10px}
-.iphone-device{position:relative;width:min(330px,90vw);height:570px;min-height:0;border:9px solid #272027;border-radius:46px;background:white;overflow:hidden;box-shadow:0 24px 45px #321b2860,0 0 0 2px #aa8d7b,0 0 0 7px #e8d7c8}
+.iphone-device{position:relative;width:min(300px,82vw);height:620px;min-height:0;border:9px solid #272027;border-radius:46px;background:white;overflow:hidden;box-shadow:0 24px 45px #321b2860,0 0 0 2px #aa8d7b,0 0 0 7px #e8d7c8}
 .iphone-device iframe{display:block;width:100%;height:100%;border:0;background:#fff;overflow:auto}
 .iphone-island{position:absolute;z-index:4;top:9px;left:50%;transform:translateX(-50%);height:19px;width:33%;border-radius:20px;background:#272027;pointer-events:none}
 .iphone-home{position:absolute;z-index:4;bottom:7px;left:50%;transform:translateX(-50%);width:35%;height:4px;border-radius:8px;background:#272027;pointer-events:none}
 .preview-tip{font:italic 18px 'Cormorant Garamond',Georgia,serif;color:#9b7769;margin:20px 0 0}
-@media(max-width:650px){main{padding:22px 15px}.grid{grid-template-columns:repeat(2,1fr);gap:12px}.mini{height:220px}.tile footer strong{font-size:19px}.showcase{padding:22px 13px}.iphone-device{width:min(310px,87vw);height:545px}.showcase-intro h2{font-size:45px}.showcase-intro .actions{flex-direction:column}.showcase-intro .actions button{width:100%}}
-@media(max-width:420px){.grid{grid-template-columns:1fr}.mini{height:260px}.iphone-device{width:min(295px,85vw);height:520px}.catalog-title{font-size:48px}}
+@media(max-width:650px){main{padding:22px 15px}.grid{grid-template-columns:repeat(2,1fr);gap:12px}.mini{height:220px}.tile footer strong{font-size:19px}.showcase{padding:22px 13px}.iphone-device{width:min(285px,78vw);height:588px}.showcase-intro h2{font-size:45px}.showcase-intro .actions{flex-direction:column}.showcase-intro .actions button{width:100%}}
+@media(max-width:420px){.grid{grid-template-columns:1fr}.mini{height:260px}.iphone-device{width:min(268px,76vw);height:552px}.catalog-title{font-size:48px}}
 
 /* Nouvelle grille éditoriale : aperçu immersif et bouton superposé */
 .catalog-filters{display:flex;justify-content:center;flex-wrap:wrap;gap:9px;margin:-10px auto 28px}
@@ -824,7 +824,7 @@ html.fp-lock main,html.fp-lock .farha-header{transform:scale(var(--fp-zoom,1.06)
 <div class="insp-panel" id="inspPanel" hidden><div class="insp-group"><h3>Événement</h3><div id="inspCats"></div></div><div class="insp-group"><h3>Budget</h3><div id="inspBudgets"></div></div><button type="button" class="insp-reset" onclick="farhaResetInspirations()">Réinitialiser les filtres</button></div>
 <div id="inspCollections" hidden><div class="col-grid" id="inspColGrid"></div><div class="col-all"><button type="button" onclick="farhaOpenCollection('Tous')">Voir tous les modèles</button></div></div><div id="inspResults"><p class="insp-count" id="inspCount" aria-live="polite"></p><div class="grid" id="inspGrid"></div><nav class="insp-pages" id="inspPages" aria-label="Pagination"></nav></div></div></div></section>
 <section class="view" id="request"><div class="request-view"><div class="heading"><button class="secondary" onclick="show('home');goSection('sur-mesure')">← Retour</button><span class="sectionlabel">Création sur mesure</span></div><div class="request-intro"><span class="landing-eyebrow">✦ UNE INVITATION RIEN QU'À VOUS</span><h1>Racontez-nous votre idée.</h1><p>Remplissez ce formulaire : nous préparons votre création selon vos envies. Aucun paiement n'est prélevé ici.</p></div><form class="request-form" id="bespokeForm" onsubmit="sendBespoke(event)"><label>Votre nom *<input name="client" required placeholder="Votre nom et prénom"></label><label>Votre e-mail *<input name="email" type="email" required placeholder="vous@exemple.com"></label><label>Téléphone / WhatsApp *<input name="phone" type="tel" required placeholder="+216 ..."></label><label>Facebook / Instagram<input name="social" placeholder="Lien vers votre profil (facultatif)"></label><label>Type d'événement *<select name="event" required><option value="">Choisissez</option><option>Anniversaire</option><option>Mariage</option><option>Fiançailles</option><option>Naissance</option><option>Autre</option></select></label><label>Date de l'événement<input name="date" type="date"></label><label>Nom(s) à afficher<input name="names" placeholder="Ex. Lina fête ses 7 ans"></label><label>Lieu / adresse<input name="venue" placeholder="Lieu de la fête"></label><label class="full">Décrivez votre invitation idéale *<textarea name="description" required placeholder="Thème, couleurs, ambiance, animations, musique, personnages, idées..."></textarea></label><label class="full">Photos d'inspiration (facultatif)<input name="photos" type="file" accept="image/*" multiple><span class="request-note">Les photos ne sont pas envoyées automatiquement dans cette version. Vous pourrez les joindre manuellement à l'e-mail après ouverture de votre messagerie.</span></label><label class="full">Autres détails / lien vers vos inspirations<textarea name="other" placeholder="Pinterest, inspirations, préférences..."></textarea></label><div class="full request-actions"><button type="submit">Préparer ma demande par e-mail ↗</button></div><p class="full request-note">Le bouton ouvre votre messagerie avec les informations préremplies. L'envoi et les pièces jointes doivent être confirmés par vous. Aucun formulaire n'est stocké sur un serveur Farha pour le moment.</p><p id="requestStatus" class="request-status" role="status"></p></form></div></section><section class="view" id="detail"><div class="heading"><button class="secondary" onclick="show('home')">← Tous les modèles</button><span class="sectionlabel">Étape 1 / 3 · Aperçu</span></div><div class="showcase"><div class="showcase-intro"><span class="sectionlabel">✦ Une histoire à raconter ✦</span><h2 id="detailTitle"></h2><p>Découvrez votre invitation comme vos invités la verront. Touchez l'écran, ouvrez l'enveloppe et faites défiler la magie.</p><div class="actions"><button onclick="customize()">Personnaliser mon invitation ↗</button><button class="secondary" onclick="resetPreview()">↻ Rejouer l'animation</button></div></div><div class="showcase-stage"><div class="iphone-device"><div class="iphone-island"></div><iframe id="detailFrame" title="Aperçu mobile interactif" allow="autoplay"></iframe><div class="iphone-home"></div></div></div><p class="preview-tip">✧ Faites défiler l'écran du téléphone pour découvrir l'invitation ✧</p></div></section>
-<section class="view" id="custom"><div class="heading"><button class="secondary" onclick="showDetail()">← Retour à l'aperçu</button><span class="sectionlabel">Étape 2 / 3 · Personnalisation</span></div><div class="custom-layout"><div class="panel"><h3>Votre invitation</h3><div class="two"><div><label for="bride">Prénom de la mariée</label><input id="bride" maxlength="60" value="Amira"></div><div><label for="groom">Prénom du marié</label><input id="groom" maxlength="60" value="Youssef"></div></div><div class="two"><div><label for="date">Date du mariage</label><input type="date" id="date" value="2027-06-19"></div><div><label for="time">Heure</label><input type="time" id="time" value="19:00"></div></div><label for="place">Salle / lieu de cérémonie</label><input id="place" value="Tunis, Tunisie" maxlength="150"><label for="map">Lien Google Maps (optionnel)</label><input id="map" type="url" placeholder="https://maps.app.goo.gl/..."><label for="message">Message personnalisé</label><textarea id="message" maxlength="500" dir="auto">Nous avons la joie de vous inviter à célébrer notre mariage.</textarea><div id="farhaDress" hidden><label id="dressLabel">Dress Code</label><p class="muted">Touchez un cercle, puis sa nouvelle couleur : l’aperçu change aussitôt.</p><div class="farha-dots" id="dressTargets" role="radiogroup" aria-labelledby="dressLabel"></div><div class="farha-dots farha-dots-palette" id="dressPalette"></div><div class="farha-mini-actions"><button type="button" class="secondary" id="dressReset">↺ Couleurs d’origine</button></div></div><div id="farhaPhotos" hidden><label>Photos de l’invitation</label><p class="muted">JPG, PNG ou WebP, depuis la galerie du téléphone ou de l’ordinateur.</p><div id="photoSlots"></div><p class="muted" id="photoStatus" aria-live="polite"></p></div><label>Musique d’ambiance</label><select id="musicChoice" aria-label="Musique d’ambiance"><option value="">Sans musique</option></select><div id="farhaLibrary" style="margin-top:10px"></div><div id="musicUrlBox" hidden></div><div id="musicYoutubeBox" hidden></div><div id="musicFileBox" hidden><input id="musicFile" type="file" accept="audio/*"></div><input id="musicUrl" type="hidden"><input id="musicYoutube" type="hidden"><p class="muted" id="musicStatus" aria-live="polite"></p><div class="farha-mini-actions" id="musicActions" hidden><button type="button" class="secondary" id="musicToggle">▶ Écouter dans l’aperçu</button><button type="button" class="secondary" id="musicRemove">✕ Retirer la musique</button></div><div class="actions"><button onclick="toPayment()">Confirmer →</button></div><p class="muted" id="formStatus">Chaque modification s’affiche immédiatement dans l’aperçu.</p></div><div class="sticky"><div class="phone"><iframe id="customFrame" title="Aperçu personnalisé" allow="autoplay"></iframe></div><p class="muted" style="text-align:center">Aperçu mobile interactif · faites défiler à l'intérieur</p></div></div></section>
+<section class="view" id="custom"><div class="heading"><button class="secondary" onclick="showDetail()">← Retour à l'aperçu</button><span class="sectionlabel">Étape 2 / 3 · Personnalisation</span></div><div class="custom-layout"><div class="panel"><h3>Votre invitation</h3><div class="two"><div><label for="bride">Prénom de la mariée</label><input id="bride" maxlength="60" value="Amira"></div><div><label for="groom">Prénom du marié</label><input id="groom" maxlength="60" value="Youssef"></div></div><div class="two"><div><label for="date">Date du mariage</label><input type="date" id="date" value="2027-06-19"></div><div><label for="time">Heure</label><input type="time" id="time" value="19:00"></div></div><label for="place">Salle / lieu de cérémonie</label><input id="place" value="Tunis, Tunisie" maxlength="150"><label for="map">Lien Google Maps (optionnel)</label><input id="map" type="url" placeholder="https://maps.app.goo.gl/..."><label for="message">Message personnalisé</label><textarea id="message" maxlength="500" dir="auto">Nous avons la joie de vous inviter à célébrer notre mariage.</textarea><div id="farhaDress" hidden><label id="dressLabel">Dress Code</label><p class="muted">Touchez un cercle, puis sa nouvelle couleur : l’aperçu change aussitôt.</p><div class="farha-dots" id="dressTargets" role="radiogroup" aria-labelledby="dressLabel"></div><div class="farha-dots farha-dots-palette" id="dressPalette"></div><div class="farha-mini-actions"><button type="button" class="secondary" id="dressReset">↺ Couleurs d’origine</button></div></div><div id="farhaPhotos" hidden><label>Photos de l’invitation</label><p class="muted">JPG, PNG ou WebP, depuis la galerie du téléphone ou de l’ordinateur.</p><div id="photoSlots"></div><p class="muted" id="photoStatus" aria-live="polite"></p></div><label>Musique d’ambiance</label><select id="musicChoice" aria-label="Musique d’ambiance"><option value="">Sans musique</option></select><div id="farhaLibrary" style="margin-top:10px"></div><div id="musicUrlBox" hidden></div><div id="musicYoutubeBox" hidden></div><div id="musicFileBox" hidden><input id="musicFile" type="file" accept="audio/*"></div><input id="musicUrl" type="hidden"><input id="musicYoutube" type="hidden"><p class="muted" id="musicStatus" aria-live="polite"></p><div class="farha-mini-actions" id="musicActions" hidden><button type="button" class="secondary" id="musicToggle">▶ Écouter dans l’aperçu</button><button type="button" class="secondary" id="musicRemove">✕ Retirer la musique</button></div><div class="actions"><button onclick="toPayment()">Confirmer →</button><button type="button" class="secondary farha-replay" onclick="refreshCustom()">↻ Rejouer l'animation</button></div><p class="muted" id="formStatus">Chaque modification s’affiche immédiatement dans l’aperçu.</p></div><div class="sticky"><div class="phone"><iframe id="customFrame" title="Aperçu personnalisé" allow="autoplay"></iframe></div><p class="muted" style="text-align:center">Aperçu mobile interactif · faites défiler à l'intérieur</p></div></div></section>
 <section class="view" id="checkout"><div class="heading"><button class="secondary" onclick="show('custom')">← Modifier l'invitation</button><span class="sectionlabel">Étape 3 / 3 · Paiement</span></div><div class="payment"><h2 style="font:34px Georgia,serif">Votre commande</h2><p id="orderTemplate"></p><p id="orderNames"></p><p id="orderDate" class="muted"></p><p id="orderMusic" class="muted" hidden></p><div class="total" hidden><span>Prix total</span><b id="farhaTotal"></b></div><p class="note"><b>Mode démonstration :</b> aucun paiement réel n'est connecté. Pour encaisser le paiement, il faudra intégrer une passerelle de paiement tunisienne côté serveur et vérifier la transaction avant de publier l'invitation.</p><div class="actions"><button onclick="simulatePayment()">Confirmer ma commande</button><!-- FARHA-TEST-GRATUIT (temporaire) : supprimer ce bouton une fois l'API de paiement branchée --><button class="farha-free-test" onclick="farhaFreeFinish()" title="Bouton interne de test, à retirer">✓ Terminé · test gratuit</button><!-- /FARHA-TEST-GRATUIT --></div><p id="payStatus" aria-live="polite"></p></div></section>
 <section class="view" id="complete"><div class="payment delivery"><span class="sectionlabel" id="deliveryLabel">Commande confirmée</span><h2 style="font:34px Georgia,serif">Votre invitation est prête ✦</h2><p class="muted" id="deliveryNames"></p><p class="success" id="deliveryStatus">Merci ! Votre site d'invitation est livré.</p><p class="delivery-pending" id="deliveryPending" hidden></p>
 <div class="delivery-phone iphone-device"><span class="iphone-island"></span><iframe id="deliveryFrame" title="Votre invitation livrée"></iframe><span class="iphone-home"></span></div>
@@ -2448,16 +2448,23 @@ body .farha-header .farha-logo{line-height:1.1}
  if(typeof farhaCustomDefaults!=='function')return;
  // Libellés des clés connues ; les autres textes simples du CONFIG reçoivent un libellé tiré de leur nom.
  var LABELS={school:'École / université',family:'La famille',degree:'Diplôme obtenu',year:'Année (promotion)',verse:'Verset / citation',whatsapp:'WhatsApp pour les réponses (ex. 21612345678)',
-  title:'Titre',subtitle:'Sous-titre',host:'Invité par',parents:'Les parents',quote:'Citation',hashtag:'Hashtag',dressNote:'Indication Dress Code',childName:'Prénom de l’enfant',age:'Âge',city:'Ville'};
- var SKIP=['bride','groom','name','date','venue','venueShort','address','mapQuery','mapImage','mapLink'];
- FARHA_PROFILES.custom={photos:[{sel:'#photo',mode:'bg',label:'Photo'},{sel:'img[data-photo]',mode:'img',label:'Photo encadrée'}]};
+  title:'Titre',subtitle:'Sous-titre',host:'Invité par',parents:'Les parents',quote:'Citation',hashtag:'Hashtag',dressNote:'Indication Dress Code',childName:'Prénom de l’enfant',age:'Âge',city:'Ville',tagline:'Phrase d’accroche',story:'Notre histoire',venueType:'Type de lieu',brideAr:'Prénom de la mariée en arabe',mapLabel:'Texte sur la carte',dressTheme:'Thème de la tenue'};
+ var SKIP=['bride','groom','name','date','venue','venueShort','address','mapQuery','mapImage','mapLink','music','city','whatsapp'];
+ var DEFAULT_PROFILE={photos:[{sel:'#photo',mode:'bg',label:'Photo'},{sel:'img[data-photo]',mode:'img',label:'Photo encadrée'}],dress:'#swatches .swatch, #swatches span'};
+ FARHA_PROFILES.custom=DEFAULT_PROFILE;
+ // Emplacements photo nommés dans le modèle : <img data-farha-photo="Photo 1 du photomaton"> ou <div data-farha-photo="Photo de fond">
+ function profileFor(html){var re=/<(\w+)[^>]*\sdata-farha-photo="([^"]+)"/g,m,ph=[];
+  while((m=re.exec(html)))ph.push({sel:'[data-farha-photo="'+m[2].replace(/"/g,'')+'"]',mode:m[1].toLowerCase()==='img'?'img':'bg',label:m[2]});
+  return ph.length?{photos:ph,dress:DEFAULT_PROFILE.dress}:DEFAULT_PROFILE}
+ function useProfile(t){FARHA_PROFILES.custom=(t&&t.custom&&t.defaults&&t.defaults.profile)||DEFAULT_PROFILE}
+ var bd=buildDoc;buildDoc=function(t){useProfile(t);return bd.apply(this,arguments)};
  var before=farhaCustomDefaults;
  farhaCustomDefaults=function(html){
   var d=before(html),m=html.match(/\nconst CONFIG = \{[\s\S]*?\n\};/),extras=[];
   if(m){var re=/\n  ([A-Za-z][A-Za-z0-9_]{0,29})\s*:\s*"([^"\n]*)"/g,x;
    while((x=re.exec(m[0]))){var k=x[1];if(SKIP.indexOf(k)>=0||k===d.second)continue;
     extras.push({key:k,def:x[2],label:LABELS[k]||k.replace(/([A-Z])/g,' $1').replace(/^./,function(c){return c.toUpperCase()})})}}
-  d.extras=extras;d.hasMessage=!m||/\n  message\s*:/.test(m[0]);return d;
+  d.profile=profileFor(html);d.extras=extras;d.hasMessage=!m||/\n  message\s*:/.test(m[0]);return d;
  };
  // Les modèles déjà chargés sont relus avec le nouveau calcul.
  if(typeof FARHA_CUSTOM_HTML==='object'&&typeof templates!=='undefined')templates.forEach(function(t){if(t.custom&&FARHA_CUSTOM_HTML[t.id])t.defaults=farhaCustomDefaults(FARHA_CUSTOM_HTML[t.id])});
@@ -2474,17 +2481,17 @@ body .farha-header .farha-logo{line-height:1.1}
   if(msg)msg.hidden=hide;if(ml)ml.hidden=hide;
   host.replaceChildren.apply(host,[].concat.apply([],list.map(function(e){
    var id='fx_'+e.key,lb=document.createElement('label'),inp=document.createElement(e.def.length>70?'textarea':'input');
-   lb.htmlFor=id;lb.textContent=e.label;inp.id=id;inp.maxLength=200;inp.value=vals[e.key]!=null?vals[e.key]:e.def;inp.dataset.key=e.key;
+   lb.htmlFor=id;lb.textContent=e.label;inp.id=id;inp.maxLength=e.def.length>150?800:200;inp.value=vals[e.key]!=null?vals[e.key]:e.def;inp.dataset.key=e.key;
    if(/[؀-ۿ]/.test(e.def))inp.dir='auto';
    inp.addEventListener('input',function(){(farhaState.extra[t.id]=farhaState.extra[t.id]||{})[e.key]=inp.value;if(t.custom){if(typeof farhaCustomSync==='function')farhaCustomSync()}else if(typeof farhaSync==='function')farhaSync()});
    return[lb,inp]})));
  }
- var rc=farhaRenderControls;farhaRenderControls=function(){rc.apply(this,arguments);try{renderExtra()}catch(e){}};
+ var rc=farhaRenderControls;farhaRenderControls=function(){useProfile(chosen);rc.apply(this,arguments);try{renderExtra()}catch(e){}};
  // Les valeurs suivent le formulaire : aperçu, lien invité, commande.
  var rd=readData;readData=function(){var d=rd.apply(this,arguments);if(extrasOf(chosen).length){var v=farhaState.extra[chosen.id];if(v)d.extra=Object.assign({},v)}return d};
  var cl=farhaClean;farhaClean=function(d,t){var o=cl.apply(this,arguments);
   if(extrasOf(t).length&&d&&d.extra&&typeof d.extra==='object'){var keys=extrasOf(t).map(function(e){return e.key}),x={};
-   Object.keys(d.extra).forEach(function(k){if(keys.indexOf(k)>=0)x[k]=String(d.extra[k]==null?'':d.extra[k]).replace(/[\u0000-\u0009\u000b-\u001f\u007f]/g,' ').trim().slice(0,200)});o.extra=x}
+   Object.keys(d.extra).forEach(function(k){if(keys.indexOf(k)>=0)x[k]=String(d.extra[k]==null?'':d.extra[k]).replace(/[\u0000-\u0009\u000b-\u001f\u007f]/g,' ').trim().slice(0,800)});o.extra=x}
   return o};
  var tp=farhaTextPatch;farhaTextPatch=function(t,d){var p=tp.apply(this,arguments);
   if(extrasOf(t).length&&d&&d.extra)Object.keys(d.extra).forEach(function(k){if(d.extra[k])p[k]=d.extra[k]});return p};
@@ -2498,7 +2505,7 @@ body .farha-header .farha-logo{line-height:1.1}
 #custom .phone{position:relative;margin:0;border:9px solid #272027;border-radius:46px;background:white;box-shadow:0 24px 45px #321b2860,0 0 0 2px #aa8d7b,0 0 0 7px #e8d7c8}
 #custom .fi-island{position:absolute;z-index:4;top:9px;left:50%;transform:translateX(-50%);height:19px;width:33%;border-radius:20px;background:#272027;pointer-events:none}
 #custom .fi-home{position:absolute;z-index:4;bottom:7px;left:50%;transform:translateX(-50%);width:35%;height:4px;border-radius:8px;background:#272027;pointer-events:none}
-@media(max-width:800px){#custom .phone{width:min(86vw,340px)!important;height:auto!important;aspect-ratio:.579}}
+@media(max-width:800px){#custom .phone{width:min(80vw,330px)!important;height:auto!important;aspect-ratio:.485}}
 @media(min-width:801px){
  #custom .custom-layout>.panel{overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#d6c0b4 transparent}
  #custom .custom-layout>.panel::-webkit-scrollbar{width:8px}
@@ -2510,7 +2517,7 @@ body .farha-header .farha-logo{line-height:1.1}
 (function(){
  var view=document.getElementById('custom');if(!view)return;
  var phone=view.querySelector('.phone'),panel=view.querySelector('.custom-layout>.panel'),cap=view.querySelector('.sticky p');if(!phone||!panel)return;
- var RATIO=330/570; // mêmes proportions que le téléphone de la page de détail
+ var RATIO=.485; // proportions d'un iPhone récent (15 / 17)
  // Habillage du téléphone : Dynamic Island et barre d'accueil.
  var wrap=document.createElement('div');wrap.className='fi-wrap';phone.before(wrap);wrap.append(phone);
  phone.insertAdjacentHTML('beforeend','<span class="fi-island" aria-hidden="true"></span><span class="fi-home" aria-hidden="true"></span>');
@@ -2519,7 +2526,7 @@ body .farha-header .farha-logo{line-height:1.1}
   if(innerWidth<=800||!view.classList.contains('active'))return;
   var r=phone.getBoundingClientRect(),z=r.height/phone.offsetHeight||1,pz=panel.getBoundingClientRect().height/panel.offsetHeight||1;
   var capH=cap?cap.getBoundingClientRect().height+18:30;
-  var vis=Math.max(520,Math.min(740,innerHeight-(r.top+scrollY)-capH-14));
+  var vis=Math.max(560,Math.min(800,innerHeight-(r.top+scrollY)-capH-14));
   phone.style.height=(vis/z)+'px';phone.style.width=(vis*RATIO/z)+'px';panel.style.maxHeight=(vis/pz)+'px';
  }
  var t;addEventListener('resize',function(){clearTimeout(t);t=setTimeout(fit,100)});
@@ -2608,4 +2615,87 @@ body .farha-header .farha-logo{line-height:1.1}
 .landing-footer{align-items:center}
 </style>
 <!-- /FARHA-RESEAUX -->
+<!-- FARHA-MODELES-PREVIEW : nouveaux modèles ajoutés au catalogue de la preview (lus depuis /templates/), pour les tester dans le formulaire avant de les mettre dans l'admin. -->
+<script>
+(function(){
+ if(/^(www\.)?(farha-bay\.vercel\.app|farha\.tn)$/i.test(location.hostname))return; // jamais en prod
+ if(typeof templates==='undefined'||typeof farhaRegisterCustom!=='function')return;
+ var NEW=[
+  {id:'save-the-date-olive',name:'Save the date · Olive',category:'Mariage',color:'#43452a',file:'templates/save-the-date-olive.html'},
+  {id:'lotus-wedding',name:'Mariage · Lotus',category:'Mariage',color:'#c96d84',file:'templates/lotus-wedding.html'}
+ ];
+ var ready={};
+ function ensure(){NEW.forEach(function(n){if(!ready[n.id])return;if(!templates.some(function(t){return t.id===n.id}))templates.unshift(ready[n.id])})}
+ if(typeof renderCatalog==='function'){var rc=renderCatalog;renderCatalog=function(){ensure();return rc.apply(this,arguments)}}
+ if(typeof farhaRenderInspirations==='function'){var ri=farhaRenderInspirations;farhaRenderInspirations=function(){ensure();return ri.apply(this,arguments)}}
+ NEW.forEach(function(n){
+  fetch(n.file,{cache:'no-store'}).then(function(r){return r.ok?r.text():Promise.reject(r.status)}).then(function(html){
+   var t={id:n.id,name:n.name,category:n.category,color:n.color,style:'editorial',base:'editorial',createdAt:new Date().toISOString(),description:'Nouveau modèle (preview)'};
+   farhaRegisterCustom(t,html);ready[n.id]=t;ensure();renderCatalog();
+   if(document.getElementById('inspirations')&&document.getElementById('inspirations').classList.contains('active'))farhaRenderInspirations();
+  }).catch(function(e){console.warn('Farha : modèle preview indisponible',n.file,e)});
+ });
+})();
+</script>
+<!-- /FARHA-MODELES-PREVIEW -->
+<!-- FARHA-CALENDRIER : dans chaque invitation, bouton « Ajouter au calendrier » sous le compte à rebours (sauf si le modèle en a déjà un). -->
+<script>
+(function(){
+ if(typeof buildDoc!=='function')return;
+ var bd=buildDoc;
+ buildDoc=function(t,data){
+  var html=bd.apply(this,arguments);
+  try{
+   var d=typeof farhaClean==='function'?farhaClean(data,t):data||{};
+   if(!/^\d{4}-\d{2}-\d{2}$/.test(d.date||''))return html;
+   var tm=/^\d{2}:\d{2}$/.test(d.time||'')?d.time:'19:00';
+   var title=(typeof farhaOrderNames==='function'?farhaOrderNames(d):'').replace(/^Invitation\s*:\s*/,'')||'Notre fête';
+   var cal={title:title.charAt(0).toUpperCase()+title.slice(1),date:d.date,time:tm,place:d.place||''};
+   var code='('+function(cal){
+    function go(){
+     if(document.querySelector('a[href*="calendar.google.com"],.farha-cal'))return;
+     var links=[].slice.call(document.querySelectorAll('a,button'));if(links.some(function(a){return /calendrier|calendar/i.test(a.textContent)}))return;
+     var c=document.querySelector('#count,#cd,#countdown,.countdown,.count');if(!c)return;
+     var p=function(n){return String(n).padStart(2,'0')},s=new Date(cal.date+'T'+cal.time+':00'),e=new Date(s.getTime()+4*3600e3);
+     var f=function(x){return x.getFullYear()+p(x.getMonth()+1)+p(x.getDate())+'T'+p(x.getHours())+p(x.getMinutes())+'00'};
+     var a=document.createElement('a');a.className='farha-cal';a.target='_blank';a.rel='noopener';a.textContent='📅 Ajouter au calendrier';
+     a.href='https://calendar.google.com/calendar/render?action=TEMPLATE&text='+encodeURIComponent(cal.title)+'&dates='+f(s)+'/'+f(e)+'&ctz=Africa/Tunis&location='+encodeURIComponent(cal.place);
+     a.style.cssText='display:table;margin:1.1rem auto 0;padding:.7rem 1.4rem;border:1.5px solid currentColor;border-radius:999px;color:inherit;text-decoration:none;font:inherit;font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;background:transparent;position:relative;z-index:5';
+     var host=c;while(host.parentElement&&host.parentElement.children.length===1&&host.parentElement!==document.body)host=host.parentElement;
+     host.insertAdjacentElement('afterend',a);
+    }
+    if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',go);else go();
+    setTimeout(go,600);
+   }+')('+JSON.stringify(cal)+');';
+   var tag='<script>'+code.replace(/<\/script/gi,'<\\/script')+'<\/script>';
+   var i=html.lastIndexOf('</body>');return i<0?html+tag:html.slice(0,i)+tag+html.slice(i);
+  }catch(e){return html}
+ };
+})();
+</script>
+<!-- /FARHA-CALENDRIER -->
+<!-- FARHA-MODELES-SITE : modèles servis depuis /templates/ (prod et preview) ; en attendant leur ajout dans l'admin. -->
+<script>
+(function(){
+ if(typeof templates==='undefined'||typeof farhaRegisterCustom!=='function')return;
+ var LIST=[
+  {id:'henna-rideau-rouge',name:'Rideau rouge · Henna',category:'7enna',color:'#650d12',file:'templates/henna-rideau-rouge.html',preview:'templates/henna-rideau-rouge-preview.jpg',description:'Rideaux rouges et danseuse : prénom de la mariée, programme, lieu, tenue et un mot pour la mariée.'}
+ ];
+ var ready={};
+ function ensure(){LIST.forEach(function(n){var t=ready[n.id];if(t&&!templates.some(function(x){return x.id===n.id}))templates.unshift(t)})}
+ if(typeof renderCatalog==='function'){var rc=renderCatalog;renderCatalog=function(){ensure();return rc.apply(this,arguments)}}
+ if(typeof farhaRenderInspirations==='function'){var ri=farhaRenderInspirations;farhaRenderInspirations=function(){ensure();return ri.apply(this,arguments)}}
+ LIST.forEach(function(n){
+  fetch(n.file,{cache:'no-store'}).then(function(r){return r.ok?r.text():Promise.reject(r.status)}).then(function(html){
+   if(templates.some(function(x){return x.id===n.id&&x.custom}))return; // déjà fourni par l'admin
+   var t={id:n.id,name:n.name,category:n.category,color:n.color,style:'editorial',base:'editorial',createdAt:new Date().toISOString(),description:n.description,hasPreviewImage:!!n.preview};
+   farhaRegisterCustom(t,html);
+   if(n.preview&&typeof previewMarkup!=='undefined')previewMarkup[n.id]='<img class="card-shot" alt="" loading="lazy" src="'+n.preview+'">';
+   ready[n.id]=t;ensure();renderCatalog();
+   if(document.getElementById('inspirations')&&document.getElementById('inspirations').classList.contains('active'))farhaRenderInspirations();
+  }).catch(function(e){console.warn('Farha : modèle indisponible',n.file,e)});
+ });
+})();
+</script>
+<!-- /FARHA-MODELES-SITE -->
 </body></html>
