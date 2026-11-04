@@ -2698,4 +2698,69 @@ body .farha-header .farha-logo{line-height:1.1}
 })();
 </script>
 <!-- /FARHA-MODELES-SITE -->
+<!-- FARHA-PROGRAMME : 4 créneaux (heure + titre) modifiables dans le formulaire pour chaque modèle qui a un programme. -->
+<style id="farha-programme">
+#farhaProg{margin:4px 0 6px}#farhaProg[hidden]{display:none}
+#farhaProg .pg-row{display:grid;grid-template-columns:150px 1fr;gap:8px;margin-top:8px}
+#farhaProg .pg-row input{min-width:0}
+</style>
+<script>
+(function(){
+ if(typeof farhaTextPatch!=='function'||typeof readData!=='function')return;
+ var N=4;
+ farhaState.program=farhaState.program||{};
+ function hhmm(t){t=String(t||'').trim();var m=t.match(/^(\d{1,2})\s*[:hH]\s*(\d{2})?/);if(!m)return '';var h=+m[1],mi=m[2]?+m[2]:0;return (h<10?'0':'')+h+':'+(mi<10?'0':'')+mi}
+ // programme d'origine de chaque modèle
+ function origProgram(t){
+  if(!t)return null;var key=farhaKey(t),html='';
+  if(t.custom&&typeof FARHA_CUSTOM_HTML==='object')html=FARHA_CUSTOM_HTML[t.id]||'';
+  else if(typeof SOURCES==='object')html=SOURCES[key]||SOURCES[t.id]||'';
+  if(!html)return null;
+  var list=[],m;
+  var st=html.search(/\b(program|events)\s*:\s*\[/),body='';
+  if(st>=0){var i=html.indexOf('[',st),dep=0,j=i;for(;j<html.length;j++){var c=html[j];if(c==='[')dep++;else if(c===']'){dep--;if(!dep)break}}body=html.slice(i+1,j)}
+  if(body){var re=/\[\s*["']([^"']*)["']\s*,\s*["']([^"']*)["'](?:\s*,\s*["']([^"']*)["'])?/g;while((m=re.exec(body)))list.push([m[1],m[2],m[3]||''])}
+  if(!list.length){var re2=/<li>\s*<time>([^<]*)<\/time>\s*<span>([^<]*)<\/span>\s*<\/li>/g;while((m=re2.exec(html)))list.push([m[1],m[2].replace(/&amp;/g,'&'),'']);if(list.length)list.static=true}
+  return list.length?list:null;
+ }
+ var cache={};function orig(t){if(!t)return null;if(!(t.id in cache)||!cache[t.id])cache[t.id]=origProgram(t);return cache[t.id]}
+ function current(t){var o=orig(t);if(!o)return null;var v=farhaState.program[t.id];
+  return Array.from({length:N},function(_,i){var r=(v&&v[i])||[],b=o[i]||['',''];return [r[0]!=null?r[0]:hhmm(b[0]),r[1]!=null?r[1]:b[1]]})}
+ // ---- formulaire
+ var host=document.createElement('div');host.id='farhaProg';host.hidden=true;
+ var anchor=document.getElementById('farhaDress');if(anchor)anchor.before(host);else return;
+ var timer=0;
+ function changed(){clearTimeout(timer);timer=setTimeout(function(){if(chosen&&chosen.custom&&typeof farhaCustomSync==='function')farhaCustomSync();else refreshCustom()},450)}
+ function render(){
+  var t=chosen,cur=current(t);host.hidden=!cur;if(!cur){host.replaceChildren();return}
+  var lb=document.createElement('label');lb.textContent='Programme (4 créneaux)';var rows=[lb];
+  cur.forEach(function(r,i){var row=document.createElement('div');row.className='pg-row';
+   var a=document.createElement('input');a.type='time';a.value=r[0];a.setAttribute('aria-label','Heure du créneau '+(i+1));
+   var b=document.createElement('input');b.value=r[1];b.maxLength=60;b.placeholder='Titre du créneau '+(i+1);b.setAttribute('aria-label','Titre du créneau '+(i+1));
+   [a,b].forEach(function(inp,k){inp.addEventListener('input',function(){var v=farhaState.program[t.id]=current(t);v[i][k]=inp.value;changed()})});
+   row.append(a,b);rows.push(row)});
+  host.replaceChildren.apply(host,rows);
+ }
+ var rc=farhaRenderControls;farhaRenderControls=function(){rc.apply(this,arguments);try{render()}catch(e){console.warn('Farha : programme',e)}};
+ // ---- données
+ var rd=readData;readData=function(){var d=rd.apply(this,arguments);if(chosen&&farhaState.program[chosen.id])d.program=current(chosen);return d};
+ var cl=farhaClean;farhaClean=function(d,t){var o=cl.apply(this,arguments);
+  if(d&&Array.isArray(d.program))o.program=d.program.slice(0,N).map(function(r){r=Array.isArray(r)?r:[];return [/^\d{2}:\d{2}$/.test(r[0]||'')?r[0]:'',String(r[1]==null?'':r[1]).replace(/[\u0000-\u001f\u007f]/g,' ').trim().slice(0,60)]});
+  return o};
+ function full(t,prog){var o=orig(t)||[];return prog.filter(function(r){return r[0]||r[1]}).map(function(r,i){return [r[0],r[1],(o[i]&&o[i][2])||'']})}
+ var tp=farhaTextPatch;farhaTextPatch=function(t,d){var p=tp.apply(this,arguments);
+  var prog=(d&&d.program)||(orig(t)?current(t):null); // toujours 4 créneaux maximum
+  if(prog&&p&&typeof p==='object'){var f=full(t,prog);
+   if(t.custom)p.program=f;else if(farhaKey(t)==='sidi')p.events=f}
+  return p};
+ // modèle à programme écrit en dur dans la page (Jardin des Oliviers)
+ var bd=buildDoc;buildDoc=function(t,data){var html=bd.apply(this,arguments);
+  try{var o=orig(t);if(!o||!o.static)return html;var d=farhaClean(data,t),prog=d.program||current(t);
+   var esc=function(x){return String(x).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})};
+   var li=full(t,prog).map(function(r){var m=r[0].match(/^(\d{2}):(\d{2})$/),tt=m?(+m[1])+'h'+(m[2]==='00'?'':m[2]):esc(r[0]);return '<li><time>'+tt+'</time><span>'+esc(r[1])+'</span></li>'}).join('\n    ');
+   return html.replace(/(<ul class="timeline[^"]*">)[\s\S]*?(<\/ul>)/,'$1\n    '+li+'\n  $2');
+  }catch(e){return html}};
+})();
+</script>
+<!-- /FARHA-PROGRAMME -->
 </body></html>
