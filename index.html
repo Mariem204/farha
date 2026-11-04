@@ -2448,7 +2448,7 @@ body .farha-header .farha-logo{line-height:1.1}
  if(typeof farhaCustomDefaults!=='function')return;
  // Libellés des clés connues ; les autres textes simples du CONFIG reçoivent un libellé tiré de leur nom.
  var LABELS={school:'École / université',family:'La famille',degree:'Diplôme obtenu',year:'Année (promotion)',verse:'Verset / citation',whatsapp:'WhatsApp pour les réponses (ex. 21612345678)',
-  title:'Titre',subtitle:'Sous-titre',host:'Invité par',parents:'Les parents',quote:'Citation',hashtag:'Hashtag',dressNote:'Indication Dress Code',childName:'Prénom de l’enfant',age:'Âge',city:'Ville',tagline:'Phrase d’accroche',story:'Notre histoire',venueType:'Type de lieu'};
+  title:'Titre',subtitle:'Sous-titre',host:'Invité par',parents:'Les parents',quote:'Citation',hashtag:'Hashtag',dressNote:'Indication Dress Code',childName:'Prénom de l’enfant',age:'Âge',city:'Ville',tagline:'Phrase d’accroche',story:'Notre histoire',venueType:'Type de lieu',brideAr:'Prénom de la mariée en arabe',mapLabel:'Texte sur la carte',dressTheme:'Thème de la tenue'};
  var SKIP=['bride','groom','name','date','venue','venueShort','address','mapQuery','mapImage','mapLink','music','city','whatsapp'];
  var DEFAULT_PROFILE={photos:[{sel:'#photo',mode:'bg',label:'Photo'},{sel:'img[data-photo]',mode:'img',label:'Photo encadrée'}],dress:'#swatches .swatch, #swatches span'};
  FARHA_PROFILES.custom=DEFAULT_PROFILE;
@@ -2674,4 +2674,28 @@ body .farha-header .farha-logo{line-height:1.1}
 })();
 </script>
 <!-- /FARHA-CALENDRIER -->
+<!-- FARHA-MODELES-SITE : modèles servis depuis /templates/ (prod et preview) ; en attendant leur ajout dans l'admin. -->
+<script>
+(function(){
+ if(typeof templates==='undefined'||typeof farhaRegisterCustom!=='function')return;
+ var LIST=[
+  {id:'henna-rideau-rouge',name:'Rideau rouge · Henna',category:'7enna',color:'#650d12',file:'templates/henna-rideau-rouge.html',preview:'templates/henna-rideau-rouge-preview.jpg',description:'Rideaux rouges et danseuse : prénom de la mariée, programme, lieu, tenue et un mot pour la mariée.'}
+ ];
+ var ready={};
+ function ensure(){LIST.forEach(function(n){var t=ready[n.id];if(t&&!templates.some(function(x){return x.id===n.id}))templates.unshift(t)})}
+ if(typeof renderCatalog==='function'){var rc=renderCatalog;renderCatalog=function(){ensure();return rc.apply(this,arguments)}}
+ if(typeof farhaRenderInspirations==='function'){var ri=farhaRenderInspirations;farhaRenderInspirations=function(){ensure();return ri.apply(this,arguments)}}
+ LIST.forEach(function(n){
+  fetch(n.file,{cache:'no-store'}).then(function(r){return r.ok?r.text():Promise.reject(r.status)}).then(function(html){
+   if(templates.some(function(x){return x.id===n.id&&x.custom}))return; // déjà fourni par l'admin
+   var t={id:n.id,name:n.name,category:n.category,color:n.color,style:'editorial',base:'editorial',createdAt:new Date().toISOString(),description:n.description,hasPreviewImage:!!n.preview};
+   farhaRegisterCustom(t,html);
+   if(n.preview&&typeof previewMarkup!=='undefined')previewMarkup[n.id]='<img class="card-shot" alt="" loading="lazy" src="'+n.preview+'">';
+   ready[n.id]=t;ensure();renderCatalog();
+   if(document.getElementById('inspirations')&&document.getElementById('inspirations').classList.contains('active'))farhaRenderInspirations();
+  }).catch(function(e){console.warn('Farha : modèle indisponible',n.file,e)});
+ });
+})();
+</script>
+<!-- /FARHA-MODELES-SITE -->
 </body></html>
