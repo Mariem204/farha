@@ -2228,7 +2228,7 @@ sendBespoke=function(e){
   document.body.appendChild(pop);el.__fdp.setAttribute('aria-expanded','true');render();place();
   var on=pop.querySelector('.fdp-day.on')||pop.querySelector('.fdp-day.today')||pop.querySelector('.fdp-day:not(:disabled)');if(on&&matchMedia('(pointer:fine)').matches&&document.activeElement!==el.__fdp)on.focus({preventScroll:true})}
  function arm(el){if(el.__fdp)return;
-  var f=document.createElement('input');f.type='text';f.inputMode='numeric';f.maxLength=10;f.autocomplete='off';f.className=(el.className+' fdp-field').trim();
+  var f=document.createElement('input');f.type='text';f.inputMode='numeric';f.autocomplete='off';f.className=(el.className+' fdp-field').trim();
   f.placeholder='jj/mm/aaaa';f.setAttribute('aria-haspopup','dialog');f.setAttribute('aria-expanded','false');
   f.setAttribute('aria-label',(el.closest('label')||{}).textContent||el.getAttribute('aria-label')||'Date');
   el.__fdp=f;el.min=iso(today());el.style.display='none';el.setAttribute('tabindex','-1');el.insertAdjacentElement('afterend',f);
@@ -2236,12 +2236,22 @@ sendBespoke=function(e){
   var v=desc.get.call(el);if(v&&parse(v)<today()){desc.set.call(el,'')}f.value=label(desc.get.call(el));
   f.addEventListener('click',function(){if(!(pop&&cur===el))open(el)});
   // saisie directe : jj/mm/aaaa (les / s'ajoutent tout seuls)
-  function typed(){var m=/^(\d{2})\/(\d{2})\/(\d{4})$/.exec(f.value);if(!m)return null;var d=new Date(+m[3],m[2]-1,+m[1]);
+  function typed(){var m=/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/.exec(f.value);if(!m)return null;var d=new Date(+m[3],m[2]-1,+m[1]);
    return d.getDate()===+m[1]&&d.getMonth()===m[2]-1&&d>=today()?iso(d):null}
+  // au clic / focus : toute la date est sélectionnée, on tape directement par-dessus
+  f.addEventListener('focus',function(){try{f.select()}catch(e){}});
+  f.addEventListener('mouseup',function(e){if(f.__sel){f.__sel=false;e.preventDefault()}});
+  f.addEventListener('mousedown',function(){f.__sel=document.activeElement!==f});
   f.addEventListener('input',function(e){
-   var del=e.inputType&&e.inputType.indexOf('delete')===0,dg=f.value.replace(/\D/g,'').slice(0,8),t=dg.slice(0,2);
-   if(dg.length>2||(!del&&dg.length===2))t+='/'+dg.slice(2,4);if(dg.length>4||(!del&&dg.length===4))t+='/'+dg.slice(4);
-   if(f.value!==t)f.value=t;
+   var raw=f.value,pos=f.selectionStart==null?raw.length:f.selectionStart,del=!!(e.inputType&&e.inputType.indexOf('delete')===0);
+   // jour / mois / année restent chacun dans leur case (pas de décalage des chiffres)
+   var out='',seg=0,len=[0,0,0],max=[2,2,4],caret=0;
+   for(var k=0;k<raw.length;k++){var ch=raw[k];
+    if(/\d/.test(ch)){if(len[seg]>=max[seg]){if(seg<2&&raw.indexOf('/',k)<0){out+='/';seg++;if(k<pos)caret++}else continue}
+     out+=ch;len[seg]++;if(k<pos)caret++}
+    else if(ch==='/'&&seg<2){out+='/';seg++;if(k<pos)caret++}}
+   if(!del&&pos>=raw.length&&seg<2&&len[seg]===max[seg]){out+='/';caret++}
+   if(f.value!==out){f.value=out;try{f.setSelectionRange(caret,caret)}catch(x){}}
    var v=typed();f.setAttribute('aria-invalid',f.value.length===10&&!v?'true':'false');
    if(v){desc.set.call(el,v);el.dispatchEvent(new Event('input',{bubbles:true}));el.dispatchEvent(new Event('change',{bubbles:true}));
     if(pop&&cur===el){var d=parse(v);view=new Date(d.getFullYear(),d.getMonth(),1);render();place()}}});
