@@ -1611,7 +1611,8 @@ function refreshCustom(){
 function resetPreview(){setFrame('detailFrame',buildDoc(chosen,Object.assign({map:'',message:''},farhaDefaults(chosen))))}
 function customize(){
  const def=farhaDefaults(chosen);farhaApplyLabels(chosen);
- $('bride').value=def.bride;$('groom').value=def.groom;$('date').value=def.date;$('time').value=def.time;$('place').value=def.place;
+ $('bride').value=def.bride;$('groom').value=def.groom;$('date').value=(d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'))(new Date()); // par défaut : aujourd'hui (jour J), modifiable
+ $('time').value=def.time;$('place').value=def.place;
  $('message').value=def.message||''; // message propre à chaque modèle (vide si le modèle n'en a pas)
  show('custom');refreshCustom();
 }
@@ -2197,8 +2198,8 @@ sendBespoke=function(e){
  function pad(n){return String(n).padStart(2,'0')}
  function iso(d){return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())}
  function today(){var d=new Date();d.setHours(0,0,0,0);return d}
- // Jour J : date par défaut du modèle en cours de personnalisation
- function jourJ(el){try{if(el.id!=='date'||typeof chosen==='undefined'||!chosen||typeof farhaDefaults!=='function')return '';var v=farhaDefaults(chosen).date;var d=parse(v);return d&&d>=today()?v:''}catch(e){return ''}}
+ // Jour J : aujourd'hui, date par défaut du formulaire de personnalisation
+ function jourJ(el){return el.id==='date'?iso(today()):''}
  function parse(v){var m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(v||'');return m?new Date(+m[1],m[2]-1,+m[3]):null}
  function label(v){var d=parse(v);return d?pad(d.getDate())+'/'+pad(d.getMonth()+1)+'/'+d.getFullYear():''}
  function set(el,v){desc.set.call(el,v);el.__fdp.value=label(v);
