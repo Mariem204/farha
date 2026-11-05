@@ -2621,8 +2621,7 @@ body .farha-header .farha-logo{line-height:1.1}
  if(/^(www\.)?(farha-bay\.vercel\.app|farha\.tn)$/i.test(location.hostname))return; // jamais en prod
  if(typeof templates==='undefined'||typeof farhaRegisterCustom!=='function')return;
  var NEW=[
-  {id:'lotus-wedding',name:'Mariage · Lotus',category:'Mariage',color:'#c96d84',file:'templates/lotus-wedding.html'},
-  {id:'anniversaire-dino',name:'Dino Jungle · Anniversaire',category:'Anniversaire',color:'#2F4A2A',file:'templates/anniversaire-dino.html',description:'Portail de la jungle, T-Rex, compte à rebours, couleurs de l’expédition et réponse des invités.'}
+  {id:'lotus-wedding',name:'Mariage · Lotus',category:'Mariage',color:'#c96d84',file:'templates/lotus-wedding.html'}
  ];
  var ready={};
  function ensure(){NEW.forEach(function(n){if(!ready[n.id])return;if(!templates.some(function(t){return t.id===n.id}))templates.unshift(ready[n.id])})}
@@ -2680,7 +2679,8 @@ body .farha-header .farha-logo{line-height:1.1}
  if(typeof templates==='undefined'||typeof farhaRegisterCustom!=='function')return;
  var LIST=[
   {id:'save-the-date-olive',name:'Save the date · Olive',category:'Mariage',color:'#43452a',file:'templates/save-the-date-olive.html',description:'Niche en dentelle, bande photomaton, enveloppe avec vinyle, cœur en dentelle et un mot pour les mariés.'},
-  {id:'henna-rideau-rouge',name:'Rideau rouge · Henna',category:'7enna',color:'#650d12',file:'templates/henna-rideau-rouge.html',preview:'templates/henna-rideau-rouge-preview.jpg',description:'Rideaux rouges et danseuse : prénom de la mariée, programme, lieu, tenue et un mot pour la mariée.'}
+  {id:'henna-rideau-rouge',name:'Rideau rouge · Henna',category:'7enna',color:'#650d12',file:'templates/henna-rideau-rouge.html',preview:'templates/henna-rideau-rouge-preview.jpg',description:'Rideaux rouges et danseuse : prénom de la mariée, programme, lieu, tenue et un mot pour la mariée.'},
+  {id:'anniversaire-dino',name:'Dino Jungle · Anniversaire',category:'Anniversaire',color:'#2F4A2A',file:'templates/anniversaire-dino.html',description:'Portail de la jungle, T-Rex, compte à rebours, couleurs de l’expédition et réponse des invités.'}
  ];
  var ready={};
  function ensure(){LIST.forEach(function(n){var t=ready[n.id];if(t&&!templates.some(function(x){return x.id===n.id}))templates.unshift(t)})}
