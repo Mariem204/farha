@@ -96,22 +96,28 @@
     if (document.getElementById('farhaConsent')) return;
     var choice = getChoice();
     var css = document.createElement('style'); css.id = 'farha-consent-style';
-    css.textContent = '#farhaConsent{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:2147483646;width:min(560px,calc(100% - 32px));box-sizing:border-box;' +
-      'display:flex;gap:14px;align-items:center;flex-wrap:wrap;padding:14px 16px;border-radius:16px;background:#fffaf4;border:1px solid #e5d8cb;' +
-      'box-shadow:0 14px 40px rgba(74,9,22,.18);font:400 13.5px/1.45 "DM Sans",system-ui,sans-serif;color:#4a3b36}' +
-      '#farhaConsent p{margin:0;flex:1 1 260px}#farhaConsent b{color:#4a0916}' +
-      '#farhaConsent a{color:#4a0916;text-decoration:underline;text-underline-offset:3px}' +
-      '#farhaConsent .fc-state{display:block;margin-top:4px;font-size:12.5px;color:#8c746c}' +
-      '#farhaConsent .fc-btns{display:flex;gap:8px;margin-left:auto}' +
-      '#farhaConsent button{all:unset;cursor:pointer;padding:9px 16px;border-radius:999px;font:600 13px "DM Sans",system-ui,sans-serif;letter-spacing:.01em}' +
-      '#farhaConsent .fc-no{color:#4a0916;border:1px solid #d8c3b4}#farhaConsent .fc-yes{background:#4a0916;color:#f6e7d2}' +
+    css.textContent = '#farhaConsent{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:2147483646;width:min(420px,calc(100% - 24px));box-sizing:border-box;' +
+      'padding:16px 18px 14px;border-radius:20px;background:#fffaf4;border:1px solid #ead9c9;box-shadow:0 18px 44px rgba(74,9,22,.18),0 2px 6px rgba(74,9,22,.06);' +
+      'font:400 13.5px/1.5 "DM Sans",system-ui,sans-serif;color:#5b4842;animation:fcIn .45s cubic-bezier(.2,.8,.2,1) both}' +
+      '@keyframes fcIn{from{opacity:0;transform:translate(-50%,14px)}to{opacity:1;transform:translate(-50%,0)}}' +
+      '#farhaConsent .fc-title{display:block;margin:0 0 4px;font:600 19px/1.2 "Cormorant Garamond",Georgia,serif;color:#4a0916}' +
+      '#farhaConsent p{margin:0}' +
+      '#farhaConsent .fc-state{display:block;margin-top:6px;font-size:12px;color:#9a8278}' +
+      '#farhaConsent .fc-row{display:flex;justify-content:flex-end;gap:10px;margin-top:12px}' +
+      '#farhaConsent .fc-more{white-space:nowrap;color:#4a0916;font-weight:500;text-decoration:underline;text-underline-offset:3px}' +
+      '#farhaConsent .fc-more:hover{color:#6a1a2c}' +
+      '#farhaConsent button{all:unset;box-sizing:border-box;cursor:pointer;min-width:96px;padding:9px 18px;border-radius:999px;text-align:center;font:600 13px "DM Sans",system-ui,sans-serif;transition:background .2s,color .2s}' +
+      '#farhaConsent .fc-no{color:#4a0916;border:1.5px solid #4a0916}#farhaConsent .fc-no:hover{background:#f3e6dc}' +
+      '#farhaConsent .fc-yes{background:#4a0916;color:#f6e7d2;border:1.5px solid #4a0916}#farhaConsent .fc-yes:hover{background:#6a1a2c}' +
       '#farhaConsent button:focus-visible,#farhaConsent a:focus-visible{outline:2px solid #b07c34;outline-offset:2px}' +
-      '@media(max-width:520px){#farhaConsent{bottom:10px}#farhaConsent .fc-btns{width:100%}#farhaConsent button{flex:1;text-align:center}}';
-    var box = document.createElement('div'); box.id = 'farhaConsent'; box.setAttribute('role', 'dialog'); box.setAttribute('aria-live', 'polite'); box.setAttribute('aria-label', 'Gestion des cookies');
-    var state = fromLink ? '<span class="fc-state">Votre choix actuel : ' + (choice === 'granted' ? 'statistiques acceptées' : choice === 'denied' ? 'statistiques refusées' : 'aucun choix') + '.</span>' : '';
-    box.innerHTML = '<p><b>Statistiques de visite</b> · Nous utilisons Microsoft Clarity (cookies) pour comprendre comment le site est utilisé et l’améliorer. ' +
-      'Vos saisies et vos informations de commande ne sont jamais enregistrées. <a href="' + PRIVACY_URL + '">En savoir plus</a>' + state + '</p>' +
-      '<div class="fc-btns"><button type="button" class="fc-no">Refuser</button><button type="button" class="fc-yes">Accepter</button></div>';
+      '@media(max-width:480px){#farhaConsent{bottom:12px;padding:14px 16px 12px}#farhaConsent button{flex:1}}' +
+      '@media(prefers-reduced-motion:reduce){#farhaConsent{animation:none}}';
+    var box = document.createElement('div'); box.id = 'farhaConsent'; box.setAttribute('role', 'dialog'); box.setAttribute('aria-live', 'polite'); box.setAttribute('aria-labelledby', 'farhaConsentTitle');
+    var state = fromLink ? '<span class="fc-state">Votre choix actuel : ' + (choice === 'granted' ? 'cookies acceptés' : choice === 'denied' ? 'cookies refusés' : 'aucun choix') + '.</span>' : '';
+    box.innerHTML = '<strong class="fc-title" id="farhaConsentTitle">Une petite touche de douceur ! 💌</strong>' +
+      '<p>Nous utilisons des cookies pour mieux comprendre vos visites et améliorer votre expérience sur FARHA. À vous de choisir ! <a class="fc-more" href="' + PRIVACY_URL + '#cookies">En savoir plus</a>' + state + '</p>' +
+      '<div class="fc-row">' +
+      '<button type="button" class="fc-no">Refuser</button><button type="button" class="fc-yes">Accepter</button></div>';
     box.querySelector('.fc-yes').addEventListener('click', function () { closeBanner(); accept(); });
     box.querySelector('.fc-no').addEventListener('click', function () { closeBanner(); refuse(); });
     document.head.appendChild(css); document.body.appendChild(box);
