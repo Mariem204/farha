@@ -850,7 +850,7 @@ html.fp-lock main,html.fp-lock .farha-header{transform:scale(var(--fp-zoom,1.06)
 <div class="idea-grid">
 <label>Votre nom<input name="client" maxlength="80" autocomplete="name" required></label>
 <label>E-mail<input name="email" type="email" maxlength="120" autocomplete="email" placeholder="vous@exemple.com" required></label>
-<label class="idea-full">Numéro WhatsApp<input name="whatsapp" type="tel" maxlength="30" autocomplete="tel" inputmode="tel" pattern="[0-9+ ().\-]{8,}" placeholder="+216 ..." required></label>
+<label class="idea-full">Numéro WhatsApp (8 chiffres)<input name="whatsapp" type="tel" maxlength="20" autocomplete="tel" inputmode="numeric" placeholder="ex. 22 123 456" required></label>
 </div>
 <button type="submit" class="idea-submit">Envoyer mon idée ✦</button>
 <p class="idea-status" id="ideaStatus" role="status"></p>
@@ -2980,6 +2980,10 @@ addEventListener('message',function(e){
  fixDate();setTimeout(fixDate,0);
  if(typeof openIdeaForm==='function'){var oi=openIdeaForm;window.openIdeaForm=function(){fixDate();return oi.apply(this,arguments)}}
  f.addEventListener('change',function(e){if(e.target.name==='colors'||e.target.name==='customColor')errC.hidden=true});
+ function tn8(v){var d=String(v||'').replace(/\D/g,'');if(/^00216\d{8}$/.test(d))d=d.slice(5);else if(/^216\d{8}$/.test(d))d=d.slice(3);return /^\d{8}$/.test(d)?d:''}
+ var waIn=f.elements.whatsapp;
+ function checkWa(){waIn.setCustomValidity(waIn.value.trim()&&!tn8(waIn.value)?'Le numéro WhatsApp doit contenir 8 chiffres (ex. 22 123 456).':'')}
+ if(waIn){waIn.addEventListener('input',checkWa);waIn.addEventListener('blur',function(){checkWa();var n=tn8(waIn.value);if(n)waIn.value=n.replace(/^(\d{2})(\d{3})(\d{3})$/,'$1 $2 $3')})}
  function colorsOf(d){var c=d.getAll('colors'),cu=String(d.get('customColor')||'');if(cu&&cu.toLowerCase()!=='#c9a14a')c.push('Autre : '+cu);return c}
  function fmtDate(v){var m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(v||'');return m?m[3]+'/'+m[2]+'/'+m[1]:v}
  // images : réduites dans le navigateur (JPEG, 1600 px max) avant l'envoi
@@ -2992,25 +2996,24 @@ addEventListener('message',function(e){
   img.onerror=function(){URL.revokeObjectURL(url);ok(null)};img.src=url})}
  window.sendIdea=function(e){
   e.preventDefault();
+  checkWa();if(!f.reportValidity())return;
   var d=new FormData(f),v=function(k){return String(d.get(k)||'').trim()};
   var colors=colorsOf(d);
   if(!colors.length){errC.hidden=false;errC.scrollIntoView({block:'center',behavior:'smooth'});return}
   var st=document.getElementById('ideaStatus'),btn=f.querySelector('.idea-submit');
   var files=Array.prototype.slice.call(f.elements.images.files||[]).slice(0,4);
-  var data={client:v('client'),email:v('email'),whatsapp:v('whatsapp'),event:v('event'),names:v('names'),date:fmtDate(v('date')),place:v('place'),colors:colors.join(', '),ambiance:v('ambiance'),idea:v('idea')};
+  var data={client:v('client'),email:v('email'),whatsapp:'+216 '+tn8(v('whatsapp')).replace(/^(\d{2})(\d{3})(\d{3})$/,'$1 $2 $3'),event:v('event'),names:v('names'),date:fmtDate(v('date')),place:v('place'),colors:colors.join(', '),ambiance:v('ambiance'),idea:v('idea')};
   var recap=['✦ Nouvelle demande Farha · Personnaliser mon invitation ✦','',
    'Nom : '+data.client,'E-mail : '+data.email,'WhatsApp : '+data.whatsapp,'',
    'Événement : '+data.event,'Prénoms : '+data.names,'Date : '+data.date,'Lieu : '+data.place,'Couleurs : '+data.colors,'Ambiance : '+data.ambiance,'',
    'Mon idée :',data.idea,'',
    'Images d’inspiration : '+(files.length?files.length+' (envoyées par e-mail)':'aucune')].join('\n');
-  // 1. WhatsApp : ouvert tout de suite (clic de l'utilisateur), message prêt à envoyer
-  var waUrl='https://wa.me/'+WA+'?text='+encodeURIComponent(recap),w=null;
-  try{w=window.open(waUrl,'_blank');if(w)w.opener=null}catch(x){}
-  // 2. e-mail : récapitulatif + images envoyés à l'équipe
+  // le serveur envoie le résumé à l'équipe Farha par e-mail (avec les images) et sur WhatsApp, automatiquement
+  var waUrl='https://wa.me/'+WA+'?text='+encodeURIComponent(recap),sent={whatsapp:false};
   btn.disabled=true;st.textContent='Envoi de votre demande…';
   Promise.all(files.map(shrink)).then(function(imgs){
    data.images=imgs.filter(Boolean);
-   return fetch('/api/idea',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)}).then(function(r){if(!r.ok)throw new Error('HTTP '+r.status)});
+   return fetch('/api/idea',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)}).then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json().then(function(j){sent.whatsapp=!!(j&&j.whatsapp)},function(){})});
   }).catch(function(err){
    // secours : récapitulatif sans images
    console.warn('Farha : demande via le serveur impossible ('+(err&&err.message||err)+'), secours FormSubmit.');
@@ -3019,9 +3022,9 @@ addEventListener('message',function(e){
      Nom:data.client,'E-mail':data.email,WhatsApp:data.whatsapp,'Événement':data.event,'Prénoms':data.names,Date:data.date,Lieu:data.place,Couleurs:data.colors,Ambiance:data.ambiance,'Idée':data.idea,'Images':files.length?files.length+' (non jointes, à demander au client)':'aucune'})})
     .then(function(r){if(!r.ok)throw new Error('HTTP '+r.status)});
   }).then(function(){
-   st.innerHTML='';st.append('Merci ! Votre demande nous a bien été envoyée par e-mail. ');
-   var a=document.createElement('a');a.className='idea-wa-link';a.href=waUrl;a.target='_blank';a.rel='noopener';
-   a.textContent=w?'WhatsApp ne s’est pas ouvert ? Cliquez ici':'Envoyez-la aussi sur WhatsApp ↗';st.append(a);
+   st.innerHTML='';st.append('Merci ! Votre demande nous a bien été envoyée. Nous vous recontactons très vite sur WhatsApp ✦');
+   if(!sent.whatsapp){st.append(' ');var a=document.createElement('a');a.className='idea-wa-link';a.href=waUrl;a.target='_blank';a.rel='noopener';a.textContent='Nous écrire aussi sur WhatsApp ↗';st.append(a)}
+   f.reset();var pv=document.getElementById('ideaPreviews');if(pv)pv.innerHTML='';
   },function(){
    st.innerHTML='';st.append('L’envoi par e-mail a échoué. ');
    var a=document.createElement('a');a.className='idea-wa-link';a.href=waUrl;a.target='_blank';a.rel='noopener';a.textContent='Envoyez votre demande sur WhatsApp ↗';st.append(a);

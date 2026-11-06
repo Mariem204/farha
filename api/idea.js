@@ -1,6 +1,10 @@
-// Farha · /api/idea — demande « Personnaliser mon invitation » : envoie le récapitulatif à l'équipe Farha par e-mail
-// (Brevo), avec les images d'inspiration en pièces jointes. Le WhatsApp de l'équipe est ouvert côté navigateur.
-// Variables d'environnement Vercel : BREVO_API_KEY, FARHA_SENDER_EMAIL, FARHA_ADMIN_EMAIL (comme /api/payment-email).
+// Farha · /api/idea — demande « Personnaliser mon invitation » : envoie automatiquement le récapitulatif à l'équipe Farha
+//  - par e-mail (Brevo), avec les images d'inspiration en pièces jointes ;
+//  - sur WhatsApp (CallMeBot), sur le numéro de l'équipe.
+// Variables d'environnement Vercel :
+//   BREVO_API_KEY, FARHA_SENDER_EMAIL, FARHA_ADMIN_EMAIL   (comme /api/payment-email)
+//   CALLMEBOT_API_KEY   clé CallMeBot reçue sur le WhatsApp de l'équipe (sans elle, pas d'envoi WhatsApp)
+//   FARHA_WHATSAPP      numéro qui reçoit les demandes, indicatif compris (par défaut 21692891770)
 
 const MAX_PER_IP_10_MIN = 5;
 const MAX_IMAGES = 4;
@@ -28,7 +32,8 @@ module.exports = async function handler(req, res) {
   if (hits.length >= MAX_PER_IP_10_MIN) return res.status(429).json({ error: 'Trop de demandes, réessayez plus tard.' });
 
   const key = (process.env.BREVO_API_KEY || '').trim();
-  if (!key) return res.status(503).json({ error: 'Service non configuré' });
+  const waKey = (process.env.CALLMEBOT_API_KEY || '').trim();
+  if (!key && !waKey) return res.status(503).json({ error: 'Service non configuré' });
 
   let body = req.body;
   if (typeof body === 'string') { try { body = JSON.parse(body); } catch (e) { body = null; } }
@@ -42,7 +47,11 @@ module.exports = async function handler(req, res) {
   const missing = Object.keys(f).filter(k => !f[k]);
   if (missing.length) return res.status(400).json({ error: 'Champs manquants', champs: missing });
   if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(f.email)) return res.status(400).json({ error: 'E-mail invalide' });
-  if (!/^[0-9+ ().-]{8,30}$/.test(f.whatsapp)) return res.status(400).json({ error: 'Numéro WhatsApp invalide' });
+  // numéro tunisien : 8 chiffres (l'indicatif 216 / 00216 est accepté)
+  let digits = f.whatsapp.replace(/\D/g, '');
+  if (/^00216\d{8}$/.test(digits)) digits = digits.slice(5); else if (/^216\d{8}$/.test(digits)) digits = digits.slice(3);
+  if (!/^\d{8}$/.test(digits)) return res.status(400).json({ error: 'Le numéro WhatsApp doit contenir 8 chiffres' });
+  f.whatsapp = '+216 ' + digits.replace(/^(\d{2})(\d{3})(\d{3})$/, '$1 $2 $3');
 
   // images d'inspiration (facultatives) : JPEG / PNG / WebP déjà réduites par le navigateur
   const attachment = [];
@@ -59,7 +68,7 @@ module.exports = async function handler(req, res) {
     ['Date', f.date], ['Lieu', f.place], ['Couleurs', f.colors], ['Ambiance', f.ambiance],
     ['Images d’inspiration', attachment.length ? attachment.length + ' en pièce jointe' : 'aucune']
   ];
-  const wa = 'https://wa.me/' + f.whatsapp.replace(/\D/g, '');
+  const wa = 'https://wa.me/216' + digits;
   const html = '<div style="font-family:Arial,sans-serif;font-size:15px;line-height:1.5;background:#faf7f5;padding:24px">' +
     '<div style="max-width:600px;margin:auto;background:#fff;border-radius:14px;padding:26px;border:1px solid #eadfd6">' +
     '<div style="font-size:22px;color:#551d30;font-weight:bold;margin-bottom:6px">Farha ✦</div>' +
@@ -71,8 +80,17 @@ module.exports = async function handler(req, res) {
     '</div></div>';
   const txt = ['Nouvelle demande · Personnaliser mon invitation', '', ...rows.map(([k, v]) => k + ' : ' + v), '', 'Idée :', f.idea].join('\n');
 
-  try {
-    hits.push(now); recent.set(ip, hits);
+  // résumé WhatsApp (texte seul ; les images partent par e-mail)
+  const waText = ['✦ Nouvelle demande Farha · Personnaliser mon invitation ✦', '',
+    'Nom : ' + f.client, 'E-mail : ' + f.email, 'WhatsApp : ' + f.whatsapp, '',
+    'Événement : ' + f.event, 'Prénoms : ' + f.names, 'Date : ' + f.date, 'Lieu : ' + f.place,
+    'Couleurs : ' + f.colors, 'Ambiance : ' + f.ambiance, '', 'Idée :', f.idea.slice(0, 1200), '',
+    'Images d’inspiration : ' + (attachment.length ? attachment.length + ' (dans l’e-mail)' : 'aucune'),
+    'Répondre : ' + wa].join('\n');
+
+  hits.push(now); recent.set(ip, hits);
+  const sendMail = async () => {
+    if (!key) return false;
     const sender = (process.env.FARHA_SENDER_EMAIL || 'farhacontact0@gmail.com').trim();
     const admin = (process.env.FARHA_ADMIN_EMAIL || 'farhacontact0@gmail.com').trim();
     const payload = { sender: { name: 'Farha', email: sender }, to: [{ email: admin }], replyTo: { email: f.email, name: f.client },
@@ -81,10 +99,21 @@ module.exports = async function handler(req, res) {
     const r = await fetch('https://api.brevo.com/v3/smtp/email', {
       method: 'POST', headers: { 'api-key': key, 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(payload)
     });
-    if (!r.ok) { console.error('idea: brevo', r.status, (await r.text()).slice(0, 200)); return res.status(502).json({ error: 'Envoi impossible' }); }
-    return res.status(201).json({ ok: true, images: attachment.length });
-  } catch (e) {
-    console.error('idea:', e.message);
-    return res.status(500).json({ error: 'Envoi impossible' });
-  }
+    if (!r.ok) console.error('idea: brevo', r.status, (await r.text()).slice(0, 200));
+    return r.ok;
+  };
+  const sendWhatsApp = async () => {
+    if (!waKey) return false;
+    const to = (process.env.FARHA_WHATSAPP || '21692891770').replace(/\D/g, '');
+    const r = await fetch('https://api.callmebot.com/whatsapp.php?phone=' + encodeURIComponent(to) +
+      '&text=' + encodeURIComponent(waText) + '&apikey=' + encodeURIComponent(waKey));
+    const t = await r.text();
+    const ok = r.ok && !/error|invalid|not allowed/i.test(t.slice(0, 400));
+    if (!ok) console.error('idea: whatsapp', r.status, t.replace(/<[^>]+>/g, ' ').slice(0, 200));
+    return ok;
+  };
+  const [mail, whatsapp] = await Promise.all([sendMail().catch(e => { console.error('idea: e-mail', e.message); return false; }),
+    sendWhatsApp().catch(e => { console.error('idea: whatsapp', e.message); return false; })]);
+  if (!mail && !whatsapp) return res.status(502).json({ error: 'Envoi impossible' });
+  return res.status(201).json({ ok: true, email: mail, whatsapp, images: attachment.length });
 };
