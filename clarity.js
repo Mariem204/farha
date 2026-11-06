@@ -5,7 +5,9 @@
 //    dont l'adresse contient les prénoms, la date et le lieu) ;
 //  - tous les champs de saisie, les formulaires de commande / demande / avis, l'aperçu personnalisé
 //    et la page de livraison sont masqués dans les enregistrements (data-clarity-mask) ;
-//  - sur les anciennes pages d'invitation (invitation-*.html), tout le texte est masqué.
+//  - sur les anciennes pages d'invitation (invitation-*.html), tout le texte est masqué ;
+//  - Clarity n'est chargé qu'après l'accord du visiteur (bandeau « Accepter / Refuser », choix mémorisé
+//    dans ce navigateur) ; sans réponse ou en cas de refus, rien n'est chargé.
 (function () {
   'use strict';
   var ID = 'z9c8rjwlil';
@@ -42,7 +44,34 @@
       y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
     })(window, document, 'clarity', 'script', ID);
   }
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else start();
+  // ----- consentement -----
+  var KEY = 'farha-consent-analytics', started = false;
+  function getChoice() { try { return localStorage.getItem(KEY); } catch (e) { return null; } }
+  function setChoice(v) { try { localStorage.setItem(KEY, v); } catch (e) {} }
+  function go() { if (started) return; started = true; start(); try { window.clarity('consent'); } catch (e) {} }
+  function banner() {
+    if (document.getElementById('farhaConsent')) return;
+    var css = document.createElement('style'); css.id = 'farha-consent-style';
+    css.textContent = '#farhaConsent{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:2147483646;width:min(560px,calc(100% - 32px));box-sizing:border-box;' +
+      'display:flex;gap:14px;align-items:center;flex-wrap:wrap;padding:14px 16px;border-radius:16px;background:#fffaf4;border:1px solid #e5d8cb;' +
+      'box-shadow:0 14px 40px rgba(74,9,22,.18);font:400 13.5px/1.45 "DM Sans",system-ui,sans-serif;color:#4a3b36}' +
+      '#farhaConsent p{margin:0;flex:1 1 260px}#farhaConsent b{color:#4a0916}' +
+      '#farhaConsent .fc-btns{display:flex;gap:8px;margin-left:auto}' +
+      '#farhaConsent button{all:unset;cursor:pointer;padding:9px 16px;border-radius:999px;font:600 13px "DM Sans",system-ui,sans-serif;letter-spacing:.01em}' +
+      '#farhaConsent .fc-no{color:#4a0916;border:1px solid #d8c3b4}#farhaConsent .fc-yes{background:#4a0916;color:#f6e7d2}' +
+      '#farhaConsent button:focus-visible{outline:2px solid #b07c34;outline-offset:2px}' +
+      '@media(max-width:520px){#farhaConsent{bottom:10px}#farhaConsent .fc-btns{width:100%}#farhaConsent button{flex:1;text-align:center}}';
+    var box = document.createElement('div'); box.id = 'farhaConsent'; box.setAttribute('role', 'dialog'); box.setAttribute('aria-live', 'polite'); box.setAttribute('aria-label', 'Statistiques de visite');
+    box.innerHTML = '<p><b>Statistiques de visite</b> · Nous utilisons Microsoft Clarity (cookies) pour comprendre comment le site est utilisé et l’améliorer. ' +
+      'Vos saisies et vos informations de commande ne sont jamais enregistrées.</p>' +
+      '<div class="fc-btns"><button type="button" class="fc-no">Refuser</button><button type="button" class="fc-yes">Accepter</button></div>';
+    function close() { box.remove(); css.remove(); }
+    box.querySelector('.fc-yes').addEventListener('click', function () { setChoice('granted'); close(); go(); });
+    box.querySelector('.fc-no').addEventListener('click', function () { setChoice('denied'); close(); });
+    document.head.appendChild(css); document.body.appendChild(box);
+  }
+  function init() { var c = getChoice(); if (c === 'granted') go(); else if (c !== 'denied') banner(); }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
   // si un lien d'invitation est ouvert sans recharger la page, on arrête d'enregistrer
   addEventListener('hashchange', function () { if (/^#i=/.test(location.hash) && window.clarity) try { window.clarity('stop'); } catch (e) {} });
 })();
