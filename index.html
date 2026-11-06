@@ -2475,7 +2475,11 @@ body .farha-header .farha-logo{line-height:1.1}
  if(typeof farhaCustomDefaults!=='function')return;
  // Libellés des clés connues ; les autres textes simples du CONFIG reçoivent un libellé tiré de leur nom.
  var LABELS={school:'École / université',family:'La famille',degree:'Diplôme obtenu',year:'Année (promotion)',verse:'Verset / citation',whatsapp:'WhatsApp pour les réponses (ex. 21612345678)',
-  title:'Titre',subtitle:'Sous-titre',host:'Invité par',parents:'Les parents',quote:'Citation',hashtag:'Hashtag',dressNote:'Indication Dress Code',childName:'Prénom de l’enfant',age:'Âge',city:'Ville',tagline:'Phrase d’accroche',story:'Notre histoire',venueType:'Type de lieu',brideAr:'Prénom de la mariée en arabe',mapLabel:'Texte sur la carte',dressTheme:'Thème de la tenue',rsvpBy:'Répondre avant le'};
+  title:'Titre',subtitle:'Sous-titre',host:'Invité par',parents:'Les parents',quote:'Citation',hashtag:'Hashtag',dressNote:'Indication Dress Code',childName:'Prénom de l’enfant',age:'Âge',city:'Ville',tagline:'Phrase d’accroche',story:'Notre histoire',venueType:'Type de lieu',brideAr:'Prénom de la mariée en arabe',mapLabel:'Texte sur la carte',dressTheme:'Thème de la tenue',rsvpBy:'Répondre avant le',
+  timeNote:'Fin de la fête (texte sous l’heure)',parent1Label:'Parent 1 · nom affiché',parent1Phone:'Parent 1 · téléphone',parent2Label:'Parent 2 · nom affiché (facultatif)',parent2Phone:'Parent 2 · téléphone (facultatif)',
+  gateKicker:'Enveloppe · petit titre',gateTitle:'Enveloppe · titre',gateButton:'Enveloppe · bouton',gateHint:'Enveloppe · indication',alert:'Bandeau d’alerte',quote:'Phrase de la bulle',
+  missionTitle:'Mission · titre',missionIntro:'Mission · texte',countTitle:'Titre du compte à rebours',dressTitle:'Dress code · titre',dressText:'Dress code · texte',
+  rsvpTitle:'Confirmation · titre',yes:'Bouton « oui »',no:'Bouton « non »',footer:'Phrase de fin',footerSmall:'Petite phrase de fin'};
  var SKIP=['bride','groom','name','date','venue','venueShort','address','mapQuery','mapImage','mapLink','music','city','whatsapp'];
  var DEFAULT_PROFILE={photos:[{sel:'#photo',mode:'bg',label:'Photo'},{sel:'img[data-photo]',mode:'img',label:'Photo encadrée'}],dress:'#swatches .swatch, #swatches span'};
  FARHA_PROFILES.custom=DEFAULT_PROFILE;
@@ -2521,7 +2525,7 @@ body .farha-header .farha-logo{line-height:1.1}
    Object.keys(d.extra).forEach(function(k){if(keys.indexOf(k)>=0)x[k]=String(d.extra[k]==null?'':d.extra[k]).replace(/[\u0000-\u0009\u000b-\u001f\u007f]/g,' ').trim().slice(0,800)});o.extra=x}
   return o};
  var tp=farhaTextPatch;farhaTextPatch=function(t,d){var p=tp.apply(this,arguments);
-  if(extrasOf(t).length&&d&&d.extra)Object.keys(d.extra).forEach(function(k){if(d.extra[k])p[k]=d.extra[k]});return p};
+  if(extrasOf(t).length&&d&&d.extra)Object.keys(d.extra).forEach(function(k){if(d.extra[k]!=null)p[k]=d.extra[k]});return p};
 })();
 </script>
 <!-- /FARHA-MODELES-HTML-CHAMPS -->
@@ -2667,7 +2671,8 @@ body .farha-header .farha-logo{line-height:1.1}
  if(/^(www\.)?(farha-bay\.vercel\.app|farha\.tn)$/i.test(location.hostname))return; // jamais en prod
  if(typeof templates==='undefined'||typeof farhaRegisterCustom!=='function')return;
  var NEW=[
-  {id:'lotus-wedding',name:'Mariage · Lotus',category:'Mariage',color:'#c96d84',file:'templates/lotus-wedding.html'}
+  {id:'lotus-wedding',name:'Mariage · Lotus',category:'Mariage',color:'#c96d84',file:'templates/lotus-wedding.html'},
+  {id:'anniversaire-super-heros',name:'Mission super-héros · Anniversaire',category:'Anniversaire',color:'#E62429',file:'templates/anniversaire-super-heros.html',description:'Enveloppe secrète qui s’ouvre, carte comics, dossier de mission, compte à rebours, dress code et réponse des invités.'}
  ];
  var ready={};
  function ensure(){NEW.forEach(function(n){if(!ready[n.id])return;if(!templates.some(function(t){return t.id===n.id}))templates.unshift(ready[n.id])})}
@@ -2840,7 +2845,7 @@ body .farha-header .farha-logo{line-height:1.1}
 (function(){
  if(typeof farhaTemplateCard!=='function')return;
  var base=farhaTemplateCard;
- var SUITE=['henna-rideau-rouge','save-the-date-olive','lotus-wedding','sidi','sarah','sand','huntrix','huntrixConcert','diplome','tahara','anniversaire-dino'];
+ var SUITE=['henna-rideau-rouge','save-the-date-olive','lotus-wedding','sidi','sarah','sand','huntrix','huntrixConcert','diplome','tahara','anniversaire-dino','anniversaire-super-heros'];
  function fitFrames(box){box.querySelectorAll('iframe.card-frame').forEach(function(f){var p=f.parentElement,w=p.clientWidth;if(w)f.style.transform='scale('+(w/390)+')'})}
  farhaTemplateCard=function(t){
   var card=base.apply(this,arguments),art=card.querySelector('.template-artwork');if(!art)return card;
