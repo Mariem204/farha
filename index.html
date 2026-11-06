@@ -289,7 +289,7 @@ html,body{overflow-x:clip}
 .sky-icons{position:absolute;inset:0;pointer-events:none;z-index:2}
 
 /* Popup « Personnaliser mon invitation » */
-.idea-dialog{border:0;padding:0;border-radius:28px;width:min(680px,calc(100vw - 24px));max-height:calc(100dvh - 24px);background:#fffaf4;color:#3e2a32;box-shadow:0 30px 80px rgba(40,10,20,.35);overflow:auto}
+.idea-dialog{overflow-x:hidden;border:0;padding:0;border-radius:28px;width:min(680px,calc(100vw - 24px));max-height:calc(100dvh - 24px);background:#fffaf4;color:#3e2a32;box-shadow:0 30px 80px rgba(40,10,20,.35);overflow:auto}
 .idea-dialog::backdrop{background:rgba(42,14,24,.55);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
 .idea-dialog[open]{animation:ideaIn .25s ease-out}
 @keyframes ideaIn{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
@@ -840,16 +840,17 @@ html.fp-lock main,html.fp-lock .farha-header{transform:scale(var(--fp-zoom,1.06)
 <div class="idea-grid">
 <label>Type d'événement<select name="event"><option>Mariage</option><option>Fiançailles</option><option>Anniversaire</option><option>Naissance / Baby shower</option><option>Tahara</option><option>Diplôme / Soutenance</option><option>Autre</option></select></label>
 <label>Prénoms<input name="names" maxlength="120" placeholder="ex. Amira &amp; Youssef" required></label>
-<label>Date<input name="date" type="date"></label>
-<label>Lieu<input name="place" maxlength="150" placeholder="ex. Dar Sidi Bou Saïd, Tunis"></label>
+<label>Date<input name="date" type="date" required></label>
+<label>Lieu<input name="place" maxlength="150" placeholder="ex. Dar Sidi Bou Saïd, Tunis" required></label>
 </div>
-<fieldset class="idea-set"><legend>Vos couleurs</legend><div class="idea-swatches"><label class="idea-swatch"><input type="checkbox" name="colors" value="Bordeaux"><span style="--c:#4a0916"></span><em>Bordeaux</em></label><label class="idea-swatch"><input type="checkbox" name="colors" value="Or"><span style="--c:#c9a14a"></span><em>Or</em></label><label class="idea-swatch"><input type="checkbox" name="colors" value="Ivoire"><span style="--c:#f6efe2"></span><em>Ivoire</em></label><label class="idea-swatch"><input type="checkbox" name="colors" value="Rose poudré"><span style="--c:#e8b9bf"></span><em>Rose poudré</em></label><label class="idea-swatch"><input type="checkbox" name="colors" value="Sauge"><span style="--c:#9fb59a"></span><em>Sauge</em></label><label class="idea-swatch"><input type="checkbox" name="colors" value="Bleu nuit"><span style="--c:#1f2f4a"></span><em>Bleu nuit</em></label><label class="idea-swatch"><input type="checkbox" name="colors" value="Lavande"><span style="--c:#b7a3d6"></span><em>Lavande</em></label><label class="idea-swatch"><input type="checkbox" name="colors" value="Terracotta"><span style="--c:#c46f4f"></span><em>Terracotta</em></label><label class="idea-swatch"><input type="checkbox" name="colors" value="Noir"><span style="--c:#1b1b1b"></span><em>Noir</em></label><label class="idea-swatch"><input type="checkbox" name="colors" value="Blanc"><span style="--c:#ffffff"></span><em>Blanc</em></label><label class="idea-swatch idea-custom"><input type="color" name="customColor" value="#c9a14a" aria-label="Autre couleur"><em>Autre</em></label></div></fieldset>
-<fieldset class="idea-set"><legend>L'ambiance</legend><div class="idea-chips"><label class="idea-chip"><input type="radio" name="ambiance" value="Forêt"><span>Forêt</span></label><label class="idea-chip"><input type="radio" name="ambiance" value="Plage"><span>Plage</span></label><label class="idea-chip"><input type="radio" name="ambiance" value="Salle de fête"><span>Salle de fête</span></label><label class="idea-chip"><input type="radio" name="ambiance" value="Jardin"><span>Jardin</span></label><label class="idea-chip"><input type="radio" name="ambiance" value="Médina"><span>Médina</span></label><label class="idea-chip"><input type="radio" name="ambiance" value="Désert"><span>Désert</span></label><label class="idea-chip"><input type="radio" name="ambiance" value="Bord de lac"><span>Bord de lac</span></label><label class="idea-chip"><input type="radio" name="ambiance" value="Autre"><span>Autre</span></label></div></fieldset>
-<label class="idea-full">Votre idée, en toute liberté<textarea name="idea" maxlength="2000" placeholder="Racontez-nous l'univers que vous imaginez, les détails qui comptent pour vous, la musique, le style…"></textarea></label>
-<div class="idea-upload"><label class="idea-drop" for="ideaImages"><strong>Ajouter une image d'inspiration</strong><small>JPG ou PNG, plusieurs images possibles</small></label><input id="ideaImages" name="images" type="file" accept="image/*" multiple><div class="idea-previews" id="ideaPreviews"></div></div>
+<fieldset class="idea-set"><legend>Vos couleurs</legend><p class="idea-colors-err" id="ideaColorsErr" role="alert" hidden>Choisissez au moins une couleur.</p><div class="idea-swatches"><label class="idea-swatch"><input type="checkbox" name="colors" value="Bordeaux"><span style="--c:#4a0916"></span><em>Bordeaux</em></label><label class="idea-swatch"><input type="checkbox" name="colors" value="Or"><span style="--c:#c9a14a"></span><em>Or</em></label><label class="idea-swatch"><input type="checkbox" name="colors" value="Ivoire"><span style="--c:#f6efe2"></span><em>Ivoire</em></label><label class="idea-swatch"><input type="checkbox" name="colors" value="Rose poudré"><span style="--c:#e8b9bf"></span><em>Rose poudré</em></label><label class="idea-swatch"><input type="checkbox" name="colors" value="Sauge"><span style="--c:#9fb59a"></span><em>Sauge</em></label><label class="idea-swatch"><input type="checkbox" name="colors" value="Bleu nuit"><span style="--c:#1f2f4a"></span><em>Bleu nuit</em></label><label class="idea-swatch"><input type="checkbox" name="colors" value="Lavande"><span style="--c:#b7a3d6"></span><em>Lavande</em></label><label class="idea-swatch"><input type="checkbox" name="colors" value="Terracotta"><span style="--c:#c46f4f"></span><em>Terracotta</em></label><label class="idea-swatch"><input type="checkbox" name="colors" value="Noir"><span style="--c:#1b1b1b"></span><em>Noir</em></label><label class="idea-swatch"><input type="checkbox" name="colors" value="Blanc"><span style="--c:#ffffff"></span><em>Blanc</em></label><label class="idea-swatch idea-custom"><input type="color" name="customColor" value="#c9a14a" aria-label="Autre couleur"><em>Autre</em></label></div></fieldset>
+<fieldset class="idea-set"><legend>L'ambiance</legend><div class="idea-chips"><label class="idea-chip"><input type="radio" name="ambiance" value="Forêt" required><span>Forêt</span></label><label class="idea-chip"><input type="radio" name="ambiance" value="Plage"><span>Plage</span></label><label class="idea-chip"><input type="radio" name="ambiance" value="Salle de fête"><span>Salle de fête</span></label><label class="idea-chip"><input type="radio" name="ambiance" value="Jardin"><span>Jardin</span></label><label class="idea-chip"><input type="radio" name="ambiance" value="Médina"><span>Médina</span></label><label class="idea-chip"><input type="radio" name="ambiance" value="Désert"><span>Désert</span></label><label class="idea-chip"><input type="radio" name="ambiance" value="Bord de lac"><span>Bord de lac</span></label><label class="idea-chip"><input type="radio" name="ambiance" value="Autre"><span>Autre</span></label></div></fieldset>
+<label class="idea-full">Votre idée, en toute liberté<textarea name="idea" maxlength="2000" required placeholder="Racontez-nous l'univers que vous imaginez, les détails qui comptent pour vous, la musique, le style…"></textarea></label>
+<div class="idea-upload"><label class="idea-drop" for="ideaImages"><strong>Ajouter une image d'inspiration</strong><small>Facultatif · JPG ou PNG, jusqu’à 4 images</small></label><input id="ideaImages" name="images" type="file" accept="image/*" multiple><div class="idea-previews" id="ideaPreviews"></div></div>
 <div class="idea-grid">
-<label>Votre nom<input name="client" maxlength="80" required></label>
-<label>Téléphone ou e-mail<input name="contact" maxlength="120" required></label>
+<label>Votre nom<input name="client" maxlength="80" autocomplete="name" required></label>
+<label>E-mail<input name="email" type="email" maxlength="120" autocomplete="email" placeholder="vous@exemple.com" required></label>
+<label class="idea-full">Numéro WhatsApp<input name="whatsapp" type="tel" maxlength="30" autocomplete="tel" inputmode="tel" pattern="[0-9+ ().\-]{8,}" placeholder="+216 ..." required></label>
 </div>
 <button type="submit" class="idea-submit">Envoyer mon idée ✦</button>
 <p class="idea-status" id="ideaStatus" role="status"></p>
@@ -2218,14 +2219,16 @@ sendBespoke=function(e){
  }
  function place(){if(!pop)return;var r=cur.__fdp.getBoundingClientRect(),w=pop.offsetWidth,ht=pop.offsetHeight;
   var x=Math.max(8,Math.min(r.left,innerWidth-w-8)),y=r.bottom+6;if(y+ht>innerHeight-8&&r.top-ht-6>8)y=r.top-ht-6;
-  pop.style.left=x+'px';pop.style.top=Math.max(8,y)+'px'}
+  y=Math.max(8,y);pop.style.left=x+'px';pop.style.top=y+'px';
+  // dans une fenêtre (dialog) le repère n'est pas l'écran : on corrige l'écart mesuré
+  var rr=pop.getBoundingClientRect(),dx=rr.left-x,dy=rr.top-y;if(Math.abs(dx)>.5||Math.abs(dy)>.5){pop.style.left=(x-dx)+'px';pop.style.top=(y-dy)+'px'}}
  function open(el){close();cur=el;var t=today(),s=parse(desc.get.call(el))||parse(jourJ(el));view=new Date((s&&s>=t?s:t).getFullYear(),(s&&s>=t?s:t).getMonth(),1);
   pop=document.createElement('div');pop.className='fdp';pop.setAttribute('role','dialog');pop.setAttribute('aria-label','Choisir une date');
   pop.addEventListener('mousedown',function(e){e.preventDefault()});
   pop.addEventListener('click',function(e){var b=e.target.closest('button');if(!b||b.disabled)return;
    if(b.dataset.n){view=new Date(view.getFullYear(),view.getMonth()+ +b.dataset.n,1);render();place();return}
    var f=cur.__fdp;set(cur,b.dataset.v);close();f.focus()});
-  document.body.appendChild(pop);el.__fdp.setAttribute('aria-expanded','true');render();place();
+  (el.closest('dialog[open]')||document.body).appendChild(pop);el.__fdp.setAttribute('aria-expanded','true');render();place();
   var on=pop.querySelector('.fdp-day.on')||pop.querySelector('.fdp-day.today')||pop.querySelector('.fdp-day:not(:disabled)');if(on&&matchMedia('(pointer:fine)').matches&&document.activeElement!==el.__fdp)on.focus({preventScroll:true})}
  function arm(el){if(el.__fdp)return;
   var f=document.createElement('input');f.type='text';f.inputMode='numeric';f.autocomplete='off';f.className=(el.className+' fdp-field').trim();
@@ -2258,11 +2261,11 @@ sendBespoke=function(e){
   // date incomplète ou invalide : on remet la dernière date valide
   f.addEventListener('blur',function(){if(!typed()){f.value=label(desc.get.call(el));f.setAttribute('aria-invalid','false')}});
   f.addEventListener('keydown',function(e){if(e.key==='ArrowDown'){e.preventDefault();open(el)}
-   else if(e.key==='Enter'){e.preventDefault();pop&&cur===el?close():open(el)}else if(e.key==='Escape')close()});
+   else if(e.key==='Enter'){e.preventDefault();pop&&cur===el?close():open(el)}else if(e.key==='Escape'&&pop){e.preventDefault();close()}});
  }
  function scan(){document.querySelectorAll('input[type="date"]').forEach(arm)}
  document.addEventListener('mousedown',function(e){if(pop&&!pop.contains(e.target)&&e.target!==cur.__fdp)close()});
- document.addEventListener('keydown',function(e){if(e.key==='Escape'&&pop){var f=cur.__fdp;close();f.focus()}});
+ document.addEventListener('keydown',function(e){if(e.key==='Escape'&&pop){e.preventDefault();var f=cur.__fdp;close();f.focus()}});
  addEventListener('resize',place);addEventListener('scroll',place,true);
  document.addEventListener('reset',function(e){setTimeout(function(){e.target.querySelectorAll('input[type="date"]').forEach(function(el){if(el.__fdp)el.__fdp.value=label(desc.get.call(el))})})},true);
  var q=0;scan();new MutationObserver(function(){if(!q)q=requestAnimationFrame(function(){q=0;scan()})}).observe(document.body,{childList:true,subtree:true});
@@ -2955,4 +2958,76 @@ addEventListener('message',function(e){
 })();
 </script>
 <!-- /FARHA-CHAMPS-OBLIGATOIRES -->
+<!-- FARHA-IDEE : « Personnaliser mon invitation » : tous les champs obligatoires (sauf les images), e-mail et WhatsApp séparés ;
+     à l'envoi, le récapitulatif part par e-mail à l'équipe (/api/idea, images en pièces jointes) et WhatsApp s'ouvre
+     avec le récapitulatif prêt pour le +216 92 891 770. -->
+<style id="farha-idee">
+.idea-grid .idea-full{grid-column:1/-1}
+/* les cases cachées (couleurs, ambiance) restent dans leur étiquette : plus de défilement horizontal */
+.idea-swatch,.idea-chip{position:relative}
+.idea-swatch input[type=checkbox],.idea-chip input{left:0;top:0;width:1px;height:1px;margin:0}
+#ideaDialog{overflow-x:hidden}
+.idea-colors-err{margin:0 0 8px;color:#a3261e;font:600 13px 'DM Sans',sans-serif}
+.idea-wa-link{display:inline-block;margin-top:6px;color:#4a0916;font-weight:700;text-decoration:underline;text-underline-offset:3px}
+</style>
+<script>
+(function(){
+ var WA='21692891770';
+ var f=document.getElementById('ideaForm');if(!f)return;
+ var errC=document.getElementById('ideaColorsErr');
+ // date : le calendrier Farha cache le vrai champ ; l'obligation passe sur le champ affiché (jj/mm/aaaa)
+ function fixDate(){var d=f.elements.date;if(d&&d.__fdp){d.required=false;d.__fdp.required=true;d.__fdp.name='dateShown'}}
+ fixDate();setTimeout(fixDate,0);
+ if(typeof openIdeaForm==='function'){var oi=openIdeaForm;window.openIdeaForm=function(){fixDate();return oi.apply(this,arguments)}}
+ f.addEventListener('change',function(e){if(e.target.name==='colors'||e.target.name==='customColor')errC.hidden=true});
+ function colorsOf(d){var c=d.getAll('colors'),cu=String(d.get('customColor')||'');if(cu&&cu.toLowerCase()!=='#c9a14a')c.push('Autre : '+cu);return c}
+ function fmtDate(v){var m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(v||'');return m?m[3]+'/'+m[2]+'/'+m[1]:v}
+ // images : réduites dans le navigateur (JPEG, 1600 px max) avant l'envoi
+ function shrink(file){return new Promise(function(ok){
+  if(!/^image\//.test(file.type)){ok(null);return}
+  var url=URL.createObjectURL(file),img=new Image();
+  img.onload=function(){var k=Math.min(1,1600/Math.max(img.width,img.height)),c=document.createElement('canvas');c.width=Math.round(img.width*k);c.height=Math.round(img.height*k);
+   var x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);x.drawImage(img,0,0,c.width,c.height);URL.revokeObjectURL(url);
+   var data=c.toDataURL('image/jpeg',.82);ok(data.length*.75<=1200*1024?{name:file.name,data:data}:null)};
+  img.onerror=function(){URL.revokeObjectURL(url);ok(null)};img.src=url})}
+ window.sendIdea=function(e){
+  e.preventDefault();
+  var d=new FormData(f),v=function(k){return String(d.get(k)||'').trim()};
+  var colors=colorsOf(d);
+  if(!colors.length){errC.hidden=false;errC.scrollIntoView({block:'center',behavior:'smooth'});return}
+  var st=document.getElementById('ideaStatus'),btn=f.querySelector('.idea-submit');
+  var files=Array.prototype.slice.call(f.elements.images.files||[]).slice(0,4);
+  var data={client:v('client'),email:v('email'),whatsapp:v('whatsapp'),event:v('event'),names:v('names'),date:fmtDate(v('date')),place:v('place'),colors:colors.join(', '),ambiance:v('ambiance'),idea:v('idea')};
+  var recap=['✦ Nouvelle demande Farha · Personnaliser mon invitation ✦','',
+   'Nom : '+data.client,'E-mail : '+data.email,'WhatsApp : '+data.whatsapp,'',
+   'Événement : '+data.event,'Prénoms : '+data.names,'Date : '+data.date,'Lieu : '+data.place,'Couleurs : '+data.colors,'Ambiance : '+data.ambiance,'',
+   'Mon idée :',data.idea,'',
+   'Images d’inspiration : '+(files.length?files.length+' (envoyées par e-mail)':'aucune')].join('\n');
+  // 1. WhatsApp : ouvert tout de suite (clic de l'utilisateur), message prêt à envoyer
+  var waUrl='https://wa.me/'+WA+'?text='+encodeURIComponent(recap),w=null;
+  try{w=window.open(waUrl,'_blank');if(w)w.opener=null}catch(x){}
+  // 2. e-mail : récapitulatif + images envoyés à l'équipe
+  btn.disabled=true;st.textContent='Envoi de votre demande…';
+  Promise.all(files.map(shrink)).then(function(imgs){
+   data.images=imgs.filter(Boolean);
+   return fetch('/api/idea',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)}).then(function(r){if(!r.ok)throw new Error('HTTP '+r.status)});
+  }).catch(function(err){
+   // secours : récapitulatif sans images
+   console.warn('Farha : demande via le serveur impossible ('+(err&&err.message||err)+'), secours FormSubmit.');
+   return fetch('https://formsubmit.co/ajax/farhacontact0@gmail.com',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},
+    body:JSON.stringify({_subject:'Farha · Nouvelle demande — '+data.names+' ('+data.event+')',_template:'table',_captcha:'false',_replyto:data.email,
+     Nom:data.client,'E-mail':data.email,WhatsApp:data.whatsapp,'Événement':data.event,'Prénoms':data.names,Date:data.date,Lieu:data.place,Couleurs:data.colors,Ambiance:data.ambiance,'Idée':data.idea,'Images':files.length?files.length+' (non jointes, à demander au client)':'aucune'})})
+    .then(function(r){if(!r.ok)throw new Error('HTTP '+r.status)});
+  }).then(function(){
+   st.innerHTML='';st.append('Merci ! Votre demande nous a bien été envoyée par e-mail. ');
+   var a=document.createElement('a');a.className='idea-wa-link';a.href=waUrl;a.target='_blank';a.rel='noopener';
+   a.textContent=w?'WhatsApp ne s’est pas ouvert ? Cliquez ici':'Envoyez-la aussi sur WhatsApp ↗';st.append(a);
+  },function(){
+   st.innerHTML='';st.append('L’envoi par e-mail a échoué. ');
+   var a=document.createElement('a');a.className='idea-wa-link';a.href=waUrl;a.target='_blank';a.rel='noopener';a.textContent='Envoyez votre demande sur WhatsApp ↗';st.append(a);
+  }).then(function(){btn.disabled=false});
+ };
+})();
+</script>
+<!-- /FARHA-IDEE -->
 </body></html>
