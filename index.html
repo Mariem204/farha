@@ -3033,4 +3033,24 @@ addEventListener('message',function(e){
 })();
 </script>
 <!-- /FARHA-IDEE -->
+<!-- FARHA-CARTE-CLIQUABLE : un clic n'importe où sur la carte d'un modèle ouvre sa page de détail (comme « Live preview »). -->
+<style id="farha-carte-cliquable">.template-card{cursor:pointer}
+.template-card iframe.card-frame{pointer-events:none} /* l’aperçu animé laisse passer le clic vers la carte */</style>
+<script>
+(function(){
+ if(typeof farhaTemplateCard!=='function'||typeof openDetail!=='function')return;
+ var base=farhaTemplateCard;
+ farhaTemplateCard=function(t){
+  var card=base.apply(this,arguments);
+  card.addEventListener('click',function(e){
+   if(e.target.closest('button,a,input,select,textarea,label'))return; // le bouton « Live preview » garde son propre clic
+   openDetail(t.id);
+  });
+  return card;
+ };
+ if(typeof renderCatalog==='function')renderCatalog();
+ if(document.getElementById('inspirations')&&document.getElementById('inspirations').classList.contains('active')&&typeof farhaRenderInspirations==='function')farhaRenderInspirations();
+})();
+</script>
+<!-- /FARHA-CARTE-CLIQUABLE -->
 </body></html>
