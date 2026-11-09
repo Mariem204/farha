@@ -33,23 +33,35 @@ function when(iso) {
   catch (e) { return ''; }
 }
 
+// Mot de baby shower : « Pronostic : une fille 💗 — message »
+function prono(r) {
+  const m = /^Pronostic : (un garçon 💙|une fille 💗)(?: — ([\s\S]*))?$/.exec(r.message || '');
+  return m ? { label: m[1], text: m[2] || '', color: /garçon/.test(m[1]) ? '#3c6690' : '#a3456a' } : null;
+}
 // E-mail : résumé + tableau (N°, Nom et prénom, Réponse, Mot, Reçu le).
 function mail(title, latest, rows) {
+  const babyMode = rows.length && rows.every(r => prono(r));
   const yes = rows.filter(r => r.attending).length, no = rows.length - yes;
+  const boys = rows.filter(r => prono(r) && /garçon/.test(prono(r).label)).length, girls = rows.filter(r => prono(r) && /fille/.test(prono(r).label)).length;
   const th = s => '<th style="text-align:left;padding:8px 10px;background:#551d30;color:#fff;font-weight:600;font-size:13px">' + s + '</th>';
   const td = (s, extra) => '<td style="padding:8px 10px;border-bottom:1px solid #eadfd6;vertical-align:top;font-size:14px;' + (extra || '') + '">' + s + '</td>';
   const body = rows.map((r, i) => '<tr' + (r === latest ? ' style="background:#fff6e5"' : '') + '>' +
     td(String(i + 1), 'color:#8a7a70') + td(esc(r.guest_name), 'font-weight:600') +
-    td(r.attending ? '✅ J’arrive' : '❌ Ne peut pas venir', 'white-space:nowrap;color:' + (r.attending ? '#1e7a3c' : '#a3261e')) +
-    td(r.message ? esc(r.message) : '<span style="color:#b8aaa2">—</span>') + td(esc(when(r.created_at)), 'white-space:nowrap;color:#8a7a70') + '</tr>').join('');
+    (prono(r) ? td(esc(prono(r).label), 'white-space:nowrap;color:' + prono(r).color) + td(prono(r).text ? esc(prono(r).text) : '<span style="color:#b8aaa2">—</span>')
+      : td(r.attending ? '✅ J’arrive' : '❌ Ne peut pas venir', 'white-space:nowrap;color:' + (r.attending ? '#1e7a3c' : '#a3261e')) +
+        td(r.message ? esc(r.message) : '<span style="color:#b8aaa2">—</span>')) + td(esc(when(r.created_at)), 'white-space:nowrap;color:#8a7a70') + '</tr>').join('');
   const html = '<div style="font-family:Arial,sans-serif;font-size:15px;line-height:1.5;background:#faf7f5;padding:24px">' +
     '<div style="max-width:680px;margin:auto;background:#fff;border-radius:14px;padding:26px;border:1px solid #eadfd6">' +
     '<div style="font-size:22px;color:#551d30;font-weight:bold;margin-bottom:6px">Farha ✦</div>' +
     '<h1 style="font-size:19px;color:#551d30;margin:0 0 10px">' + esc(title) + '</h1>' +
-    '<p style="margin:0 0 6px"><b>' + esc(latest.guest_name) + '</b> vient de répondre : <b>' + (latest.attending ? 'J’arrive ✅' : 'Je ne peux pas venir ❌') + '</b></p>' +
-    '<p style="margin:0 0 16px;color:#6d5f57">Total : ' + rows.length + ' réponse' + (rows.length > 1 ? 's' : '') + ' · ' + yes + ' présent' + (yes > 1 ? 's' : '') + ' · ' + no + ' absent' + (no > 1 ? 's' : '') + '</p>' +
+    (prono(latest)
+      ? '<p style="margin:0 0 6px"><b>' + esc(latest.guest_name) + '</b> vous a laissé un mot · <b>' + esc(prono(latest).label) + '</b></p>'
+      : '<p style="margin:0 0 6px"><b>' + esc(latest.guest_name) + '</b> vient de répondre : <b>' + (latest.attending ? 'J’arrive ✅' : 'Je ne peux pas venir ❌') + '</b></p>') +
+    (babyMode
+      ? '<p style="margin:0 0 16px;color:#6d5f57">Total : ' + rows.length + ' mot' + (rows.length > 1 ? 's' : '') + ' · ' + boys + ' pour un garçon 💙 · ' + girls + ' pour une fille 💗</p>'
+      : '<p style="margin:0 0 16px;color:#6d5f57">Total : ' + rows.length + ' réponse' + (rows.length > 1 ? 's' : '') + ' · ' + yes + ' présent' + (yes > 1 ? 's' : '') + ' · ' + no + ' absent' + (no > 1 ? 's' : '') + '</p>') +
     '<div style="overflow-x:auto"><table style="border-collapse:collapse;width:100%">' +
-    '<tr>' + th('N°') + th('Nom et prénom') + th('Réponse') + th('Son mot') + th('Reçu le') + '</tr>' + body + '</table></div>' +
+    '<tr>' + th('N°') + th('Nom et prénom') + th(babyMode ? 'Pronostic' : 'Réponse') + th('Son mot') + th('Reçu le') + '</tr>' + body + '</table></div>' +
     '<p style="margin:16px 0 0;color:#8a7a70;font-size:13px">Vous recevez cet e-mail à chaque nouvelle réponse, avec la liste complète.</p>' +
     '</div></div>';
   const txt = [title, '', latest.guest_name + ' : ' + (latest.attending ? "J'arrive" : 'Ne peut pas venir'), '',
@@ -78,7 +90,10 @@ module.exports = async function handler(req, res) {
   if (!body || typeof body !== 'object' || JSON.stringify(body).length > 4000) return res.status(400).json({ error: 'Requête invalide' });
   const slug = clean(body.key, 80).toLowerCase();
   const name = clean(body.name, 120);
-  const message = clean(body.message, 600);
+  const guess = body.guess === 'garcon' || body.guess === 'fille' ? body.guess : '';
+  // baby shower : le pronostic est rangé au début du mot (« Pronostic : … »)
+  const PRONO = { garcon: 'Pronostic : un garçon 💙', fille: 'Pronostic : une fille 💗' };
+  const message = (guess ? PRONO[guess] + (clean(body.message, 560) ? ' — ' + clean(body.message, 560) : '') : clean(body.message, 600)).slice(0, 600);
   if (!/^[a-z0-9-]{2,80}$/.test(slug)) return res.status(400).json({ error: 'Invitation inconnue' });
   if (name.length < 2) return res.status(400).json({ error: 'Nom et prénom manquants' });
   if (typeof body.attending !== 'boolean') return res.status(400).json({ error: 'Réponse manquante' });
@@ -109,7 +124,7 @@ module.exports = async function handler(req, res) {
           method: 'POST',
           headers: { 'api-key': brevo, 'Content-Type': 'application/json', Accept: 'application/json' },
           body: JSON.stringify({ sender: { name: 'Farha', email: sender }, to: [{ email: to, name: order.customer_name || undefined }],
-            subject: 'Farha · ' + name + (body.attending ? ' arrive ✅' : ' ne peut pas venir ❌') + ' (' + rows.length + ' réponse' + (rows.length > 1 ? 's' : '') + ')',
+            subject: 'Farha · ' + name + (guess ? ' vous a laissé un mot (' + (guess === 'garcon' ? 'garçon 💙' : 'fille 💗') + ')' : body.attending ? ' arrive ✅' : ' ne peut pas venir ❌') + ' (' + rows.length + ' réponse' + (rows.length > 1 ? 's' : '') + ')',
             htmlContent: m.html, textContent: m.txt })
         });
         mailed = r.ok;
