@@ -938,7 +938,7 @@ SOURCES["sarah"]="<!DOCTYPE html>\n<html lang=\"fr\">\n<head>\n<meta charset=\"u
 const templates=[{id:'lake',name:'Lake Como · Enveloppe interactive',category:'Mariage',style:'lake',base:'lake',color:'#b48a43'},{id:'sidi',name:'Sidi Bou Said · Portes bleues',category:'Mariage',style:'sidi',base:'sidi',color:'#1f56a5'},{id:'sarah',name:'Jardin des Oliviers · Sarah & Yassine',category:'Mariage',style:'sarah',base:'sarah',color:'#b88a44'},{id:'sand',name:'Sable doré',category:'Fiançailles',style:'sand',base:'royal',color:'#b88b50'},{id:'night',name:'Nuit étoilée',category:'Anniversaire',style:'night',base:'editorial',color:'#c3a268'},{id:'lavender',name:'Douce lavande',category:'Naissance',style:'lavender',base:'royal',color:'#9275b7'},{id:'sky',name:'Bleu ciel',category:'Événement',style:'sky',base:'editorial',color:'#5389aa'}];
 let chosen=templates[0],lastDoc='';const $=id=>document.getElementById(id);
 // Prix par catégorie de modèle (en DT). Les catégories non listées gardent le prix par défaut.
-const FARHA_PRICES={'Mariage':40,'Fiançailles':30,'Anniversaire':20,'Tahara':20,'Diplôme':15,'Naissance':20,'Baby shower':20,'Événement':20},FARHA_DEFAULT_PRICE=50;
+const FARHA_PRICES={'Mariage':40,'Fiançailles':30,'Anniversaire':25,'Tahara':30,'Diplôme':15,'Naissance':20,'Baby shower':20,'Événement':20},FARHA_DEFAULT_PRICE=50;
 function farhaPrice(t){return FARHA_PRICES[t&&t.category]??FARHA_DEFAULT_PRICE}
 // Aperçus (démo, personnalisation, livraison) : déchargés dès qu'on quitte leur page, pour que leur musique s'arrête.
 const FARHA_VIEW_FRAMES={detail:'detailFrame',custom:'customFrame',complete:'deliveryFrame'};
