@@ -24,12 +24,12 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opa
 .btn.wine{background:var(--wine);border-color:var(--wine);border-radius:8px;font-family:Jost,sans-serif;text-transform:none;letter-spacing:.02em;width:100%}
 
 /* ---------- Intro ---------- */
-#intro{position:fixed;inset:0;z-index:50;background:var(--olive);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2.2vh;padding:4vh 18px calc(4vh + env(safe-area-inset-bottom,0px));transition:opacity .9s}
+#intro{position:fixed;inset:0;z-index:50;background:var(--olive);display:flex;flex-direction:column;align-items:center;justify-content:safe center;overflow-y:auto;gap:2.2vh;padding:4vh 18px calc(4vh + env(safe-area-inset-bottom,0px));transition:opacity .9s}
 #intro.gone{opacity:0;pointer-events:none}
 #intro h1{margin:0;font-size:clamp(1.5rem,7vw,2rem);line-height:1.05;font-weight:300}
 #intro h1 .sw{font-family:"Pinyon Script",cursive;font-size:1.3em;text-transform:none;margin-right:-.06em}
 /* niche : cadre olive en relief (biseaux, rebord), fond creusé, napperon de dentelle en pointe, bouquet dans le coin */
-.niche-wrap{position:relative;width:min(58vw,250px);aspect-ratio:1/2.18;margin-top:calc(min(58vw,250px)*.16)}
+.niche-wrap{position:relative;width:min(58vw,250px,31svh);aspect-ratio:1/2.18;margin-top:calc(min(58vw,250px,31svh)*.16)}
 .frame{position:absolute;inset:0;background:linear-gradient(180deg,#646744 0%,#5b5d3d 40%,#545637 100%);
  box-shadow:0 22px 40px rgba(0,0,0,.38),0 2px 0 rgba(255,255,255,.06) inset,0 -2px 0 rgba(0,0,0,.18) inset}
 .frame::after{content:"";position:absolute;inset:3px;border:1px solid rgba(255,255,255,.05);pointer-events:none}
