@@ -3147,5 +3147,16 @@ addEventListener('message',function(e){
 <style id="farha-prix-cartes">
 .template-card .template-meta .template-price{display:block!important;justify-self:end;align-self:center;font:700 15px/1 'DM Sans',sans-serif;color:#4a0916;white-space:nowrap}
 </style>
+<style>.template-card .template-meta .template-price[hidden]{display:none!important}</style>
+<script>
+// Pas de prix sur les cartes des modèles Mariage et 7enna
+(function(){
+ if(typeof farhaTemplateCard!=='function')return;
+ var NO_PRICE=['Mariage','7enna'],base=farhaTemplateCard;
+ farhaTemplateCard=function(t){var card=base.apply(this,arguments);if(t&&NO_PRICE.indexOf(t.category)>=0){var p=card.querySelector('.template-price');if(p)p.hidden=true}return card};
+ if(typeof renderCatalog==='function')renderCatalog();
+ if(document.getElementById('inspirations')&&document.getElementById('inspirations').classList.contains('active')&&typeof farhaRenderInspirations==='function')farhaRenderInspirations();
+})();
+</script>
 <!-- /FARHA-PRIX-CARTES -->
 </body></html>
