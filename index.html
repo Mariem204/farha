@@ -2688,7 +2688,8 @@ body .farha-header .farha-logo{line-height:1.1}
  if(/^(www\.)?(farha-bay\.vercel\.app|farha\.tn)$/i.test(location.hostname))return; // jamais en prod
  if(typeof templates==='undefined'||typeof farhaRegisterCustom!=='function')return;
  var NEW=[
-  {id:'lotus-wedding',name:'Mariage · Lotus',category:'Mariage',color:'#c96d84',file:'templates/lotus-wedding.html'}
+  {id:'lotus-wedding',name:'Mariage · Lotus',category:'Mariage',color:'#c96d84',file:'templates/lotus-wedding.html'},
+  {id:'enchanted-garden',name:'Enchanted Garden · Jardin enchanté',category:'Mariage',color:'#8f4565',file:'templates/enchanted-garden.html',description:'Portail fleuri qui s’ouvre, jardin en scènes, compte à rebours, lieu, dress code et message pour les mariés.'}
  ];
  var ready={};
  function ensure(){NEW.forEach(function(n){if(!ready[n.id])return;if(!templates.some(function(t){return t.id===n.id}))templates.unshift(ready[n.id])})}
@@ -2863,7 +2864,7 @@ body .farha-header .farha-logo{line-height:1.1}
 (function(){
  if(typeof farhaTemplateCard!=='function')return;
  var base=farhaTemplateCard;
- var SUITE=['henna-rideau-rouge','save-the-date-olive','lotus-wedding','sidi','sarah','sand','huntrix','huntrixConcert','diplome','tahara','anniversaire-dino','anniversaire-super-heros','baby-shower'];
+ var SUITE=['henna-rideau-rouge','save-the-date-olive','lotus-wedding','sidi','sarah','sand','huntrix','huntrixConcert','diplome','tahara','anniversaire-dino','anniversaire-super-heros','baby-shower','enchanted-garden'];
  function fitFrames(box){box.querySelectorAll('iframe.card-frame').forEach(function(f){var p=f.parentElement,w=p.clientWidth;if(w)f.style.transform='scale('+(w/390)+')'})}
  farhaTemplateCard=function(t){
   var card=base.apply(this,arguments),art=card.querySelector('.template-artwork');if(!art)return card;
@@ -2915,7 +2916,7 @@ addEventListener('message',function(e){
  var reply=function(o){try{e.source.postMessage(Object.assign({type:'farha:rsvp-result',id:m.id},o),'*')}catch(x){}};
  var key=f.dataset.rsvpKey||'';
  if(!key){reply({ok:true,preview:true});return} // aperçu ou ancien lien : pas d'envoi
- fetch('/api/rsvp',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({key:key,name:String(m.name||'').slice(0,120),attending:m.attending===true,guess:m.guess==='garcon'||m.guess==='fille'?m.guess:undefined,message:String(m.message||'').slice(0,600)})})
+ fetch('/api/rsvp',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({key:key,name:String(m.name||'').slice(0,120),attending:m.attending===true,guess:m.guess==='garcon'||m.guess==='fille'?m.guess:undefined,kind:m.kind==='mot'?'mot':undefined,message:String(m.message||'').slice(0,600)})})
   .then(function(r){return r.json().catch(function(){return {}}).then(function(j){reply(r.ok?{ok:true}:{ok:false,error:j&&j.error})})})
   .catch(function(){reply({ok:false})});
 });
