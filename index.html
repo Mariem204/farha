@@ -3196,4 +3196,14 @@ addEventListener('message',function(e){
 @media(min-width:801px){#packages .pkg-grid{grid-template-columns:repeat(2,minmax(0,1fr));max-width:none;margin-left:-26px;margin-right:-26px}}
 </style>
 <!-- /FARHA-FORMULES -->
+<!-- FARHA-NOMS : noms courts des modèles (remplacent aussi ceux venant de l'admin). -->
+<script>
+(function(){
+ var N={'Save the date · Olive':'Olive','Enchanted Garden · Jardin enchanté':'Jardin enchanté','Mission super-héros · Anniversaire':'Spiderman','Bord de Mer · Les vagues':'Les vagues','حنة السلطان · Henna Night':'حنة السلطان','Huntrix · Concert':'Huntrix','Tahara mabrouk · Carte à volets':'Tahara mabrouk','Diplôme · Cadre doré':'Graduation pour elle','Rideau rouge · Henna':'Henna','Baby Shower · Rose & bleu':'Fille ou garçon ?'};
+ function fix(){if(typeof templates==='undefined')return;templates.forEach(function(t){var k=t&&t.name&&t.name.replace(/\s+/g,' ').trim();if(k&&N[k])t.name=N[k]})}
+ ['renderCatalog','farhaRenderInspirations','openDetail','customize'].forEach(function(f){var o=window[f];if(typeof o!=='function')return;var w=function(){fix();return o.apply(this,arguments)};try{window[f]=w}catch(e){}if(f==='renderCatalog')renderCatalog=w;if(f==='farhaRenderInspirations')farhaRenderInspirations=w;if(f==='openDetail')openDetail=w;if(f==='customize')customize=w});
+ fix();try{renderCatalog()}catch(e){}
+})();
+</script>
+<!-- /FARHA-NOMS -->
 </body></html>
