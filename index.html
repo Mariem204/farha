@@ -2692,7 +2692,7 @@ body .farha-header .farha-logo{line-height:1.1}
  var NEW=[
   {id:'lotus-wedding',name:'Mariage · Lotus',category:'Mariage',color:'#c96d84',file:'templates/lotus-wedding.html'},
   {id:'bord-de-mer',name:'Bord de Mer · Les vagues',category:'Mariage',color:'#2F5A6E',file:'templates/bord-de-mer.html',description:'Noix de coco qui plonge, cadre de coquillages pour votre photo, volets qui s’ouvrent sur le lieu et un mot pour les mariés.'},
-  {id:'henna-sultan',name:'حنة السلطان · Henna Night',category:'7enna',color:'#7a1d2e',file:'templates/henna-sultan.html',description:'Trône doré et lanternes, photo de la mariée dans un miroir, date, lieu et une kelma pour la mariée.'},
+  {id:'henna-sultan',name:'حنة السلطان · Henna Night',category:'7enna',color:'#7a1d2e',file:'templates/henna-sultan.html',description:'Trône doré et lanternes, photo du marié dans un miroir, date, lieu et une kelma pour le marié.'},
   {id:'perla',name:'Perla',category:'Mariage',color:'#8a7d70',file:'templates/perla.html',description:'Papier ivoire en relief, cygnes, fleur de perles, prénoms en français et en arabe, lieu et un mot pour les mariés.'}
  ];
  var ready={};
@@ -2905,7 +2905,7 @@ body .farha-header .farha-logo{line-height:1.1}
    Object.keys(B).forEach(function(k){var l=document.querySelector('label[for="'+k+'"]');if(l)l.textContent=B[k]});
   }
   if(solo&&t.category==='7enna'){
-   var K={bride:'Prénom de la mariée',date:'Date de la henna',place:'Salle / lieu de la henna'};
+   var K={bride:t.id==='henna-sultan'?'Prénom du marié':'Prénom de la mariée',date:'Date de la henna',place:'Salle / lieu de la henna'};
    Object.keys(K).forEach(function(k){var l=document.querySelector('label[for="'+k+'"]');if(l)l.textContent=K[k]});
   }
   if(solo&&t.category==='Anniversaire'){
