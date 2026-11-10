@@ -938,7 +938,7 @@ SOURCES["sarah"]="<!DOCTYPE html>\n<html lang=\"fr\">\n<head>\n<meta charset=\"u
 const templates=[{id:'lake',name:'Lake Como · Enveloppe interactive',category:'Mariage',style:'lake',base:'lake',color:'#b48a43'},{id:'sidi',name:'Sidi Bou Said · Portes bleues',category:'Mariage',style:'sidi',base:'sidi',color:'#1f56a5'},{id:'sarah',name:'Jardin des Oliviers · Sarah & Yassine',category:'Mariage',style:'sarah',base:'sarah',color:'#b88a44'},{id:'sand',name:'Sable doré',category:'Fiançailles',style:'sand',base:'royal',color:'#b88b50'},{id:'night',name:'Nuit étoilée',category:'Anniversaire',style:'night',base:'editorial',color:'#c3a268'},{id:'lavender',name:'Douce lavande',category:'Naissance',style:'lavender',base:'royal',color:'#9275b7'},{id:'sky',name:'Bleu ciel',category:'Événement',style:'sky',base:'editorial',color:'#5389aa'}];
 let chosen=templates[0],lastDoc='';const $=id=>document.getElementById(id);
 // Prix par catégorie de modèle (en DT). Les catégories non listées gardent le prix par défaut.
-const FARHA_PRICES={'Mariage':86,'Fiançailles':30,'Anniversaire':24,'Tahara':30,'Diplôme':15,'Naissance':20,'Baby shower':20,'Événement':20},FARHA_DEFAULT_PRICE=50;
+const FARHA_PRICES={'Mariage':86,'Fiançailles':30,'Anniversaire':24,'Tahara':30,'Diplôme':15,'Naissance':20,'Baby shower':36,'7enna':36,'Événement':20},FARHA_DEFAULT_PRICE=50;
 function farhaPrice(t){return FARHA_PRICES[t&&t.category]??FARHA_DEFAULT_PRICE}
 // Aperçus (démo, personnalisation, livraison) : déchargés dès qu'on quitte leur page, pour que leur musique s'arrête.
 const FARHA_VIEW_FRAMES={detail:'detailFrame',custom:'customFrame',complete:'deliveryFrame'};
@@ -3162,7 +3162,7 @@ addEventListener('message',function(e){
 // Pas de prix sur les cartes des modèles Mariage et 7enna
 (function(){
  if(typeof farhaTemplateCard!=='function')return;
- var NO_PRICE=['7enna'],base=farhaTemplateCard;
+ var NO_PRICE=[],base=farhaTemplateCard;
  farhaTemplateCard=function(t){var card=base.apply(this,arguments);if(t&&NO_PRICE.indexOf(t.category)>=0){var p=card.querySelector('.template-price');if(p)p.hidden=true}return card};
  if(typeof renderCatalog==='function')renderCatalog();
  if(document.getElementById('inspirations')&&document.getElementById('inspirations').classList.contains('active')&&typeof farhaRenderInspirations==='function')farhaRenderInspirations();
@@ -3176,7 +3176,7 @@ addEventListener('message',function(e){
 // Prix barrés (promotion) : ancien prix par collection, affiché barré à côté du prix actuel
 (function(){
  if(typeof farhaTemplateCard!=='function'||typeof farhaPrice!=='function')return;
- var OLD={'Anniversaire':29,'Mariage':116},base=farhaTemplateCard;
+ var OLD={'Anniversaire':29,'Mariage':116,'7enna':41,'Baby shower':41},base=farhaTemplateCard;
  farhaTemplateCard=function(t){var card=base.apply(this,arguments),el=card.querySelector('.template-price');
   if(el&&t){var now=farhaPrice(t),old=OLD[t.category];el.textContent='';
    var a=document.createElement('span');a.className='pr-now';a.textContent=now+' DT';el.appendChild(a);
