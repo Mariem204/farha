@@ -36,11 +36,14 @@ function when(iso) {
 // Mot de baby shower : « Pronostic : une fille 💗 — message »
 function prono(r) {
   const m = /^Pronostic : (un garçon 💙|une fille 💗)(?: — ([\s\S]*))?$/.exec(r.message || '');
-  return m ? { label: m[1], text: m[2] || '', color: /garçon/.test(m[1]) ? '#3c6690' : '#a3456a' } : null;
+  if (m) return { label: m[1], text: m[2] || '', color: /garçon/.test(m[1]) ? '#3c6690' : '#a3456a' };
+  const w = /^💌 Un mot(?: — ([\s\S]*))?$/.exec(r.message || '');
+  return w ? { label: '💌 Un mot', text: w[1] || '', color: '#8f4565', mot: true } : null;
 }
 // E-mail : résumé + tableau (N°, Nom et prénom, Réponse, Mot, Reçu le).
 function mail(title, latest, rows) {
-  const babyMode = rows.length && rows.every(r => prono(r));
+  const motMode = rows.length && rows.every(r => prono(r) && prono(r).mot);
+  const babyMode = !motMode && rows.length && rows.every(r => prono(r));
   const yes = rows.filter(r => r.attending).length, no = rows.length - yes;
   const boys = rows.filter(r => prono(r) && /garçon/.test(prono(r).label)).length, girls = rows.filter(r => prono(r) && /fille/.test(prono(r).label)).length;
   const th = s => '<th style="text-align:left;padding:8px 10px;background:#551d30;color:#fff;font-weight:600;font-size:13px">' + s + '</th>';
@@ -55,13 +58,15 @@ function mail(title, latest, rows) {
     '<div style="font-size:22px;color:#551d30;font-weight:bold;margin-bottom:6px">Farha ✦</div>' +
     '<h1 style="font-size:19px;color:#551d30;margin:0 0 10px">' + esc(title) + '</h1>' +
     (prono(latest)
-      ? '<p style="margin:0 0 6px"><b>' + esc(latest.guest_name) + '</b> vous a laissé un mot · <b>' + esc(prono(latest).label) + '</b></p>'
+      ? '<p style="margin:0 0 6px"><b>' + esc(latest.guest_name) + '</b> vous a laissé un mot' + (prono(latest).mot ? ' 💌' : ' · <b>' + esc(prono(latest).label) + '</b>') + '</p>'
       : '<p style="margin:0 0 6px"><b>' + esc(latest.guest_name) + '</b> vient de répondre : <b>' + (latest.attending ? 'J’arrive ✅' : 'Je ne peux pas venir ❌') + '</b></p>') +
-    (babyMode
+    (motMode
+      ? '<p style="margin:0 0 16px;color:#6d5f57">Total : ' + rows.length + ' mot' + (rows.length > 1 ? 's' : '') + ' reçu' + (rows.length > 1 ? 's' : '') + '</p>'
+      : babyMode
       ? '<p style="margin:0 0 16px;color:#6d5f57">Total : ' + rows.length + ' mot' + (rows.length > 1 ? 's' : '') + ' · ' + boys + ' pour un garçon 💙 · ' + girls + ' pour une fille 💗</p>'
       : '<p style="margin:0 0 16px;color:#6d5f57">Total : ' + rows.length + ' réponse' + (rows.length > 1 ? 's' : '') + ' · ' + yes + ' présent' + (yes > 1 ? 's' : '') + ' · ' + no + ' absent' + (no > 1 ? 's' : '') + '</p>') +
     '<div style="overflow-x:auto"><table style="border-collapse:collapse;width:100%">' +
-    '<tr>' + th('N°') + th('Nom et prénom') + th(babyMode ? 'Pronostic' : 'Réponse') + th('Son mot') + th('Reçu le') + '</tr>' + body + '</table></div>' +
+    '<tr>' + th('N°') + th('Nom et prénom') + th(motMode ? 'Type' : babyMode ? 'Pronostic' : 'Réponse') + th('Son mot') + th('Reçu le') + '</tr>' + body + '</table></div>' +
     '<p style="margin:16px 0 0;color:#8a7a70;font-size:13px">Vous recevez cet e-mail à chaque nouvelle réponse, avec la liste complète.</p>' +
     '</div></div>';
   const txt = [title, '', latest.guest_name + ' : ' + (latest.attending ? "J'arrive" : 'Ne peut pas venir'), '',
@@ -93,7 +98,9 @@ module.exports = async function handler(req, res) {
   const guess = body.guess === 'garcon' || body.guess === 'fille' ? body.guess : '';
   // baby shower : le pronostic est rangé au début du mot (« Pronostic : … »)
   const PRONO = { garcon: 'Pronostic : un garçon 💙', fille: 'Pronostic : une fille 💗' };
-  const message = (guess ? PRONO[guess] + (clean(body.message, 560) ? ' — ' + clean(body.message, 560) : '') : clean(body.message, 600)).slice(0, 600);
+  // mariage « message pour les mariés » : un mot, sans réponse de présence
+  const mot = body.kind === 'mot' && !guess;
+  const message = (guess ? PRONO[guess] + (clean(body.message, 560) ? ' — ' + clean(body.message, 560) : '') : mot ? '💌 Un mot' + (clean(body.message, 560) ? ' — ' + clean(body.message, 560) : '') : clean(body.message, 600)).slice(0, 600);
   if (!/^[a-z0-9-]{2,80}$/.test(slug)) return res.status(400).json({ error: 'Invitation inconnue' });
   if (name.length < 2) return res.status(400).json({ error: 'Nom et prénom manquants' });
   if (typeof body.attending !== 'boolean') return res.status(400).json({ error: 'Réponse manquante' });
@@ -124,7 +131,7 @@ module.exports = async function handler(req, res) {
           method: 'POST',
           headers: { 'api-key': brevo, 'Content-Type': 'application/json', Accept: 'application/json' },
           body: JSON.stringify({ sender: { name: 'Farha', email: sender }, to: [{ email: to, name: order.customer_name || undefined }],
-            subject: 'Farha · ' + name + (guess ? ' vous a laissé un mot (' + (guess === 'garcon' ? 'garçon 💙' : 'fille 💗') + ')' : body.attending ? ' arrive ✅' : ' ne peut pas venir ❌') + ' (' + rows.length + ' réponse' + (rows.length > 1 ? 's' : '') + ')',
+            subject: 'Farha · ' + name + (mot ? ' vous a laissé un mot 💌' : guess ? ' vous a laissé un mot (' + (guess === 'garcon' ? 'garçon 💙' : 'fille 💗') + ')' : body.attending ? ' arrive ✅' : ' ne peut pas venir ❌') + ' (' + rows.length + ' réponse' + (rows.length > 1 ? 's' : '') + ')',
             htmlContent: m.html, textContent: m.txt })
         });
         mailed = r.ok;

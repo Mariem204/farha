@@ -2749,7 +2749,8 @@ body .farha-header .farha-logo{line-height:1.1}
   {id:'henna-rideau-rouge',name:'Rideau rouge · Henna',category:'7enna',color:'#650d12',file:'templates/henna-rideau-rouge.html',preview:'templates/henna-rideau-rouge-preview.jpg',description:'Rideaux rouges et danseuse : prénom de la mariée, programme, lieu, tenue et un mot pour la mariée.'},
   {id:'anniversaire-dino',name:'Dino Jungle · Anniversaire',category:'Anniversaire',color:'#2F4A2A',file:'templates/anniversaire-dino.html',description:'Portail de la jungle, T-Rex, compte à rebours, couleurs de l’expédition et réponse des invités.'},
   {id:'anniversaire-super-heros',name:'Mission super-héros · Anniversaire',category:'Anniversaire',color:'#E62429',file:'templates/anniversaire-super-heros.html',description:'Enveloppe secrète qui s’ouvre, carte comics, dossier de mission, compte à rebours, dress code et réponse des invités.'},
-  {id:'baby-shower',name:'Baby Shower · Rose & bleu',category:'Baby shower',color:'#5F7F9E',file:'templates/baby-shower.html',description:'Affiche en papier qui se déroule, enveloppe qui s’ouvre, programme, compte à rebours et pronostic garçon ou fille.'}
+  {id:'baby-shower',name:'Baby Shower · Rose & bleu',category:'Baby shower',color:'#5F7F9E',file:'templates/baby-shower.html',description:'Affiche en papier qui se déroule, enveloppe qui s’ouvre, programme, compte à rebours et pronostic garçon ou fille.'},
+  {id:'enchanted-garden',name:'Enchanted Garden · Jardin enchanté',category:'Mariage',color:'#8f4565',file:'templates/enchanted-garden.html',description:'Portail fleuri qui s’ouvre, jardin en scènes, compte à rebours, lieu, dress code et message pour les mariés.'}
  ];
  var ready={};
  function ensure(){LIST.forEach(function(n){var t=ready[n.id];if(t&&!templates.some(function(x){return x.id===n.id}))templates.unshift(t)})}
@@ -2863,7 +2864,7 @@ body .farha-header .farha-logo{line-height:1.1}
 (function(){
  if(typeof farhaTemplateCard!=='function')return;
  var base=farhaTemplateCard;
- var SUITE=['henna-rideau-rouge','save-the-date-olive','lotus-wedding','sidi','sarah','sand','huntrix','huntrixConcert','diplome','tahara','anniversaire-dino','anniversaire-super-heros','baby-shower'];
+ var SUITE=['henna-rideau-rouge','save-the-date-olive','lotus-wedding','sidi','sarah','sand','huntrix','huntrixConcert','diplome','tahara','anniversaire-dino','anniversaire-super-heros','baby-shower','enchanted-garden'];
  function fitFrames(box){box.querySelectorAll('iframe.card-frame').forEach(function(f){var p=f.parentElement,w=p.clientWidth;if(w)f.style.transform='scale('+(w/390)+')'})}
  farhaTemplateCard=function(t){
   var card=base.apply(this,arguments),art=card.querySelector('.template-artwork');if(!art)return card;
@@ -2915,7 +2916,7 @@ addEventListener('message',function(e){
  var reply=function(o){try{e.source.postMessage(Object.assign({type:'farha:rsvp-result',id:m.id},o),'*')}catch(x){}};
  var key=f.dataset.rsvpKey||'';
  if(!key){reply({ok:true,preview:true});return} // aperçu ou ancien lien : pas d'envoi
- fetch('/api/rsvp',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({key:key,name:String(m.name||'').slice(0,120),attending:m.attending===true,guess:m.guess==='garcon'||m.guess==='fille'?m.guess:undefined,message:String(m.message||'').slice(0,600)})})
+ fetch('/api/rsvp',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({key:key,name:String(m.name||'').slice(0,120),attending:m.attending===true,guess:m.guess==='garcon'||m.guess==='fille'?m.guess:undefined,kind:m.kind==='mot'?'mot':undefined,message:String(m.message||'').slice(0,600)})})
   .then(function(r){return r.json().catch(function(){return {}}).then(function(j){reply(r.ok?{ok:true}:{ok:false,error:j&&j.error})})})
   .catch(function(){reply({ok:false})});
 });
