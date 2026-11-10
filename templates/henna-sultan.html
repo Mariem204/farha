@@ -381,10 +381,14 @@ const CONFIG = {
   var d = new Date(C.date), ok = !isNaN(d.getTime());
   var dateLabel = '', timeLabel = '';
   if (ok) {
-    dateLabel = O.days[d.getDay()] + ' ' + d.getDate() + ' ' + O.months[d.getMonth()] + ' ' + d.getFullYear();
+    dateLabel = (O.days ? O.days[d.getDay()] + ' ' : '') + d.getDate() + ' ' + O.months[d.getMonth()] + ' ' + d.getFullYear();
     timeLabel = O.timePrefix + pad(d.getHours()) + O.timeSep + pad(d.getMinutes());
   }
   var V = {}; O.fields.forEach(function (f) { V[f[0]] = f[1] === '@date' ? dateLabel : f[1] === '@time' ? timeLabel : C[f[1]]; });
+  (O.letters || []).forEach(function (L) {
+    var box = document.querySelector('[data-letters="' + L[0] + '"]'); if (!box) return;
+    Array.from(String(C[L[1]] || '')).forEach(function (ch, i) { var s = document.createElement('span'); s.className = 'lt'; s.style.transitionDelay = (L[2] + i * 0.06).toFixed(2) + 's'; s.textContent = ch === ' ' ? '\u00a0' : ch; box.appendChild(s); });
+  });
   all('[data-c]').forEach(function (el) { var v = V[el.getAttribute('data-c')]; if (v != null) el.textContent = v; });
   var q = C.mapQuery || [C.venue, C.address].filter(Boolean).join(', ');
   var maps = /^https:\/\//.test(C.mapLink || '') ? C.mapLink : 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(q);
@@ -412,13 +416,13 @@ const CONFIG = {
   var intro = $('#intro'), phase = 'closed', timers = [], win = $('#win');
   $('#openIntro').addEventListener('click', function () {
     if (phase !== 'closed') return; phase = O.openPhase; intro.classList.add(O.openPhase);
-    timers.push(setTimeout(function () { phase = 'reveal'; intro.classList.add('reveal'); entered = true; scroller.classList.add('on'); $('#dots').hidden = false; render(); }, rm ? 150 : O.t1));
+    timers.push(setTimeout(function () { phase = 'reveal'; intro.classList.add(O.phase2 || 'reveal'); entered = true; scroller.classList.add('on'); $('#dots').hidden = false; render(); }, rm ? 150 : O.t1));
     timers.push(setTimeout(function () { phase = 'done'; intro.hidden = true; }, rm ? 400 : O.t2));
   });
   if (win) $('#winBtn').addEventListener('click', function () { win.classList.add('open'); $('#winBtn').hidden = true; });
   $('#replay').addEventListener('click', function () {
     timers.forEach(clearTimeout); timers = []; scroller.scrollTop = 0; sy = 0; maxSy = 0; entered = false; phase = 'closed';
-    scroller.classList.remove('on'); $('#dots').hidden = true; intro.hidden = false; intro.classList.remove(O.openPhase, 'reveal');
+    scroller.classList.remove('on'); $('#dots').hidden = true; intro.hidden = false; intro.classList.remove(O.openPhase, O.phase2 || 'reveal');
     if (win) { win.classList.remove('open'); $('#winBtn').hidden = false; } render();
   });
   render();
@@ -436,7 +440,7 @@ const CONFIG = {
     sending = true; $('#msgBtnLabel').textContent = O.sending;
     function finish(okk, err) {
       if (done) return; done = true; removeEventListener('message', on); sending = false; $('#msgBtnLabel').textContent = O.btn;
-      if (okk) { $('#msgThanks').textContent = O.thanks.replace('{name}', n); form.hidden = true; $('#msgSent').hidden = false; }
+      if (okk) { $('#msgThanks').textContent = O.thanks.replace('{name}', n).replace('{bride}', C.bride || '').replace('{groom}', C.groom || ''); form.hidden = true; $('#msgSent').hidden = false; }
       else { var note = $('#msgNote'); note.textContent = err || O.error; note.hidden = false; }
     }
     function on(e) { var x = e.data; if (x && x.type === 'farha:rsvp-result' && x.id === id) finish(x.ok, x.error); }

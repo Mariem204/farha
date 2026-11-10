@@ -2489,7 +2489,7 @@ body .farha-header .farha-logo{line-height:1.1}
  if(typeof farhaCustomDefaults!=='function')return;
  // Libellés des clés connues ; les autres textes simples du CONFIG reçoivent un libellé tiré de leur nom.
  var LABELS={school:'École / université',family:'La famille',degree:'Diplôme obtenu',year:'Année (promotion)',verse:'Verset / citation',whatsapp:'WhatsApp pour les réponses (ex. 21612345678)',
-  title:'Titre',subtitle:'Sous-titre',host:'Invité par',parents:'Les parents',quote:'Citation',hashtag:'Hashtag',dressNote:'Indication Dress Code',childName:'Prénom de l’enfant',age:'Âge',city:'Ville',tagline:'Phrase d’accroche',story:'Notre histoire',venueType:'Type de lieu',brideAr:'Prénom de la mariée en arabe',mapLabel:'Texte sur la carte',dressTheme:'Thème de la tenue',rsvpBy:'Répondre avant le',dressCode:'Code vestimentaire',
+  title:'Titre',subtitle:'Sous-titre',host:'Invité par',parents:'Les parents',quote:'Citation',hashtag:'Hashtag',dressNote:'Indication Dress Code',childName:'Prénom de l’enfant',age:'Âge',city:'Ville',tagline:'Phrase d’accroche',story:'Notre histoire',venueType:'Type de lieu',brideAr:'Prénom de la mariée en arabe',mapLabel:'Texte sur la carte',dressTheme:'Thème de la tenue',rsvpBy:'Répondre avant le',groomAr:'Prénom du marié en arabe',dressCode:'Code vestimentaire',
   timeNote:'Fin de la fête (texte sous l’heure)',parent1Label:'Parent 1 · nom affiché',parent1Phone:'Parent 1 · téléphone',parent2Label:'Parent 2 · nom affiché (facultatif)',parent2Phone:'Parent 2 · téléphone (facultatif)',
   gateKicker:'Enveloppe · petit titre',gateTitle:'Enveloppe · titre',gateButton:'Enveloppe · bouton',gateHint:'Enveloppe · indication',alert:'Bandeau d’alerte',quote:'Phrase de la bulle',
   missionTitle:'Mission · titre',missionIntro:'Mission · texte',countTitle:'Titre du compte à rebours',dressTitle:'Dress code · titre',dressText:'Dress code · texte',
@@ -2692,7 +2692,8 @@ body .farha-header .farha-logo{line-height:1.1}
  var NEW=[
   {id:'lotus-wedding',name:'Mariage · Lotus',category:'Mariage',color:'#c96d84',file:'templates/lotus-wedding.html'},
   {id:'bord-de-mer',name:'Bord de Mer · Les vagues',category:'Mariage',color:'#2F5A6E',file:'templates/bord-de-mer.html',description:'Noix de coco qui plonge, cadre de coquillages pour votre photo, volets qui s’ouvrent sur le lieu et un mot pour les mariés.'},
-  {id:'henna-sultan',name:'حنة السلطان · Henna Night',category:'7enna',color:'#7a1d2e',file:'templates/henna-sultan.html',description:'Trône doré et lanternes, photo de la mariée dans un miroir, date, lieu et une kelma pour la mariée.'}
+  {id:'henna-sultan',name:'حنة السلطان · Henna Night',category:'7enna',color:'#7a1d2e',file:'templates/henna-sultan.html',description:'Trône doré et lanternes, photo de la mariée dans un miroir, date, lieu et une kelma pour la mariée.'},
+  {id:'perla',name:'Perla',category:'Mariage',color:'#8a7d70',file:'templates/perla.html',description:'Papier ivoire en relief, cygnes, fleur de perles, prénoms en français et en arabe, lieu et un mot pour les mariés.'}
  ];
  var ready={};
  function ensure(){NEW.forEach(function(n){if(!ready[n.id])return;if(!templates.some(function(t){return t.id===n.id}))templates.unshift(ready[n.id])})}
@@ -2868,7 +2869,7 @@ body .farha-header .farha-logo{line-height:1.1}
 (function(){
  if(typeof farhaTemplateCard!=='function')return;
  var base=farhaTemplateCard;
- var SUITE=['henna-rideau-rouge','save-the-date-olive','lotus-wedding','sidi','sarah','sand','huntrix','huntrixConcert','diplome','tahara','anniversaire-dino','anniversaire-super-heros','baby-shower','enchanted-garden','bord-de-mer','henna-sultan'];
+ var SUITE=['henna-rideau-rouge','save-the-date-olive','lotus-wedding','sidi','sarah','sand','huntrix','huntrixConcert','diplome','tahara','anniversaire-dino','anniversaire-super-heros','baby-shower','enchanted-garden','bord-de-mer','henna-sultan','perla'];
  function fitFrames(box){box.querySelectorAll('iframe.card-frame').forEach(function(f){var p=f.parentElement,w=p.clientWidth;if(w)f.style.transform='scale('+(w/390)+')'})}
  farhaTemplateCard=function(t){
   var card=base.apply(this,arguments),art=card.querySelector('.template-artwork');if(!art)return card;
