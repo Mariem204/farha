@@ -3176,6 +3176,8 @@ addEventListener('message',function(e){
 // Prix barrés (promotion) : ancien prix par collection, affiché barré à côté du prix actuel
 (function(){
  if(typeof farhaTemplateCard!=='function'||typeof farhaPrice!=='function')return;
+ var FIXED={'Mariage':86,'Anniversaire':24,'7enna':36,'Baby shower':36},pr=farhaPrice;
+ farhaPrice=function(t){var f=t&&FIXED[t.category];return f!=null?f:pr.apply(this,arguments)};
  var OLD={'Anniversaire':29,'Mariage':116,'7enna':41,'Baby shower':41},base=farhaTemplateCard;
  farhaTemplateCard=function(t){var card=base.apply(this,arguments),el=card.querySelector('.template-price');
   if(el&&t){var now=farhaPrice(t),old=OLD[t.category];el.textContent='';
