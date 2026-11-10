@@ -811,9 +811,9 @@ html.fp-lock main,html.fp-lock .farha-header{transform:scale(var(--fp-zoom,1.06)
 <span class="pkg-eyebrow">✦ FARHA · NOS FORMULES ✦</span><h2 id="packagesTitle">À chaque fête, sa formule.</h2>
 <p class="pkg-lead">Une jolie invitation pour chaque fête, du modèle animé à la création pensée spécialement pour vous.</p>
 <div class="pkg-grid">
-<article class="pkg"><span class="pkg-label">01 · Essentiel</span><h3>Votre invitation</h3><p class="pkg-desc">Choisissez un modèle animé et personnalisez vos informations.</p><ul><li>Modèles au choix</li><li>Date, lieu et prénoms</li><li>Animations</li><li>Google Maps selon modèle</li></ul><button type="button" onclick="goSection('themes')">Découvrir les thèmes</button></article>
-<article class="pkg featured"><span class="pkg-label">02 · Sur mesure</span><h3>Votre univers</h3><p class="pkg-desc">Une création unique imaginée spécialement pour vous.</p><ul><li>Votre idée, votre style</li><li>Design exclusif</li><li>Couleurs et ambiance</li><li>Échange personnalisé</li></ul><button type="button" onclick="show('request')">Raconter mon idée</button></article>
-<article class="pkg pkg-inspi"><span class="pkg-label">03 · Inspiration</span><h3>Besoin d'idées ?</h3><div class="pkg-price">Inspirez-vous</div><p class="pkg-desc">Découvrez nos créations et trouvez l'ambiance parfaite pour votre événement.</p><ul><li>Inspirations mariage</li><li>Inspirations anniversaire</li><li>Styles et ambiances</li><li>Exemples de créations</li></ul><button type="button" onclick="farhaOpenInspirations()">Voir les inspirations</button></article>
+<article class="pkg"><span class="pkg-label">01 · Essentiel</span><h3>Votre invitation</h3><div class="pkg-price farha-pkg-price"><small>À partir de</small> 24 DT</div><p class="pkg-desc">Choisissez un modèle animé et personnalisez vos informations.</p><ul><li>Modèles au choix</li><li>Date, lieu et prénoms</li><li>Animations</li><li>Google Maps selon modèle</li></ul><button type="button" onclick="goSection('themes')">Découvrir les thèmes</button></article>
+<article class="pkg featured"><span class="pkg-label">02 · Sur mesure</span><h3>Votre univers</h3><div class="pkg-price farha-pkg-price"><small aria-hidden="true" style="visibility:hidden">À partir de</small>132 DT</div><p class="pkg-desc">Une création unique imaginée spécialement pour vous.</p><ul><li>Votre idée, votre style</li><li>Design exclusif</li><li>Couleurs et ambiance</li><li>Échange personnalisé</li></ul><button type="button" onclick="show('request')">Raconter mon idée</button></article>
+
 </div><p class="pkg-note">Les prix des modèles varient selon le type d'événement. Les paiements et la publication individuelle des invitations ne sont pas encore automatisés.</p>
 </section>
 
@@ -3187,4 +3187,11 @@ addEventListener('message',function(e){
 })();
 </script>
 <!-- /FARHA-PRIX-CARTES -->
+<!-- FARHA-FORMULES : 2 formules avec leur prix (Essentiel à partir de 24 DT, Sur mesure 132 DT). -->
+<style id="farha-formules">
+#packages .pkg .farha-pkg-price{display:block!important;font:600 34px/1 'DM Sans',sans-serif;letter-spacing:-.01em}
+#packages .pkg .farha-pkg-price small{display:block;margin-bottom:6px;font:500 12px/1 'DM Sans',sans-serif;letter-spacing:.12em;text-transform:uppercase;opacity:.75}
+@media(min-width:801px){#packages .pkg-grid{grid-template-columns:repeat(2,minmax(0,1fr));max-width:760px}}
+</style>
+<!-- /FARHA-FORMULES -->
 </body></html>
