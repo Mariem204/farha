@@ -2690,7 +2690,8 @@ body .farha-header .farha-logo{line-height:1.1}
  if(/^(www\.)?(farha-bay\.vercel\.app|farha\.tn)$/i.test(location.hostname))return; // jamais en prod
  if(typeof templates==='undefined'||typeof farhaRegisterCustom!=='function')return;
  var NEW=[
-  {id:'lotus-wedding',name:'Mariage · Lotus',category:'Mariage',color:'#c96d84',file:'templates/lotus-wedding.html'}
+  {id:'lotus-wedding',name:'Mariage · Lotus',category:'Mariage',color:'#c96d84',file:'templates/lotus-wedding.html'},
+  {id:'carthage',name:'Carthage',category:'Mariage',color:'#6A2525',file:'templates/carthage.html',description:'Sceau de cire à briser, parchemin qui se déroule, date dorée à gratter, horloge ancienne, colonnes antiques et un mot pour les mariés.'}
  ];
  var ready={};
  function ensure(){NEW.forEach(function(n){if(!ready[n.id])return;if(!templates.some(function(t){return t.id===n.id}))templates.unshift(ready[n.id])})}
