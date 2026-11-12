@@ -17,7 +17,7 @@
   window.__farhaClarity = true;
 
   // Suivi autorisé seulement ici (les autres pages gardent le bandeau pour choisir, sans jamais charger Clarity).
-  var allowed = /^(www\.)?(farha\.tn|farha-bay\.vercel\.app)$/i.test(location.hostname) &&
+  var allowed = /^(www\.)?(farha\.tn|farha-bay\.vercel\.app|invitation-digitale\.tn)$/i.test(location.hostname) &&
     !/^\/admin(\/|$)/.test(location.pathname) && !/^\/i\//.test(location.pathname) && !/^#i=/.test(location.hash);
 
   var PRIVATE = [

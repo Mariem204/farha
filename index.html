@@ -2637,7 +2637,7 @@ body .farha-header .farha-logo{line-height:1.1}
 <!-- /FARHA-SANS-PRIX -->
 <!-- FARHA-TEST-PROD : le bouton « Terminé · test gratuit » est masqué sur le site en ligne (farha-bay.vercel.app, farha.tn), visible sur les previews. -->
 <script>
-(function(){if(/^(www\.)?(farha-bay\.vercel\.app|farha\.tn)$/i.test(location.hostname))document.querySelectorAll('.farha-free-test').forEach(function(b){b.hidden=true;b.style.display='none'})})();
+(function(){if(/^(www\.)?(farha-bay\.vercel\.app|farha\.tn|invitation-digitale\.tn)$/i.test(location.hostname))document.querySelectorAll('.farha-free-test').forEach(function(b){b.hidden=true;b.style.display='none'})})();
 </script>
 <!-- /FARHA-TEST-PROD -->
 <!-- FARHA-MODELES-DESACTIVES : modèles retirés du catalogue (les liens d'invitation déjà envoyés restent valides). -->
@@ -2691,7 +2691,7 @@ body .farha-header .farha-logo{line-height:1.1}
 <!-- FARHA-MODELES-PREVIEW : nouveaux modèles ajoutés au catalogue de la preview (lus depuis /templates/), pour les tester dans le formulaire avant de les mettre dans l'admin. -->
 <script>
 (function(){
- if(/^(www\.)?(farha-bay\.vercel\.app|farha\.tn)$/i.test(location.hostname))return; // jamais en prod
+ if(/^(www\.)?(farha-bay\.vercel\.app|farha\.tn|invitation-digitale\.tn)$/i.test(location.hostname))return; // jamais en prod
  if(typeof templates==='undefined'||typeof farhaRegisterCustom!=='function')return;
  var NEW=[
   {id:'lotus-wedding',name:'Mariage · Lotus',category:'Mariage',color:'#c96d84',file:'templates/lotus-wedding.html'},
