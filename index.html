@@ -689,6 +689,10 @@ label.farha-pick:hover{background:#e0cbbf}
 .hm-shot>*{width:100%!important;height:100%!important;border:0;display:block;object-fit:cover;border-radius:0}
 @media(max-width:700px){.hm{--iw:104px;--ih:220px}.hm .hm-item{border-radius:9px!important}.hm-cat{font-size:8.5px;letter-spacing:.14em;bottom:calc(100% + 6px)}}
 </style>
+<!-- FARHA-TEST-CACHE : bouton « Terminé · test gratuit » caché partout, sauf sur les previews (-git-), en local et dans l'aperçu Claude. -->
+<style>.farha-free-test{display:none!important}html.farha-preview .farha-free-test{display:inline-flex!important}</style>
+<script>if(/-git-|localhost|127\.0\.0\.1|^local$|claudeusercontent|claude\.ai/i.test(location.hostname))document.documentElement.classList.add('farha-preview');</script>
+<!-- /FARHA-TEST-CACHE -->
 </head><body><style id="farha-portal">
 /* Ouverture au scroll : sur un fond bordeaux uni, la bouche du personnage Farha s'ouvre et laisse voir le site. */
 .fp{position:fixed;inset:0;z-index:9999;overflow:hidden;touch-action:none;cursor:pointer}
