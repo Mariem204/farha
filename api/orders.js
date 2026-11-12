@@ -7,6 +7,8 @@
 //   test gratuit → publiée tout de suite ; commande payante → brouillon, publiée par l'admin.
 
 const SUR_MESURE_PRICE = 50;          // Création sur mesure, en DT
+// Prix fixés par catégorie : ils passent avant ceux de l'admin.
+const FIXED_PRICES = { 'Mariage': 86, 'Anniversaire': 24, '7enna': 36, 'Baby shower': 36 };
 const MAX_PER_EMAIL_10_MIN = 5;       // Limite anti-abus
 const KINDS = ['template', 'test', 'sur_mesure'];
 
@@ -112,12 +114,13 @@ module.exports = async function handler(req, res) {
       if (!slug || !/^[a-zA-Z0-9-]{2,40}$/.test(slug)) return res.status(400).json({ error: 'Modèle invalide' });
       step = 'modele';
       const rows = await rest(base, key,
-        'templates?select=id,name,price_dt,status,category:categories(default_price_dt,is_active)&slug=eq.' + encodeURIComponent(slug));
+        'templates?select=id,name,price_dt,status,category:categories(name,default_price_dt,is_active)&slug=eq.' + encodeURIComponent(slug));
       template = rows[0];
       if (!template || template.status !== 'active' || !template.category || !template.category.is_active) {
         return res.status(400).json({ error: 'Modèle indisponible' });
       }
-      unit = kind === 'test' ? 0 : Number(template.price_dt != null ? template.price_dt : template.category.default_price_dt);
+      const fixed = FIXED_PRICES[template.category.name];
+      unit = kind === 'test' ? 0 : Number(fixed != null ? fixed : template.price_dt != null ? template.price_dt : template.category.default_price_dt);
       label = template.name + (kind === 'test' ? ' (test gratuit)' : '');
     }
 
