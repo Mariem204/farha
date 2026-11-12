@@ -2694,8 +2694,7 @@ body .farha-header .farha-logo{line-height:1.1}
  if(/^(www\.)?(farha-bay\.vercel\.app|farha\.tn|invitation-digitale\.tn)$/i.test(location.hostname))return; // jamais en prod
  if(typeof templates==='undefined'||typeof farhaRegisterCustom!=='function')return;
  var NEW=[
-  {id:'lotus-wedding',name:'Mariage · Lotus',category:'Mariage',color:'#c96d84',file:'templates/lotus-wedding.html'},
-  {id:'carthage',name:'Carthage',category:'Mariage',color:'#6A2525',file:'templates/carthage.html',description:'Sceau de cire à briser, parchemin qui se déroule, date dorée à gratter, horloge ancienne, colonnes antiques et un mot pour les mariés.'}
+  {id:'lotus-wedding',name:'Mariage · Lotus',category:'Mariage',color:'#c96d84',file:'templates/lotus-wedding.html'}
  ];
  var ready={};
  function ensure(){NEW.forEach(function(n){if(!ready[n.id])return;if(!templates.some(function(t){return t.id===n.id}))templates.unshift(ready[n.id])})}
@@ -2760,7 +2759,8 @@ body .farha-header .farha-logo{line-height:1.1}
   {id:'enchanted-garden',name:'Enchanted Garden · Jardin enchanté',category:'Mariage',color:'#8f4565',file:'templates/enchanted-garden.html',description:'Portail fleuri qui s’ouvre, jardin en scènes, compte à rebours, lieu, dress code et message pour les mariés.'},
   {id:'bord-de-mer',name:'Bord de Mer · Les vagues',category:'Mariage',color:'#2F5A6E',file:'templates/bord-de-mer.html',description:'Noix de coco qui plonge, cadre de coquillages pour votre photo, volets qui s’ouvrent sur le lieu et un mot pour les mariés.'},
   {id:'henna-sultan',name:'حنة السلطان · Henna Night',category:'7enna',color:'#7a1d2e',file:'templates/henna-sultan.html',description:'Trône doré et lanternes, photo du marié dans un miroir, date, lieu et une kelma pour le marié.'},
-  {id:'perla',name:'Perla',category:'Mariage',color:'#8a7d70',file:'templates/perla.html',description:'Papier ivoire en relief, cygnes, fleur de perles, prénoms en français et en arabe, lieu et un mot pour les mariés.'}
+  {id:'perla',name:'Perla',category:'Mariage',color:'#8a7d70',file:'templates/perla.html',description:'Papier ivoire en relief, cygnes, fleur de perles, prénoms en français et en arabe, lieu et un mot pour les mariés.'},
+  {id:'carthage',name:'Carthage',category:'Mariage',color:'#6A2525',file:'templates/carthage.html',description:'Sceau de cire à briser, parchemin qui se déroule, date dorée à gratter, horloge ancienne, colonnes antiques et un mot pour les mariés.'}
  ];
  var ready={};
  function ensure(){LIST.forEach(function(n){var t=ready[n.id];if(t&&!templates.some(function(x){return x.id===n.id}))templates.unshift(t)})}
