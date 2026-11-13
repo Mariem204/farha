@@ -10,7 +10,64 @@
 <meta property="og:site_name" content="Farha">
 <meta property="og:title" content="Farha — Invitations digitales">
 <meta property="og:description" content="Créez vos invitations digitales personnalisées en quelques minutes : mariage, fiançailles, anniversaire, naissance et événements. Un design élégant, un partage facile et rapide par WhatsApp.">
-<meta property="og:image" content="https://www.invitation-digitale.tn/favicon/web-app-manifest-512x512.png"><script src="/clarity.js" defer></script><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Aref+Ruqaa:wght@400;700&family=DM+Sans:wght@400;500;600;700&family=Pinyon+Script&display=swap" rel="stylesheet"><style>
+<meta property="og:image" content="https://www.invitation-digitale.tn/favicon/web-app-manifest-512x512.png"><script src="/clarity.js" defer></script>
+<!-- Farha : suivi des actions importantes dans Google Analytics -->
+<script>
+(function(){
+  // Google Analytics est chargé par /clarity.js, seulement après « Accepter » : sans accord, rien n'est envoyé.
+  function ev(name, params){ try{ if (typeof window.gtag === 'function' && !window['ga-disable-G-90JYT5NF8J']) window.gtag('event', name, params || {}); }catch(e){} }
+  var STEPS = {home:'Accueil', inspirations:'Tous les modèles', request:'Demande sur mesure',
+               detail:'Étape 1 - Aperçu', custom:'Étape 2 - Personnalisation',
+               checkout:'Étape 3 - Paiement', complete:'Commande confirmée'};
+  function modele(){ var t=document.getElementById('detailTitle'); return t ? t.textContent.trim() : ''; }
+
+  // Chaque écran du site (aperçu, personnalisation, paiement…) compte comme une page vue
+  window.addEventListener('DOMContentLoaded', function(){
+    var original = window.show;
+    if (typeof original === 'function') {
+      var last = 'home';
+      window.show = function(id){
+        var r = original.apply(this, arguments);
+        if (id && id !== last) {
+          last = id;
+          ev('page_view', {page_title: 'Farha - ' + (STEPS[id] || id),
+                           page_location: location.origin + '/' + id, modele: modele()});
+          if (id === 'detail')   ev('view_item', {modele: modele()});
+          if (id === 'custom')   ev('personnalisation_debut', {modele: modele()});
+          if (id === 'checkout') ev('begin_checkout', {modele: modele()});
+          if (id === 'complete') ev('commande_confirmee', {modele: modele()});
+        }
+        return r;
+      };
+    }
+    // Partage de l'invitation par le client (WhatsApp, Instagram, Messenger…)
+    var share = window.farhaShare;
+    if (typeof share === 'function') {
+      window.farhaShare = function(app){ ev('share', {method: app, modele: modele()}); return share.apply(this, arguments); };
+    }
+  });
+
+  // Clics de contact et réseaux sociaux
+  document.addEventListener('click', function(e){
+    var a = e.target.closest && e.target.closest('a[href]');
+    if (!a) return;
+    var h = a.getAttribute('href') || '';
+    if (h.indexOf('wa.me/21692891770') > -1) ev('contact_whatsapp');
+    else if (h.indexOf('tel:') === 0)        ev('contact_telephone');
+    else if (h.indexOf('mailto:') === 0)     ev('contact_email');
+    else if (/facebook\.com|instagram\.com|tiktok\.com/.test(h))
+      ev('reseau_social', {reseau: (h.match(/facebook|instagram|tiktok/) || [''])[0]});
+  }, true);
+
+  // Formulaires envoyés
+  var FORMS = {bespokeForm:'demande_sur_mesure', ideaForm:'demande_personnalisation',
+               clientForm:'coordonnees_client', feedbackForm:'avis_client'};
+  document.addEventListener('submit', function(e){
+    var f = e.target, name = f && FORMS[f.id];
+    if (name) ev(name === 'avis_client' ? name : 'generate_lead', {formulaire: name});
+  }, true);
+})();
+</script><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Aref+Ruqaa:wght@400;700&family=DM+Sans:wght@400;500;600;700&family=Pinyon+Script&display=swap" rel="stylesheet"><style>
 :root{font-family:Inter,system-ui,Arial,sans-serif;color:#29252c;background:#faf7f5}*{box-sizing:border-box}body{margin:0}header{padding:18px max(5%,calc((100% - 1150px)/2));display:flex;justify-content:space-between;align-items:center;background:#fff;border-bottom:1px solid #eee}header strong{font-family:Georgia,serif;font-size:28px;color:#8d4565}button{cursor:pointer;font:inherit;border:0;border-radius:12px;padding:12px 18px;background:#8d4565;color:white}button.secondary{background:#f2e8ec;color:#783d59}button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid #d8a9bd}main{max-width:1150px;margin:auto;padding:28px 22px}.catalog-title{font:clamp(30px,4vw,44px) Georgia,serif;margin:15px 0 8px;text-align:center}.catalog-subtitle{text-align:center;color:#776d75;margin:0 0 30px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.tile{background:white;padding:12px;border:1px solid #e9dfe3;border-radius:18px;text-align:left;box-shadow:0 6px 25px #32102109;color:#29252c}.tile:hover{border-color:#ae7390;transform:translateY(-2px)}.mini{height:240px;border-radius:12px;display:grid;place-content:center;text-align:center;padding:20px;font-family:Georgia,serif}.mini b{font-size:28px;font-weight:normal}.mini span{font-size:13px;letter-spacing:2px}.tile footer{display:flex;align-items:center;justify-content:space-between;padding:14px 4px 3px}.rose{background:#f6e8eb;color:#824762}.sage{background:#eaf0e7;color:#49624d}.sand{background:#f7eddb;color:#88613e}.night{background:#242234;color:#f8d8a3}.lavender{background:#ede8f7;color:#68528b}.sky{background:#e5f2f5;color:#32667a}.lake{background:linear-gradient(145deg,#f7f1e4,#cbddeb 65%,#a4c2d6);color:#344d67}.view{display:none}.view.active{display:block}.heading{display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap;margin-bottom:20px}.heading h2{font:32px Georgia,serif;margin:8px 0}.phone{width:min(100%,400px);height:740px;min-height:0;border:9px solid #26242a;border-radius:37px;background:white;overflow:hidden;margin:auto;box-shadow:0 22px 60px #0002}.phone iframe{height:100%;width:100%;border:0;background:white}.preview-layout{display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:center}.info{background:white;border:1px solid #eee1e7;border-radius:22px;padding:30px}.info h3{font:30px Georgia,serif;margin:10px 0}.info p{line-height:1.7;color:#756b71}.price{font-size:36px;color:#8d4565;font-weight:750;margin:16px 0}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.custom-layout{display:grid;grid-template-columns:1fr 1fr;gap:25px}.panel{background:white;border:1px solid #eee1e7;border-radius:20px;padding:24px}.panel h3{font:27px Georgia,serif;margin:0 0 16px}label{display:block;font-size:14px;font-weight:600;margin:14px 0 6px}input,textarea,select{width:100%;border:1px solid #dcd1d6;border-radius:9px;padding:12px;font:inherit;background:white}textarea{min-height:78px;resize:vertical}.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}.muted{color:#786d75;font-size:13px;line-height:1.6}.sticky{position:sticky;top:12px;align-self:start}.payment{max-width:610px;margin:20px auto;background:white;padding:35px;border:1px solid #eee1e7;border-radius:20px}.total{display:flex;justify-content:space-between;font-size:23px;border-top:1px solid #eee;padding-top:20px;margin-top:20px}.note{background:#fff5df;padding:14px;border-radius:12px;font-size:14px;line-height:1.5}.music-row{display:flex;gap:8px;align-items:center}.music-row button{white-space:nowrap}.success{color:#2c6b48}.sectionlabel{font-size:12px;text-transform:uppercase;letter-spacing:2px;color:#a06681}.colorrow{display:flex;gap:8px;align-items:center}.colorrow input[type=color]{width:65px;height:46px;padding:3px}#guestView{position:fixed;inset:0;z-index:100;background:#111;display:none}#guestView iframe{width:100%;height:100%;border:0}#guestView button{position:absolute;right:14px;top:14px;z-index:2}@media(max-width:800px){.grid{grid-template-columns:repeat(2,1fr)}.preview-layout,.custom-layout{grid-template-columns:1fr}.sticky{position:static}.phone{height:700px}}@media(max-width:480px){.grid{grid-template-columns:1fr}.mini{height:220px}.two{grid-template-columns:1fr}main{padding:18px 14px}.panel,.info,.payment{padding:20px}.phone{min-height:0;height:650px}}
 
 /* Farha vintage boutique — storefront only; invitation internals unchanged */
