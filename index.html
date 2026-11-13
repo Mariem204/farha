@@ -705,6 +705,7 @@ label.farha-pick:hover{background:#e0cbbf}
 <style>.farha-free-test{display:none!important}html.farha-preview .farha-free-test{display:inline-flex!important}</style>
 <script>if(/-git-|localhost|127\.0\.0\.1|^local$|claudeusercontent|claude\.ai/i.test(location.hostname))document.documentElement.classList.add('farha-preview');</script>
 <!-- /FARHA-TEST-CACHE -->
+<style id="farha-logo-img">.farha-logo{display:inline-flex;align-items:center;line-height:0!important}.farha-logo-img{display:block;height:32px;width:auto}@media(max-width:680px){.farha-logo-img{height:24px}}</style>
 </head><body><style id="farha-portal">
 /* Ouverture au scroll : sur un fond bordeaux uni, la bouche du personnage Farha s'ouvre et laisse voir le site. */
 .fp{position:fixed;inset:0;z-index:9999;overflow:hidden;touch-action:none;cursor:pointer}
@@ -813,7 +814,7 @@ html.fp-lock main,html.fp-lock .farha-header{transform:scale(var(--fp-zoom,1.06)
  if(vid.readyState>=3)autoGo();else{vid.addEventListener('canplay',autoGo,{once:true});setTimeout(function(){if(!entering)enter()},4000)}
 })();
 </script>
-<header class="farha-header"><a class="farha-logo" href="#home" onclick="goSection('home');return false">فرحة</a><nav class="farha-nav" aria-label="Navigation principale"><a href="#home" onclick="goSection('home');return false">Accueil</a><a href="#themes" onclick="farhaOpenInspirations();return false">Thèmes</a><a href="#how-it-works" onclick="goSection('how-it-works');return false">L'Exception</a><a href="#packages" onclick="goSection('packages');return false">Tarifs</a><a href="#contact" onclick="goSection('contact');return false">Contact</a></nav></header><main>
+<header class="farha-header"><a class="farha-logo" href="#home" onclick="goSection('home');return false" aria-label="Farha — accueil"><img class="farha-logo-img" src="/media/farha-logo.webp" alt="Farha" width="480" height="131"></a><nav class="farha-nav" aria-label="Navigation principale"><a href="#home" onclick="goSection('home');return false">Accueil</a><a href="#themes" onclick="farhaOpenInspirations();return false">Thèmes</a><a href="#how-it-works" onclick="goSection('how-it-works');return false">L'Exception</a><a href="#packages" onclick="goSection('packages');return false">Tarifs</a><a href="#contact" onclick="goSection('contact');return false">Contact</a></nav></header><main>
 <section class="view active" id="home"><div class="landing-hero hero-v2 hero-sky">
  <div class="sky-deco" aria-hidden="true"><i class="cloud c1"></i><i class="cloud c2"></i><i class="cloud c3"></i><i class="cloud c4"></i><i class="cloud c5"></i></div>
  <div class="hero-copy"><span class="landing-kicker">✦ FARHA · INVITATIONS DIGITALES ✦</span><div class="arabic-signature" lang="ar" dir="rtl">الفرحة فرحتنا</div><h1>Créez votre<br>invitation <em>inoubliable.</em></h1><p>Une invitation qui s’ouvre comme une lettre d’amour, s’anime au fil du scroll et raconte votre histoire. Personnalisez-la en quelques minutes.</p><div class="hero-actions"><button class="landing-button" onclick="farhaScrollToSection('themes')">Choisir un template &nbsp; ↗</button><button class="hero-secondary" onclick="openIdeaForm()" aria-haspopup="dialog">Personnaliser mon invitation ✦</button></div></div>
