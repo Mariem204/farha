@@ -705,6 +705,7 @@ label.farha-pick:hover{background:#e0cbbf}
 <style>.farha-free-test{display:none!important}html.farha-preview .farha-free-test{display:inline-flex!important}</style>
 <script>if(/-git-|localhost|127\.0\.0\.1|^local$|claudeusercontent|claude\.ai/i.test(location.hostname))document.documentElement.classList.add('farha-preview');</script>
 <!-- /FARHA-TEST-CACHE -->
+<style id="farha-nav-boutons">html body .farha-header .farha-nav a{padding:10px 19px}@media(max-width:680px){html body .farha-header .farha-nav a{padding:9px 10px}}</style>
 <style id="farha-logo-img">.farha-logo{display:inline-flex;align-items:center;line-height:0!important}.farha-logo-img{display:block;height:22px;width:auto}@media(max-width:680px){.farha-logo-img{height:18px}}</style>
 </head><body><style id="farha-portal">
 /* Ouverture au scroll : sur un fond bordeaux uni, la bouche du personnage Farha s'ouvre et laisse voir le site. */
@@ -1009,7 +1010,7 @@ function farhaTemplateCard(t){
  const price=document.createElement('span');price.className='template-price';price.textContent=farhaPrice(t)+' DT';
  const title=document.createElement('h3');title.textContent=t.name.replace(' · animé','').replace(' · Enveloppe interactive','');
  const desc=document.createElement('p');desc.textContent=t.id==='diplome'?'Enveloppe noire, sujet de soutenance, compte à rebours et mots d’encouragement.':t.id==='tahara'?'Carte à double volet, médaillon doré, calligraphie et petit mot.':t.id==='huntrix'?'Template original : cadeau animé, univers rose et violet.':t.id==='huntrixConcert'?'Concert pop : bouton play, musique, setlist, plan et compte à rebours.':t.id==='superhero'?'Une aventure de super-héros pour les petits champions.':t.id==='sarah'?'Pétales romantiques, musique, compte à rebours et RSVP.':t.id==='sidi'?'Portes bleues interactives, jasmin et compte à rebours.':t.id==='lake'?'Enveloppe interactive, date à gratter et confettis.':t.id==='editorial'?'Éditorial moderne et animations élégantes.':t.id==='royal'?'Romance classique et détails raffinés.':'Invitation digitale animée et personnalisable.';
- const btn=document.createElement('button');btn.type='button';btn.className='demo-cta';btn.textContent='◉  LIVE PREVIEW';btn.setAttribute('aria-label','Voir la démo '+t.name);btn.onclick=()=>openDetail(t.id);
+ const btn=document.createElement('button');btn.type='button';btn.className='demo-cta';btn.textContent='◉  CLIQUEZ ICI';btn.setAttribute('aria-label','Voir la démo '+t.name);btn.onclick=()=>openDetail(t.id);
  art.append(btn);meta.append(tag,price,title,desc);card.append(art,meta);return card;
 }
 // Accueil : 8 modèles seulement, le bouton « Voir tous les modèles » ouvre la page complète.
