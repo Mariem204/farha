@@ -31,7 +31,7 @@ function money(v) {
 }
 
 // Mise en page commune : un titre, des lignes « libellé : valeur », puis un paragraphe de fin.
-function page(title, intro, rows, outro) {
+function page(title, intro, rows, outro, box) {
   const lines = rows.filter(r => r[1] !== '' && r[1] != null).map(([k, v, link]) =>
     '<tr><td style="padding:6px 12px 6px 0;color:#8a7a70;white-space:nowrap;vertical-align:top">' + esc(k) + '</td><td style="padding:6px 0;color:#29252c">' +
     (link ? '<a href="' + esc(v) + '" style="color:#8d4565;word-break:break-all">' + esc(v) + '</a>' : esc(v)) + '</td></tr>').join('');
@@ -41,11 +41,14 @@ function page(title, intro, rows, outro) {
     '<h1 style="font-size:20px;color:#551d30;margin:0 0 14px">' + esc(title) + '</h1>' +
     intro.map(p => '<p style="margin:0 0 12px">' + esc(p) + '</p>').join('') +
     '<table style="border-collapse:collapse;margin:8px 0 16px">' + lines + '</table>' +
+    (box ? '<div style="margin:4px 0 18px;padding:14px 16px;border-radius:10px;background:#fbf1e6;border:1px dashed #c9a27a">' +
+      '<div style="font-size:12px;font-weight:bold;letter-spacing:.06em;text-transform:uppercase;color:#8d4565;margin-bottom:6px">' + esc(box.title) + '</div>' +
+      (box.ok ? '<a href="' + esc(box.value) + '" style="color:#8d4565;word-break:break-all">' + esc(box.value) + '</a>' : '<span style="color:#29252c">' + esc(box.value) + '</span>') + '</div>' : '') +
     outro.map(p => '<p style="margin:0 0 12px">' + esc(p) + '</p>').join('') +
     '</div></div>';
 }
-function text(title, intro, rows, outro) {
-  return [title, '', ...intro, '', ...rows.filter(r => r[1] !== '' && r[1] != null).map(([k, v]) => k + ' : ' + v), '', ...outro].join('\n');
+function text(title, intro, rows, outro, box) {
+  return [title, '', ...intro, '', ...rows.filter(r => r[1] !== '' && r[1] != null).map(([k, v]) => k + ' : ' + v), '', ...(box ? [box.title + ' : ' + box.value, ''] : []), ...outro].join('\n');
 }
 
 async function send(key, sender, to, replyTo, subject, html, txt) {
@@ -122,10 +125,11 @@ module.exports = async function handler(req, res) {
   // E-mail admin : commande complète et lien non flouté.
   const aTitle = 'Nouvelle commande' + (order.reference ? ' ' + order.reference : '') + ' — ' + (order.names || customer.name);
   const aRows = [['Référence back-office', order.reference || 'Non enregistrée dans le back-office (vérifier la configuration Supabase)'], ['Client', customer.name], ['E-mail', customer.email], ['Téléphone', customer.phone],
-    ['Adresse', customer.address], ...recap, ['Motif attendu', motif],
-    ['Lien de l’invitation', linkOk ? link : 'Lien non valide, à recréer depuis le back-office', linkOk]];
+    ['Adresse', customer.address], ...recap, ['Motif attendu', motif]];
+  // Lien réservé à Farha : hors du récapitulatif client, dans un encadré à part.
+  const aBox = { title: 'Réservé à Farha · lien de l’invitation (à envoyer au client après le virement)', value: linkOk ? link : 'Lien non valide, à recréer depuis le back-office', ok: linkOk };
   const aIntro = ['Un client vient de cliquer sur « Payer ». Il a reçu le RIB par e-mail.'];
-  const aOutro = ['Après réception du virement, envoyez-lui le lien ci-dessus : il pourra le partager avec ses invités.'];
+  const aOutro = ['Cet e-mail est interne : le client ne l’a pas reçu. Après réception du virement, envoyez-lui le lien encadré ci-dessus.'];
 
   try {
     await send(key, sender, { email: customer.email, name: customer.name }, { email: admin, name: 'Farha' },
@@ -139,7 +143,7 @@ module.exports = async function handler(req, res) {
   }
   try {
     await send(key, sender, { email: admin, name: 'Farha' }, { email: customer.email, name: customer.name },
-      'Farha · ' + aTitle, page(aTitle, aIntro, aRows, aOutro), text(aTitle, aIntro, aRows, aOutro));
+      '[Interne] Farha · ' + aTitle, page(aTitle, aIntro, aRows, aOutro, aBox), text(aTitle, aIntro, aRows, aOutro, aBox));
   } catch (e) {
     console.error('payment-email: admin', e.message);
     return res.status(207).json({ client: true, admin: false });
