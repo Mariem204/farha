@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Page introuvable — Farha</title>
+<meta name="description" content="Cette page n'existe pas ou a été déplacée. Retrouvez toutes les invitations digitales Farha sur la page d'accueil.">
+<!-- Une page 404 ne doit pas apparaître dans Google (les autres pages du site restent indexables). -->
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon/favicon-96x96.png">
+<link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg">
+<link rel="shortcut icon" href="/favicon/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+<meta name="theme-color" content="#4a0916">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#3b2528;--wine:#4a0916;--muted:#846e66;--gold:#a67a58;--paper:#f6f0e6;--card:#fffcf7;--line:#e7d8c6}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+body{min-height:100vh;display:flex;flex-direction:column;background:radial-gradient(ellipse at 15% 10%,#efdfcf 0,transparent 45%),radial-gradient(ellipse at 90% 90%,#f1e2d3 0,transparent 40%),var(--paper);color:var(--ink);font-family:'DM Sans',system-ui,sans-serif}
+header{padding:22px 20px;display:flex;justify-content:center}
+header img{height:24px;width:auto;display:block}
+main{flex:1;display:flex;align-items:center;justify-content:center;padding:20px 16px 60px}
+.box{max-width:560px;width:100%;text-align:center}
+.env{position:relative;width:190px;height:130px;margin:0 auto 34px;animation:float 5s ease-in-out infinite}
+.env svg{width:100%;height:100%;overflow:visible}
+.seal{transform-origin:95px 74px;animation:wob 5s ease-in-out infinite}
+.eyebrow{font:600 10px 'DM Sans',sans-serif;letter-spacing:.36em;color:var(--gold);text-transform:uppercase;margin:0}
+h1{font:400 clamp(40px,9vw,64px)/1.05 'Cormorant Garamond',Georgia,serif;color:var(--ink);margin:14px 0 14px}
+h1 em{font-style:italic;color:var(--wine)}
+p.lead{font-size:15px;line-height:1.75;color:var(--muted);margin:0 auto 30px;max-width:420px}
+.actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:15px 26px;border-radius:999px;font:600 14px 'DM Sans',sans-serif;text-decoration:none;transition:transform .2s,background .2s,box-shadow .2s}
+.btn:hover{transform:translateY(-2px)}
+.btn:focus-visible{outline:3px solid #b48a43;outline-offset:3px}
+.btn.main{background:var(--wine);color:#fff;box-shadow:0 10px 24px #4a091633}
+.btn.main:hover{background:#2a1720}
+.btn.alt{background:var(--card);color:var(--wine);border:1px solid var(--line)}
+.code{margin-top:42px;font:500 13px 'Cormorant Garamond',serif;letter-spacing:.3em;color:#c9a888}
+@keyframes float{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-10px) rotate(2deg)}}
+@keyframes wob{0%,100%{transform:rotate(0)}50%{transform:rotate(-8deg)}}
+@media(prefers-reduced-motion:reduce){.env,.seal{animation:none}}
+</style>
+</head>
+<body>
+<header><a href="/" aria-label="Farha — accueil"><img src="/media/farha-logo.webp" alt="Farha" width="480" height="131"></a></header>
+<main>
+<div class="box">
+<div class="env" aria-hidden="true">
+<svg viewBox="0 0 190 130">
+<rect x="6" y="20" width="178" height="104" rx="10" fill="#fffcf7" stroke="#e1cdb6" stroke-width="2"/>
+<path d="M8 26 L95 82 L182 26" fill="none" stroke="#e1cdb6" stroke-width="2"/>
+<path d="M8 122 L72 70 M182 122 L118 70" fill="none" stroke="#eadbc8" stroke-width="2"/>
+<g class="seal"><circle cx="95" cy="74" r="17" fill="#7a1d2e"/><circle cx="95" cy="74" r="11" fill="none" stroke="#a3374a" stroke-width="2"/><text x="95" y="79" text-anchor="middle" font-family="Cormorant Garamond,Georgia,serif" font-size="15" font-style="italic" fill="#f3d9c4">?</text></g>
+</svg>
+</div>
+<p class="eyebrow">Page introuvable</p>
+<h1>Cette invitation <em>s'est perdue</em> en chemin.</h1>
+<p class="lead">La page que vous cherchez n'existe pas ou a été déplacée. Si vous avez reçu un lien d'invitation, vérifiez qu'il est complet.</p>
+<div class="actions">
+<a class="btn main" href="/">Retour à l'accueil</a>
+<a class="btn alt" href="/#themes">Voir les modèles ↗</a>
+</div>
+<div class="code">ERREUR 404</div>
+</div>
+</main>
+</body>
+</html>
