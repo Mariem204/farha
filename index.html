@@ -3328,9 +3328,27 @@ addEventListener('message',function(e){
  go(0);auto();
 })();
 </script> 
-<link rel="icon" href="/favicon/favicon.ico">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
-<link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png">
+
+<script>
+(function () {
+  const icons = [
+    { rel: "icon", href: "/favicon/favicon.svg", type: "image/svg+xml" },
+    { rel: "icon", href: "/favicon/favicon.ico" },
+    { rel: "icon", href: "/favicon/favicon-96x96.png", type: "image/png", sizes: "96x96" },
+    { rel: "apple-touch-icon", href: "/favicon/apple-touch-icon.png" },
+    { rel: "manifest", href: "/favicon/site.webmanifest" }
+  ];
+
+  icons.forEach(function (icon) {
+    const link = document.createElement("link");
+    Object.keys(icon).forEach(function (key) {
+      link.setAttribute(key, icon[key]);
+    });
+    document.head.appendChild(link);
+  });
+})();
+</script>
+
 
 <!-- /FARHA-UN-LIEN-STYLE -->
 </body></html>
