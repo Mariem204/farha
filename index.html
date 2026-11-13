@@ -1636,7 +1636,9 @@ function farhaOrderNames(d){
  return 'Invitation : '+d.bride+' & '+d.groom;
 }
 function toPayment(){
- if(!$('bride').value.trim()||!$('groom').value.trim()||!$('date').value||!$('place').value.trim()){alert('Veuillez remplir les prénoms, la date et le lieu.');return}
+ // seuls les champs affichés pour ce modèle sont exigés (certains n'ont qu'un prénom)
+ const farhaNeed=id=>{const e=$(id);if(!e)return false;const row=e.closest('label,.field')||e;if(e.closest('[hidden]')||!(row.offsetWidth||row.getClientRects().length))return false;return !String(e.value||'').trim()};
+ if(['bride','groom','date','place'].some(farhaNeed)){alert('Veuillez remplir les prénoms, la date et le lieu.');return}
  const d=readData();lastDoc=buildDoc(chosen,d);
  $('orderTemplate').textContent='Modèle : '+chosen.name;$('orderNames').textContent=farhaOrderNames(d);$('orderDate').textContent=fmt(d.date)+' · '+d.time+' · '+d.place;
  farhaApplyPrice();show('checkout');
