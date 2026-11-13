@@ -1,0 +1,10 @@
+# Farha — invitations digitales
+User-agent: *
+Allow: /
+# Back-office et fonctions serveur : rien à indexer
+Disallow: /admin/
+Disallow: /api/
+# Liens d'invitation des clients : pages privées
+Disallow: /i/
+
+Sitemap: https://www.invitation-digitale.tn/sitemap.xml
