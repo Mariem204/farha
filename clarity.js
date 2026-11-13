@@ -1,4 +1,6 @@
-// Farha · Microsoft Clarity (statistiques de visite : pages, clics, défilement) et gestion des cookies.
+// Farha · Microsoft Clarity + Google Analytics 4 (statistiques de visite) et gestion des cookies.
+// Google Analytics suit exactement les mêmes règles que Clarity ci-dessous : chargé seulement après « Accepter »,
+// jamais sur /admin ni sur les invitations des invités, arrêté (cookies _ga supprimés) en cas de refus.
 // Chargé une seule fois par page, uniquement sur le site en ligne (farha.tn, farha-bay.vercel.app).
 // Confidentialité :
 //  - jamais sur le back-office (/admin), les previews, ni les invitations ouvertes par les invités (liens #i=…
@@ -13,6 +15,7 @@
 (function () {
   'use strict';
   var ID = 'z9c8rjwlil';
+  var GA_ID = 'G-90JYT5NF8J'; // Google Analytics 4 · propriété « Farha Digital invitation »
   if (window.__farhaClarity) return; // déjà chargé
   window.__farhaClarity = true;
 
@@ -38,9 +41,30 @@
   var queued = false, observer = null;
   function later() { if (queued) return; queued = true; setTimeout(function () { queued = false; mask(); }, 200); }
 
+  // ----- Google Analytics 4 (une seule fois, après accord) -----
+  var gaLoaded = false;
+  function startGA() {
+    window['ga-disable-' + GA_ID] = false;
+    window.dataLayer = window.dataLayer || [];
+    if (!window.gtag) window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag('consent', 'update', { analytics_storage: 'granted' });
+    if (gaLoaded) return;
+    gaLoaded = true;
+    window.gtag('js', new Date());
+    window.gtag('config', GA_ID);
+    var s = document.createElement('script'); s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+    document.head.appendChild(s);
+  }
+  function stopGA() {
+    window['ga-disable-' + GA_ID] = true;
+    try { if (window.gtag) window.gtag('consent', 'update', { analytics_storage: 'denied' }); } catch (e) {}
+  }
+
   // ----- chargement de Clarity (une seule fois) -----
   var loaded = false, running = false;
   function start() {
+    startGA();
     mask();
     if (!observer) try { observer = new MutationObserver(later); observer.observe(document.body, { childList: true, subtree: true }); } catch (e) {}
     if (!loaded) {
@@ -59,7 +83,8 @@
   }
 
   // ----- retrait du consentement : arrêt du suivi + suppression des cookies Clarity -----
-  var CLARITY_COOKIES = ['_clck', '_clsk', 'CLID', 'ANONCHK', 'MR', 'MUID', 'SM'];
+  var CLARITY_COOKIES = ['_clck', '_clsk', 'CLID', 'ANONCHK', 'MR', 'MUID', 'SM',
+    '_ga', '_ga_' + GA_ID.replace(/^G-/, '')]; // + cookies de Google Analytics
   function eraseCookies() {
     var host = location.hostname, parts = host.split('.'), domains = ['', host, '.' + host];
     for (var i = 1; i < parts.length - 1; i++) domains.push('.' + parts.slice(i).join('.'));
@@ -74,6 +99,7 @@
     });
   }
   function stop() {
+    stopGA();
     if (running) {
       try { window.clarity('consent', false); } catch (e) {} // demande à Clarity d'effacer ses cookies et de terminer la session
       try { window.clarity('stop'); } catch (e) {}
@@ -144,5 +170,5 @@
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
   // si un lien d'invitation est ouvert sans recharger la page, on arrête d'enregistrer
-  addEventListener('hashchange', function () { if (/^#i=/.test(location.hash) && running) { try { window.clarity('stop'); } catch (e) {} running = false; } });
+  addEventListener('hashchange', function () { if (/^#i=/.test(location.hash)) { stopGA(); if (running) { try { window.clarity('stop'); } catch (e) {} running = false; } } });
 })();
