@@ -43,6 +43,10 @@
     {
       "source": "/i/:slug",
       "destination": "/index.html"
+    },
+    {
+      "source": "/favicon.ico",
+      "destination": "/favicon/favicon.ico"
     }
   ]
 }
