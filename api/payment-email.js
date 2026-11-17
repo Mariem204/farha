@@ -14,8 +14,8 @@ function bank() {
   const v = k => (process.env[k] || '').trim();
   return { titulaire: v('FARHA_BANK_TITULAIRE'), banque: v('FARHA_BANK_BANQUE'), rib: v('FARHA_BANK_RIB'), iban: v('FARHA_BANK_IBAN'), bic: v('FARHA_BANK_BIC') };
 }
-// NUMÉRO DE TEST : téléphone et WhatsApp de l'équipe, affichés en signature de l'e-mail client.
-const PHONE = '00 000 000';
+// Téléphone et WhatsApp de l'équipe, affichés en signature de l'e-mail client.
+const PHONE = '+216 92 891 770';
 const MAX_PER_IP_10_MIN = 5; // limite anti-abus (par instance serveur)
 const recent = new Map();
 
