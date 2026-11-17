@@ -8,7 +8,7 @@
 
 const SUR_MESURE_PRICE = 50;          // Création sur mesure, en DT
 // Prix fixés par catégorie : ils passent avant ceux de l'admin.
-const FIXED_PRICES = { 'Mariage': 86, 'Anniversaire': 24, '7enna': 36, 'Baby shower': 36 };
+const FIXED_PRICES = { 'Mariage': 86, 'Anniversaire': 24, '7enna': 36, 'Wteya': 36, 'Baby shower': 36 };
 // Modèles servis en fichiers (/templates/*.html) qui ne sont pas encore dans la table « templates » de Supabase :
 // la commande est quand même enregistrée, au prix fixe de leur catégorie (sans lien /i/<slug>).
 const FILE_TEMPLATES = {
@@ -16,7 +16,7 @@ const FILE_TEMPLATES = {
   'perla': ['Perla', 'Mariage'], 'carthage': ['Carthage', 'Mariage'], 'lotus-wedding': ['Mariage · Lotus', 'Mariage'],
   'henna-rideau-rouge': ['Henna', '7enna'], 'henna-sultan': ['حنة السلطان', '7enna'],
   'anniversaire-dino': ['Dino Jungle', 'Anniversaire'], 'anniversaire-super-heros': ['Spiderman', 'Anniversaire'], 'huntrixConcert': ['Huntrix', 'Anniversaire'],
-  'baby-shower': ['Fille ou garçon ?', 'Baby shower']
+  'baby-shower': ['Fille ou garçon ?', 'Baby shower'], 'outeya-gold': ['الوطية · Gold', 'Wteya']
 };
 const MAX_PER_EMAIL_10_MIN = 5;       // Limite anti-abus
 const KINDS = ['template', 'test', 'sur_mesure'];
