@@ -3,16 +3,17 @@
 //   BREVO_API_KEY       clé API Brevo (xkeysib-...) — jamais dans le code.
 //   FARHA_SENDER_EMAIL  expéditeur validé dans Brevo (par défaut farhacontact0@gmail.com)
 //   FARHA_ADMIN_EMAIL   destinataire des commandes (par défaut farhacontact0@gmail.com)
-// Deux e-mails : le client reçoit le prix et les coordonnées bancaires ; l'admin reçoit la commande et le lien
+// Deux e-mails : le client reçoit le prix et les coordonnées bancaires (Banque Zitouna) ; l'admin reçoit la commande et le lien
 // non flouté de l'invitation, à envoyer au client après réception du virement.
 // Le texte des e-mails est construit ici : le navigateur n'envoie que des champs courts, jamais de contenu libre.
 
-// COORDONNÉES DE TEST : à remplacer par le vrai compte avant la mise en production.
-const BANK = {
-  titulaire: 'FARHA · compte de test',
-  banque: 'Banque de test',
-  rib: '00 000 0000000000000 00 (RIB de test, ne pas utiliser)'
-};
+// Coordonnées bancaires envoyées au client pour le virement. Elles sont lues dans les variables
+// d'environnement Vercel (le dépôt est public : aucune donnée bancaire dans le code) :
+//   FARHA_BANK_TITULAIRE, FARHA_BANK_BANQUE, FARHA_BANK_RIB, FARHA_BANK_IBAN, FARHA_BANK_BIC
+function bank() {
+  const v = k => (process.env[k] || '').trim();
+  return { titulaire: v('FARHA_BANK_TITULAIRE'), banque: v('FARHA_BANK_BANQUE'), rib: v('FARHA_BANK_RIB'), iban: v('FARHA_BANK_IBAN'), bic: v('FARHA_BANK_BIC') };
+}
 // NUMÉRO DE TEST : téléphone et WhatsApp de l'équipe, affichés en signature de l'e-mail client.
 const PHONE = '00 000 000';
 const MAX_PER_IP_10_MIN = 5; // limite anti-abus (par instance serveur)
@@ -113,12 +114,15 @@ module.exports = async function handler(req, res) {
     ['Musique', order.music], ['Prix de l’invitation', order.base + ' DT'], ...(order.musicPrice ? [['Prix de la musique', order.musicPrice + ' DT']] : []),
     ['Total à régler', order.total + ' DT']];
 
+  const BANK = bank();
   // E-mail client : prix et virement.
   const cTitle = 'Votre invitation est prête ✦';
   const cIntro = ['Bonjour ' + customer.name + ',', 'Merci pour votre commande sur Farha ! Voici le récapitulatif et les informations pour le règlement.'];
   const cRows = [['Référence de la commande', ref], ...recap,
-    ['Titulaire du compte', BANK.titulaire], ['Banque', BANK.banque], ['RIB', BANK.rib], ['Motif du virement', motif]];
-  const cOutro = ['Pour confirmer votre commande, effectuez un virement de ' + order.total + ' DT avec le motif ci-dessus.',
+    ['Titulaire du compte', BANK.titulaire], ['Banque', BANK.banque], ['RIB', BANK.rib], ['IBAN', BANK.iban], ['Code BIC', BANK.bic], ['Motif du virement', motif]];
+  // sans RIB configuré, le client est prévenu qu'on lui envoie les coordonnées
+  const noBank = !BANK.rib && !BANK.iban;
+  const cOutro = [noBank ? 'L’équipe Farha vous envoie les coordonnées bancaires pour le virement de ' + order.total + ' DT.' : 'Pour confirmer votre commande, effectuez un virement de ' + order.total + ' DT avec le motif ci-dessus.',
     'Dès réception du virement, l’équipe Farha vous envoie le lien de votre invitation, prêt à partager avec vos invités.',
     'Une question ? Répondez simplement à cet e-mail.', 'L’équipe Farha ✦ · Téléphone et WhatsApp : ' + PHONE];
 
