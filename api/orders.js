@@ -8,7 +8,7 @@
 
 const SUR_MESURE_PRICE = 50;          // Création sur mesure, en DT
 // Prix fixés par catégorie : ils passent avant ceux de l'admin.
-const FIXED_PRICES = { 'Mariage': 86, 'Anniversaire': 24, '7enna': 36, 'Wteya': 36, 'Baby shower': 36 };
+const FIXED_PRICES = { 'Mariage': 86, 'Anniversaire': 24, '7enna': 36, 'Wteya': 86, 'Baby shower': 36 };
 // Modèles servis en fichiers (/templates/*.html) qui ne sont pas encore dans la table « templates » de Supabase :
 // la commande est quand même enregistrée, au prix fixe de leur catégorie (sans lien /i/<slug>).
 const FILE_TEMPLATES = {
