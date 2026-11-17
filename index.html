@@ -1028,7 +1028,7 @@ SOURCES["sarah"]="<!DOCTYPE html>\n<html lang=\"fr\">\n<head>\n<meta charset=\"u
 const templates=[{id:'lake',name:'Lake Como · Enveloppe interactive',category:'Mariage',style:'lake',base:'lake',color:'#b48a43'},{id:'sidi',name:'Sidi Bou Said · Portes bleues',category:'Mariage',style:'sidi',base:'sidi',color:'#1f56a5'},{id:'sarah',name:'Jardin des Oliviers · Sarah & Yassine',category:'Mariage',style:'sarah',base:'sarah',color:'#b88a44'},{id:'sand',name:'Sable doré',category:'Fiançailles',style:'sand',base:'royal',color:'#b88b50'},{id:'night',name:'Nuit étoilée',category:'Anniversaire',style:'night',base:'editorial',color:'#c3a268'},{id:'lavender',name:'Douce lavande',category:'Naissance',style:'lavender',base:'royal',color:'#9275b7'},{id:'sky',name:'Bleu ciel',category:'Événement',style:'sky',base:'editorial',color:'#5389aa'}];
 let chosen=templates[0],lastDoc='';const $=id=>document.getElementById(id);
 // Prix par catégorie de modèle (en DT). Les catégories non listées gardent le prix par défaut.
-const FARHA_PRICES={'Mariage':86,'Fiançailles':30,'Anniversaire':24,'Tahara':30,'Diplôme':15,'Naissance':20,'Baby shower':36,'7enna':36,'Événement':20},FARHA_DEFAULT_PRICE=50;
+const FARHA_PRICES={'Mariage':86,'Fiançailles':30,'Anniversaire':24,'Tahara':30,'Diplôme':15,'Naissance':20,'Baby shower':36,'7enna':36,'Wteya':36,'Événement':20},FARHA_DEFAULT_PRICE=50;
 function farhaPrice(t){return FARHA_PRICES[t&&t.category]??FARHA_DEFAULT_PRICE}
 // Aperçus (démo, personnalisation, livraison) : déchargés dès qu'on quitte leur page, pour que leur musique s'arrête.
 const FARHA_VIEW_FRAMES={detail:'detailFrame',custom:'customFrame',complete:'deliveryFrame'};
@@ -2031,7 +2031,7 @@ refreshCustom=function(){if(chosen&&chosen.custom)farhaCustomText=JSON.stringify
 // FARHA-COLLECTIONS : « Thèmes » et « Voir tous les modèles » ouvrent d'abord les collections (une par catégorie) ;
 // un clic sur une collection affiche ses modèles avec la recherche et les filtres existants.
 // farhaInsp.coll : null = liste des collections, 'Tous' = tous les modèles, sinon le nom de la catégorie.
-const FARHA_COLLECTION_TAGLINES={'Mariage':'Le grand jour, en majesté','Fiançailles':'La promesse, en douceur','Anniversaire':'Des fêtes pleines de vie','Naissance':'Bienvenue au petit trésor','Baby shower':'Une touche de rose, une touche de bleu','Tahara':'La tradition, avec élégance','Diplôme':'Célébrer la réussite','Événement':'Pour toutes vos occasions'};
+const FARHA_COLLECTION_TAGLINES={'Mariage':'Le grand jour, en majesté','Fiançailles':'La promesse, en douceur','Anniversaire':'Des fêtes pleines de vie','Naissance':'Bienvenue au petit trésor','Baby shower':'Une touche de rose, une touche de bleu','Tahara':'La tradition, avec élégance','Wteya':'La fête de la mariée, entre femmes','Diplôme':'Célébrer la réussite','Événement':'Pour toutes vos occasions'};
 // Photos de couverture (Unsplash, licence libre). Sans photo, ou si elle ne charge pas, la carte montre les aperçus des modèles.
 const FARHA_COLLECTION_PHOTOS={'Mariage':'1591604466107-ec97de577aff','Fiançailles':'1518370265276-f22b706aeac8','Anniversaire':'1606983340126-99ab4feaa64a','Naissance':'1773243086631-962baefccd8a','Tahara':'1777980652216-68112200e3c8','Diplôme':'1523580846011-d3a5bc25702b','Événement':'1492684223066-81342ee5ff30'};
 farhaInsp.coll=null;
@@ -2848,6 +2848,7 @@ body .farha-header .farha-logo{line-height:1.1}
   {id:'bord-de-mer',name:'Bord de Mer · Les vagues',category:'Mariage',color:'#2F5A6E',file:'templates/bord-de-mer.html',description:'Noix de coco qui plonge, cadre de coquillages pour votre photo, volets qui s’ouvrent sur le lieu et un mot pour les mariés.'},
   {id:'henna-sultan',name:'حنة السلطان · Henna Night',category:'7enna',color:'#7a1d2e',file:'templates/henna-sultan.html',description:'Trône doré et lanternes, photo du marié dans un miroir, date, lieu et une kelma pour le marié.'},
   {id:'perla',name:'Perla',category:'Mariage',color:'#8a7d70',file:'templates/perla.html',description:'Papier ivoire en relief, cygnes, fleur de perles, prénoms en français et en arabe, lieu et un mot pour les mariés.'},
+  {id:'outeya-gold',name:'الوطية · Gold',category:'Wteya',color:'#6e2227',file:'templates/outeya-gold.html',description:'Lanterne dorée et mariée en tenue tunisienne, date et lieu avec la carte, couleurs de la tenue et confirmation de présence avec un mot pour la mariée.'},
   {id:'carthage',name:'Carthage',category:'Mariage',color:'#6A2525',file:'templates/carthage.html',description:'Sceau de Tanit à briser, parchemin d’Élyssa, éléphants d’Hannibal, galère punique, date dorée à gratter et un mot pour les mariés.'}
  ];
  var ready={};
@@ -3000,6 +3001,10 @@ body .farha-header .farha-logo{line-height:1.1}
   if(solo&&t.category==='7enna'){
    var K={bride:t.id==='henna-sultan'?'Prénom du marié':'Prénom de la mariée',date:'Date de la henna',place:'Salle / lieu de la henna'};
    Object.keys(K).forEach(function(k){var l=document.querySelector('label[for="'+k+'"]');if(l)l.textContent=K[k]});
+  }
+  if(solo&&t.category==='Wteya'){
+   var W={bride:'Prénom de la mariée',date:'Date de la wtiya',place:'Salle / lieu de la wtiya'};
+   Object.keys(W).forEach(function(k){var l=document.querySelector('label[for="'+k+'"]');if(l)l.textContent=W[k]});
   }
   if(solo&&t.category==='Anniversaire'){
    var L={bride:'Prénom de l’enfant',date:'Date de la fête',place:'Lieu de la fête'};
@@ -3269,9 +3274,9 @@ addEventListener('message',function(e){
 // Prix barrés (promotion) : ancien prix par collection, affiché barré à côté du prix actuel
 (function(){
  if(typeof farhaTemplateCard!=='function'||typeof farhaPrice!=='function')return;
- var FIXED={'Mariage':86,'Anniversaire':24,'7enna':36,'Baby shower':36},pr=farhaPrice;
+ var FIXED={'Mariage':86,'Anniversaire':24,'7enna':36,'Wteya':36,'Baby shower':36},pr=farhaPrice;
  farhaPrice=function(t){var f=t&&FIXED[t.category];return f!=null?f:pr.apply(this,arguments)};
- var OLD={'Anniversaire':29,'Mariage':116,'7enna':41,'Baby shower':41},base=farhaTemplateCard;
+ var OLD={'Anniversaire':29,'Mariage':116,'7enna':41,'Wteya':41,'Baby shower':41},base=farhaTemplateCard;
  farhaTemplateCard=function(t){var card=base.apply(this,arguments),el=card.querySelector('.template-price');
   if(el&&t){var now=farhaPrice(t),old=OLD[t.category];el.textContent='';
    var a=document.createElement('span');a.className='pr-now';a.textContent=now+' DT';el.appendChild(a);

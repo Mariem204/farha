@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>دعوة الوطية</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<style>/* arabic */
+@font-face {
+  font-family: 'Amiri';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/amiri/v30/J7afnpd8CGxBHpUrhLQY67FIEjgjpQ.woff2) format('woff2');
+  unicode-range: U+0600-06FF, U+0750-077F, U+0870-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC, U+102E0-102FB, U+10E60-10E7E, U+10EC2-10EC7, U+10EC9-10EEE, U+10EF0-10EFF, U+1EE00-1EE03, U+1EE05-1EE1F, U+1EE21-1EE22, U+1EE24, U+1EE27, U+1EE29-1EE32, U+1EE34-1EE37, U+1EE39, U+1EE3B, U+1EE42, U+1EE47, U+1EE49, U+1EE4B, U+1EE4D-1EE4F, U+1EE51-1EE52, U+1EE54, U+1EE57, U+1EE59, U+1EE5B, U+1EE5D, U+1EE5F, U+1EE61-1EE62, U+1EE64, U+1EE67-1EE6A, U+1EE6C-1EE72, U+1EE74-1EE77, U+1EE79-1EE7C, U+1EE7E, U+1EE80-1EE89, U+1EE8B-1EE9B, U+1EEA1-1EEA3, U+1EEA5-1EEA9, U+1EEAB-1EEBB, U+1EEF0-1EEF1;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Amiri';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/amiri/v30/J7afnpd8CGxBHpUrhL8Y67FIEjgjpQ.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Amiri';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/amiri/v30/J7afnpd8CGxBHpUrhLEY67FIEjg.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* arabic */
+@font-face {
+  font-family: 'Amiri';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/media/x/bd662c02bb48a6.woff2") format('woff2');
+  unicode-range: U+0600-06FF, U+0750-077F, U+0870-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC, U+102E0-102FB, U+10E60-10E7E, U+10EC2-10EC7, U+10EC9-10EEE, U+10EF0-10EFF, U+1EE00-1EE03, U+1EE05-1EE1F, U+1EE21-1EE22, U+1EE24, U+1EE27, U+1EE29-1EE32, U+1EE34-1EE37, U+1EE39, U+1EE3B, U+1EE42, U+1EE47, U+1EE49, U+1EE4B, U+1EE4D-1EE4F, U+1EE51-1EE52, U+1EE54, U+1EE57, U+1EE59, U+1EE5B, U+1EE5D, U+1EE5F, U+1EE61-1EE62, U+1EE64, U+1EE67-1EE6A, U+1EE6C-1EE72, U+1EE74-1EE77, U+1EE79-1EE7C, U+1EE7E, U+1EE80-1EE89, U+1EE8B-1EE9B, U+1EEA1-1EEA3, U+1EEA5-1EEA9, U+1EEAB-1EEBB, U+1EEF0-1EEF1;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Amiri';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/amiri/v30/J7aRnpd8CGxBHpUgtLMS7JNKIjk.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Amiri';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/media/x/cea212934e8714.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* arabic */
+@font-face {
+  font-family: 'Amiri';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/media/x/dcbe32484b7cdc.woff2") format('woff2');
+  unicode-range: U+0600-06FF, U+0750-077F, U+0870-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC, U+102E0-102FB, U+10E60-10E7E, U+10EC2-10EC7, U+10EC9-10EEE, U+10EF0-10EFF, U+1EE00-1EE03, U+1EE05-1EE1F, U+1EE21-1EE22, U+1EE24, U+1EE27, U+1EE29-1EE32, U+1EE34-1EE37, U+1EE39, U+1EE3B, U+1EE42, U+1EE47, U+1EE49, U+1EE4B, U+1EE4D-1EE4F, U+1EE51-1EE52, U+1EE54, U+1EE57, U+1EE59, U+1EE5B, U+1EE5D, U+1EE5F, U+1EE61-1EE62, U+1EE64, U+1EE67-1EE6A, U+1EE6C-1EE72, U+1EE74-1EE77, U+1EE79-1EE7C, U+1EE7E, U+1EE80-1EE89, U+1EE8B-1EE9B, U+1EEA1-1EEA3, U+1EEA5-1EEA9, U+1EEAB-1EEBB, U+1EEF0-1EEF1;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Amiri';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/amiri/v30/J7acnpd8CGxBHp2VkaYxzp5gGDAbnCA.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Amiri';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/media/x/a5e2ba3207c491.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* arabic */
+@font-face {
+  font-family: 'Aref Ruqaa';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/arefruqaa/v26/WwkbxPW1E165rajQKDulIIIoVfg61NfCHA.woff2) format('woff2');
+  unicode-range: U+0600-06FF, U+0750-077F, U+0870-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC, U+102E0-102FB, U+10E60-10E7E, U+10EC2-10EC7, U+10EC9-10EEE, U+10EF0-10EFF, U+1EE00-1EE03, U+1EE05-1EE1F, U+1EE21-1EE22, U+1EE24, U+1EE27, U+1EE29-1EE32, U+1EE34-1EE37, U+1EE39, U+1EE3B, U+1EE42, U+1EE47, U+1EE49, U+1EE4B, U+1EE4D-1EE4F, U+1EE51-1EE52, U+1EE54, U+1EE57, U+1EE59, U+1EE5B, U+1EE5D, U+1EE5F, U+1EE61-1EE62, U+1EE64, U+1EE67-1EE6A, U+1EE6C-1EE72, U+1EE74-1EE77, U+1EE79-1EE7C, U+1EE7E, U+1EE80-1EE89, U+1EE8B-1EE9B, U+1EEA1-1EEA3, U+1EEA5-1EEA9, U+1EEAB-1EEBB, U+1EEF0-1EEF1;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Aref Ruqaa';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/arefruqaa/v26/WwkbxPW1E165rajQKDulIIkoVfg61NfCHA.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Aref Ruqaa';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/arefruqaa/v26/WwkbxPW1E165rajQKDulIIcoVfg61Nc.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* arabic */
+@font-face {
+  font-family: 'Aref Ruqaa';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/arefruqaa/v26/WwkYxPW1E165rajQKDulKDwNQNAY2f34Fdj3cQ.woff2) format('woff2');
+  unicode-range: U+0600-06FF, U+0750-077F, U+0870-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC, U+102E0-102FB, U+10E60-10E7E, U+10EC2-10EC7, U+10EC9-10EEE, U+10EF0-10EFF, U+1EE00-1EE03, U+1EE05-1EE1F, U+1EE21-1EE22, U+1EE24, U+1EE27, U+1EE29-1EE32, U+1EE34-1EE37, U+1EE39, U+1EE3B, U+1EE42, U+1EE47, U+1EE49, U+1EE4B, U+1EE4D-1EE4F, U+1EE51-1EE52, U+1EE54, U+1EE57, U+1EE59, U+1EE5B, U+1EE5D, U+1EE5F, U+1EE61-1EE62, U+1EE64, U+1EE67-1EE6A, U+1EE6C-1EE72, U+1EE74-1EE77, U+1EE79-1EE7C, U+1EE7E, U+1EE80-1EE89, U+1EE8B-1EE9B, U+1EEA1-1EEA3, U+1EEA5-1EEA9, U+1EEAB-1EEBB, U+1EEF0-1EEF1;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Aref Ruqaa';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/arefruqaa/v26/WwkYxPW1E165rajQKDulKDwNQNsY2f34Fdj3cQ.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Aref Ruqaa';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/arefruqaa/v26/WwkYxPW1E165rajQKDulKDwNQNUY2f34Fdg.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+</style>
+<style>
+body{margin:0;background:#f7efe2}
+a{color:#6e2227}a:hover{color:#4f1519}
+.ar{font-family:'Aref Ruqaa',serif;color:#6e2227}
+.bd{font-family:'Amiri',serif;color:#4a2a1c}
+.lb{font-family:'Amiri',serif;font-weight:700;color:#7a5a1e}
+.fld{width:100%;box-sizing:border-box;border:1px solid #c9a769;border-radius:6px;background:#fffaf1;padding:8px 12px;font-family:'Amiri',serif;font-size:17px;color:#4a2a1c}
+.fld:focus{outline:2px solid #8a6426;outline-offset:1px}
+.opt{position:relative;flex:1;display:flex;align-items:center;justify-content:center;gap:7px;min-height:44px;box-sizing:border-box;padding:6px 6px;border:1px solid #c9a769;border-radius:6px;background:#fffaf1;font-family:'Amiri',serif;font-weight:700;font-size:15px;color:#6e2227;cursor:pointer;white-space:nowrap}
+.opt input{position:absolute;opacity:0;pointer-events:none}
+.opt:focus-within{outline:2px solid #8a6426;outline-offset:1px}
+.opt.on{background:#f3e3c4;border-color:#6e2227}
+.opt .rd{flex:none;width:14px;height:14px;box-sizing:border-box;border-radius:50%;border:1px solid #a8843f;background:#fffaf1}
+.opt.on .rd{border:5px solid #6e2227}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;min-width:150px;padding:0 24px;border:1px solid #4f1519;border-radius:4px;background:#6e2227;color:#fbf1dc;font-family:'Amiri',serif;font-weight:700;font-size:18px;text-decoration:none;cursor:pointer;box-shadow:inset 0 0 0 3px #6e2227,inset 0 0 0 4px rgba(226,190,120,.7)}
+.btn:hover{background:#571a1e;color:#fff;box-shadow:inset 0 0 0 3px #571a1e,inset 0 0 0 4px rgba(226,190,120,.7)}
+.sw{display:flex;flex-direction:column;align-items:center;gap:4px}
+.sw span.c{width:44px;height:44px;border-radius:50%;box-shadow:0 0 0 2px #f7efe2,0 0 0 3px #a8843f}
+.swing{transform-origin:50% 3%;animation:swing 6.5s ease-in-out 2.4s infinite alternate}
+@keyframes swing{from{transform:rotate(-2.6deg)}to{transform:rotate(2.6deg)}}
+.halo{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(255,228,160,.62),rgba(255,228,160,0) 70%);pointer-events:none;animation:flick 3.4s ease-in-out infinite alternate}
+@keyframes flick{from{opacity:.55;transform:scale(.94)}to{opacity:1;transform:scale(1.06)}}
+.shine{background:linear-gradient(100deg,#6e2227 0,#6e2227 42%,#c9a23f 50%,#6e2227 58%,#6e2227 100%);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 7s ease-in-out 2.6s infinite}
+@keyframes shine{0%{background-position:170% 0}50%,100%{background-position:-70% 0}}
+.pin{animation:pinb 2.6s ease-in-out infinite}
+@keyframes pinb{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+.jas{position:absolute;pointer-events:none;opacity:0;animation:jasFall 17s linear infinite}
+@keyframes jasFall{0%{transform:translate(0,-24px) rotate(0deg);opacity:0}9%{opacity:.9}52%{transform:translate(26px,420px) rotate(170deg)}91%{opacity:.75}100%{transform:translate(-12px,840px) rotate(348deg);opacity:0}}
+@keyframes pop{from{opacity:0;transform:scale(.55) translateY(16px)}to{opacity:1;transform:none}}
+@keyframes ornIn{from{opacity:0;transform:scaleX(.45)}to{opacity:1;transform:none}}
+.fade{animation:fadeUp 1.2s ease both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes rvUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+@supports (animation-timeline: view()){
+.rv > *{animation:rvUp linear both;animation-timeline:view();animation-range:entry 5% entry 55%}
+.rv > *:nth-child(2){animation-range:entry 12% entry 62%}
+.rv > *:nth-child(3){animation-range:entry 19% entry 69%}
+.rv > *:nth-child(4){animation-range:entry 26% entry 76%}
+.rv > *:nth-child(n+5){animation-range:entry 33% entry 83%}
+.rv1{animation:rvUp linear both;animation-timeline:view();animation-range:entry 5% entry 60%}
+.ornIn{animation:ornIn linear both;animation-timeline:view();animation-range:entry 8% entry 58%}
+.sw{animation:pop linear both;animation-timeline:view();animation-range:entry 12% entry 62%}
+.sw:nth-child(2){animation-range:entry 18% entry 68%}
+.sw:nth-child(3){animation-range:entry 24% entry 74%}
+.sw:nth-child(4){animation-range:entry 30% entry 80%}
+.sw:nth-child(5){animation-range:entry 36% entry 86%}
+}
+@media (prefers-reduced-motion: reduce){.fade,.rv > *,.rv1,.ornIn,.sw,.swing,.halo,.shine,.pin{animation:none !important}.jas{display:none}.shine{color:#6e2227;-webkit-text-fill-color:#6e2227}}
+
+[hidden]{display:none!important}
+html,body{margin:0;background:#f7efe2;overflow-x:hidden}
+#wrap{position:relative;margin:0 auto;overflow:hidden}
+#root{transform-origin:0 0}
+</style>
+</head>
+<body>
+<div id="wrap">
+<div id="root" dir="rtl" style="width: 430px; height: 3470px; position: absolute; left: 0; top: 0; overflow: hidden; background: #f7efe2; font-family: 'Amiri', serif; color: #4a2a1c" data-canvas-width="430" data-canvas-height="3470" data-document-role="page" data-label="مجموعة الذهبي — Gold collection">
+
+<svg width="430" height="3290" viewBox="0 0 430 3290" aria-hidden="true" style="position: absolute; left: 0; top: 0; opacity: .16">
+<defs>
+<pattern id="pTn" width="110" height="110" patternUnits="userSpaceOnUse">
+<g fill="none" stroke="#a8843f" stroke-width="1" stroke-linejoin="round">
+<g transform="translate(28 28)"><ellipse cx="0" cy="-8" rx="3.6" ry="7"></ellipse><ellipse cx="0" cy="-8" rx="3.6" ry="7" transform="rotate(72)"></ellipse><ellipse cx="0" cy="-8" rx="3.6" ry="7" transform="rotate(144)"></ellipse><ellipse cx="0" cy="-8" rx="3.6" ry="7" transform="rotate(216)"></ellipse><ellipse cx="0" cy="-8" rx="3.6" ry="7" transform="rotate(288)"></ellipse><circle r="2"></circle></g>
+<g transform="translate(83 80)"><path d="M-9 11Q-12 -1 -10 -7Q-8 -11 -6 -7V-12Q-4.5 -17 -3 -12V-15Q0 -20 3 -15V-12Q4.5 -17 6 -12V-7Q8 -11 10 -7Q12 -1 9 11Q0 16 -9 11Z"></path><ellipse cx="0" cy="2" rx="4" ry="2.6"></ellipse><circle cx="0" cy="2" r="1"></circle></g>
+<g transform="translate(84 26)"><path d="M-11 0Q-3 -7 6 0Q-3 7 -11 0Z"></path><path d="M6 0L12 -5V5Z"></path><circle cx="-6" cy="-1" r=".8"></circle></g>
+<g transform="translate(26 84)"><path d="M0 10V-2M0 -2Q-5 -8 0 -14Q5 -8 0 -2ZM0 4Q-6 2 -8 -3M0 6Q6 4 8 -1"></path></g>
+</g>
+</pattern>
+</defs>
+<rect width="430" height="3290" fill="url(#pTn)"></rect>
+</svg>
+
+<svg width="0" height="0" style="position: absolute" aria-hidden="true" focusable="false">
+<defs>
+<g id="gOrn"><path d="M-74 0H-18M18 0H74" stroke="#a8843f" stroke-width=".8"></path><path d="M0 -9L3 -3L9 0L3 3L0 9L-3 3L-9 0L-3 -3Z" fill="#c9a769" stroke="#8a6426" stroke-width=".6"></path><circle cx="-14" cy="0" r="1.6" fill="#a8843f"></circle><circle cx="14" cy="0" r="1.6" fill="#a8843f"></circle></g>
+<g id="jasmine">
+<g fill="#fffdf6" stroke="#ddcdae" stroke-width=".55">
+<ellipse cx="12" cy="5.6" rx="3.3" ry="5.6"></ellipse>
+<ellipse cx="12" cy="5.6" rx="3.3" ry="5.6" transform="rotate(72 12 12)"></ellipse>
+<ellipse cx="12" cy="5.6" rx="3.3" ry="5.6" transform="rotate(144 12 12)"></ellipse>
+<ellipse cx="12" cy="5.6" rx="3.3" ry="5.6" transform="rotate(216 12 12)"></ellipse>
+<ellipse cx="12" cy="5.6" rx="3.3" ry="5.6" transform="rotate(288 12 12)"></ellipse>
+</g>
+<circle cx="12" cy="12" r="2.1" fill="#f0d695"></circle>
+</g>
+</defs>
+</svg>
+
+<!-- ============ 1 · الافتتاح ============ -->
+<section style="position: absolute; left: 0; top: 0; width: 430px; height: 860px; overflow: hidden">
+<img src="/media/x/952f6e2a7b90c9.webp" alt="" style="position: absolute; left: 0; top: 18px; width: 430px; height: 822px; mix-blend-mode: multiply">
+<div class="halo" aria-hidden="true" style="left: 155px; top: 106px; width: 120px; height: 120px"></div>
+<div class="fade" style="position: absolute; left: 176px; top: 86px; width: 78px; height: 113px; animation-delay: .2s">
+<img class="swing" src="/media/x/8fc37c01cf912e.webp" alt="" style="width: 78px; height: 113px; display: block; filter: drop-shadow(0 4px 6px rgba(74,42,28,.22))">
+</div>
+<div style="position: absolute; left: 95px; top: 214px; width: 240px; display: flex; flex-direction: column; align-items: center; text-align: center">
+<div class="bd fade" style="font-size: 19px; line-height: 1.5; animation-delay: .5s">مرحبا بيكم في</div>
+<h1 class="ar fade" style="margin: 0; font-size: 60px; font-weight: 700; line-height: 1.25; animation-delay: .9s"><span class="shine">الوطية</span></h1>
+<div class="bd fade" style="font-size: 19px; line-height: 1.5; animation-delay: 1.3s">متاع عروستنا</div>
+<div class="ar fade" style="font-size: 30px; line-height: 1.5; animation-delay: 1.7s"><span data-c="name"></span></div>
+</div>
+<img class="fade" src="/media/x/5983e2c0c2a669.webp" alt="رسم لعروسة تونسية باللبسة التقليدية" style="position: absolute; left: 100px; top: 394px; width: 230px; height: 386px; animation-delay: 2.1s; filter: drop-shadow(0 6px 8px rgba(74,42,28,.25))">
+</section>
+
+<!-- ============ 2 · الموعد والبلاصة ============ -->
+<section style="position: absolute; left: 0; top: 860px; width: 430px; height: 740px; overflow: hidden">
+<div class="rv" style="position: absolute; left: 50px; top: 36px; width: 330px; display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center">
+<h2 class="ar" style="margin: 0; font-size: 40px; font-weight: 700; line-height: 1.3">الموعد</h2>
+<svg width="160" height="20" viewBox="-80 -10 160 20" aria-hidden="true"><use href="#gOrn"></use></svg>
+<div class="ar" style="font-size: 28px; line-height: 1.5; margin-top: 6px"><span data-c="day"></span></div>
+<div class="ar" style="font-size: 24px; line-height: 1.5"><span data-c="date"></span></div>
+<div class="bd" style="font-size: 20px; font-weight: 700"><span data-c="time"></span></div>
+<div class="ar" style="font-size: 26px; line-height: 1.5; margin-top: 10px"><span data-c="venue"></span></div>
+<div class="bd" style="font-size: 18px"><span data-c="city"></span></div>
+</div>
+<a class="rv1" href="#" data-maps target="_blank" rel="noopener" aria-label="حلّ الموقع في Google Maps" style="position: absolute; left: 55px; top: 350px; width: 320px; height: 170px; display: block; border-radius: 10px; overflow: hidden; border: 1px solid #c9a769; box-shadow: 0 0 0 4px #fbf4e6, 0 0 0 5px #c9a769, 0 8px 16px rgba(74,42,28,.15)">
+<svg width="320" height="170" viewBox="0 0 320 170" aria-hidden="true" style="display: block">
+<rect width="320" height="170" fill="#f3ead9"></rect>
+<path d="M190 0H320V60H206Z" fill="#dfe8cf"></path><path d="M0 120H110L96 170H0Z" fill="#dfe8cf"></path><path d="M250 110H320V170H236Z" fill="#cfe0ea"></path>
+<g fill="none" stroke-linecap="round" stroke="#e4d6bd"><path d="M-10 84C70 78 150 92 330 70" stroke-width="13"></path><path d="M118 -10C122 48 146 100 154 180" stroke-width="10"></path><path d="M0 34L320 52" stroke-width="7"></path><path d="M244 -10L282 180" stroke-width="7"></path><path d="M40 -10L70 180" stroke-width="5"></path></g>
+<g fill="none" stroke-linecap="round" stroke="#ffffff"><path d="M-10 84C70 78 150 92 330 70" stroke-width="9"></path><path d="M118 -10C122 48 146 100 154 180" stroke-width="6.5"></path><path d="M0 34L320 52" stroke-width="4"></path><path d="M244 -10L282 180" stroke-width="4"></path><path d="M40 -10L70 180" stroke-width="3"></path></g>
+<g transform="translate(178 84)"><ellipse cy="2" rx="9" ry="3.4" fill="#4a2a1c" opacity=".25"></ellipse><g class="pin"><path d="M0 0C-11-11-13-17-13-23A13 13 0 0 1 13-23C13-17 11-11 0 0Z" fill="#6e2227" stroke="#ffffff" stroke-width="2"></path><circle cy="-23" r="4.6" fill="#fbf1dc"></circle></g></g>
+</svg>
+</a>
+<div style="position: absolute; left: 55px; top: 534px; width: 320px; display: flex; justify-content: center"><a class="btn" href="#" data-maps target="_blank" rel="noopener">شوف الموقع</a></div>
+<img loading="lazy" decoding="async" class="rv1" src="/media/x/9e1f3919e0f75f.webp" alt="" style="position: absolute; left: 65px; top: 586px; width: 300px; height: 152px; filter: drop-shadow(0 8px 8px rgba(74,42,28,.22))">
+</section>
+
+<!-- ============ فاصل ============ -->
+<div style="position: absolute; left: 0; top: 1600px; width: 430px; height: 110px; display: flex; align-items: center; justify-content: center">
+<img loading="lazy" decoding="async" class="ornIn" src="/media/x/7569ec02108adc.webp" alt="" style="width: 320px; height: 77px">
+</div>
+
+<!-- ============ 3 · اللبسة ============ -->
+<section style="position: absolute; left: 0; top: 1710px; width: 430px; height: 780px; overflow: hidden">
+<div class="rv" style="position: absolute; left: 40px; top: 20px; width: 350px; display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center">
+<h2 class="ar" style="margin: 0; font-size: 40px; font-weight: 700; line-height: 1.3">اللبسة</h2>
+<p class="bd" style="margin: 4px 0 0; font-size: 20px; line-height: 1.5">لبسة تونسية تقليدية</p>
+</div>
+<img loading="lazy" decoding="async" class="rv1" src="/media/x/77078c562e29b1.webp" alt="رسم لأربعة بنات باللبسة التونسية التقليدية بألوان مختلفة" style="position: absolute; left: 20px; top: 136px; width: 390px; height: 405px; filter: drop-shadow(0 8px 10px rgba(74,42,28,.18))">
+<div class="rv" style="position: absolute; left: 30px; top: 578px; width: 370px; display: flex; flex-direction: column; align-items: center; gap: 12px">
+<p class="bd" style="margin: 0; font-size: 18px">اختار لونك من الألوان هاذي</p>
+<div id="swatches" style="display: flex; gap: 16px; justify-content: center">
+<div class="sw"><span class="c swatch" data-def="#8e2433" style="background: #8e2433"></span><b class="bd sw-name" style="font-size: 14px; font-weight: 400">خمري</b></div>
+<div class="sw"><span class="c swatch" data-def="#211d1b" style="background: #211d1b"></span><b class="bd sw-name" style="font-size: 14px; font-weight: 400">أسود</b></div>
+<div class="sw"><span class="c swatch" data-def="#17857d" style="background: #17857d"></span><b class="bd sw-name" style="font-size: 14px; font-weight: 400">فيروزي</b></div>
+<div class="sw"><span class="c swatch" data-def="#c9a23f" style="background: #c9a23f"></span><b class="bd sw-name" style="font-size: 14px; font-weight: 400">ذهبي</b></div>
+<div class="sw"><span class="c swatch" data-def="#f2e8d5" style="background: #f2e8d5"></span><b class="bd sw-name" style="font-size: 14px; font-weight: 400">عاجي</b></div>
+</div>
+</div>
+</section>
+
+<!-- ============ 4 · تأكيد الحضور ============ -->
+<section style="position: absolute; left: 0; top: 2490px; width: 430px; height: 800px; overflow: hidden">
+<img loading="lazy" decoding="async" src="/media/x/952f6e2a7b90c9.webp" alt="" style="position: absolute; left: 0; top: 18px; width: 430px; height: 764px; mix-blend-mode: multiply">
+<div class="rv" style="position: absolute; left: 96px; top: 168px; width: 238px; display: flex; flex-direction: column; align-items: center">
+<h2 class="ar" style="margin: 0; font-size: 30px; font-weight: 700; line-height: 1.4; text-align: center">أكّدولنا حضوركم</h2>
+<svg width="140" height="18" viewBox="-80 -10 160 20" aria-hidden="true" style="margin: 2px 0 8px"><use href="#gOrn"></use></svg>
+<p class="bd" style="margin: 0 0 14px; font-size: 17px; text-align: center">حضوركم يكمّل فرحتنا</p>
+<form class="rv" id="rsvpForm" style="width: 100%; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<label for="rsvp-name" class="lb" style="font-size: 15px">الاسم واللقب</label>
+<input id="rsvp-name" class="fld" type="text" required="" autocomplete="name">
+</div>
+<fieldset style="border: 0; margin: 0; padding: 0">
+<legend class="lb" style="padding: 0; margin-bottom: 4px; font-size: 15px">باش تجي؟</legend>
+<div style="display: flex; gap: 6px">
+<label class="opt"><input type="radio" name="att" value="yes" required=""><span class="rd"></span>إي، بكل فرح</label>
+<label class="opt"><input type="radio" name="att" value="no"><span class="rd"></span>ما نجّمش</label>
+</div>
+</fieldset>
+<div style="display: flex; flex-direction: column; gap: 4px">
+<label for="rsvp-msg" class="lb" style="font-size: 15px">كلمة للعروسة</label>
+<textarea id="rsvp-msg" class="fld" rows="3" required="" style="resize: none"></textarea>
+</div>
+<div style="display: flex; justify-content: center; margin-top: 2px"><button class="btn" type="submit" id="rsvpBtn">ابعث</button></div>
+<p class="bd" id="rsvpErr" role="status" hidden style="margin: 0; padding: 8px 10px; border-radius: 6px; background: #f6e3df; color: #8c1d18; font-size: 15px; text-align: center"></p>
+</form>
+<div id="rsvpSent" hidden style="margin-top: 40px; display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center">
+<div class="ar" style="font-size: 44px; font-weight: 700; line-height: 1.3">يعيّشك!</div>
+<div class="ar" style="font-size: 22px" id="rsvpGuest"></div>
+<div class="bd" style="font-size: 19px; width: 220px" id="rsvpReply"></div>
+</div>
+</div>
+</section>
+
+<!-- ============ 5 · الختام ============ -->
+<section class="rv" style="position: absolute; left: 0; top: 3290px; width: 430px; height: 180px; background: #6e2227; border-top: 3px solid #c9a769; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; text-align: center">
+<div style="font-family: 'Aref Ruqaa', serif; font-weight: 700; font-size: 34px; line-height: 1.3; color: #f0d695">الوطية</div>
+<div style="font-family: 'Aref Ruqaa', serif; font-size: 24px; line-height: 1.4; color: #fbf1dc"><span data-c="name"></span></div>
+<div style="font-family: 'Amiri', serif; font-size: 18px; color: #f3dfc0">نستنّاو فيكم بكل فرح</div>
+</section>
+
+<div aria-hidden="true" style="position: absolute; left: 0; top: 0; width: 430px; height: 3470px; overflow: hidden; pointer-events: none; z-index: 5">
+<svg class="jas" viewBox="0 0 24 24" style="left: 46px; top: 120px; width: 17px; height: 17px; animation-delay: 1s"><use href="#jasmine"></use></svg>
+<svg class="jas" viewBox="0 0 24 24" style="left: 330px; top: 60px; width: 13px; height: 13px; animation-delay: 7s; animation-duration: 20s"><use href="#jasmine"></use></svg>
+<svg class="jas" viewBox="0 0 24 24" style="left: 180px; top: 300px; width: 11px; height: 11px; animation-delay: 12s"><use href="#jasmine"></use></svg>
+<svg class="jas" viewBox="0 0 24 24" style="left: 70px; top: 880px; width: 15px; height: 15px; animation-delay: 3s; animation-duration: 19s"><use href="#jasmine"></use></svg>
+<svg class="jas" viewBox="0 0 24 24" style="left: 352px; top: 940px; width: 12px; height: 12px; animation-delay: 9s"><use href="#jasmine"></use></svg>
+<svg class="jas" viewBox="0 0 24 24" style="left: 240px; top: 1180px; width: 16px; height: 16px; animation-delay: 5s; animation-duration: 21s"><use href="#jasmine"></use></svg>
+<svg class="jas" viewBox="0 0 24 24" style="left: 40px; top: 1740px; width: 14px; height: 14px; animation-delay: 2s"><use href="#jasmine"></use></svg>
+<svg class="jas" viewBox="0 0 24 24" style="left: 386px; top: 1800px; width: 11px; height: 11px; animation-delay: 11s; animation-duration: 18s"><use href="#jasmine"></use></svg>
+<svg class="jas" viewBox="0 0 24 24" style="left: 210px; top: 2080px; width: 13px; height: 13px; animation-delay: 6.5s"><use href="#jasmine"></use></svg>
+<svg class="jas" viewBox="0 0 24 24" style="left: 58px; top: 2520px; width: 15px; height: 15px; animation-delay: 4s; animation-duration: 20s"><use href="#jasmine"></use></svg>
+<svg class="jas" viewBox="0 0 24 24" style="left: 362px; top: 2600px; width: 12px; height: 12px; animation-delay: 10s"><use href="#jasmine"></use></svg>
+<svg class="jas" viewBox="0 0 24 24" style="left: 150px; top: 2900px; width: 14px; height: 14px; animation-delay: 8s; animation-duration: 19s"><use href="#jasmine"></use></svg>
+</div>
+
+</div>
+</div>
+<script>
+// ===== Données personnalisables (formulaire Farha) =====
+const CONFIG = {
+  name: "سارة",
+  date: "2027-07-10T17:00:00",
+  venue: "قاعة الياسمين",
+  address: "سوسة",
+  mapQuery: "",
+  mapLink: ""
+};
+
+(function () {
+  'use strict';
+  var C = CONFIG, $ = function (s) { return document.querySelector(s); }, all = function (s) { return [].slice.call(document.querySelectorAll(s)); };
+  var DAYS = ['الأحد', 'الإثنين', 'الثلاثاء', 'الإربعاء', 'الخميس', 'الجمعة', 'السبت'];
+  var MONTHS = ['جانفي', 'فيفري', 'مارس', 'أفريل', 'ماي', 'جوان', 'جويلية', 'أوت', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'];
+  var pad = function (n) { return (n < 10 ? '0' : '') + n; };
+  // la page (430 px de large) occupe toute la largeur de l'écran
+  var root = $('#root'), wrap = $('#wrap');
+  function fit() { var s = Math.min(innerWidth / 430, 1.15); root.style.transform = 'scale(' + s + ')'; wrap.style.width = (430 * s) + 'px'; wrap.style.height = (3470 * s) + 'px'; }
+  fit(); addEventListener('resize', fit);
+  // textes
+  var d = new Date(C.date), ok = !isNaN(d.getTime()), addr = String(C.address || '').trim();
+  var V = {
+    name: C.name || '',
+    day: ok ? DAYS[d.getDay()] : '',
+    date: ok ? d.getDate() + ' ' + MONTHS[d.getMonth()] + ' ' + d.getFullYear() : '',
+    time: ok ? 'على الساعة ' + pad(d.getHours()) + ':' + pad(d.getMinutes()) : '',
+    venue: C.venue || '',
+    city: addr ? (/تونس|tunis/i.test(addr) ? addr : addr + '، تونس') : 'تونس'
+  };
+  all('[data-c]').forEach(function (el) { var v = V[el.getAttribute('data-c')]; if (v != null) el.textContent = v; });
+  var q = C.mapQuery || [C.venue, C.address].filter(Boolean).join(', ');
+  var maps = /^https:\/\//.test(C.mapLink || '') ? C.mapLink : 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(q);
+  all('[data-maps]').forEach(function (a) { a.href = maps; });
+  // couleurs de la tenue : si une couleur est changée, son nom (خمري، أسود…) n'est plus juste et se cache
+  function toHex(c) { var m = String(c).match(/[\d.]+/g); return m && m.length >= 3 ? '#' + m.slice(0, 3).map(function (x) { return ('0' + Math.round(+x).toString(16)).slice(-2); }).join('') : ''; }
+  var sws = all('#swatches .swatch');
+  function names() { sws.forEach(function (s) { var n = s.nextElementSibling, cur = toHex(getComputedStyle(s).backgroundColor); if (n) n.style.visibility = (!cur || cur === s.getAttribute('data-def')) ? '' : 'hidden'; }); }
+  try { new MutationObserver(names).observe($('#swatches'), { attributes: true, subtree: true, attributeFilter: ['style'] }); } catch (e) {}
+  names();
+  // choix « إي / ما نجّمش »
+  var form = $('#rsvpForm'), opts = all('#rsvpForm .opt');
+  opts.forEach(function (l) { l.querySelector('input').addEventListener('change', function () { opts.forEach(function (o) { o.classList.toggle('on', o.querySelector('input').checked); }); }); });
+  // réponse : envoyée au site Farha, qui la transmet par e-mail
+  var sending = false;
+  form.addEventListener('submit', function (ev) {
+    ev.preventDefault(); if (sending) return;
+    var name = $('#rsvp-name').value.trim(), msg = $('#rsvp-msg').value.trim(), att = (form.querySelector('input[name=att]:checked') || {}).value;
+    var err = $('#rsvpErr'); err.hidden = true;
+    if (!name || !att || !msg) { err.textContent = 'عمّر الاسم، اختار إذا باش تجي، واكتب كلمة للعروسة.'; err.hidden = false; return; }
+    var id = Math.random().toString(36).slice(2), done = false, btn = $('#rsvpBtn');
+    sending = true; btn.textContent = '…';
+    function finish(okk, e) {
+      if (done) return; done = true; removeEventListener('message', on); sending = false; btn.textContent = 'ابعث';
+      if (okk) {
+        $('#rsvpGuest').textContent = name;
+        $('#rsvpReply').textContent = att === 'no' ? 'توحّشناك، ويعيّشك على كلمتك الحلوة' : 'نستنّاو فيك بكل فرح';
+        form.hidden = true; $('#rsvpSent').hidden = false;
+      } else { err.textContent = e || 'ما نجّمناش نبعثو الرد. ثبّت في الكونكسيون وعاود.'; err.hidden = false; }
+    }
+    function on(e) { var x = e.data; if (x && x.type === 'farha:rsvp-result' && x.id === id) finish(x.ok, x.error); }
+    addEventListener('message', on);
+    if (window.parent === window) { finish(true); return; }
+    try { parent.postMessage({ type: 'farha:rsvp', id: id, name: name, attending: att === 'yes', message: msg.slice(0, 560) }, '*'); } catch (e) {}
+    setTimeout(function () { finish(true); }, 15000);
+  });
+})();
+</script>
+</body>
+</html>
