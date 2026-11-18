@@ -25,7 +25,8 @@ const FILE_TEMPLATES = {
   'perla': ['Perla', 'Mariage'], 'carthage': ['Carthage', 'Mariage'], 'lotus-wedding': ['Mariage · Lotus', 'Mariage'],
   'henna-rideau-rouge': ['Henna', '7enna'], 'henna-sultan': ['حنة السلطان', '7enna'],
   'anniversaire-dino': ['Dino Jungle', 'Anniversaire'], 'anniversaire-super-heros': ['Spiderman', 'Anniversaire'], 'huntrixConcert': ['Huntrix', 'Anniversaire'],
-  'baby-shower': ['Fille ou garçon ?', 'Baby shower'], 'outeya-gold': ['الوطية · Gold', 'Wteya']
+  'baby-shower': ['Fille ou garçon ?', 'Baby shower'], 'outeya-gold': ['الوطية · Gold', 'Wteya'],
+  'forest-wedding': ['Forêt', 'Mariage'], 'jacaranda': ['Jacaranda', 'Mariage'], 'orchid-wedding': ['Orchidée', 'Mariage']
 };
 const MAX_PER_EMAIL_10_MIN = 5;       // Limite anti-abus
 const KINDS = ['template', 'test', 'sur_mesure'];
