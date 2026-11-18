@@ -49,12 +49,14 @@ h1{font:500 clamp(40px,7vw,68px)/1.02 'Cormorant Garamond',Georgia,serif;color:v
 main{max-width:1100px;margin:0 auto;padding:0 20px 40px}
 section{margin:40px 0}
 h2{font:600 clamp(28px,4vw,38px)/1.15 'Cormorant Garamond',Georgia,serif;color:var(--wine);margin:0 0 18px;text-align:center}
-.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:23px;align-items:stretch}
-@media(min-width:1000px){.grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}.grid .template-artwork{height:300px}.grid .template-meta h3{font-size:25px}}
-@media(max-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.template-artwork{height:330px}}
-@media(max-width:560px){.grid{grid-template-columns:1fr;max-width:430px;margin:auto}.template-artwork{height:380px}}
-.template-card{min-width:0;overflow:hidden;border-radius:23px;background:#fffaf2;border:1px solid #e8d9cb;box-shadow:0 12px 35px rgba(76,33,48,.067);transition:transform .25s,box-shadow .25s}
-.template-card:hover{transform:translateY(-5px);box-shadow:0 19px 45px rgba(76,33,48,.153)}
+.grid{display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;padding:4px 2px 4px;scrollbar-width:none}
+.grid::-webkit-scrollbar{display:none}
+.grid>.template-card{flex:0 0 clamp(260px,23vw,310px);scroll-snap-align:start}
+@media(min-width:901px){.grid.few{justify-content:center}}
+@media(max-width:900px){.grid{margin:0 -20px;padding-left:20px;padding-right:20px;scroll-padding-left:20px}.grid>.template-card{flex-basis:min(80vw,320px)}.template-artwork{height:330px}}
+@media(max-width:560px){.template-artwork{height:380px}}
+.template-card{min-width:0;overflow:hidden;border-radius:23px;background:#fffaf2;border:1px solid #e8d9cb;transition:transform .25s}
+.template-card:hover{transform:translateY(-5px)}
 .template-artwork{display:block;height:365px;position:relative;overflow:hidden;background:#ebe5db;text-decoration:none}
 .mk-stage{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:6%}
 .mk-phone{position:relative;height:82%;aspect-ratio:9/19;border-radius:22px;background:#18181a;padding:5px;box-shadow:0 14px 26px rgba(60,40,30,.28),inset 0 0 0 1.5px #3a3a3e;flex:0 0 auto}
@@ -71,6 +73,7 @@ h2{font:600 clamp(28px,4vw,38px)/1.15 'Cormorant Garamond',Georgia,serif;color:v
 .template-tag{justify-self:start;background:#f5e9d7;border-radius:30px;color:#8e5e32;padding:6px 12px;font:700 11px 'DM Sans',sans-serif}
 .template-price{justify-self:end;white-space:nowrap}
 .template-price .pr-now{font:800 19px/1 'DM Sans',sans-serif;color:#4a0916}
+.template-price .pr-old{margin-left:6px;font:500 12px/1 'DM Sans',sans-serif;color:#8c7d76;text-decoration:line-through;text-decoration-thickness:1.5px}
 .template-meta h3{grid-column:1/-1;font:500 31px 'Cormorant Garamond',Georgia,serif;color:#4c2836;margin:13px 0 2px}
 .template-meta p{grid-column:1/-1;color:#88766c;font-size:13px;line-height:1.5;min-height:39px;margin:0 0 2px}
 .why{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
@@ -121,7 +124,7 @@ a:focus-visible,summary:focus-visible{outline:2px solid #b07c34;outline-offset:2
 <span class="eyebrow">✦ Mariage ✦</span>
 <h1>Invitation de mariage digitale</h1>
 <p class="lead">Une invitation qui s’ouvre comme une lettre d’amour, avec votre musique, le lieu sur Google Maps et la réponse de chaque invité. Vous l’envoyez en un lien sur WhatsApp, à toute la famille, en Tunisie comme à l’étranger.</p>
-<div class="price">À partir de 86 DT</div>
+<div class="price" data-from="Mariage">À partir de 86 DT</div>
 <div class="btns"><a class="cta" href="#modeles">Voir les modèles</a><a class="cta ghost" href="https://wa.me/21692891770?text=Bonjour%20Farha%20%F0%9F%92%8C%20Je%20souhaite%20une%20invitation%20de%20mariage%20digitale." target="_blank" rel="noopener">Une question ? WhatsApp</a></div>
 </div>
 <main>
@@ -129,25 +132,25 @@ a:focus-visible,summary:focus-visible{outline:2px solid #b07c34;outline-offset:2
 <h2 id="t-modeles">Nos modèles · Mariage</h2>
 <div class="grid">
 <article class="template-card"><a class="template-artwork mk" href="/#modele=carthage" data-model="carthage" aria-label="Voir la démo Carthage"><div class="mk-stage"><div class="mk-phone"><div class="scr"><img class="card-shot" alt="Aperçu de l’invitation Carthage" loading="lazy" decoding="async" src="/templates/apercus/carthage.webp"></div></div><div class="mk-card"><img class="mk-suite" alt="" loading="lazy" decoding="async" src="/templates/apercus/carthage-suite.jpg"></div></div><span class="demo-cta">◉&nbsp;&nbsp;CLIQUEZ ICI</span></a>
-<div class="template-meta"><span class="template-tag">Mariage</span><span class="template-price"><span class="pr-now">86 DT</span></span><h3>Carthage</h3><p>Sceau de Tanit à briser, parchemin d’Élyssa, éléphants d’Hannibal, galère punique, date dorée à gratter et un mot pour les mariés.</p></div></article>
+<div class="template-meta"><span class="template-tag">Mariage</span><span class="template-price" data-cat="Mariage"><span class="pr-now">86 DT</span><s class="pr-old" aria-label="au lieu de 116 DT">116 DT</s></span><h3>Carthage</h3><p>Sceau de Tanit à briser, parchemin d’Élyssa, éléphants d’Hannibal, galère punique, date dorée à gratter et un mot pour les mariés.</p></div></article>
 <article class="template-card"><a class="template-artwork mk" href="/#modele=sidi" data-model="sidi" aria-label="Voir la démo Sidi Bou Said · Portes bleues"><div class="mk-stage"><div class="mk-phone"><div class="scr"><img class="card-shot" alt="Aperçu de l’invitation Sidi Bou Said · Portes bleues" loading="lazy" decoding="async" src="/media/x/763a97d0d7b873.webp"></div></div><div class="mk-card"><img class="mk-suite" alt="" loading="lazy" decoding="async" src="/templates/apercus/sidi-suite.jpg"></div></div><span class="demo-cta">◉&nbsp;&nbsp;CLIQUEZ ICI</span></a>
-<div class="template-meta"><span class="template-tag">Mariage</span><span class="template-price"><span class="pr-now">86 DT</span></span><h3>Sidi Bou Said · Portes bleues</h3><p>Portes bleues interactives, jasmin et compte à rebours.</p></div></article>
+<div class="template-meta"><span class="template-tag">Mariage</span><span class="template-price" data-cat="Mariage"><span class="pr-now">86 DT</span><s class="pr-old" aria-label="au lieu de 116 DT">116 DT</s></span><h3>Sidi Bou Said · Portes bleues</h3><p>Portes bleues interactives, jasmin et compte à rebours.</p></div></article>
 <article class="template-card"><a class="template-artwork mk" href="/#modele=perla" data-model="perla" aria-label="Voir la démo Perla"><div class="mk-stage"><div class="mk-phone"><div class="scr"><img class="card-shot" alt="Aperçu de l’invitation Perla" loading="lazy" decoding="async" src="/templates/apercus/perla.webp"></div></div><div class="mk-card"><img class="mk-suite" alt="" loading="lazy" decoding="async" src="/templates/apercus/perla-suite.jpg"></div></div><span class="demo-cta">◉&nbsp;&nbsp;CLIQUEZ ICI</span></a>
-<div class="template-meta"><span class="template-tag">Mariage</span><span class="template-price"><span class="pr-now">86 DT</span></span><h3>Perla</h3><p>Papier ivoire en relief, cygnes, fleur de perles, prénoms en français et en arabe, lieu et un mot pour les mariés.</p></div></article>
+<div class="template-meta"><span class="template-tag">Mariage</span><span class="template-price" data-cat="Mariage"><span class="pr-now">86 DT</span><s class="pr-old" aria-label="au lieu de 116 DT">116 DT</s></span><h3>Perla</h3><p>Papier ivoire en relief, cygnes, fleur de perles, prénoms en français et en arabe, lieu et un mot pour les mariés.</p></div></article>
 <article class="template-card"><a class="template-artwork mk" href="/#modele=orchid-wedding" data-model="orchid-wedding" aria-label="Voir la démo Orchidée"><div class="mk-stage"><div class="mk-phone"><div class="scr"><img class="card-shot" alt="Aperçu de l’invitation Orchidée" loading="lazy" decoding="async" src="/templates/apercus/orchid-wedding.webp"></div></div><div class="mk-card"><img class="mk-suite" alt="" loading="lazy" decoding="async" src="/templates/apercus/orchid-wedding-suite.jpg"></div></div><span class="demo-cta">◉&nbsp;&nbsp;CLIQUEZ ICI</span></a>
-<div class="template-meta"><span class="template-tag">Mariage</span><span class="template-price"><span class="pr-now">86 DT</span></span><h3>Orchidée</h3><p>Carte fuchsia et paon, colibris et orchidées, cadre photo, date et lieu avec la carte, couleurs de la tenue et réponses des invités.</p></div></article>
+<div class="template-meta"><span class="template-tag">Mariage</span><span class="template-price" data-cat="Mariage"><span class="pr-now">86 DT</span><s class="pr-old" aria-label="au lieu de 116 DT">116 DT</s></span><h3>Orchidée</h3><p>Carte fuchsia et paon, colibris et orchidées, cadre photo, date et lieu avec la carte, couleurs de la tenue et réponses des invités.</p></div></article>
 <article class="template-card"><a class="template-artwork mk" href="/#modele=jacaranda" data-model="jacaranda" aria-label="Voir la démo Jacaranda"><div class="mk-stage"><div class="mk-phone"><div class="scr"><img class="card-shot" alt="Aperçu de l’invitation Jacaranda" loading="lazy" decoding="async" src="/templates/apercus/jacaranda.webp"></div></div><div class="mk-card"><img class="mk-suite" alt="" loading="lazy" decoding="async" src="/templates/apercus/jacaranda-suite.jpg"></div></div><span class="demo-cta">◉&nbsp;&nbsp;CLIQUEZ ICI</span></a>
-<div class="template-meta"><span class="template-tag">Mariage</span><span class="template-price"><span class="pr-now">86 DT</span></span><h3>Jacaranda</h3><p>Arche de glycines et pétales mauves, bougies, cadre photo lilas, date et lieu avec la carte, couleurs de la tenue et réponses des invités.</p></div></article>
+<div class="template-meta"><span class="template-tag">Mariage</span><span class="template-price" data-cat="Mariage"><span class="pr-now">86 DT</span><s class="pr-old" aria-label="au lieu de 116 DT">116 DT</s></span><h3>Jacaranda</h3><p>Arche de glycines et pétales mauves, bougies, cadre photo lilas, date et lieu avec la carte, couleurs de la tenue et réponses des invités.</p></div></article>
 <article class="template-card"><a class="template-artwork mk" href="/#modele=forest-wedding" data-model="forest-wedding" aria-label="Voir la démo Forêt"><div class="mk-stage"><div class="mk-phone"><div class="scr"><img class="card-shot" alt="Aperçu de l’invitation Forêt" loading="lazy" decoding="async" src="/templates/apercus/forest-wedding.webp"></div></div><div class="mk-card"><img class="mk-suite" alt="" loading="lazy" decoding="async" src="/templates/apercus/forest-wedding-suite.jpg"></div></div><span class="demo-cta">◉&nbsp;&nbsp;CLIQUEZ ICI</span></a>
-<div class="template-meta"><span class="template-tag">Mariage</span><span class="template-price"><span class="pr-now">86 DT</span></span><h3>Forêt</h3><p>Guirlandes de lumières et papillons dans les bois, cadre photo en lierre, date et lieu avec la carte, couleurs de la tenue et réponses des invités.</p></div></article>
+<div class="template-meta"><span class="template-tag">Mariage</span><span class="template-price" data-cat="Mariage"><span class="pr-now">86 DT</span><s class="pr-old" aria-label="au lieu de 116 DT">116 DT</s></span><h3>Forêt</h3><p>Guirlandes de lumières et papillons dans les bois, cadre photo en lierre, date et lieu avec la carte, couleurs de la tenue et réponses des invités.</p></div></article>
 <article class="template-card"><a class="template-artwork mk" href="/#modele=enchanted-garden" data-model="enchanted-garden" aria-label="Voir la démo Jardin enchanté"><div class="mk-stage"><div class="mk-phone"><div class="scr"><img class="card-shot" alt="Aperçu de l’invitation Jardin enchanté" loading="lazy" decoding="async" src="/templates/apercus/enchanted-garden.webp"></div></div><div class="mk-card"><img class="mk-suite" alt="" loading="lazy" decoding="async" src="/templates/apercus/enchanted-garden-suite.jpg"></div></div><span class="demo-cta">◉&nbsp;&nbsp;CLIQUEZ ICI</span></a>
-<div class="template-meta"><span class="template-tag">Mariage</span><span class="template-price"><span class="pr-now">86 DT</span></span><h3>Jardin enchanté</h3><p>Portail fleuri qui s’ouvre, jardin en scènes, compte à rebours, lieu, dress code et message pour les mariés.</p></div></article>
+<div class="template-meta"><span class="template-tag">Mariage</span><span class="template-price" data-cat="Mariage"><span class="pr-now">86 DT</span><s class="pr-old" aria-label="au lieu de 116 DT">116 DT</s></span><h3>Jardin enchanté</h3><p>Portail fleuri qui s’ouvre, jardin en scènes, compte à rebours, lieu, dress code et message pour les mariés.</p></div></article>
 <article class="template-card"><a class="template-artwork mk" href="/#modele=bord-de-mer" data-model="bord-de-mer" aria-label="Voir la démo Les vagues"><div class="mk-stage"><div class="mk-phone"><div class="scr"><img class="card-shot" alt="Aperçu de l’invitation Les vagues" loading="lazy" decoding="async" src="/templates/apercus/bord-de-mer.webp"></div></div><div class="mk-card"><img class="mk-suite" alt="" loading="lazy" decoding="async" src="/templates/apercus/bord-de-mer-suite.jpg"></div></div><span class="demo-cta">◉&nbsp;&nbsp;CLIQUEZ ICI</span></a>
-<div class="template-meta"><span class="template-tag">Mariage</span><span class="template-price"><span class="pr-now">86 DT</span></span><h3>Les vagues</h3><p>Noix de coco qui plonge, cadre de coquillages pour votre photo, volets qui s’ouvrent sur le lieu et un mot pour les mariés.</p></div></article>
+<div class="template-meta"><span class="template-tag">Mariage</span><span class="template-price" data-cat="Mariage"><span class="pr-now">86 DT</span><s class="pr-old" aria-label="au lieu de 116 DT">116 DT</s></span><h3>Les vagues</h3><p>Noix de coco qui plonge, cadre de coquillages pour votre photo, volets qui s’ouvrent sur le lieu et un mot pour les mariés.</p></div></article>
 <article class="template-card"><a class="template-artwork mk" href="/#modele=save-the-date-olive" data-model="save-the-date-olive" aria-label="Voir la démo Olive"><div class="mk-stage"><div class="mk-phone"><div class="scr"><img class="card-shot" alt="Aperçu de l’invitation Olive" loading="lazy" decoding="async" src="/templates/apercus/save-the-date-olive.webp"></div></div><div class="mk-card"><img class="mk-suite" alt="" loading="lazy" decoding="async" src="/templates/apercus/save-the-date-olive-suite.jpg"></div></div><span class="demo-cta">◉&nbsp;&nbsp;CLIQUEZ ICI</span></a>
-<div class="template-meta"><span class="template-tag">Mariage</span><span class="template-price"><span class="pr-now">86 DT</span></span><h3>Olive</h3><p>Niche en dentelle, bande photomaton, enveloppe avec vinyle, cœur en dentelle et un mot pour les mariés.</p></div></article>
+<div class="template-meta"><span class="template-tag">Mariage</span><span class="template-price" data-cat="Mariage"><span class="pr-now">86 DT</span><s class="pr-old" aria-label="au lieu de 116 DT">116 DT</s></span><h3>Olive</h3><p>Niche en dentelle, bande photomaton, enveloppe avec vinyle, cœur en dentelle et un mot pour les mariés.</p></div></article>
 <article class="template-card"><a class="template-artwork mk" href="/#modele=sarah" data-model="sarah" aria-label="Voir la démo Jardin des Oliviers"><div class="mk-stage"><div class="mk-phone"><div class="scr"><img class="card-shot" alt="Aperçu de l’invitation Jardin des Oliviers" loading="lazy" decoding="async" src="/media/x/2deff7dac97263.webp"></div></div><div class="mk-card"><img class="mk-suite" alt="" loading="lazy" decoding="async" src="/templates/apercus/sarah-suite.jpg"></div></div><span class="demo-cta">◉&nbsp;&nbsp;CLIQUEZ ICI</span></a>
-<div class="template-meta"><span class="template-tag">Mariage</span><span class="template-price"><span class="pr-now">86 DT</span></span><h3>Jardin des Oliviers</h3><p>Pétales romantiques, musique, compte à rebours et RSVP.</p></div></article>
+<div class="template-meta"><span class="template-tag">Mariage</span><span class="template-price" data-cat="Mariage"><span class="pr-now">86 DT</span><s class="pr-old" aria-label="au lieu de 116 DT">116 DT</s></span><h3>Jardin des Oliviers</h3><p>Pétales romantiques, musique, compte à rebours et RSVP.</p></div></article>
 </div>
 </section>
 <section aria-labelledby="t-why">
@@ -208,6 +211,20 @@ a:focus-visible,summary:focus-visible{outline:2px solid #b07c34;outline-offset:2
  document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[href]');if(!a)return;var h=a.getAttribute('href')||'';
   if(h.indexOf('wa.me/21692891770')>-1)ev('contact_whatsapp',{page:location.pathname});
   else if(a.hasAttribute('data-model'))ev('select_item',{modele:a.getAttribute('data-model'),page:location.pathname});},true);
+})();
+</script>
+<script>
+// Prix : mêmes règles que la page d'accueil (index.html, bloc FARHA-PRIX-CARTES). À garder identiques.
+(function(){
+ var FIXED={'Mariage':86,'Anniversaire':24,'7enna':36,'Wteya':86,'Baby shower':36,'Tahara':30};
+ var OLD={'Anniversaire':29,'Mariage':116,'7enna':41,'Wteya':116,'Baby shower':41};
+ var PROMO={start:Date.UTC(2026,10,19,23,0,0),end:Date.UTC(2026,10,27,23,0,0),keep:.34};
+ var n=Date.now();if(!(n>=PROMO.start&&n<PROMO.end))return;
+ function orig(c){return OLD[c]||FIXED[c]}
+ function now(c){return Math.round(orig(c)*PROMO.keep)}
+ document.querySelectorAll('.template-price[data-cat]').forEach(function(el){var c=el.getAttribute('data-cat');if(!FIXED[c])return;
+  el.innerHTML='<span class="pr-now">'+now(c)+' DT</span><s class="pr-old" aria-label="au lieu de '+orig(c)+' DT">'+orig(c)+' DT</s>'});
+ var f=document.querySelector('.price[data-from]');if(f){var c=f.getAttribute('data-from');if(FIXED[c])f.innerHTML='Promo Happy Friday : à partir de '+now(c)+' DT <s style="opacity:.6">'+orig(c)+' DT</s>'}
 })();
 </script>
 </body>

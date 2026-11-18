@@ -49,12 +49,14 @@ h1{font:500 clamp(40px,7vw,68px)/1.02 'Cormorant Garamond',Georgia,serif;color:v
 main{max-width:1100px;margin:0 auto;padding:0 20px 40px}
 section{margin:40px 0}
 h2{font:600 clamp(28px,4vw,38px)/1.15 'Cormorant Garamond',Georgia,serif;color:var(--wine);margin:0 0 18px;text-align:center}
-.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:23px;align-items:stretch}
-@media(min-width:1000px){.grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}.grid .template-artwork{height:300px}.grid .template-meta h3{font-size:25px}}
-@media(max-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.template-artwork{height:330px}}
-@media(max-width:560px){.grid{grid-template-columns:1fr;max-width:430px;margin:auto}.template-artwork{height:380px}}
-.template-card{min-width:0;overflow:hidden;border-radius:23px;background:#fffaf2;border:1px solid #e8d9cb;box-shadow:0 12px 35px rgba(76,33,48,.067);transition:transform .25s,box-shadow .25s}
-.template-card:hover{transform:translateY(-5px);box-shadow:0 19px 45px rgba(76,33,48,.153)}
+.grid{display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;padding:4px 2px 4px;scrollbar-width:none}
+.grid::-webkit-scrollbar{display:none}
+.grid>.template-card{flex:0 0 clamp(260px,23vw,310px);scroll-snap-align:start}
+@media(min-width:901px){.grid.few{justify-content:center}}
+@media(max-width:900px){.grid{margin:0 -20px;padding-left:20px;padding-right:20px;scroll-padding-left:20px}.grid>.template-card{flex-basis:min(80vw,320px)}.template-artwork{height:330px}}
+@media(max-width:560px){.template-artwork{height:380px}}
+.template-card{min-width:0;overflow:hidden;border-radius:23px;background:#fffaf2;border:1px solid #e8d9cb;transition:transform .25s}
+.template-card:hover{transform:translateY(-5px)}
 .template-artwork{display:block;height:365px;position:relative;overflow:hidden;background:#ebe5db;text-decoration:none}
 .mk-stage{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:6%}
 .mk-phone{position:relative;height:82%;aspect-ratio:9/19;border-radius:22px;background:#18181a;padding:5px;box-shadow:0 14px 26px rgba(60,40,30,.28),inset 0 0 0 1.5px #3a3a3e;flex:0 0 auto}
@@ -71,6 +73,7 @@ h2{font:600 clamp(28px,4vw,38px)/1.15 'Cormorant Garamond',Georgia,serif;color:v
 .template-tag{justify-self:start;background:#f5e9d7;border-radius:30px;color:#8e5e32;padding:6px 12px;font:700 11px 'DM Sans',sans-serif}
 .template-price{justify-self:end;white-space:nowrap}
 .template-price .pr-now{font:800 19px/1 'DM Sans',sans-serif;color:#4a0916}
+.template-price .pr-old{margin-left:6px;font:500 12px/1 'DM Sans',sans-serif;color:#8c7d76;text-decoration:line-through;text-decoration-thickness:1.5px}
 .template-meta h3{grid-column:1/-1;font:500 31px 'Cormorant Garamond',Georgia,serif;color:#4c2836;margin:13px 0 2px}
 .template-meta p{grid-column:1/-1;color:#88766c;font-size:13px;line-height:1.5;min-height:39px;margin:0 0 2px}
 .why{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
@@ -121,15 +124,15 @@ a:focus-visible,summary:focus-visible{outline:2px solid #b07c34;outline-offset:2
 <span class="eyebrow">✦ Baby shower ✦</span>
 <h1>Invitation baby shower digitale</h1>
 <p class="lead">Fille ou garçon ? Laissez vos invités parier dès l’invitation. Une affiche qui se déroule, une enveloppe qui s’ouvre, le programme de la fête et un compte à rebours jusqu’au grand moment.</p>
-<div class="price">À partir de 36 DT</div>
+<div class="price" data-from="Baby shower">À partir de 36 DT</div>
 <div class="btns"><a class="cta" href="#modeles">Voir les modèles</a><a class="cta ghost" href="https://wa.me/21692891770?text=Bonjour%20Farha%20%F0%9F%92%8C%20Je%20souhaite%20une%20invitation%20baby%20shower%20digitale." target="_blank" rel="noopener">Une question ? WhatsApp</a></div>
 </div>
 <main>
 <section id="modeles" aria-labelledby="t-modeles">
 <h2 id="t-modeles">Notre modèle · Baby shower</h2>
-<div class="grid">
+<div class="grid few">
 <article class="template-card"><a class="template-artwork mk" href="/#modele=baby-shower" data-model="baby-shower" aria-label="Voir la démo Fille ou garçon ?"><div class="mk-stage"><div class="mk-phone"><div class="scr"><img class="card-shot" alt="Aperçu de l’invitation Fille ou garçon ?" loading="lazy" decoding="async" src="/templates/apercus/baby-shower.webp"></div></div><div class="mk-card"><img class="mk-suite" alt="" loading="lazy" decoding="async" src="/templates/apercus/baby-shower-suite.jpg"></div></div><span class="demo-cta">◉&nbsp;&nbsp;CLIQUEZ ICI</span></a>
-<div class="template-meta"><span class="template-tag">Baby shower</span><span class="template-price"><span class="pr-now">36 DT</span></span><h3>Fille ou garçon ?</h3><p>Affiche en papier qui se déroule, enveloppe qui s’ouvre, programme, compte à rebours et pronostic garçon ou fille.</p></div></article>
+<div class="template-meta"><span class="template-tag">Baby shower</span><span class="template-price" data-cat="Baby shower"><span class="pr-now">36 DT</span><s class="pr-old" aria-label="au lieu de 41 DT">41 DT</s></span><h3>Fille ou garçon ?</h3><p>Affiche en papier qui se déroule, enveloppe qui s’ouvre, programme, compte à rebours et pronostic garçon ou fille.</p></div></article>
 </div>
 </section>
 <section aria-labelledby="t-why">
@@ -187,6 +190,20 @@ a:focus-visible,summary:focus-visible{outline:2px solid #b07c34;outline-offset:2
  document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[href]');if(!a)return;var h=a.getAttribute('href')||'';
   if(h.indexOf('wa.me/21692891770')>-1)ev('contact_whatsapp',{page:location.pathname});
   else if(a.hasAttribute('data-model'))ev('select_item',{modele:a.getAttribute('data-model'),page:location.pathname});},true);
+})();
+</script>
+<script>
+// Prix : mêmes règles que la page d'accueil (index.html, bloc FARHA-PRIX-CARTES). À garder identiques.
+(function(){
+ var FIXED={'Mariage':86,'Anniversaire':24,'7enna':36,'Wteya':86,'Baby shower':36,'Tahara':30};
+ var OLD={'Anniversaire':29,'Mariage':116,'7enna':41,'Wteya':116,'Baby shower':41};
+ var PROMO={start:Date.UTC(2026,10,19,23,0,0),end:Date.UTC(2026,10,27,23,0,0),keep:.34};
+ var n=Date.now();if(!(n>=PROMO.start&&n<PROMO.end))return;
+ function orig(c){return OLD[c]||FIXED[c]}
+ function now(c){return Math.round(orig(c)*PROMO.keep)}
+ document.querySelectorAll('.template-price[data-cat]').forEach(function(el){var c=el.getAttribute('data-cat');if(!FIXED[c])return;
+  el.innerHTML='<span class="pr-now">'+now(c)+' DT</span><s class="pr-old" aria-label="au lieu de '+orig(c)+' DT">'+orig(c)+' DT</s>'});
+ var f=document.querySelector('.price[data-from]');if(f){var c=f.getAttribute('data-from');if(FIXED[c])f.innerHTML='Promo Happy Friday : à partir de '+now(c)+' DT <s style="opacity:.6">'+orig(c)+' DT</s>'}
 })();
 </script>
 </body>
