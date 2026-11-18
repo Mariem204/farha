@@ -19,7 +19,7 @@
 <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="/clarity.js" defer></script>
 <style>
 :root{--bg:#f6f0e6;--card:#fffaf4;--ink:#3d2f2b;--soft:#7d6760;--wine:#4a0916;--wine2:#6a1a2c;--line:#e5d8cb;--gold:#a57e5a;--cream:#f6e7d2}
@@ -49,15 +49,30 @@ h1{font:500 clamp(40px,7vw,68px)/1.02 'Cormorant Garamond',Georgia,serif;color:v
 main{max-width:1100px;margin:0 auto;padding:0 20px 40px}
 section{margin:40px 0}
 h2{font:600 clamp(28px,4vw,38px)/1.15 'Cormorant Garamond',Georgia,serif;color:var(--wine);margin:0 0 18px;text-align:center}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:18px}
-@media(max-width:560px){.grid{grid-template-columns:1fr 1fr;gap:12px}.card .body{padding:12px}.card h3{font-size:19px}.card p{font-size:13px}.card .cta{padding:9px 10px;font-size:13px}.card .shot{max-height:300px}}
-.card{background:var(--card);border:1px solid var(--line);border-radius:22px;overflow:hidden;display:flex;flex-direction:column}
-.card .shot{aspect-ratio:9/16;max-height:380px;background:#efe4d8;overflow:hidden}
-.card .shot img{width:100%;height:100%;object-fit:cover;object-position:top}
-.card .body{padding:16px 18px 18px;display:flex;flex-direction:column;gap:8px;flex:1}
-.card h3{margin:0;font:600 23px/1.15 'Cormorant Garamond',Georgia,serif;color:var(--wine)}
-.card p{margin:0;font-size:14px;color:var(--soft);flex:1}
-.card .cta{padding:10px 16px;font-size:14px;margin-top:6px}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:23px;align-items:stretch}
+@media(min-width:1000px){.grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}.grid .template-artwork{height:300px}.grid .template-meta h3{font-size:25px}}
+@media(max-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.template-artwork{height:330px}}
+@media(max-width:560px){.grid{grid-template-columns:1fr;max-width:430px;margin:auto}.template-artwork{height:380px}}
+.template-card{min-width:0;overflow:hidden;border-radius:23px;background:#fffaf2;border:1px solid #e8d9cb;box-shadow:0 12px 35px rgba(76,33,48,.067);transition:transform .25s,box-shadow .25s}
+.template-card:hover{transform:translateY(-5px);box-shadow:0 19px 45px rgba(76,33,48,.153)}
+.template-artwork{display:block;height:365px;position:relative;overflow:hidden;background:#ebe5db;text-decoration:none}
+.mk-stage{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:6%}
+.mk-phone{position:relative;height:82%;aspect-ratio:9/19;border-radius:22px;background:#18181a;padding:5px;box-shadow:0 14px 26px rgba(60,40,30,.28),inset 0 0 0 1.5px #3a3a3e;flex:0 0 auto}
+.mk-phone:before{content:"";position:absolute;left:50%;top:9px;width:30%;height:9px;margin-left:-15%;border-radius:9px;background:#0b0b0c;z-index:3}
+.mk-phone .scr{position:relative;width:100%;height:100%;border-radius:17px;overflow:hidden;background:#fff}
+.mk-card{position:relative;height:58%;aspect-ratio:1/2;border-radius:10px;overflow:hidden;background:#f3ece4;box-shadow:0 12px 22px rgba(60,40,30,.2);flex:0 0 auto;margin-top:6%}
+.mk .scr>img,.mk-card>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.mk .card-shot{object-position:center top}
+.mk-card img.mk-suite{object-position:50% 0}
+.demo-cta{position:absolute;bottom:25px;left:25px;z-index:5;border:1px solid rgba(255,255,255,.6);border-radius:50px;background:rgba(25,20,20,.72);-webkit-backdrop-filter:blur(9px);backdrop-filter:blur(9px);color:#fff;padding:11px 17px;font:600 10px 'DM Sans',sans-serif;letter-spacing:.19em;box-shadow:0 5px 20px rgba(0,0,0,.267);transition:background .2s}
+.template-artwork:hover .demo-cta{background:#4a0916;border-color:#f5e9d7}
+.template-artwork:focus-visible{outline:3px solid #b48a43;outline-offset:-3px}
+.template-meta{padding:14px 19px 16px;display:grid;grid-template-columns:1fr auto;align-items:center;gap:0 8px}
+.template-tag{justify-self:start;background:#f5e9d7;border-radius:30px;color:#8e5e32;padding:6px 12px;font:700 11px 'DM Sans',sans-serif}
+.template-price{justify-self:end;white-space:nowrap}
+.template-price .pr-now{font:800 19px/1 'DM Sans',sans-serif;color:#4a0916}
+.template-meta h3{grid-column:1/-1;font:500 31px 'Cormorant Garamond',Georgia,serif;color:#4c2836;margin:13px 0 2px}
+.template-meta p{grid-column:1/-1;color:#88766c;font-size:13px;line-height:1.5;min-height:39px;margin:0 0 2px}
 .why{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
 .box{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:20px 22px}
 .box h3{margin:0 0 6px;font-size:16px;color:var(--wine)}
@@ -113,12 +128,12 @@ a:focus-visible,summary:focus-visible{outline:2px solid #b07c34;outline-offset:2
 <section id="modeles" aria-labelledby="t-modeles">
 <h2 id="t-modeles">Nos modèles · Anniversaire</h2>
 <div class="grid">
-<article class="card"><div class="shot"><img src="/templates/apercus/anniversaire-super-heros.webp" alt="Aperçu du modèle d’invitation Super-héros" loading="lazy" decoding="async" width="540" height="960"></div>
-<div class="body"><h3>Super-héros</h3><p>Enveloppe secrète, carte comics, dossier de mission, compte à rebours et réponse des invités.</p><a class="cta" href="/#modele=anniversaire-super-heros" data-model="anniversaire-super-heros">Voir ce modèle</a></div></article>
-<article class="card"><div class="shot"><img src="/templates/apercus/anniversaire-dino.webp" alt="Aperçu du modèle d’invitation Dino Jungle" loading="lazy" decoding="async" width="540" height="960"></div>
-<div class="body"><h3>Dino Jungle</h3><p>Portail de la jungle, T-Rex, compte à rebours, couleurs de l’expédition et réponse des invités.</p><a class="cta" href="/#modele=anniversaire-dino" data-model="anniversaire-dino">Voir ce modèle</a></div></article>
-<article class="card"><div class="shot"><img src="/templates/apercus/huntrixConcert-suite.jpg" alt="Aperçu du modèle d’invitation Concert pop" loading="lazy" decoding="async" width="540" height="960"></div>
-<div class="body"><h3>Concert pop</h3><p>Une invitation façon concert, pour les fans de musique et de paillettes.</p><a class="cta" href="/#modele=huntrixConcert" data-model="huntrixConcert">Voir ce modèle</a></div></article>
+<article class="template-card"><a class="template-artwork mk" href="/#modele=anniversaire-super-heros" data-model="anniversaire-super-heros" aria-label="Voir la démo Super-héros"><div class="mk-stage"><div class="mk-phone"><div class="scr"><img class="card-shot" alt="Aperçu de l’invitation Super-héros" loading="lazy" decoding="async" src="/templates/apercus/anniversaire-super-heros.webp"></div></div><div class="mk-card"><img class="mk-suite" alt="" loading="lazy" decoding="async" src="/templates/apercus/anniversaire-super-heros-suite.jpg"></div></div><span class="demo-cta">◉&nbsp;&nbsp;CLIQUEZ ICI</span></a>
+<div class="template-meta"><span class="template-tag">Anniversaire</span><span class="template-price"><span class="pr-now">24 DT</span></span><h3>Super-héros</h3><p>Enveloppe secrète qui s’ouvre, carte comics, dossier de mission, compte à rebours, dress code et réponse des invités.</p></div></article>
+<article class="template-card"><a class="template-artwork mk" href="/#modele=anniversaire-dino" data-model="anniversaire-dino" aria-label="Voir la démo Dino Jungle"><div class="mk-stage"><div class="mk-phone"><div class="scr"><img class="card-shot" alt="Aperçu de l’invitation Dino Jungle" loading="lazy" decoding="async" src="/templates/apercus/anniversaire-dino.webp"></div></div><div class="mk-card"><img class="mk-suite" alt="" loading="lazy" decoding="async" src="/templates/apercus/anniversaire-dino-suite.jpg"></div></div><span class="demo-cta">◉&nbsp;&nbsp;CLIQUEZ ICI</span></a>
+<div class="template-meta"><span class="template-tag">Anniversaire</span><span class="template-price"><span class="pr-now">24 DT</span></span><h3>Dino Jungle</h3><p>Portail de la jungle, T-Rex, compte à rebours, couleurs de l’expédition et réponse des invités.</p></div></article>
+<article class="template-card"><a class="template-artwork mk" href="/#modele=huntrixConcert" data-model="huntrixConcert" aria-label="Voir la démo Concert pop"><div class="mk-stage"><div class="mk-phone"><div class="scr"><img class="card-shot" alt="Aperçu de l’invitation Concert pop" loading="lazy" decoding="async" src="/media/x/7275eeb2492908.webp"></div></div><div class="mk-card"><img class="mk-suite" alt="" loading="lazy" decoding="async" src="/templates/apercus/huntrixConcert-suite.jpg"></div></div><span class="demo-cta">◉&nbsp;&nbsp;CLIQUEZ ICI</span></a>
+<div class="template-meta"><span class="template-tag">Anniversaire</span><span class="template-price"><span class="pr-now">24 DT</span></span><h3>Concert pop</h3><p>Concert pop : bouton play, musique, setlist, plan et compte à rebours.</p></div></article>
 </div>
 </section>
 <section aria-labelledby="t-why">
