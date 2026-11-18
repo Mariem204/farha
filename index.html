@@ -873,6 +873,11 @@ html.fp-lock main,html.fp-lock .farha-header{transform:scale(var(--fp-zoom,1.06)
  if(vid.readyState>=3)autoGo();else{vid.addEventListener('canplay',autoGo,{once:true});setTimeout(function(){if(!entering)enter()},4000)}
 })();
 </script>
+<!-- FARHA-PROMO-BAR : bannière Happy Friday (texte qui défile), visible jusqu’au 27 novembre 2026 à minuit (heure de Tunis), jamais sur les liens d’invitation. -->
+<style id="farha-promo-bar">#promoBar{position:relative;z-index:61;overflow:hidden;background:linear-gradient(90deg,#4a0916,#7a1d2e 50%,#4a0916);color:#fbe9c8;height:38px;display:flex;align-items:center;font:600 13px/1 'DM Sans',sans-serif;letter-spacing:.06em;box-shadow:0 2px 10px rgba(74,9,22,.25)}#promoBar[hidden]{display:none}#promoBar .pb-track{display:flex;width:max-content;animation:pbMove 28s linear infinite}#promoBar:hover .pb-track{animation-play-state:paused}#promoBar .pb-it{display:inline-flex;align-items:center;gap:14px;padding-right:14px;white-space:nowrap}#promoBar b{color:#f1d7a3;letter-spacing:.16em}#promoBar i{font-style:normal;color:#d9b36a}@keyframes pbMove{from{transform:translateX(0)}to{transform:translateX(-50%)}}@media(max-width:680px){#promoBar{height:34px;font-size:12px}#promoBar .pb-track{animation-duration:20s}}@media(prefers-reduced-motion:reduce){#promoBar .pb-track{animation:none}#promoBar{justify-content:center}#promoBar .pb-it+.pb-it{display:none}}</style>
+<div id="promoBar" role="region" aria-label="Promotion Happy Friday : moins 66 % sur tout le site du 20 au 27 novembre" hidden><div class="pb-track" aria-hidden="true"><span class="pb-it"><b>HAPPY FRIDAY</b><i>✦</i>−66&nbsp;% sur tout le site<i>✦</i>Du 20 au 27 novembre<i>✦</i>Profitez-en&nbsp;!<i>✦</i></span><span class="pb-it"><b>HAPPY FRIDAY</b><i>✦</i>−66&nbsp;% sur tout le site<i>✦</i>Du 20 au 27 novembre<i>✦</i>Profitez-en&nbsp;!<i>✦</i></span><span class="pb-it"><b>HAPPY FRIDAY</b><i>✦</i>−66&nbsp;% sur tout le site<i>✦</i>Du 20 au 27 novembre<i>✦</i>Profitez-en&nbsp;!<i>✦</i></span><span class="pb-it"><b>HAPPY FRIDAY</b><i>✦</i>−66&nbsp;% sur tout le site<i>✦</i>Du 20 au 27 novembre<i>✦</i>Profitez-en&nbsp;!<i>✦</i></span><span class="pb-it"><b>HAPPY FRIDAY</b><i>✦</i>−66&nbsp;% sur tout le site<i>✦</i>Du 20 au 27 novembre<i>✦</i>Profitez-en&nbsp;!<i>✦</i></span><span class="pb-it"><b>HAPPY FRIDAY</b><i>✦</i>−66&nbsp;% sur tout le site<i>✦</i>Du 20 au 27 novembre<i>✦</i>Profitez-en&nbsp;!<i>✦</i></span><span class="pb-it"><b>HAPPY FRIDAY</b><i>✦</i>−66&nbsp;% sur tout le site<i>✦</i>Du 20 au 27 novembre<i>✦</i>Profitez-en&nbsp;!<i>✦</i></span><span class="pb-it"><b>HAPPY FRIDAY</b><i>✦</i>−66&nbsp;% sur tout le site<i>✦</i>Du 20 au 27 novembre<i>✦</i>Profitez-en&nbsp;!<i>✦</i></span></div></div>
+<script>(function(){var b=document.getElementById('promoBar');if(!b)return;var end=Date.UTC(2026,10,27,23,0,0);if(Date.now()<end&&!/[#&]i=/.test(location.hash)&&!/^\/i\//.test(location.pathname))b.hidden=false;})();</script>
+<!-- /FARHA-PROMO-BAR -->
 <header class="farha-header"><a class="farha-logo" href="#home" onclick="goSection('home');return false" aria-label="Farha — accueil"><img class="farha-logo-img" src="/media/farha-logo.webp" alt="Farha" width="480" height="131"></a><nav class="farha-nav" aria-label="Navigation principale"><a href="#home" onclick="goSection('home');return false">Accueil</a><a href="#themes" onclick="farhaOpenInspirations();return false">Thèmes</a><a href="#how-it-works" onclick="goSection('how-it-works');return false">L'Exception</a><a href="#packages" onclick="goSection('packages');return false">Tarifs</a><a href="#contact" onclick="goSection('contact');return false">Contact</a></nav></header><main>
 <section class="view active" id="home"><div class="landing-hero hero-v2 hero-sky">
  <div class="sky-deco" aria-hidden="true"><i class="cloud c1"></i><i class="cloud c2"></i><i class="cloud c3"></i><i class="cloud c4"></i><i class="cloud c5"></i></div>
@@ -2580,7 +2585,7 @@ body .farha-header .farha-logo{line-height:1.1}
 (function(){
  if(typeof farhaCustomDefaults!=='function')return;
  // Libellés des clés connues ; les autres textes simples du CONFIG reçoivent un libellé tiré de leur nom.
- var LABELS={school:'École / université',family:'La famille',degree:'Diplôme obtenu',year:'Année (promotion)',verse:'Verset / citation',whatsapp:'WhatsApp pour les réponses (ex. 21612345678)',
+ var LABELS={reception:'Lieu de la réception (dîner)',school:'École / université',family:'La famille',degree:'Diplôme obtenu',year:'Année (promotion)',verse:'Verset / citation',whatsapp:'WhatsApp pour les réponses (ex. 21612345678)',
   title:'Titre',subtitle:'Sous-titre',host:'Invité par',parents:'Les parents',quote:'Citation',hashtag:'Hashtag',dressNote:'Indication Dress Code',childName:'Prénom de l’enfant',age:'Âge',city:'Ville',tagline:'Phrase d’accroche',story:'Notre histoire',venueType:'Type de lieu',brideAr:'Prénom de la mariée en arabe',mapLabel:'Texte sur la carte',dressTheme:'Thème de la tenue',rsvpBy:'Répondre avant le',groomAr:'Prénom du marié en arabe',dressCode:'Code vestimentaire',
   timeNote:'Fin de la fête (texte sous l’heure)',parent1Label:'Parent 1 · nom affiché',parent1Phone:'Parent 1 · téléphone',parent2Label:'Parent 2 · nom affiché (facultatif)',parent2Phone:'Parent 2 · téléphone (facultatif)',
   gateKicker:'Enveloppe · petit titre',gateTitle:'Enveloppe · titre',gateButton:'Enveloppe · bouton',gateHint:'Enveloppe · indication',alert:'Bandeau d’alerte',quote:'Phrase de la bulle',
@@ -2849,6 +2854,9 @@ body .farha-header .farha-logo{line-height:1.1}
   {id:'henna-sultan',name:'حنة السلطان · Henna Night',category:'7enna',color:'#7a1d2e',file:'templates/henna-sultan.html',description:'Trône doré et lanternes, photo du marié dans un miroir, date, lieu et une kelma pour le marié.'},
   {id:'perla',name:'Perla',category:'Mariage',color:'#8a7d70',file:'templates/perla.html',description:'Papier ivoire en relief, cygnes, fleur de perles, prénoms en français et en arabe, lieu et un mot pour les mariés.'},
   {id:'outeya-gold',name:'الوطية · Gold',category:'Wteya',color:'#6e2227',file:'templates/outeya-gold.html',description:'Lanterne dorée et mariée en tenue tunisienne, date et lieu avec la carte, couleurs de la tenue et confirmation de présence avec un mot pour la mariée.'},
+  {id:'forest-wedding',name:'Forêt',category:'Mariage',color:'#2f5a38',file:'templates/forest-wedding.html',description:'Guirlandes de lumières et papillons dans les bois, cadre photo en lierre, date et lieu avec la carte, couleurs de la tenue et réponses des invités.'},
+  {id:'jacaranda',name:'Jacaranda',category:'Mariage',color:'#5e3b82',file:'templates/jacaranda.html',description:'Arche de glycines et pétales mauves, bougies, cadre photo lilas, date et lieu avec la carte, couleurs de la tenue et réponses des invités.'},
+  {id:'orchid-wedding',name:'Orchidée',category:'Mariage',color:'#a81e52',file:'templates/orchid-wedding.html',description:'Carte fuchsia et paon, colibris et orchidées, cadre photo, date et lieu avec la carte, couleurs de la tenue et réponses des invités.'},
   {id:'carthage',name:'Carthage',category:'Mariage',color:'#6A2525',file:'templates/carthage.html',description:'Sceau de Tanit à briser, parchemin d’Élyssa, éléphants d’Hannibal, galère punique, date dorée à gratter et un mot pour les mariés.'}
  ];
  var ready={};
@@ -3275,10 +3283,17 @@ addEventListener('message',function(e){
 (function(){
  if(typeof farhaTemplateCard!=='function'||typeof farhaPrice!=='function')return;
  var FIXED={'Mariage':86,'Anniversaire':24,'7enna':36,'Wteya':86,'Baby shower':36},pr=farhaPrice;
- farhaPrice=function(t){var f=t&&FIXED[t.category];return f!=null?f:pr.apply(this,arguments)};
  var OLD={'Anniversaire':29,'Mariage':116,'7enna':41,'Wteya':116,'Baby shower':41},base=farhaTemplateCard;
+ // Promo Happy Friday : -66 % sur le prix d'origine (barré), du 20 au 27 novembre 2026 inclus, heure de Tunis.
+ // Même calcul côté serveur (api/orders.js). Sur une preview, ?promo=1 l'active pour tester.
+ var PROMO={start:Date.UTC(2026,10,19,23,0,0),end:Date.UTC(2026,10,27,23,0,0),keep:.34};
+ window.farhaPromoOn=function(){var n=Date.now();return (n>=PROMO.start&&n<PROMO.end)||(document.documentElement.classList.contains('farha-preview')&&/[?&]promo=1/.test(location.search))};
+ window.farhaPromoEnd=PROMO.end;
+ function regular(t){var f=t&&FIXED[t.category];return f!=null?f:pr.apply(this,[t])}
+ function original(t){return (t&&OLD[t.category])||regular(t)}
+ farhaPrice=function(t){return farhaPromoOn()?Math.round(original(t)*PROMO.keep):regular(t)};
  farhaTemplateCard=function(t){var card=base.apply(this,arguments),el=card.querySelector('.template-price');
-  if(el&&t){var now=farhaPrice(t),old=OLD[t.category];el.textContent='';
+  if(el&&t){var now=farhaPrice(t),old=farhaPromoOn()?original(t):OLD[t.category];el.textContent='';
    var a=document.createElement('span');a.className='pr-now';a.textContent=now+' DT';el.appendChild(a);
    if(old&&old>now){var b=document.createElement('s');b.className='pr-old';b.textContent=old+' DT';b.setAttribute('aria-label','au lieu de '+old+' DT');el.appendChild(b)}}
   return card};
@@ -3410,4 +3425,16 @@ addEventListener('message',function(e){
 
 
 <!-- /FARHA-UN-LIEN-STYLE -->
+<!-- FARHA-PROMO-FORMULES : pendant la promo, la formule Essentiel affiche le plus petit prix réduit, avec 24 DT barré. -->
+<script>
+(function(){
+ var el=document.querySelector('#packages .pkg:not(.featured) .farha-pkg-price');if(!el||typeof farhaPrice!=='function')return;var html0=el.innerHTML;
+ function upd(){if(!(window.farhaPromoOn&&farhaPromoOn())||typeof templates==='undefined'||!templates.length){el.innerHTML=html0;return}
+  var m=Math.min.apply(null,templates.map(function(t){return farhaPrice(t)}).filter(function(n){return n>0}));if(!isFinite(m))return;
+  el.innerHTML='<small>À partir de</small> '+m+' DT <s style="font-size:.5em;opacity:.55;font-weight:500">24 DT</s>'}
+ if(typeof renderCatalog==='function'){var rc=renderCatalog;renderCatalog=function(){var r=rc.apply(this,arguments);upd();return r}}
+ upd();
+})();
+</script>
+<!-- /FARHA-PROMO-FORMULES -->
 </body></html>

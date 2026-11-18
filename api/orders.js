@@ -9,6 +9,15 @@
 const SUR_MESURE_PRICE = 50;          // Création sur mesure, en DT
 // Prix fixés par catégorie : ils passent avant ceux de l'admin.
 const FIXED_PRICES = { 'Mariage': 86, 'Anniversaire': 24, '7enna': 36, 'Wteya': 86, 'Baby shower': 36 };
+// Prix d'origine (barrés sur le site) et promo Happy Friday : -66 % sur le prix d'origine,
+// du 20 au 27 novembre 2026 inclus (heure de Tunis). Même calcul que le site (FARHA-PRIX-CARTES).
+const ORIGINAL_PRICES = { 'Mariage': 116, 'Anniversaire': 29, '7enna': 41, 'Wteya': 116, 'Baby shower': 41 };
+const PROMO = { start: Date.UTC(2026, 10, 19, 23, 0, 0), end: Date.UTC(2026, 10, 27, 23, 0, 0), keep: 0.34 };
+function promoPrice(category, regular) {
+  const now = Date.now();
+  if (now < PROMO.start || now >= PROMO.end) return regular;
+  return Math.round((ORIGINAL_PRICES[category] || regular) * PROMO.keep);
+}
 // Modèles servis en fichiers (/templates/*.html) qui ne sont pas encore dans la table « templates » de Supabase :
 // la commande est quand même enregistrée, au prix fixe de leur catégorie (sans lien /i/<slug>).
 const FILE_TEMPLATES = {
@@ -16,7 +25,8 @@ const FILE_TEMPLATES = {
   'perla': ['Perla', 'Mariage'], 'carthage': ['Carthage', 'Mariage'], 'lotus-wedding': ['Mariage · Lotus', 'Mariage'],
   'henna-rideau-rouge': ['Henna', '7enna'], 'henna-sultan': ['حنة السلطان', '7enna'],
   'anniversaire-dino': ['Dino Jungle', 'Anniversaire'], 'anniversaire-super-heros': ['Spiderman', 'Anniversaire'], 'huntrixConcert': ['Huntrix', 'Anniversaire'],
-  'baby-shower': ['Fille ou garçon ?', 'Baby shower'], 'outeya-gold': ['الوطية · Gold', 'Wteya']
+  'baby-shower': ['Fille ou garçon ?', 'Baby shower'], 'outeya-gold': ['الوطية · Gold', 'Wteya'],
+  'forest-wedding': ['Forêt', 'Mariage'], 'jacaranda': ['Jacaranda', 'Mariage'], 'orchid-wedding': ['Orchidée', 'Mariage']
 };
 const MAX_PER_EMAIL_10_MIN = 5;       // Limite anti-abus
 const KINDS = ['template', 'test', 'sur_mesure'];
@@ -129,14 +139,14 @@ module.exports = async function handler(req, res) {
       if (file) {
         // modèle en fichier, absent de la base : prix fixe de sa catégorie
         template = null;
-        unit = kind === 'test' ? 0 : FIXED_PRICES[file[1]];
+        unit = kind === 'test' ? 0 : promoPrice(file[1], FIXED_PRICES[file[1]]);
         label = file[0] + ' (' + file[1] + ')' + (kind === 'test' ? ' (test gratuit)' : '');
       } else {
         if (!template || template.status !== 'active' || !template.category || !template.category.is_active) {
           return res.status(400).json({ error: 'Modèle indisponible' });
         }
         const fixed = FIXED_PRICES[template.category.name];
-        unit = kind === 'test' ? 0 : Number(fixed != null ? fixed : template.price_dt != null ? template.price_dt : template.category.default_price_dt);
+        unit = kind === 'test' ? 0 : promoPrice(template.category.name, Number(fixed != null ? fixed : template.price_dt != null ? template.price_dt : template.category.default_price_dt));
         label = template.name + (kind === 'test' ? ' (test gratuit)' : '');
       }
     }
