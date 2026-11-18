@@ -19,7 +19,7 @@
 <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="/clarity.js" defer></script>
 <style>
 :root{--bg:#f6f0e6;--card:#fffaf4;--ink:#3d2f2b;--soft:#7d6760;--wine:#4a0916;--wine2:#6a1a2c;--line:#e5d8cb;--gold:#a57e5a;--cream:#f6e7d2}
@@ -49,12 +49,13 @@ h1{font:500 clamp(40px,7vw,68px)/1.02 'Cormorant Garamond',Georgia,serif;color:v
 main{max-width:1100px;margin:0 auto;padding:0 20px 40px}
 section{margin:40px 0}
 h2{font:600 clamp(28px,4vw,38px)/1.15 'Cormorant Garamond',Georgia,serif;color:var(--wine);margin:0 0 18px;text-align:center}
-.grid{display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;padding:4px 2px 4px;scrollbar-width:none}
-.grid::-webkit-scrollbar{display:none}
-.grid>.template-card{flex:0 0 clamp(260px,23vw,310px);scroll-snap-align:start}
-@media(min-width:901px){.grid.few{justify-content:center}}
-@media(max-width:900px){.grid{margin:0 -20px;padding-left:20px;padding-right:20px;scroll-padding-left:20px}.grid>.template-card{flex-basis:min(80vw,320px)}.template-artwork{height:330px}}
-@media(max-width:560px){.template-artwork{height:380px}}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+.hero{text-align:center;padding:30px 0 34px}
+.hero h1{font:400 clamp(42px,6vw,72px)/1.08 'Cormorant Garamond',Georgia,serif;color:#3b2528;margin:16px 0 12px}
+.hero .lead{max-width:680px;margin:0 auto;color:#8c746c;font-size:16px}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:23px;align-items:stretch}
+@media(max-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.template-artwork{height:330px}}
+@media(max-width:560px){.grid{grid-template-columns:1fr;max-width:430px;margin:auto}.template-artwork{height:380px}}
 .template-card{min-width:0;overflow:hidden;border-radius:23px;background:#fffaf2;border:1px solid #e8d9cb;transition:transform .25s}
 .template-card:hover{transform:translateY(-5px)}
 .template-artwork{display:block;height:365px;position:relative;overflow:hidden;background:#ebe5db;text-decoration:none}
@@ -105,31 +106,70 @@ footer a{color:var(--soft)}
 body:has(#farhaConsent) .wa{display:none}
 a:focus-visible,summary:focus-visible{outline:2px solid #b07c34;outline-offset:2px}
 @media(max-width:480px){.wa{padding:0;width:56px;height:56px;justify-content:center}.wa span{display:none}.top .cta{padding:10px 16px;font-size:14px}.hero{padding-top:28px}}
+.landing-kicker, .landing-eyebrow { font: 600 10px "DM Sans", sans-serif; letter-spacing: 0.36em; color: rgb(166, 122, 88); text-transform: uppercase; }
+.landing-steps, .landing-faq { padding: 90px 0px 75px; text-align: center; }
+.landing-heading { font: 400 clamp(46px, 6vw, 76px) / 1.08 "Cormorant Garamond", Georgia, serif; color: rgb(59, 37, 40); margin: 18px 0px 12px; }
+.steps-grid { display: grid; grid-template-columns: repeat(3, minmax(0px, 1fr)); gap: 20px; text-align: left; }
+.step-card { background: rgb(255, 252, 247); border: 1px solid rgb(231, 216, 198); border-radius: 25px; padding: 37px 31px 40px; min-height: 250px; box-shadow: rgba(66, 42, 42, 0.03) 0px 15px 28px; }
+.step-number { color: rgb(172, 120, 89); font: 500 15px "Cormorant Garamond", serif; letter-spacing: 0.18em; }
+.step-card h3 { font: 400 35px / 1.1 "Cormorant Garamond", serif; color: rgb(61, 36, 48); margin: 28px 0px 12px; }
+.step-card p { font: 14px / 1.8 "DM Sans", sans-serif; color: rgb(132, 110, 102); margin: 0px; }
+@media (max-width: 750px){.steps-grid { grid-template-columns: 1fr; }}
+@media (max-width: 750px){.step-card { min-height: 0px; }}
+@media (max-width: 750px){.landing-steps, .landing-faq { padding: 65px 0px 45px; }}
+@media (max-width: 680px){#themes, #how-it-works, #contact { scroll-margin-top: 120px; }}
+#stepsTitle .nw { white-space: nowrap; }
+@media (min-width: 801px){#stepsTitle { white-space: nowrap; font-size: clamp(36px, 4.4vw, 64px); }}
+.landing-footer { padding: 25px 0px 38px; display: flex; justify-content: space-between; gap: 15px; border-top: 1px solid rgb(229, 216, 203); color: rgb(140, 116, 108); font: 12px "DM Sans", sans-serif; }
+@media (max-width: 750px){.landing-footer { flex-direction: column; text-align: center; align-items: center; }}
+@media (max-width: 680px){#themes, #how-it-works, #contact { scroll-margin-top: 120px; }}
+.farha-social { display: flex; gap: 12px; align-items: center; justify-content: center; }
+.farha-social a { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; background: rgb(74, 9, 22); color: rgb(246, 231, 210); transition: transform 0.2s, background 0.2s; }
+.farha-social a:hover { transform: translateY(-2px); background: rgb(106, 26, 44); }
+.farha-social a:focus-visible { outline: rgb(176, 124, 52) solid 2px; outline-offset: 3px; }
+.farha-social svg { width: 20px; height: 20px; fill: currentcolor; }
+.landing-footer { flex-wrap: wrap; }
+.farha-foot-col { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
+.farha-foot-title { font: 600 12px "DM Sans", sans-serif; letter-spacing: 0.14em; text-transform: uppercase; color: rgb(74, 9, 22); }
+.farha-copy { flex: 0 0 100%; text-align: center; margin-top: 14px; padding-top: 16px; border-top: 1px solid rgb(229, 216, 203); }
+.farha-foot-col { align-self: flex-start; }
+.landing-footer.farha-foot4 { display: block; text-align: left; padding: 34px 0px 30px; }
+.farha-foot-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr auto; gap: 28px 40px; align-items: start; }
+.farha-foot4 .farha-foot-col { align-items: flex-start; align-self: start; }
+.farha-foot-links { list-style: none; margin: 0px; padding: 0px; display: flex; flex-direction: column; gap: 9px; }
+.farha-foot-links a { color: rgb(140, 116, 108); text-decoration: none; font-size: 15px; }
+.farha-foot-links a:hover { color: rgb(74, 9, 22); text-decoration: underline; text-underline-offset: 4px; }
+.farha-foot4 .farha-copy { display: block; margin-top: 26px; }
+.farha-legal a { color: inherit; text-decoration: none; }
+.farha-legal a:hover { color: rgb(74, 9, 22); text-decoration: underline; text-underline-offset: 3px; }
+@media (max-width: 750px){.farha-legal { display: block; margin-top: 6px; }}
+@media (max-width: 750px){.farha-legal > a:first-child { margin-left: 0px; }}
+@media (max-width: 750px){.farha-foot-grid { grid-template-columns: 1fr 1fr; gap: 26px 18px; }}
+@media (max-width: 750px){.farha-foot4 .farha-foot-col { align-items: flex-start; align-self: start; }}
+@media (max-width: 750px){.farha-foot4 .farha-foot-col:first-child { grid-column: 1 / -1; }}
+@media (max-width: 750px){.farha-foot4 .farha-contact-info { align-items: flex-start; }}
+@media (max-width: 750px){.farha-foot4 .farha-social { justify-content: flex-start; }}
+@media (max-width: 750px){.farha-foot-col { align-items: center; align-self: center; }}
+@media (max-width: 750px){.farha-copy { flex: 0 0 auto; width: 100%; }}
+.farha-contact-info { display: flex; flex-direction: column; gap: 8px; align-items: flex-start; }
+.farha-contact-info a { display: inline-flex; align-items: center; gap: 9px; color: inherit; text-decoration: none; font-size: 15px; }
+.farha-contact-info a:hover { text-decoration: underline; text-underline-offset: 4px; }
+.farha-contact-info svg { width: 20px; height: 20px; flex: 0 0 auto; padding: 5px; box-sizing: content-box; border-radius: 50%; background: rgb(74, 9, 22); color: rgb(246, 231, 210); }
+@media (max-width: 750px){.farha-contact-info { align-items: center; }}
+.landing-footer { align-items: center; }
 </style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Farha", "item": "https://www.invitation-digitale.tn/"}, {"@type": "ListItem", "position": 2, "name": "Invitation de mariage digitale", "item": "https://www.invitation-digitale.tn/invitation-mariage/"}]}</script>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Combien coûte une invitation de mariage digitale ?", "acceptedAnswer": {"@type": "Answer", "text": "Les modèles de mariage sont à partir de 86 DT. Pour une création unique pensée pour vous, la formule Sur mesure est sur devis."}}, {"@type": "Question", "name": "Comment envoyer l’invitation à mes invités ?", "acceptedAnswer": {"@type": "Answer", "text": "Vous recevez un lien personnalisé que vous partagez sur WhatsApp, Messenger, Instagram ou par SMS. Vos invités l’ouvrent directement sur leur téléphone, sans rien installer."}}, {"@type": "Question", "name": "Puis-je mettre le henné et le mariage dans la même invitation ?", "acceptedAnswer": {"@type": "Answer", "text": "Oui. Chaque soirée peut avoir sa propre adresse et sa carte Google Maps."}}, {"@type": "Question", "name": "Mes invités peuvent-ils confirmer leur présence ?", "acceptedAnswer": {"@type": "Answer", "text": "Oui. Ils indiquent s’ils seront présents et peuvent vous laisser un petit mot. Vous retrouvez leurs réponses dans votre espace privé."}}, {"@type": "Question", "name": "Puis-je écrire les prénoms en arabe ?", "acceptedAnswer": {"@type": "Answer", "text": "Oui, certains modèles comme Perla affichent les prénoms en français et en arabe."}}]}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Product", "name": "Invitation de mariage digitale", "description": "Invitation de mariage digitale à envoyer sur WhatsApp : 10 modèles animés (Carthage, Sidi Bou Saïd, Perla…), musique, Google Maps, compte à rebours et réponses des invités. À partir de 86 DT.", "image": "https://www.invitation-digitale.tn/templates/apercus/carthage.webp", "brand": {"@type": "Brand", "name": "Farha"}, "offers": {"@type": "Offer", "price": "86", "priceCurrency": "TND", "availability": "https://schema.org/InStock", "url": "https://www.invitation-digitale.tn/invitation-mariage/"}}</script>
 </head>
 <body>
-<header class="top"><a class="logo" href="/"><img src="/media/farha-logo.webp" alt="Farha" width="161" height="44"></a><a class="cta" href="/#catalog">Tous les modèles</a></header>
-<nav class="occ" aria-label="Invitations par occasion">
-<a href="/invitation-mariage/" aria-current="page">Mariage</a>
-<a href="/invitation-henna/">Henna &amp; Wteya</a>
-<a href="/invitation-anniversaire/">Anniversaire</a>
-<a href="/invitation-tahara/">Tahara</a>
-<a href="/invitation-baby-shower/">Baby shower</a>
-</nav>
+<header class="top"><a class="logo" href="/"><img src="/media/farha-logo.webp" alt="Farha" width="161" height="44"></a><a class="cta" href="/#themes">Tous les modèles</a></header>
+<div class="wrap">
 <div class="hero">
-<div class="crumb"><a href="/">Accueil</a> › Invitation de mariage digitale</div>
-<span class="eyebrow">✦ Mariage ✦</span>
+<span class="landing-eyebrow">Mariage</span>
 <h1>Invitation de mariage digitale</h1>
 <p class="lead">Une invitation qui s’ouvre comme une lettre d’amour, avec votre musique, le lieu sur Google Maps et la réponse de chaque invité. Vous l’envoyez en un lien sur WhatsApp, à toute la famille, en Tunisie comme à l’étranger.</p>
-<div class="price" data-from="Mariage">À partir de 86 DT</div>
-<div class="btns"><a class="cta" href="#modeles">Voir les modèles</a><a class="cta ghost" href="https://wa.me/21692891770?text=Bonjour%20Farha%20%F0%9F%92%8C%20Je%20souhaite%20une%20invitation%20de%20mariage%20digitale." target="_blank" rel="noopener">Une question ? WhatsApp</a></div>
 </div>
-<main>
-<section id="modeles" aria-labelledby="t-modeles">
-<h2 id="t-modeles">Nos modèles · Mariage</h2>
+<section id="modeles" aria-label="Modèles Mariage">
 <div class="grid">
 <article class="template-card"><a class="template-artwork mk" href="/#modele=carthage" data-model="carthage" aria-label="Voir la démo Carthage"><div class="mk-stage"><div class="mk-phone"><div class="scr"><img class="card-shot" alt="Aperçu de l’invitation Carthage" loading="lazy" decoding="async" src="/templates/apercus/carthage.webp"></div></div><div class="mk-card"><img class="mk-suite" alt="" loading="lazy" decoding="async" src="/templates/apercus/carthage-suite.jpg"></div></div><span class="demo-cta">◉&nbsp;&nbsp;CLIQUEZ ICI</span></a>
 <div class="template-meta"><span class="template-tag">Mariage</span><span class="template-price" data-cat="Mariage"><span class="pr-now">86 DT</span><s class="pr-old" aria-label="au lieu de 116 DT">116 DT</s></span><h3>Carthage</h3><p>Sceau de Tanit à briser, parchemin d’Élyssa, éléphants d’Hannibal, galère punique, date dorée à gratter et un mot pour les mariés.</p></div></article>
@@ -153,57 +193,13 @@ a:focus-visible,summary:focus-visible{outline:2px solid #b07c34;outline-offset:2
 <div class="template-meta"><span class="template-tag">Mariage</span><span class="template-price" data-cat="Mariage"><span class="pr-now">86 DT</span><s class="pr-old" aria-label="au lieu de 116 DT">116 DT</s></span><h3>Jardin des Oliviers</h3><p>Pétales romantiques, musique, compte à rebours et RSVP.</p></div></article>
 </div>
 </section>
-<section aria-labelledby="t-why">
-<h2 id="t-why">Pourquoi une invitation digitale ?</h2>
-<div class="why">
-<div class="box"><h3>Un seul lien pour tout</h3><p>Henné et mariage peuvent avoir chacun leur adresse et leur carte Google Maps, dans la même invitation.</p></div>
-<div class="box"><h3>Les réponses de vos invités</h3><p>Chaque invité confirme sa présence et vous laisse un petit mot. Vous suivez tout dans votre espace privé.</p></div>
-<div class="box"><h3>Musique et compte à rebours</h3><p>Votre chanson se lance à l’ouverture et un compte à rebours affiche les jours restants avant le grand jour.</p></div>
-<div class="box"><h3>Moins cher que le papier</h3><p>Pas d’impression ni de distribution : un lien suffit, même pour les invités qui vivent loin.</p></div>
+<section id="how-it-works" class="landing-steps" aria-labelledby="stepsTitle"><span class="landing-eyebrow">PLUS QU'UNE INVITATION</span><h2 class="landing-heading" id="stepsTitle">Votre invitation en seulement <span class="nw">3&nbsp;étapes&nbsp;!</span></h2><div class="steps-grid"><article class="step-card"><span class="step-number">I — PERSONNALISEZ</span><h3>Remplissez vos informations</h3><p>Prénoms, date et lieu : votre invitation prend forme en direct.</p></article><article class="step-card"><span class="step-number">II — CONFIRMEZ</span><h3>Effectuez votre paiement</h3><p>Payez facilement, en quelques clics.</p></article><article class="step-card"><span class="step-number">III — PROFITEZ !</span><h3>Recevez votre invitation</h3><p>Votre lien personnalisé est prêt à être partagé avec vos invités. Vous aurez aussi accès à votre espace privé pour suivre les confirmations et découvrir leurs petits mots !</p></article></div></section>
+<footer id="contact" class="landing-footer farha-foot4"><div class="farha-foot-grid"><div class="farha-foot-col"><span class="farha-foot-title">Contact informations</span><div class="farha-contact-info" aria-label="Nous contacter"><a href="mailto:farhacontact0@gmail.com"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18v14H3z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"></path><path d="m3.5 6 8.5 7 8.5-7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"></path></svg>farhacontact0@gmail.com</a><a href="tel:+21692891770"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 3.5h3l1.5 4.2-2 1.4a12 12 0 0 0 5.8 5.8l1.4-2 4.2 1.5v3a2 2 0 0 1-2.1 2A16.5 16.5 0 0 1 4.6 5.6a2 2 0 0 1 2-2.1z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"></path></svg>+216 92 891 770</a></div></div><div class="farha-foot-col"><span class="farha-foot-title">Farha</span><ul class="farha-foot-links"><li><a href="/">Accueil</a></li><li><a href="/#themes">Thèmes</a></li><li><a href="/#how-it-works">L'Exception</a></li><li><a href="/#packages">Tarifs</a></li></ul></div><div class="farha-foot-col"><span class="farha-foot-title">Invitations</span><ul class="farha-foot-links"><li><a href="/invitation-mariage/">Mariage</a></li><li><a href="/invitation-henna/">Henna &amp; Wteya</a></li><li><a href="/invitation-anniversaire/">Anniversaire</a></li><li><a href="/invitation-tahara/">Tahara</a></li><li><a href="/invitation-baby-shower/">Baby shower</a></li></ul></div><div class="farha-foot-col"><span class="farha-foot-title">Aide</span><ul class="farha-foot-links"><li><a href="/#faq">FAQ</a></li><li><a href="mailto:farhacontact0@gmail.com">Nous écrire</a></li><li><a href="https://wa.me/21692891770" target="_blank" rel="noopener">WhatsApp</a></li></ul></div><div class="farha-foot-col"><span class="farha-foot-title">Follow us</span><nav class="farha-social" aria-label="Farha sur les réseaux sociaux">
+<a href="https://www.facebook.com/share/1CaKkGgzzo/?mibextid=wwXIfr" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 21v-7.6h2.6l.4-3h-3V8.5c0-.9.3-1.5 1.5-1.5h1.6V4.3c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4v2.2H7.8v3h2.6V21z"></path></svg></a>
+<a href="https://www.instagram.com/farhadigitalinvitations" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 7.3a4.7 4.7 0 1 0 0 9.4 4.7 4.7 0 0 0 0-9.4zm0 7.7a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm6-7.9a1.1 1.1 0 1 1-2.2 0 1.1 1.1 0 0 1 2.2 0zM21 7.3c-.1-1.5-.4-2.8-1.5-3.9S17.2 2 15.7 2H8.3C6.8 2 5.5 2.4 4.4 3.5S3 5.8 3 7.3v9.4c0 1.5.4 2.8 1.5 3.9S6.8 22 8.3 22h7.4c1.5 0 2.8-.4 3.9-1.5S21 18.2 21 16.7zm-1.9 10.6a3 3 0 0 1-1.7 1.7c-1.2.5-4 .4-5.4.4s-4.2.1-5.4-.4a3 3 0 0 1-1.7-1.7c-.5-1.2-.4-4-.4-5.4s-.1-4.2.4-5.4a3 3 0 0 1 1.7-1.7C7.8 3.9 10.6 4 12 4s4.2-.1 5.4.4a3 3 0 0 1 1.7 1.7c.5 1.2.4 4 .4 5.4s.1 4.2-.4 5.4z"></path></svg></a>
+<a class="farha-tiktok" href="https://www.tiktok.com/@farhadigital.invi" target="_blank" rel="noopener" aria-label="TikTok"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.6 5.8A4.3 4.3 0 0 1 15.5 3h-3.1v12.4a2.6 2.6 0 1 1-1.8-2.5V9.7a5.8 5.8 0 1 0 4.9 5.7V9.2a7.4 7.4 0 0 0 4.3 1.4V7.5a4.3 4.3 0 0 1-3.2-1.7z"></path></svg></a>
+</nav></div></div><span class="farha-copy">© 2026 Farha<span class="farha-legal"> · <a href="/confidentialite.html">Politique de confidentialité</a> · <a href="/confidentialite.html#cookies" data-farha-cookies>Gestion des cookies</a></span></span></footer>
 </div>
-</section>
-<section aria-labelledby="t-steps">
-<h2 id="t-steps">Votre invitation en 3 étapes</h2>
-<div class="steps">
-<div class="box"><h3>Personnalisez</h3><p>Choisissez un modèle, puis ajoutez prénoms, date et lieu : l’invitation prend forme en direct.</p></div>
-<div class="box"><h3>Confirmez</h3><p>Validez votre commande et réglez directement avec notre équipe.</p></div>
-<div class="box"><h3>Partagez</h3><p>Recevez votre lien personnalisé et envoyez-le à vos invités. Suivez leurs réponses dans votre espace privé.</p></div>
-</div>
-</section>
-<section aria-labelledby="t-texts">
-<h2 id="t-texts">Textes d’invitation de mariage</h2>
-<div class="texts">
-<div class="box"><span class="tag">En français</span><p>Avec la bénédiction de leurs familles, <strong>Amira &amp; Youssef</strong> ont la joie de vous convier à la célébration de leur mariage, le samedi 19 juin 2027 à 20 h, à Dar El Marsa. Votre présence illuminera ce jour.</p></div>
-<div class="box"><span class="tag">Plus moderne</span><p>On se dit oui ! 💍 <strong>Amira &amp; Youssef</strong> vous attendent le 19 juin 2027 pour fêter leur mariage. Musique, danse et beaucoup d’amour : il ne manque plus que vous.</p></div>
-<div class="box" dir="rtl" lang="ar"><span class="tag">بالعربية</span><p>بكل فرح وسرور، تتشرف عائلتا <strong>أميرة و يوسف</strong> بدعوتكم لحضور حفل زفافهما يوم السبت 19 جوان 2027 على الساعة الثامنة مساءً. حضوركم يزيد فرحتنا فرحة.</p></div>
-</div>
-</section>
-<section aria-labelledby="t-faq">
-<h2 id="t-faq">Questions fréquentes</h2>
-<div class="faq">
-<details><summary>Combien coûte une invitation de mariage digitale ?</summary><p>Les modèles de mariage sont à partir de 86 DT. Pour une création unique pensée pour vous, la formule Sur mesure est sur devis.</p></details>
-<details><summary>Comment envoyer l’invitation à mes invités ?</summary><p>Vous recevez un lien personnalisé que vous partagez sur WhatsApp, Messenger, Instagram ou par SMS. Vos invités l’ouvrent directement sur leur téléphone, sans rien installer.</p></details>
-<details><summary>Puis-je mettre le henné et le mariage dans la même invitation ?</summary><p>Oui. Chaque soirée peut avoir sa propre adresse et sa carte Google Maps.</p></details>
-<details><summary>Mes invités peuvent-ils confirmer leur présence ?</summary><p>Oui. Ils indiquent s’ils seront présents et peuvent vous laisser un petit mot. Vous retrouvez leurs réponses dans votre espace privé.</p></details>
-<details><summary>Puis-je écrire les prénoms en arabe ?</summary><p>Oui, certains modèles comme Perla affichent les prénoms en français et en arabe.</p></details>
-</div>
-</section>
-<section class="band" aria-labelledby="t-band">
-<h2 id="t-band">Une idée bien à vous ?</h2>
-<p>Avec la formule Sur mesure, nous imaginons une invitation unique, à vos couleurs et à votre style.</p>
-<div class="btns"><a class="cta light" href="/#modele=carthage" data-model="carthage">Commencer avec un modèle</a><a class="cta ghost" style="color:var(--cream);border-color:var(--cream)" href="https://wa.me/21692891770?text=Bonjour%20Farha%20%F0%9F%92%8C%20J%E2%80%99aimerais%20une%20invitation%20sur%20mesure." target="_blank" rel="noopener">Parler de mon idée</a></div>
-</section>
-<section aria-labelledby="t-others">
-<h2 id="t-others">Autres occasions</h2>
-<div class="others">
-<a href="/invitation-henna/">Invitation henna &amp; wteya</a>
-<a href="/invitation-anniversaire/">Invitation anniversaire</a>
-<a href="/invitation-tahara/">Invitation tahara</a>
-<a href="/invitation-baby-shower/">Invitation baby shower</a>
-</div>
-</section>
-</main>
-<footer>© 2026 Farha · Invitations digitales en Tunisie · <a href="/">Accueil</a> · <a href="/confidentialite.html">Confidentialité</a> · <a href="#" data-farha-cookies>Gestion des cookies</a></footer>
 <a class="wa" href="https://wa.me/21692891770?text=Bonjour%20Farha%20%F0%9F%92%8C%20Je%20souhaite%20une%20invitation%20de%20mariage%20digitale." target="_blank" rel="noopener" aria-label="Nous écrire sur WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 0 0-7.7 13.6L3 21l4.5-1.2A9 9 0 1 0 12 3Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 8.2c.2-.4.5-.4.7-.4h.5c.2 0 .4.1.5.4l.7 1.6c.1.2 0 .5-.1.6l-.5.6c.5 1 1.3 1.8 2.3 2.3l.6-.5c.2-.1.4-.2.6-.1l1.6.7c.3.1.4.3.4.5v.5c0 .3-.1.5-.4.7-.5.3-1.2.5-1.8.3-2.4-.6-4.3-2.5-4.9-4.9-.2-.6 0-1.3.3-1.8Z" fill="currentColor"/></svg><span>WhatsApp</span></a>
 <script>
 (function(){

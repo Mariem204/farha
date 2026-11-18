@@ -819,7 +819,7 @@ html.fp-lock main,html.fp-lock .farha-header{transform:scale(var(--fp-zoom,1.06)
 (function(){
  var fp=document.getElementById('farhaPortal');if(!fp)return;
  var root=document.documentElement;
- if(/[#&](i|modele)=/.test(location.hash)){fp.remove();return}
+ if(/[#&](i|modele)=/.test(location.hash)||/^#(themes|how-it-works|packages|faq|contact)$/.test(location.hash)){fp.remove();return}
  if('scrollRestoration' in history)history.scrollRestoration='manual';scrollTo(0,0);root.classList.add('fp-lock');
  var hint=fp.querySelector('.fp-hint'),vid=fp.querySelector('.fz-vid'),scene=fp.querySelector('.fz-scene'),entering=false,done=false,ty=null,timer=0;
  if(matchMedia('(pointer:coarse)').matches){hint.classList.add('touch');hint.lastChild.textContent='Glissez vers le haut pour entrer'}
