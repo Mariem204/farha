@@ -1,6 +1,7 @@
 // Farha · Microsoft Clarity + Google Analytics 4 (statistiques de visite) et gestion des cookies.
-// Google Analytics suit exactement les mêmes règles que Clarity ci-dessous : chargé seulement après « Accepter »,
-// jamais sur /admin ni sur les invitations des invités, arrêté (cookies _ga supprimés) en cas de refus.
+// Google Analytics : jamais sur /admin ni sur les invitations des invités. Tant que le visiteur n'a pas répondu
+// au bandeau, mesure anonyme sans cookie (Consent Mode v2) ; complète après « Accepter » ; arrêtée (cookies _ga
+// supprimés) en cas de refus.
 // Chargé une seule fois par page, uniquement sur le site en ligne (farha.tn, farha-bay.vercel.app).
 // Confidentialité :
 //  - jamais sur le back-office (/admin), les previews, ni les invitations ouvertes par les invités (liens #i=…
@@ -41,20 +42,31 @@
   var queued = false, observer = null;
   function later() { if (queued) return; queued = true; setTimeout(function () { queued = false; mask(); }, 200); }
 
-  // ----- Google Analytics 4 (une seule fois, après accord) -----
+  // ----- Google Analytics 4 avec le mode « consentement » de Google (Consent Mode v2) -----
+  // Sans réponse au bandeau : GA est chargé en mode refusé (analytics_storage « denied ») : aucun cookie,
+  // aucun identifiant, seulement des signaux anonymes que Google utilise pour estimer les visites.
+  // Après « Accepter » : mesure complète. Après « Refuser » : plus rien n'est envoyé (ga-disable).
   var gaLoaded = false;
-  function startGA() {
-    window['ga-disable-' + GA_ID] = false;
+  function loadGA(granted) {
     window.dataLayer = window.dataLayer || [];
     if (!window.gtag) window.gtag = function () { window.dataLayer.push(arguments); };
-    window.gtag('consent', 'update', { analytics_storage: 'granted' });
     if (gaLoaded) return;
     gaLoaded = true;
+    window.gtag('consent', 'default', {
+      analytics_storage: granted ? 'granted' : 'denied',
+      ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied'
+    });
     window.gtag('js', new Date());
     window.gtag('config', GA_ID);
     var s = document.createElement('script'); s.async = true;
     s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
     document.head.appendChild(s);
+  }
+  function startGA() {
+    window['ga-disable-' + GA_ID] = false;
+    var first = !gaLoaded;
+    loadGA(true);
+    if (!first) window.gtag('consent', 'update', { analytics_storage: 'granted' });
   }
   function stopGA() {
     window['ga-disable-' + GA_ID] = true;
@@ -166,7 +178,7 @@
   function init() {
     var c = getChoice();
     if (c === 'granted') { if (allowed) start(); }
-    else if (c !== 'denied' && allowed) banner(false);
+    else if (c !== 'denied' && allowed) { loadGA(false); banner(false); } // pas encore de choix : mesure anonyme sans cookie
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
   // si un lien d'invitation est ouvert sans recharger la page, on arrête d'enregistrer
