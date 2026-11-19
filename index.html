@@ -1934,7 +1934,8 @@ window.farhaSetMusicLibrary=function(list){
   templates.splice(0,templates.length,...next);
   const cats=['Tous',...new Set(next.map(t=>t.category))];
   categories.splice(0,categories.length,...cats);
-  if(!next.includes(chosen))chosen=next[0];
+  // un modèle en fichier (Neon Coast, Carthage…) n'est pas dans la base : il est rajouté juste après, on le garde ouvert
+  if(!next.includes(chosen)&&!(chosen&&chosen.custom&&typeof FARHA_CUSTOM_HTML==='object'&&FARHA_CUSTOM_HTML[chosen.id]))chosen=next[0];
   renderCatalog();
   if(document.getElementById('inspirations')?.classList.contains('active'))farhaRenderInspirations();
  }
