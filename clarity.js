@@ -1,7 +1,7 @@
 // Farha · Microsoft Clarity + Google Analytics 4 (statistiques de visite) et gestion des cookies.
 // Google Analytics suit exactement les mêmes règles que Clarity ci-dessous : chargé seulement après « Accepter »,
 // jamais sur /admin ni sur les invitations des invités, arrêté (cookies _ga supprimés) en cas de refus.
-// Chargé une seule fois par page, uniquement sur le site en ligne (farha.tn, farha-bay.vercel.app).
+// Chargé une seule fois par page, uniquement sur le site en ligne (invitation-digitale.tn, farha.tn, farha-bay.vercel.app).
 // Confidentialité :
 //  - jamais sur le back-office (/admin), les previews, ni les invitations ouvertes par les invités (liens #i=…
 //    et /i/…, dont l'adresse contient les prénoms, la date et le lieu) ;
