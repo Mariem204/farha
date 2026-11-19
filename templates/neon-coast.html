@@ -1,0 +1,643 @@
+<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><title>Neon Coast · Invitation d’anniversaire</title><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Bungee&family=Yellowtail&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* Layout: one 430px story column on a sunset-coast ground. Every scene is a full-bleed stage,
+   separated by a lit road strip where traffic drives past. */
+:root{
+  --pink:#ff4fa3; --violet:#8a4fe8; --magenta:#ff6b9d; --orange:#ff9558; --gold:#ffc46b;
+  --aqua:#4fe3e0; --cream:#fff3e6; --peach:#ffb07c;
+  --night:#241043; --navy:#1b0c33; --ink:#160a28; --paper:#ffffff;
+  --haze:rgba(255,243,230,.72); --line:rgba(255,107,157,.45);
+  --block:'Bungee','Arial Black',system-ui,sans-serif;
+  --display:'Anton','Arial Narrow',system-ui,sans-serif;
+  --script:'Yellowtail','Brush Script MT',cursive;
+  --ui:'Inter',system-ui,-apple-system,Segoe UI,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--ink);color:var(--cream);font-family:var(--ui);
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+.wrap{max-width:430px;margin:0 auto;position:relative;background:var(--night);
+  box-shadow:0 0 90px rgba(138,79,232,.4)}
+.scene{position:relative;overflow:hidden;
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:0}
+.inner{position:relative;z-index:3}
+
+h1,h2,h3{margin:0;font-family:var(--block);font-weight:400;letter-spacing:0;text-wrap:balance}
+p{margin:0}
+.script{font-family:var(--script);font-weight:400}
+.kicker{font-family:var(--ui);font-weight:700;font-size:11px;letter-spacing:.34em;text-transform:uppercase;color:var(--gold)}
+.muted{color:var(--haze)}
+
+/* blocky arcade lettering: white face, dark outline, hard drop */
+.blk{color:#fff;-webkit-text-stroke:2px #1d0a35;paint-order:stroke fill;
+  text-shadow:0 3px 0 #1d0a35,0 7px 0 rgba(138,79,232,.95),0 14px 26px rgba(0,0,0,.5)}
+.blk.cool{text-shadow:0 3px 0 #0d2a36,0 7px 0 rgba(79,227,224,.85),0 14px 26px rgba(0,0,0,.5)}
+.neon{color:#fff;text-shadow:0 0 6px rgba(255,255,255,.85),0 0 16px var(--pink),0 0 34px var(--pink),0 0 70px rgba(255,107,157,.7)}
+.chrome{
+  background:linear-gradient(180deg,#fff6e8 0%,var(--gold) 26%,var(--magenta) 54%,var(--pink) 68%,var(--violet) 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 2px 0 rgba(0,0,0,.45)) drop-shadow(0 0 22px rgba(255,79,163,.5));
+}
+.rule{height:1px;background:linear-gradient(90deg,transparent,var(--line),transparent)}
+
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  min-height:52px;padding:0 26px;border:0;cursor:pointer;
+  font-family:var(--display);font-size:15px;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;
+  color:#17061f;background:linear-gradient(100deg,var(--gold),var(--orange) 46%,var(--pink));
+  clip-path:polygon(14px 0,100% 0,calc(100% - 14px) 100%,0 100%);
+  box-shadow:0 0 0 1px rgba(255,255,255,.25) inset,0 10px 30px rgba(255,79,163,.4);
+  transition:transform .25s ease,box-shadow .25s ease,filter .25s ease;
+}
+.btn:hover{transform:translateY(-2px);filter:brightness(1.08);box-shadow:0 0 0 1px rgba(255,255,255,.4) inset,0 14px 40px rgba(255,79,163,.6)}
+.btn:active{transform:translateY(0)}
+.btn.ghost{background:transparent;color:#fff;box-shadow:0 0 0 1px var(--aqua) inset,0 0 26px rgba(79,227,224,.22) inset}
+.btn:focus-visible,a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+
+.panel{
+  position:relative;background:linear-gradient(180deg,rgba(26,10,48,.88),rgba(16,7,32,.95));
+  border:1px solid rgba(79,227,224,.34);
+  box-shadow:0 0 0 1px rgba(138,79,232,.25),0 18px 50px rgba(0,0,0,.55),0 0 50px rgba(138,79,232,.18) inset;
+}
+.panel::before,.panel::after{content:"";position:absolute;width:14px;height:14px;border:2px solid var(--gold);opacity:.9}
+.panel::before{left:-1px;top:-1px;border-right:0;border-bottom:0}
+.panel::after{right:-1px;bottom:-1px;border-left:0;border-top:0}
+.scan{position:absolute;inset:0;pointer-events:none;opacity:.2;
+  background:repeating-linear-gradient(180deg,rgba(255,255,255,.14) 0 1px,transparent 1px 4px)}
+
+/* ---------- reveal ---------- */
+.rv{opacity:1;transform:none}
+@media (prefers-reduced-motion:no-preference){
+  .js .rv{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.2,.8,.25,1),transform .7s cubic-bezier(.2,.8,.25,1)}
+  .js .rv.in{opacity:1;transform:none}
+}
+
+/* ---------- scene 1 : opening ---------- */
+#open{min-height:92svh;display:flex;align-items:center;justify-content:center;padding-block:56px}
+.sky{position:absolute;inset:0;z-index:0}
+.sky img{width:100%;height:100%;object-fit:cover;object-position:50% 38%;display:block}
+.sky::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(36,16,67,.3) 0%,rgba(36,16,67,.14) 34%,rgba(36,16,67,.8) 76%,var(--night) 100%)}
+.glowline{position:absolute;left:0;right:0;bottom:0;height:150px;z-index:1;
+  background:linear-gradient(0deg,rgba(255,79,163,.35),transparent)}
+.opening-copy{display:flex;flex-direction:column;gap:12px;align-items:center;text-align:center;width:100%}
+.opening-copy .l1{font-size:12px;letter-spacing:.42em}
+.opening-copy h1{font-size:clamp(34px,11.4vw,48px);line-height:1.02}
+.opening-copy .sig{font-size:clamp(40px,13.5vw,56px);line-height:1;margin-top:-4px}
+.flick{animation:flick 7s steps(1,end) infinite}
+@keyframes flick{0%,96%,100%{opacity:1}97%{opacity:.35}98%{opacity:1}98.6%{opacity:.5}}
+.scrollcue{display:flex;flex-direction:column;align-items:center;gap:6px;margin-top:4px;color:var(--haze);font-size:10px;letter-spacing:.3em}
+.scrollcue svg{width:16px;height:16px;animation:bob 1.8s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
+
+/* ---------- scene 2 : hero ---------- */
+#hero{padding-block:52px 44px;background:
+  radial-gradient(130% 72% at 50% 2%,rgba(255,176,124,.55),transparent 58%),
+  radial-gradient(100% 60% at 50% 22%,rgba(255,79,163,.4),transparent 70%),
+  linear-gradient(180deg,#2a1148,#3d1a56 52%,#4a1d5e)}
+.sun{position:absolute;left:50%;top:26px;translate:-50% 0;width:230px;height:230px;border-radius:50%;
+  background:linear-gradient(180deg,var(--gold),var(--orange) 42%,var(--pink) 78%,var(--magenta));
+  -webkit-mask-image:repeating-linear-gradient(180deg,#000 0 12px,transparent 12px 16px),linear-gradient(180deg,#000 55%,transparent 96%);
+  mask-image:repeating-linear-gradient(180deg,#000 0 12px,transparent 12px 16px),linear-gradient(180deg,#000 55%,transparent 96%);
+  -webkit-mask-composite:source-in;mask-composite:intersect;
+  filter:drop-shadow(0 0 60px rgba(255,79,163,.55));z-index:1;opacity:.95}
+.grid{position:absolute;left:-20%;right:-20%;bottom:0;height:200px;z-index:1;opacity:.75;
+  background:
+    repeating-linear-gradient(90deg,rgba(255,79,163,.55) 0 1px,transparent 1px 44px),
+    repeating-linear-gradient(0deg,rgba(138,79,232,.55) 0 1px,transparent 1px 30px);
+  transform:perspective(220px) rotateX(70deg);transform-origin:50% 100%;
+  -webkit-mask-image:linear-gradient(0deg,#000 10%,transparent 85%);mask-image:linear-gradient(0deg,#000 10%,transparent 85%)}
+@media (prefers-reduced-motion:no-preference){.grid{animation:grid 5.5s linear infinite}}
+@keyframes grid{to{background-position:0 30px,0 30px}}
+.palm{position:absolute;bottom:0;z-index:2;opacity:.92;transform-origin:50% 100%}
+.palm.a{left:-18px;width:150px}
+.palm.b{right:-26px;width:180px;transform:scaleX(-1)}
+@media (prefers-reduced-motion:no-preference){
+  .palm.a{animation:psway 9s ease-in-out infinite alternate}
+  .palm.b{animation:pswayb 11s ease-in-out infinite alternate}
+}
+@keyframes psway{from{transform:rotate(-1.6deg)}to{transform:rotate(1.8deg)}}
+@keyframes pswayb{from{transform:scaleX(-1) rotate(-1.8deg)}to{transform:scaleX(-1) rotate(1.6deg)}}
+.hero-copy{display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px}
+.hero-copy h2{font-size:clamp(31px,10.2vw,43px);line-height:1.06}
+.hero-copy .sig{font-size:clamp(36px,11.5vw,48px);line-height:1;margin-top:-6px}
+.tagline{font-size:12.5px;letter-spacing:.2em;text-transform:uppercase;font-weight:600;color:var(--haze);max-width:300px}
+.car{width:100%;margin-top:6px;filter:drop-shadow(0 22px 26px rgba(0,0,0,.6)) drop-shadow(0 0 34px rgba(255,79,163,.35))}
+@media (prefers-reduced-motion:no-preference){
+  .js .car{transform:translateX(-120%) scale(.94);opacity:0;transition:transform 1.1s cubic-bezier(.16,.84,.3,1),opacity .6s ease}
+  .js .car.in{transform:none;opacity:1}
+  .beam{animation:beam 2.6s ease-in-out infinite alternate}
+}
+@keyframes beam{from{opacity:.35}to{opacity:.9}}
+
+/* ---------- scene 3 : crew ---------- */
+#crew{padding-block:44px;background:linear-gradient(180deg,#4a1d5e,#2a1148)}
+.crew-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:18px}
+.card{position:relative;min-width:0;background:#1b0c33;border:1px solid rgba(255,176,124,.45);overflow:hidden}
+.card img{display:block;width:100%;aspect-ratio:3/4;object-fit:cover;filter:saturate(1.1) contrast(1.04);transition:transform .6s ease}
+.card:hover img{transform:scale(1.05)}
+.card .tag{position:absolute;left:0;right:0;bottom:0;padding:22px 10px 9px;
+  background:linear-gradient(0deg,rgba(13,4,26,.96),transparent);display:flex;flex-direction:column;gap:2px}
+.card .tag b{font-family:var(--display);font-size:16px;letter-spacing:.08em}
+.card .tag span{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
+.card::after{content:"";position:absolute;inset:0;box-shadow:0 0 40px rgba(138,79,232,.5) inset;pointer-events:none}
+
+/* ---------- scene 4 : briefing ---------- */
+#brief{padding-block:44px;background:linear-gradient(180deg,#2a1148,#1d0c35)}
+.bar{display:flex;align-items:center;gap:10px;padding:10px 12px;background:linear-gradient(90deg,rgba(255,79,163,.25),transparent);
+  border-left:3px solid var(--pink)}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--pink);box-shadow:0 0 12px var(--pink)}
+@media (prefers-reduced-motion:no-preference){.dot{animation:blink 1.6s ease-in-out infinite}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+.rows{display:flex;flex-direction:column;margin-top:2px}
+.row{display:flex;align-items:baseline;justify-content:space-between;gap:14px;padding:13px 14px;border-bottom:1px dashed rgba(255,243,230,.14)}
+.row:last-child{border-bottom:0}
+.row dt{font-size:10.5px;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);white-space:nowrap}
+.row dd{margin:0;font-family:var(--display);font-size:17px;letter-spacing:.04em;text-align:right;min-width:0;word-break:break-word}
+.radar{position:relative;width:118px;height:118px;border-radius:50%;flex:none;
+  background:radial-gradient(circle,#1d0c35 0%,#120722 70%);border:2px solid rgba(79,227,224,.5);
+  box-shadow:0 0 24px rgba(79,227,224,.25)}
+.radar i{position:absolute;inset:0;border-radius:50%;
+  background:conic-gradient(from 0deg,rgba(79,227,224,.55),transparent 28%)}
+@media (prefers-reduced-motion:no-preference){.radar i{animation:spin 3.4s linear infinite}}
+@keyframes spin{to{transform:rotate(360deg)}}
+.radar b{position:absolute;left:50%;top:50%;translate:-50% -50%;width:12px;height:12px;border-radius:50%;
+  background:var(--gold);box-shadow:0 0 16px var(--gold)}
+.stars{display:flex;gap:4px}
+.stars svg{width:17px;height:17px}
+@media (prefers-reduced-motion:no-preference){
+  .stars svg{animation:twinkle 2.6s ease-in-out infinite}
+  .stars svg:nth-child(2){animation-delay:.3s}.stars svg:nth-child(3){animation-delay:.6s}
+  .stars svg:nth-child(4){animation-delay:.9s}.stars svg:nth-child(5){animation-delay:1.2s}
+}
+@keyframes twinkle{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.55;transform:scale(.88)}}
+
+/* ---------- scene 5 : map ---------- */
+#map{padding-block:44px;background:linear-gradient(180deg,#1d0c35,#160a28)}
+.maplink{display:block;position:relative;overflow:hidden;margin-top:16px;
+  border:1px solid rgba(79,227,224,.4);box-shadow:0 0 0 4px rgba(255,79,163,.12),0 16px 40px rgba(0,0,0,.5);
+  transition:transform .35s ease,box-shadow .35s ease}
+.maplink:hover{transform:translateY(-3px);box-shadow:0 0 0 4px rgba(255,79,163,.2),0 22px 50px rgba(0,0,0,.6)}
+.maplink svg{display:block;width:100%;height:auto}
+.pinbob{transform-box:fill-box;transform-origin:50% 100%}
+@media (prefers-reduced-motion:no-preference){.pinbob{animation:pinbob 2.4s ease-in-out infinite}}
+@keyframes pinbob{0%,100%{transform:translateY(0)}45%{transform:translateY(-7px)}}
+
+/* ---------- scene 6 : level up ---------- */
+#level{padding-block:52px;background:
+  radial-gradient(95% 62% at 50% 44%,rgba(255,107,157,.38),transparent 66%),
+  linear-gradient(180deg,#160a28,#33135a)}
+.levelcard{padding:30px 18px 26px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px}
+.levelcard h2{font-size:clamp(30px,9.8vw,41px);line-height:1.05}
+.pop{display:inline-block}
+@media (prefers-reduced-motion:no-preference){
+  .js .pop{transform:scale(.6) rotate(-4deg);opacity:0;transition:transform .55s cubic-bezier(.2,1.5,.4,1),opacity .4s ease}
+  .js .in .pop{transform:none;opacity:1}
+  .js .in .pop.d1{transition-delay:.12s}.js .in .pop.d2{transition-delay:.26s}.js .in .pop.d3{transition-delay:.4s}
+  .sweep::after{animation:sweep 5s ease-in-out 1.2s infinite}
+}
+.sweep{position:relative;overflow:hidden}
+.sweep::after{content:"";position:absolute;top:0;bottom:0;width:60%;left:-70%;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.28),transparent)}
+@keyframes sweep{0%{left:-70%}55%,100%{left:120%}}
+.respect{display:flex;align-items:center;gap:10px;font-family:var(--display);font-size:20px;letter-spacing:.14em;color:var(--gold)}
+
+/* ---------- scene 7 : rsvp + final ---------- */
+#final{padding-block:48px 46px;position:relative;background:linear-gradient(180deg,#33135a,#160a28)}
+.palmbg{position:absolute;inset:0;z-index:0;opacity:.3}
+.palmbg img{width:100%;height:100%;object-fit:cover;object-position:50% 42%;display:block}
+.palmbg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(51,19,90,.72),rgba(22,10,40,.94))}
+.count{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;width:100%;margin-top:6px}
+.cell{display:flex;flex-direction:column;align-items:center;gap:8px;min-width:0}
+.cell .box{position:relative;width:100%;aspect-ratio:3/4.2;display:grid;place-items:center;
+  background:linear-gradient(180deg,#8a4fe8 0%,#ff6b9d 46%,#ffb07c 78%,#ffc46b 100%);
+  box-shadow:0 0 0 3px #3b1c63,0 0 0 5px var(--gold),0 14px 26px rgba(0,0,0,.5)}
+.cell .box::after{content:"";position:absolute;inset:6px;border:1px solid rgba(255,255,255,.35);pointer-events:none}
+.cell b{font-family:var(--block);font-size:clamp(19px,6.4vw,26px);line-height:1;font-variant-numeric:tabular-nums;
+  color:#fff;-webkit-text-stroke:2px #1d0a35;paint-order:stroke fill;
+  text-shadow:0 2px 0 #1d0a35,0 5px 0 rgba(61,28,99,.9)}
+.cell .lab2{font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:700}
+
+form{width:100%;display:flex;flex-direction:column;gap:12px;text-align:left}
+label.lab{font-size:10.5px;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:5px}
+.fld{width:100%;min-height:48px;padding:12px 14px;color:var(--cream);font-family:var(--ui);font-size:16px;
+  background:rgba(255,255,255,.06);border:1px solid rgba(79,227,224,.35)}
+.fld::placeholder{color:rgba(255,243,230,.4)}
+textarea.fld{min-height:84px;resize:vertical}
+.choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.choice{position:relative;display:flex;align-items:center;justify-content:center;gap:8px;min-height:54px;padding:8px;
+  cursor:pointer;text-align:center;font-family:var(--display);font-size:15px;letter-spacing:.1em;
+  color:var(--cream);background:rgba(255,255,255,.05);border:1px solid rgba(255,243,230,.22);
+  transition:background .25s ease,border-color .25s ease,transform .25s ease}
+.choice:hover{transform:translateY(-2px)}
+.choice input{position:absolute;opacity:0;pointer-events:none}
+.choice .rd{width:14px;height:14px;border-radius:50%;border:1px solid rgba(255,243,230,.5);flex:none}
+.choice.on{background:linear-gradient(100deg,rgba(255,196,107,.22),rgba(255,79,163,.28));border-color:var(--pink)}
+.choice.on .rd{border:5px solid var(--pink)}
+.choice.no.on{background:linear-gradient(100deg,rgba(79,227,224,.14),rgba(138,79,232,.26));border-color:var(--aqua)}
+.choice.no.on .rd{border:5px solid var(--aqua)}
+.err{color:#ffb4c8;font-size:13px}
+.accepted{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center}
+@media (prefers-reduced-motion:no-preference){.accepted{animation:stamp .6s cubic-bezier(.2,1.6,.4,1) both}}
+@keyframes stamp{from{transform:scale(1.5);opacity:0;filter:blur(4px)}to{transform:none;opacity:1;filter:none}}
+.foot{padding-block:22px 30px;text-align:center;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,243,230,.4)}
+</style>
+
+<div class="wrap">
+
+<!-- ========== 1 · OPENING ========== -->
+<section class="scene" id="open">
+  <div class="sky" id="sky"><img src="/media/x/3bf2f6064f8294.webp" alt="" fetchpriority="high"></div>
+  <div class="glowline"></div>
+  <div class="inner opening-copy">
+    <p class="kicker l1">Bienvenue à</p>
+    <h1 class="blk flick">NEON<br>COAST</h1>
+    <p class="script sig chrome">Tu es invité</p>
+    <p class="kicker" style="color:var(--haze);letter-spacing:.3em">Édition anniversaire</p>
+    <div class="rule" style="width:70%;margin:10px 0 4px"></div>
+    <a class="btn" href="#hero">Entrer dans la ville</a>
+    <div class="scrollcue"><span>DÉFILER</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 4v15M6 13l6 6 6-6"/></svg>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 2 · HERO ========== -->
+<section class="scene" id="hero">
+  <div class="sun" aria-hidden="true"></div>
+  <div class="grid" aria-hidden="true"></div>
+  <svg class="palm a" viewBox="0 0 160 300" aria-hidden="true" fill="#2a0f4a">
+    <path d="M76 300c2-70 4-140 10-205l9 1c-7 66-9 135-11 204z"/>
+    <path d="M86 96C70 74 44 60 16 62c20-18 56-12 74 14zM86 96C74 66 48 44 18 40c24-12 57 6 72 42zM88 94c6-30 32-56 62-62-16 24-30 36-54 68zM88 92c20-20 52-28 72-18-26 2-44 10-66 28zM88 100c22 2 48 20 58 44-22-20-38-32-60-34z"/>
+  </svg>
+  <svg class="palm b" viewBox="0 0 160 300" aria-hidden="true" fill="#2a0f4a">
+    <path d="M76 300c2-70 4-140 10-205l9 1c-7 66-9 135-11 204z"/>
+    <path d="M86 96C70 74 44 60 16 62c20-18 56-12 74 14zM86 96C74 66 48 44 18 40c24-12 57 6 72 42zM88 94c6-30 32-56 62-62-16 24-30 36-54 68zM88 92c20-20 52-28 72-18-26 2-44 10-66 28zM88 100c22 2 48 20 58 44-22-20-38-32-60-34z"/>
+  </svg>
+
+  <div class="inner hero-copy">
+    <p class="kicker rv">Briefing · 01</p>
+    <h2 class="rv blk">C'EST MON<br>ANNIV</h2>
+    <p class="script sig rv neon">une seule nuit</p>
+    <p class="tagline rv">Une nuit. Une ville. Une fête mémorable.</p>
+
+    <svg class="car" id="car" viewBox="0 0 420 190" role="img" aria-label="Cruiser vintage bicolore"><use href="#cruiserShape"/></svg>
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+      <g id="carShape">
+        <defs>
+          <linearGradient id="body" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#ff8f4d"/><stop offset=".46" stop-color="#ef4a2a"/><stop offset="1" stop-color="#7a1a1f"/>
+          </linearGradient>
+          <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#9ad7ff"/><stop offset="1" stop-color="#4a2a86"/>
+          </linearGradient>
+          <radialGradient id="lamp"><stop offset="0" stop-color="#fff6d8"/><stop offset="1" stop-color="rgba(255,196,107,0)"/></radialGradient>
+        </defs>
+        <ellipse cx="206" cy="150" rx="168" ry="13" fill="#2a0c3f" opacity=".85"/>
+        <path d="M48 118c-8-16 4-26 20-30 14-24 40-40 74-44 30-4 56 2 78 14 24 4 54 14 86 30 14 7 16 22 2 28H48z" fill="url(#body)"/>
+        <path d="M126 62c18-18 44-24 68-20 18 3 32 12 44 22-38-6-76-7-112-2z" fill="url(#glass)"/>
+        <path d="M48 110h260c8 0 10 6 2 8H52c-6 0-8-6-4-8z" fill="#2a0c3f" opacity=".6"/>
+        <path d="M300 80c14 4 28 10 40 18-14 2-28 1-44-4z" fill="#ffd9ef" opacity=".5"/>
+        <rect x="36" y="86" width="26" height="9" rx="4" fill="url(#lamp)" class="beam"/>
+        <circle cx="46" cy="90" r="22" fill="url(#lamp)" class="beam" opacity=".7"/>
+        <g fill="#120521"><circle cx="118" cy="120" r="27"/><circle cx="288" cy="120" r="27"/></g>
+        <g fill="none" stroke="#ffc46b" stroke-width="3"><circle cx="118" cy="120" r="15"/><circle cx="288" cy="120" r="15"/></g>
+        <path d="M60 104h300" stroke="#ff4fa3" stroke-width="2" opacity=".7"/>
+      </g>
+    </svg>
+  </div>
+</section>
+
+<!-- ========== 3 · CREW ========== -->
+<section class="scene" id="crew">
+  <div class="inner">
+    <p class="kicker rv">Choisis ton équipe</p>
+    <h2 class="rv blk cool" style="font-size:20px;line-height:1.35;margin-top:10px">LA NUIT<br>SE JOUE À DEUX</h2>
+    <div class="crew-grid">
+      <figure class="card rv" style="margin:0">
+        <img src="/media/x/ddf686a85dc6c8.webp" data-farha-photo="Photo de la star du jour" alt="Portrait de la star du jour" style="object-position:50% 20%">
+        <figcaption class="tag"><span>Star du jour</span><b id="crewName">[NOM]</b></figcaption>
+      </figure>
+      <figure class="card rv" style="margin:0">
+        <img src="/media/x/3f83e56b928038.webp" alt="Portrait illustré d'un homme au bandana bleu nuit">
+        <figcaption class="tag"><span>Recherché sur place</span><b>TOI</b></figcaption>
+      </figure>
+    </div>
+    <p class="rv muted" style="margin-top:14px;font-size:15px;line-height:1.55">
+      Deux places dans la voiture. Une est déjà prise. Amène ta plus belle veste et tes pires pas de danse.
+    </p>
+  </div>
+</section>
+
+<!-- ========== 4 · BRIEFING ========== -->
+<section class="scene" id="brief">
+  <div class="inner">
+    <div class="panel rv" style="padding:0">
+      <div class="scan" aria-hidden="true"></div>
+      <div class="bar"><span class="dot" aria-hidden="true"></span>
+        <strong style="font-family:var(--display);font-size:14px;letter-spacing:.2em">NOUVELLE MISSION</strong>
+      </div>
+      <div style="display:flex;gap:14px;align-items:center;padding:16px 14px 6px">
+        <div class="radar" aria-hidden="true"><i></i><b></b></div>
+        <div style="min-width:0">
+          <p class="kicker" style="font-size:10px">Objectif</p>
+          <p style="font-family:var(--display);font-size:19px;line-height:1.1;margin-top:6px">FÊTE<br>D'ANNIVERSAIRE</p>
+          <div class="stars" style="margin-top:9px" role="img" aria-label="Soirée cinq étoiles">
+            <svg viewBox="0 0 24 24" fill="#ffc46b"><path d="M12 2l3 7h7l-5.5 4.5L18.5 21 12 16.8 5.5 21 7.5 13.5 2 9h7z"/></svg>
+            <svg viewBox="0 0 24 24" fill="#ffc46b"><path d="M12 2l3 7h7l-5.5 4.5L18.5 21 12 16.8 5.5 21 7.5 13.5 2 9h7z"/></svg>
+            <svg viewBox="0 0 24 24" fill="#ffc46b"><path d="M12 2l3 7h7l-5.5 4.5L18.5 21 12 16.8 5.5 21 7.5 13.5 2 9h7z"/></svg>
+            <svg viewBox="0 0 24 24" fill="#ffc46b"><path d="M12 2l3 7h7l-5.5 4.5L18.5 21 12 16.8 5.5 21 7.5 13.5 2 9h7z"/></svg>
+            <svg viewBox="0 0 24 24" fill="#ffc46b"><path d="M12 2l3 7h7l-5.5 4.5L18.5 21 12 16.8 5.5 21 7.5 13.5 2 9h7z"/></svg>
+          </div>
+        </div>
+      </div>
+      <dl class="rows" style="margin:10px 0 6px">
+        <div class="row"><dt>Joueur</dt><dd id="fName">[NOM]</dd></div>
+        <div class="row"><dt>Date</dt><dd id="fDate">[DATE]</dd></div>
+        <div class="row"><dt>Heure</dt><dd id="fTime">[HEURE]</dd></div>
+        <div class="row"><dt>Destination</dt><dd id="fLoc">[LIEU]</dd></div>
+        <div class="row"><dt>Tenue</dt><dd id="fDress">[DRESS CODE]</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 5 · MAP ========== -->
+<section class="scene" id="map">
+  <div class="inner" style="display:flex;flex-direction:column;align-items:center;text-align:center">
+    <p class="kicker rv">Point de rendez-vous</p>
+    <h2 class="rv blk cool" style="font-size:20px;line-height:1.35;margin-top:10px">RÈGLE TON GPS</h2>
+    <a class="maplink rv" id="mapLink" href="https://www.google.com/maps" target="_blank" rel="noopener" aria-label="Ouvrir le lieu dans Google Maps">
+      <svg viewBox="0 0 400 230" role="img" aria-label="Plan du lieu">
+        <rect width="400" height="230" fill="#0f0a1f"/>
+        <g fill="#161033">
+          <rect x="18" y="16" width="96" height="62"/><rect x="130" y="10" width="84" height="46"/>
+          <rect x="248" y="22" width="120" height="58"/><rect x="24" y="106" width="78" height="50"/>
+          <rect x="286" y="110" width="92" height="46"/><rect x="40" y="180" width="110" height="40"/>
+          <rect x="250" y="182" width="118" height="42"/>
+        </g>
+        <path d="M0 96h400M0 168h400M118 0v230M238 0v230" stroke="#241043" stroke-width="16"/>
+        <path d="M0 96h400M0 168h400M118 0v230M238 0v230" stroke="#3a1c63" stroke-width="12"/>
+        <path d="M0 96h400M0 168h400" stroke="#ffc46b" stroke-width="1.6" stroke-dasharray="12 12" opacity=".7"/>
+        <path d="M28 220C70 190 96 150 118 96c18-44 58-62 120-58" fill="none" stroke="#4fe3e0" stroke-width="5" stroke-linecap="round" opacity=".95"/>
+        <circle cx="28" cy="220" r="7" fill="#4fe3e0"/>
+        <g transform="translate(238 92)">
+          <ellipse cy="4" rx="12" ry="4.5" fill="#000" opacity=".45"/>
+          <g class="pinbob">
+            <path d="M0 0C-14-14-17-22-17-29A17 17 0 0 1 17-29C17-22 14-14 0 0Z" fill="#ff4fa3" stroke="#fff3e6" stroke-width="2.5"/>
+            <circle cy="-29" r="6" fill="#fff3e6"/>
+          </g>
+        </g>
+        <rect x="0" y="0" width="400" height="230" fill="none" stroke="rgba(79,227,224,.25)" stroke-width="2"/>
+      </svg>
+    </a>
+    <p class="rv muted" style="margin-top:12px;font-size:14px" id="mapAddr">[LIEU]</p>
+    <div class="rv" style="margin-top:12px"><a class="btn" id="mapBtn" href="https://www.google.com/maps" target="_blank" rel="noopener">Itinéraire</a></div>
+  </div>
+</section>
+
+<!-- ========== 6 · LEVEL UP ========== -->
+<section class="scene" id="level">
+  <div class="inner">
+    <div class="panel sweep rv levelcard">
+      <div class="scan" aria-hidden="true"></div>
+      <p class="kicker pop d1">Objectif atteint</p>
+      <h2 class="blk pop d2">NIVEAU +1</h2>
+      <p class="script pop d3 chrome" style="font-size:36px;line-height:1">une année de plus</p>
+      <div class="respect pop d3"><span>RESPECT</span>
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#ffc46b" stroke-width="3" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+        <span>1000</span>
+      </div>
+      <div class="rule" style="width:70%;margin:6px 0"></div>
+      <p style="font-size:14px;letter-spacing:.1em;text-transform:uppercase;color:var(--haze);max-width:270px">
+        Ta prochaine mission : venir et faire la fête.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 7 · RSVP + FINAL ========== -->
+<section class="scene" id="final">
+  <div class="palmbg" aria-hidden="true"><img src="/media/x/d76ef5c16f1f33.webp" alt=""></div>
+  <div class="inner" style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px">
+    <p class="kicker rv">La fête commence dans</p>
+    <div class="count rv" id="count">
+      <div class="cell"><span class="box"><b id="cd">--</b></span><span class="lab2">Jours</span></div>
+      <div class="cell"><span class="box"><b id="ch">--</b></span><span class="lab2">Heures</span></div>
+      <div class="cell"><span class="box"><b id="cm">--</b></span><span class="lab2">Min</span></div>
+      <div class="cell"><span class="box"><b id="cs">--</b></span><span class="lab2">Sec</span></div>
+    </div>
+
+    <h2 class="rv blk" style="font-size:clamp(25px,8.2vw,34px);line-height:1.2;margin-top:12px">RENDEZ-VOUS À<br>NEON COAST</h2>
+    <p class="script rv neon" style="font-size:34px;line-height:1;margin-top:-6px">sois à l'heure</p>
+
+    <div class="panel rv" id="rsvpBox" style="padding:20px 16px;width:100%;margin-top:6px">
+      <div class="scan" aria-hidden="true"></div>
+      <p class="kicker" style="text-align:center;margin-bottom:14px">Accepte la mission</p>
+      <form id="rsvpForm" novalidate>
+        <div>
+          <label class="lab" for="guestName">Nom</label>
+          <input class="fld" id="guestName" name="guestName" type="text" autocomplete="name" placeholder="Ton nom">
+        </div>
+        <div>
+          <span class="lab" id="comingLab">Tu viens ?</span>
+          <div class="choices" role="radiogroup" aria-labelledby="comingLab">
+            <label class="choice yes" id="cYes"><input type="radio" name="coming" value="yes"><span class="rd" aria-hidden="true"></span>JE VIENS</label>
+            <label class="choice no" id="cNo"><input type="radio" name="coming" value="no"><span class="rd" aria-hidden="true"></span>JE VIENS PAS</label>
+          </div>
+        </div>
+        <div>
+          <label class="lab" for="guestMsg">Un mot pour la star (facultatif)</label>
+          <textarea class="fld" id="guestMsg" name="guestMsg" placeholder="Laisse un message"></textarea>
+        </div>
+        <p class="err" id="formErr" hidden>Mets ton nom et dis-nous si tu viens.</p>
+        <div style="display:flex;justify-content:center;margin-top:2px"><button class="btn" type="submit" id="rsvpBtn">Envoyer</button></div>
+      </form>
+    </div>
+
+    <div id="acceptedBox" hidden class="accepted panel" style="padding:24px 18px;width:100%;margin-top:6px">
+      <p class="kicker" style="color:var(--pink)" id="accKicker">Mission acceptée</p>
+      <p class="blk" style="font-family:var(--block);font-size:24px;line-height:1.25" id="accTitle">ON T'ATTEND</p>
+      <p class="muted" style="font-size:15px" id="accLine">Ta place dans la voiture est réservée.</p>
+    </div>
+  </div>
+</section>
+
+<p class="foot">Neon Coast · édition anniversaire</p>
+</div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <g id="cruiserShape">
+    <defs>
+      <linearGradient id="cTop" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#ffe08a"/><stop offset=".55" stop-color="#f6b43c"/><stop offset="1" stop-color="#e08f22"/>
+      </linearGradient>
+      <linearGradient id="cLow" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#efe4fb"/><stop offset=".6" stop-color="#cbb3ea"/><stop offset="1" stop-color="#9d84c6"/>
+      </linearGradient>
+      <linearGradient id="cGlass" x1="0" y1="0" x2=".4" y2="1">
+        <stop offset="0" stop-color="#bdf3f0"/><stop offset="1" stop-color="#4b8fb5"/>
+      </linearGradient>
+      <linearGradient id="cChrome" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#ffffff"/><stop offset=".5" stop-color="#cfd8e6"/><stop offset="1" stop-color="#8f9bb0"/>
+      </linearGradient>
+      <radialGradient id="cLamp"><stop offset="0" stop-color="#fffbe8"/><stop offset=".45" stop-color="#ffe08a"/><stop offset="1" stop-color="rgba(255,224,138,0)"/></radialGradient>
+    </defs>
+    <ellipse cx="214" cy="166" rx="176" ry="12" fill="#1a0a30" opacity=".75"/>
+    <path d="M36 132c-3-22 9-33 30-37 20-34 54-52 104-56 54-4 97 8 130 34 30 7 62 18 86 33 15 9 18 26 7 34l-345 2c-8 0-11-4-12-10z" fill="url(#cTop)"/>
+    <path d="M38 134c26-12 92-19 176-19 82 0 150 8 179 19 5 5 4 11-3 11l-345 2c-8 0-11-6-7-13z" fill="url(#cLow)"/>
+    <path d="M42 128c66-16 148-21 228-17 52 3 96 10 127 19" fill="none" stroke="url(#cChrome)" stroke-width="3.5" stroke-linecap="round"/>
+    <path d="M84 94c18-28 48-42 90-45 46-3 84 7 112 28 5 4 9 9 11 15-70-8-143-7-213 2z" fill="url(#cGlass)"/>
+    <path d="M84 94c18-28 48-42 90-45 46-3 84 7 112 28 5 4 9 9 11 15" fill="none" stroke="url(#cChrome)" stroke-width="4"/>
+    <path d="M168 49v44M120 60l-8 36" stroke="#e8edf5" stroke-width="3" opacity=".85"/>
+    <path d="M36 112c-4-10-2-20 4-26l10 22z" fill="#efe4fb" opacity=".8"/>
+    <rect x="318" y="112" width="64" height="24" rx="8" fill="#d8c47e"/>
+    <g stroke="#7a6630" stroke-width="1.6" opacity=".8"><path d="M326 114v20M336 114v20M346 114v20M356 114v20M366 114v20M376 114v20"/></g>
+    <rect x="312" y="138" width="78" height="12" rx="6" fill="url(#cChrome)"/>
+    <circle cx="330" cy="144" r="6" fill="#eef3fa"/><circle cx="372" cy="144" r="6" fill="#eef3fa"/>
+    <circle cx="348" cy="104" r="13" fill="url(#cChrome)"/><circle cx="348" cy="104" r="9" fill="#fff6d8"/>
+    <circle cx="348" cy="104" r="26" fill="url(#cLamp)" opacity=".75"/>
+    <circle cx="390" cy="108" r="10" fill="url(#cChrome)"/><circle cx="390" cy="108" r="7" fill="#fff6d8"/>
+    <circle cx="390" cy="108" r="22" fill="url(#cLamp)" opacity=".6"/>
+    <path d="M300 92c10 3 20 7 29 12-10 2-20 1-32-3z" fill="#fff6e8" opacity=".5"/>
+    <g fill="#140725"><circle cx="118" cy="146" r="27"/><circle cx="300" cy="146" r="27"/></g>
+    <g fill="#e9e3f2"><circle cx="118" cy="146" r="17"/><circle cx="300" cy="146" r="17"/></g>
+    <g fill="url(#cChrome)"><circle cx="118" cy="146" r="11"/><circle cx="300" cy="146" r="11"/></g>
+    <g fill="#b9c3d4"><circle cx="118" cy="146" r="4"/><circle cx="300" cy="146" r="4"/></g>
+    <path d="M44 100c-6 2-9 8-8 14l14-2z" fill="#ffe08a" opacity=".9"/>
+  </g>
+</svg>
+
+<script>
+// ===== Données personnalisables (formulaire Farha) =====
+const CONFIG = {
+  name: "Yassine",
+  date: "2027-03-14T21:00:00",
+  venue: "Rooftop Neon",
+  address: "Les Berges du Lac, Tunis",
+  dressCode: "Néon, vintage ou chemise à fleurs",
+  mapQuery: "",
+  mapLink: ""
+};
+document.documentElement.classList.add('js');
+
+const DAYS = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+const MONTHS = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
+const pad = n => String(n).padStart(2, '0');
+const when = new Date(CONFIG.date), okDate = !isNaN(when.getTime());
+const place = [CONFIG.venue, CONFIG.address].filter(Boolean).join(', ');
+const set = (id, v) => { const el = document.getElementById(id); if (el && v) el.textContent = v; };
+set('crewName', CONFIG.name); set('fName', CONFIG.name);
+if (okDate) { set('fDate', DAYS[when.getDay()] + ' ' + when.getDate() + ' ' + MONTHS[when.getMonth()] + ' ' + when.getFullYear()); set('fTime', when.getHours() + 'h' + pad(when.getMinutes())); }
+set('fLoc', CONFIG.venue || place); set('fDress', CONFIG.dressCode); set('mapAddr', place);
+const mapUrl = /^https:\/\//.test(CONFIG.mapLink || '') ? CONFIG.mapLink : 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(CONFIG.mapQuery || place);
+document.getElementById('mapLink').href = mapUrl;
+document.getElementById('mapBtn').href = mapUrl;
+
+/* reveals */
+const io = new IntersectionObserver((es) => {
+  es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+}, { threshold: 0.18, rootMargin: '0px 0px -8% 0px' });
+document.querySelectorAll('.rv').forEach((el, i) => {
+  el.style.transitionDelay = (i % 4) * 90 + 'ms';
+  io.observe(el);
+});
+const car = document.getElementById('car');
+new IntersectionObserver((es, o) => {
+  es.forEach(e => { if (e.isIntersecting) { car.classList.add('in'); o.disconnect(); } });
+}, { threshold: 0.3 }).observe(car);
+
+/* parallax */
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const sky = document.querySelector('#sky img');
+const palms = document.querySelector('.palmbg img');
+if (!reduce) {
+  let ticking = false;
+  addEventListener('scroll', () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      const y = scrollY;
+      if (sky) sky.style.transform = 'translate3d(0,' + (Math.min(y, 900) * 0.18) + 'px,0) scale(1.08)';
+      if (palms) {
+        const r = palms.parentElement.parentElement.getBoundingClientRect();
+        palms.style.transform = 'translate3d(0,' + (r.top * -0.06) + 'px,0) scale(1.12)';
+      }
+      ticking = false;
+    });
+  }, { passive: true });
+}
+
+/* countdown */
+function tick() {
+  const t = when.getTime();
+  if (!okDate) return;
+  const diff = t - Date.now();
+  const s = Math.max(0, Math.floor(diff / 1000));
+  document.getElementById('cd').textContent = pad(Math.floor(s / 86400));
+  document.getElementById('ch').textContent = pad(Math.floor(s / 3600) % 24);
+  document.getElementById('cm').textContent = pad(Math.floor(s / 60) % 60);
+  document.getElementById('cs').textContent = pad(s % 60);
+}
+tick();
+setInterval(tick, 1000);
+
+/* RSVP form */
+const form = document.getElementById('rsvpForm');
+const yesWrap = document.getElementById('cYes');
+const noWrap = document.getElementById('cNo');
+form.addEventListener('change', () => {
+  const v = form.elements.coming.value;
+  yesWrap.classList.toggle('on', v === 'yes');
+  noWrap.classList.toggle('on', v === 'no');
+});
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const name = document.getElementById('guestName').value.trim();
+  const coming = form.elements.coming.value;
+  const err = document.getElementById('formErr');
+  if (!name || !coming) { err.textContent = 'Mets ton nom et dis-nous si tu viens.'; err.hidden = false; return; }
+  err.hidden = true;
+
+  const msg = document.getElementById('guestMsg').value.trim(), btn = document.getElementById('rsvpBtn');
+  if (form.dataset.sending) return; form.dataset.sending = '1'; btn.textContent = 'Envoi…';
+  const id = Math.random().toString(36).slice(2); let done = false;
+  const finish = (ok, e2) => {
+    if (done) return; done = true; removeEventListener('message', on); delete form.dataset.sending; btn.textContent = 'Envoyer';
+    if (!ok) { err.textContent = e2 || 'Ta réponse n’a pas pu être envoyée. Vérifie ta connexion et réessaie.'; err.hidden = false; return; }
+    show();
+  };
+  function on(ev) { const x = ev.data; if (x && x.type === 'farha:rsvp-result' && x.id === id) finish(x.ok, x.error); }
+  addEventListener('message', on);
+  if (window.parent === window) finish(true);
+  else { try { parent.postMessage({ type: 'farha:rsvp', id, name, attending: coming === 'yes', message: msg.slice(0, 560) }, '*'); } catch (e3) {} setTimeout(() => finish(true), 15000); }
+});
+function show() {
+  const name = document.getElementById('guestName').value.trim(), coming = form.elements.coming.value;
+  document.getElementById('rsvpBox').hidden = true;
+  const box = document.getElementById('acceptedBox');
+  box.hidden = false;
+
+  if (coming === 'yes') {
+    document.getElementById('accKicker').textContent = 'Mission acceptée';
+    document.getElementById('accTitle').textContent = 'ON T’ATTEND, ' + name.toUpperCase();
+    document.getElementById('accLine').textContent = 'Ta place dans la voiture est réservée.';
+  } else {
+    document.getElementById('accKicker').textContent = 'Mission refusée';
+    document.getElementById('accTitle').textContent = 'TU VAS NOUS MANQUER';
+    document.getElementById('accLine').textContent = 'Merci d’avoir répondu, ' + name + '.';
+  }
+
+  const box2 = document.getElementById('acceptedBox');
+  box2.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
+}
+</script>
+
+</body></html>
