@@ -2626,6 +2626,11 @@ body .farha-header .farha-logo{line-height:1.1}
  var host=document.createElement('div');host.id='farhaExtra';var map=document.getElementById('map');if(map)map.after(host);
  function renderExtra(){
   var t=chosen,list=extrasOf(t),vals=farhaState.extra[t&&t.id]||{};
+  // Mêmes champs déjà affichés (simple rafraîchissement de l'aperçu) : on ne les recrée pas,
+  // sinon le champ en cours de saisie perd le focus (sur mobile on ne pouvait plus écrire).
+  var sig=(t&&t.id)+'|'+list.map(function(e){return e.key}).join(',');
+  if(host.dataset.sig===sig&&host.children.length){[].forEach.call(host.querySelectorAll('[data-key]'),function(inp){if(inp!==document.activeElement&&vals[inp.dataset.key]!=null)inp.value=vals[inp.dataset.key]});return}
+  host.dataset.sig=sig;
   // Message personnalisé masqué si le modèle importé ne l'utilise pas.
   var msg=document.getElementById('message'),ml=document.querySelector('label[for="message"]'),hide=!!(t&&t.custom&&t.defaults&&t.defaults.hasMessage===false);
   if(msg)msg.hidden=hide;if(ml)ml.hidden=hide;
@@ -2633,6 +2638,12 @@ body .farha-header .farha-logo{line-height:1.1}
    var id='fx_'+e.key,lb=document.createElement('label'),inp=document.createElement(e.def.length>70?'textarea':'input');
    lb.htmlFor=id;lb.textContent=e.label;inp.id=id;inp.maxLength=e.def.length>150?800:200;inp.value=vals[e.key]!=null?vals[e.key]:e.def;inp.dataset.key=e.key;
    if(/[؀-ۿ]/.test(e.def))inp.dir='auto';
+   // Heures du programme (« 20:00 ») : chiffres seulement, « : » posé tout seul, format 00:00.
+   if(/^\d{1,2}:\d{2}$/.test(e.def)){inp.inputMode='numeric';inp.placeholder='00:00';inp.maxLength=5;inp.autocomplete='off';inp.classList.add('fx-time');
+    inp.addEventListener('input',function(ev){var d=inp.value.replace(/\D/g,'').slice(0,4);
+     if(d.length&&+d[0]>2)d=('0'+d).slice(0,4);var h=d.slice(0,2),m=d.slice(2);if(+h>23)h='23';if(m.length===2&&+m>59)m='59';
+     inp.value=d.length>2?h+':'+m:(d.length===2&&ev.inputType!=='deleteContentBackward'?h+':':h)},true);
+    inp.addEventListener('blur',function(){var v=inp.value;if(/^\d{1,2}:$/.test(v)||/^\d{1,2}$/.test(v))v=('0'+v.replace(':','')).slice(-2)+':00';else if(/^\d:\d{2}$/.test(v))v='0'+v;else if(/^\d{2}:\d$/.test(v))v=v+'0';if(v!==inp.value){inp.value=v;inp.dispatchEvent(new Event('input'))}})}
    inp.addEventListener('input',function(){(farhaState.extra[t.id]=farhaState.extra[t.id]||{})[e.key]=inp.value;if(t.custom){if(typeof farhaCustomSync==='function')farhaCustomSync()}else if(typeof farhaSync==='function')farhaSync()});
    return[lb,inp]})));
  }
