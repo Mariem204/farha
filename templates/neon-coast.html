@@ -81,6 +81,10 @@ p{margin:0}
 
 /* ---------- scene 1 : opening ---------- */
 #open{min-height:92svh;display:flex;align-items:center;justify-content:center;padding-block:56px}
+/* une seule page au départ : le reste de l’invitation s’ouvre avec « Entrer dans la ville » */
+.gate .wrap>section:not(#open),.gate .foot,.gate .scrollcue{display:none}
+.gate #open{min-height:100svh}
+.gate,.gate body{overflow:hidden}
 .sky{position:absolute;inset:0;z-index:0}
 .sky img{width:100%;height:100%;object-fit:cover;object-position:50% 38%;display:block}
 .sky::after{content:"";position:absolute;inset:0;
@@ -262,7 +266,7 @@ textarea.fld{min-height:84px;resize:vertical}
     <p class="script sig chrome">Tu es invité</p>
     <p class="kicker" style="color:var(--haze);letter-spacing:.3em">Édition anniversaire</p>
     <div class="rule" style="width:70%;margin:10px 0 4px"></div>
-    <a class="btn" href="#hero">Entrer dans la ville</a>
+    <a class="btn" href="#hero" id="enterCity">Entrer dans la ville</a>
     <div class="scrollcue"><span>DÉFILER</span>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 4v15M6 13l6 6 6-6"/></svg>
     </div>
@@ -526,7 +530,14 @@ const CONFIG = {
   mapQuery: "",
   mapLink: ""
 };
-document.documentElement.classList.add('js');
+document.documentElement.classList.add('js', 'gate');
+// « Entrer dans la ville » : ouvre le reste de l’invitation et descend à la 2e page (sans changer d’adresse)
+document.getElementById('enterCity').addEventListener('click', (e) => {
+  e.preventDefault();
+  document.documentElement.classList.remove('gate');
+  const hero = document.getElementById('hero');
+  requestAnimationFrame(() => hero.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' }));
+});
 
 const DAYS = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
 const MONTHS = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
