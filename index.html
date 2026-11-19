@@ -2593,7 +2593,7 @@ body .farha-header .farha-logo{line-height:1.1}
 (function(){
  if(typeof farhaCustomDefaults!=='function')return;
  // Libellés des clés connues ; les autres textes simples du CONFIG reçoivent un libellé tiré de leur nom.
- var LABELS={reception:'Lieu de la réception (dîner)',school:'École / université',family:'La famille',degree:'Diplôme obtenu',year:'Année (promotion)',verse:'Verset / citation',whatsapp:'WhatsApp pour les réponses (ex. 21612345678)',
+ var LABELS={reception:'Lieu de la réception (dîner)',progAccueil:'Programme · accueil des invités (heure)',progBagues:'Programme · échange des bagues (heure)',progCocktail:'Programme · cocktail (heure)',progDiner:'Programme · dîner & soirée (heure)',school:'École / université',family:'La famille',degree:'Diplôme obtenu',year:'Année (promotion)',verse:'Verset / citation',whatsapp:'WhatsApp pour les réponses (ex. 21612345678)',
   title:'Titre',subtitle:'Sous-titre',host:'Invité par',parents:'Les parents',quote:'Citation',hashtag:'Hashtag',dressNote:'Indication Dress Code',childName:'Prénom de l’enfant',age:'Âge',city:'Ville',tagline:'Phrase d’accroche',story:'Notre histoire',venueType:'Type de lieu',brideAr:'Prénom de la mariée en arabe',mapLabel:'Texte sur la carte',dressTheme:'Thème de la tenue',rsvpBy:'Répondre avant le',groomAr:'Prénom du marié en arabe',dressCode:'Code vestimentaire',
   timeNote:'Fin de la fête (texte sous l’heure)',parent1Label:'Parent 1 · nom affiché',parent1Phone:'Parent 1 · téléphone',parent2Label:'Parent 2 · nom affiché (facultatif)',parent2Phone:'Parent 2 · téléphone (facultatif)',
   gateKicker:'Enveloppe · petit titre',gateTitle:'Enveloppe · titre',gateButton:'Enveloppe · bouton',gateHint:'Enveloppe · indication',alert:'Bandeau d’alerte',quote:'Phrase de la bulle',
@@ -2747,7 +2747,8 @@ body .farha-header .farha-logo{line-height:1.1}
  var OFF=['superhero','night','lavender','sky','lake','huntrix']; // Superhero · Birthday Boy, Nuit étoilée, Douce lavande, Bleu ciel, Lake Como, Huntrix · Birthday Pop
  var OFF_CAT=['Fiançailles']; // collections retirées du site
  if(/^#i=/.test(location.hash)||typeof templates==='undefined')return;
- function off(t){return OFF.indexOf(t.id)>=0||OFF_CAT.indexOf(t.category)>=0}
+ var ALLOW=['fiancailles-vert']; // modèles gardés dans une collection retirée (Fiançailles : seulement le nouveau modèle)
+ function off(t){return OFF.indexOf(t.id)>=0||(OFF_CAT.indexOf(t.category)>=0&&ALLOW.indexOf(t.id)<0)}
  function prune(){for(var i=templates.length-1;i>=0;i--)if(off(templates[i]))templates.splice(i,1);
   if(typeof chosen!=='undefined'&&chosen&&off(chosen))chosen=templates[0]}
  if(typeof renderCatalog==='function'){var rc=renderCatalog;renderCatalog=function(){prune();return rc.apply(this,arguments)}}
@@ -2866,6 +2867,7 @@ body .farha-header .farha-logo{line-height:1.1}
   {id:'forest-wedding',name:'Forêt',category:'Mariage',color:'#2f5a38',file:'templates/forest-wedding.html',preview:'templates/apercus/forest-wedding.webp',description:'Guirlandes de lumières et papillons dans les bois, cadre photo en lierre, date et lieu avec la carte, couleurs de la tenue et réponses des invités.'},
   {id:'jacaranda',name:'Jacaranda',category:'Mariage',color:'#5e3b82',file:'templates/jacaranda.html',preview:'templates/apercus/jacaranda.webp',description:'Arche de glycines et pétales mauves, bougies, cadre photo lilas, date et lieu avec la carte, couleurs de la tenue et réponses des invités.'},
   {id:'orchid-wedding',name:'Orchidée',category:'Mariage',color:'#a81e52',file:'templates/orchid-wedding.html',preview:'templates/apercus/orchid-wedding.webp',description:'Carte fuchsia et paon, colibris et orchidées, cadre photo, date et lieu avec la carte, couleurs de la tenue et réponses des invités.'},
+  {id:'fiancailles-vert',name:'Vert & marron',category:'Fiançailles',color:'#6f8456',file:'templates/fiancailles-vert.html',preview:'templates/apercus/fiancailles-vert.webp',description:'Rideaux verts et lustre, les fiancés illustrés, bague dans son écrin, calendrier, programme de la soirée, compte à rebours et réponses des invités.'},
   {id:'carthage',name:'Carthage',category:'Mariage',color:'#6A2525',file:'templates/carthage.html',preview:'templates/apercus/carthage.webp',description:'Sceau de Tanit à briser, parchemin d’Élyssa, éléphants d’Hannibal, galère punique, date dorée à gratter et un mot pour les mariés.'}
  ];
  var ready={};
@@ -2980,7 +2982,7 @@ body .farha-header .farha-logo{line-height:1.1}
 (function(){
  if(typeof farhaTemplateCard!=='function')return;
  var base=farhaTemplateCard;
- var SUITE=['henna-rideau-rouge','save-the-date-olive','lotus-wedding','sidi','sarah','sand','huntrix','huntrixConcert','diplome','tahara','anniversaire-dino','anniversaire-super-heros','baby-shower','enchanted-garden','bord-de-mer','henna-sultan','perla','carthage','outeya-gold','forest-wedding','jacaranda','orchid-wedding','neon-coast'];
+ var SUITE=['henna-rideau-rouge','save-the-date-olive','lotus-wedding','sidi','sarah','sand','huntrix','huntrixConcert','diplome','tahara','anniversaire-dino','anniversaire-super-heros','baby-shower','enchanted-garden','bord-de-mer','henna-sultan','perla','carthage','outeya-gold','forest-wedding','jacaranda','orchid-wedding','neon-coast','fiancailles-vert'];
  function fitFrames(box){box.querySelectorAll('iframe.card-frame').forEach(function(f){var p=f.parentElement,w=p.clientWidth;if(w)f.style.transform='scale('+(w/390)+')'})}
  farhaTemplateCard=function(t){
   var card=base.apply(this,arguments),art=card.querySelector('.template-artwork');if(!art)return card;
@@ -3011,6 +3013,10 @@ body .farha-header .farha-logo{line-height:1.1}
   base.apply(this,arguments);
   var d=t&&t.custom&&t.defaults,solo=!!(d&&d.mode==='name'&&!d.second),g=document.getElementById('groom'),gl=document.querySelector('label[for="groom"]');
   if(g)g.hidden=solo;if(gl)gl.hidden=solo;
+  if(d&&d.mode==='couple'&&t.category==='Fiançailles'){
+   var F={bride:'Prénom de la fiancée',groom:'Prénom du fiancé',date:'Date des fiançailles',place:'Lieu des fiançailles'};
+   Object.keys(F).forEach(function(k){var l=document.querySelector('label[for="'+k+'"]');if(l)l.textContent=F[k]});
+  }
   if(d&&d.mode==='couple'&&t.category==='Baby shower'){
    var B={bride:'Prénom de la future maman',groom:'Prénom du futur papa',date:'Date du baby shower',place:'Lieu du baby shower'};
    Object.keys(B).forEach(function(k){var l=document.querySelector('label[for="'+k+'"]');if(l)l.textContent=B[k]});
@@ -3291,7 +3297,7 @@ addEventListener('message',function(e){
 // Prix barrés (promotion) : ancien prix par collection, affiché barré à côté du prix actuel
 (function(){
  if(typeof farhaTemplateCard!=='function'||typeof farhaPrice!=='function')return;
- var FIXED={'Mariage':86,'Anniversaire':24,'7enna':36,'Wteya':86,'Baby shower':36},pr=farhaPrice;
+ var FIXED={'Mariage':86,'Anniversaire':24,'7enna':36,'Wteya':86,'Baby shower':36,'Fiançailles':30},pr=farhaPrice;
  var OLD={'Anniversaire':29,'Mariage':116,'7enna':41,'Wteya':116,'Baby shower':41},base=farhaTemplateCard;
  // Promo Happy Friday : -66 % sur le prix d'origine (barré), du 20 au 27 novembre 2026 inclus, heure de Tunis.
  // Même calcul côté serveur (api/orders.js). Sur une preview, ?promo=1 l'active pour tester.
