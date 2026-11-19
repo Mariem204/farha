@@ -252,6 +252,55 @@ textarea.fld{min-height:84px;resize:vertical}
 @media (prefers-reduced-motion:no-preference){.accepted{animation:stamp .6s cubic-bezier(.2,1.6,.4,1) both}}
 @keyframes stamp{from{transform:scale(1.5);opacity:0;filter:blur(4px)}to{transform:none;opacity:1;filter:none}}
 .foot{padding-block:22px 30px;text-align:center;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,243,230,.4)}
+
+/* ===== mosaïque d'ouverture et carte GPS (2e version du modèle) ===== */
+:root{--vi:linear-gradient(180deg,#ffe28a 0%,#ffb347 22%,#ff6a5c 45%,#ff3ea5 64%,#c03fd6 82%,#6b3fe4 100%);--sun:#ffd76a}
+.vi{background:var(--vi);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lockup{display:inline-flex;flex-direction:column;align-items:center;gap:2px}
+.lockup .gt{font-family:var(--display);font-size:15px;letter-spacing:.42em;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.6);padding-left:.42em}
+.lockup .num{font-family:'Times New Roman',Georgia,serif;font-weight:700;font-size:118px;line-height:.86;letter-spacing:-.02em;
+  filter:drop-shadow(0 4px 0 rgba(20,6,40,.85)) drop-shadow(0 0 30px rgba(255,62,165,.55))}
+.lockup .city{font-family:var(--block);font-size:22px;letter-spacing:.08em;color:#fff;margin-top:4px;
+  -webkit-text-stroke:1.5px #1d0a35;paint-order:stroke fill;text-shadow:0 3px 0 #1d0a35,0 6px 0 rgba(123,63,228,.9)}
+#cover{padding-block:46px 40px;background:#0c0517}
+.mosaic{position:relative;display:grid;gap:6px;background:#000;padding:6px;
+  grid-template-columns:1fr 1fr 1fr;grid-template-rows:170px 118px 196px 150px;
+  grid-template-areas:"b b p" "b b p" "lg lg lg" "d k a";box-shadow:0 30px 60px rgba(0,0,0,.6)}
+.mosaic .pn{position:relative;overflow:hidden;background:#1b0c33}
+.mosaic .pn img{width:100%;height:100%;object-fit:cover}
+.mosaic .pn.b{grid-area:b}.mosaic .pn.p{grid-area:p}.mosaic .pn.d{grid-area:d}.mosaic .pn.k{grid-area:k}.mosaic .pn.a{grid-area:a}
+.mosaic .lg{grid-area:lg;position:relative;overflow:hidden;display:grid;place-items:center;text-align:center}
+.mosaic .lg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 78%}
+.mosaic .lg::after{content:"";position:absolute;inset:0;background:radial-gradient(70% 80% at 50% 50%,rgba(12,5,23,.45),rgba(12,5,23,.1))}
+.mosaic .lg .lockup{position:relative;z-index:2}
+.mosaic .lg .num{font-size:104px}
+.mosaic .tilt{position:absolute;z-index:4;width:44%;right:-4px;top:252px;border:6px solid #000;transform:rotate(4deg);box-shadow:0 16px 30px rgba(0,0,0,.6)}
+@media (prefers-reduced-motion:no-preference){
+  .js .mosaic .pn,.js .mosaic .lg{opacity:0;transform:translate(var(--fx,0),var(--fy,0)) scale(1.06)}
+  .js .mosaic.in .pn,.js .mosaic.in .lg{opacity:1;transform:none;transition:opacity .6s ease,transform .8s cubic-bezier(.16,.9,.3,1)}
+  .js .mosaic.in .pn img{animation:kb2 12s ease-out both}
+  .mosaic .pn.b{--fx:-40px}.mosaic .pn.p{--fy:-40px;transition-delay:.12s!important}.mosaic .lg{transition-delay:.3s!important}
+  .mosaic .pn.d{--fx:-30px;--fy:30px;transition-delay:.45s!important}.mosaic .pn.k{--fy:40px;transition-delay:.55s!important}.mosaic .pn.a{--fx:30px;--fy:30px;transition-delay:.65s!important}
+}
+@keyframes kb2{from{transform:scale(1.14)}to{transform:scale(1)}}
+.cover-cta{display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center;margin-top:26px}
+.cover-cta .sig{font-size:50px;line-height:1}
+.cue{display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--haze);font-size:10px;letter-spacing:.3em;margin-top:6px}
+.cue svg{width:16px;height:16px;animation:bob 1.8s ease-in-out infinite}
+.mapbox{position:relative;margin-top:18px;border:5px solid #000;box-shadow:0 0 0 1px rgba(63,232,224,.45),0 18px 40px rgba(0,0,0,.55);overflow:hidden;aspect-ratio:4/3;display:block}
+.mapbox>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(1.1)}
+@media (prefers-reduced-motion:no-preference){.mapbox.in>img{animation:mapzoom 9s ease-out both}}
+@keyframes mapzoom{from{transform:scale(1.25)}to{transform:scale(1.04)}}
+.mapbox svg{position:absolute;inset:0;width:100%;height:100%}
+.route{fill:none;stroke:#b06cff;stroke-width:6;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 6px rgba(176,108,255,.9));stroke-dasharray:1000;stroke-dashoffset:1000}
+.mapbox.in .route{transition:stroke-dashoffset 2.4s ease-in-out .5s;stroke-dashoffset:0}
+@media (prefers-reduced-motion:no-preference){.ping{animation:ping 1.8s ease-out infinite;transform-box:fill-box;transform-origin:50% 50%}}
+@keyframes ping{from{transform:scale(.4);opacity:.9}to{transform:scale(2.6);opacity:0}}
+.legend{position:absolute;right:8px;top:8px;background:rgba(10,4,20,.82);padding:7px 9px;font-size:9px;letter-spacing:.14em;font-weight:800;text-transform:uppercase;display:flex;flex-direction:column;gap:5px}
+.legend span{display:flex;align-items:center;gap:6px}
+.legend i{width:10px;height:10px;border-radius:50%}
+.objective{margin-top:16px;text-align:center;font-size:18px;line-height:1.35;font-weight:700;color:#fff;text-shadow:0 2px 0 #000,0 0 2px #000}
+.objective b{color:var(--sun)}
 </style>
 
 <div class="wrap">
@@ -270,6 +319,25 @@ textarea.fld{min-height:84px;resize:vertical}
     <div class="scrollcue"><span>DÉFILER</span>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 4v15M6 13l6 6 6-6"/></svg>
     </div>
+  </div>
+</section>
+
+<!-- ========== 1b · MOSAÏQUE ========== -->
+<section class="scene" id="cover">
+  <div class="mosaic" id="mosaic">
+    <div class="pn b"><img src="/media/x/ddf686a85dc6c8.webp" alt="Illustration d'une femme au bandana rouge"></div>
+    <div class="pn p"><img src="/media/x/fbc256f7a50667.webp" alt="Fête sur un rooftop au néon" style="object-position:40% 50%"></div>
+    <div class="lg"><img src="/media/x/3bf2f6064f8294.webp" alt="">
+      <div class="lockup"><span class="gt">GRAND THEFT ANNIV</span><span class="num vi" data-age></span><span class="city">NEON COAST</span></div>
+    </div>
+    <div class="pn d"><img src="/media/x/a905b1a761f8fa.webp" alt="Voiture sur la route côtière"></div>
+    <div class="pn k"><img src="/media/x/bb58d1432cfc3a.webp" alt="Gâteau d'anniversaire aux bougies étincelles"></div>
+    <div class="pn a"><img src="/media/x/3f83e56b928038.webp" alt="Illustration d'un homme au bandana bleu"></div>
+  </div>
+  <div class="inner cover-cta">
+    <p class="kicker">Édition anniversaire · <span id="coverName"></span></p>
+    <p class="script sig vi" style="filter:drop-shadow(0 2px 0 rgba(0,0,0,.5))">Tu es invité</p>
+    <div class="cue"><span>DÉFILER</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 4v15M6 13l6 6 6-6"/></svg></div>
   </div>
 </section>
 
@@ -377,33 +445,19 @@ textarea.fld{min-height:84px;resize:vertical}
 <section class="scene" id="map">
   <div class="inner" style="display:flex;flex-direction:column;align-items:center;text-align:center">
     <p class="kicker rv">Point de rendez-vous</p>
-    <h2 class="rv blk cool" style="font-size:20px;line-height:1.35;margin-top:10px">RÈGLE TON GPS</h2>
-    <a class="maplink rv" id="mapLink" href="https://www.google.com/maps" target="_blank" rel="noopener" aria-label="Ouvrir le lieu dans Google Maps">
-      <svg viewBox="0 0 400 230" role="img" aria-label="Plan du lieu">
-        <rect width="400" height="230" fill="#0f0a1f"/>
-        <g fill="#161033">
-          <rect x="18" y="16" width="96" height="62"/><rect x="130" y="10" width="84" height="46"/>
-          <rect x="248" y="22" width="120" height="58"/><rect x="24" y="106" width="78" height="50"/>
-          <rect x="286" y="110" width="92" height="46"/><rect x="40" y="180" width="110" height="40"/>
-          <rect x="250" y="182" width="118" height="42"/>
-        </g>
-        <path d="M0 96h400M0 168h400M118 0v230M238 0v230" stroke="#241043" stroke-width="16"/>
-        <path d="M0 96h400M0 168h400M118 0v230M238 0v230" stroke="#3a1c63" stroke-width="12"/>
-        <path d="M0 96h400M0 168h400" stroke="#ffc46b" stroke-width="1.6" stroke-dasharray="12 12" opacity=".7"/>
-        <path d="M28 220C70 190 96 150 118 96c18-44 58-62 120-58" fill="none" stroke="#4fe3e0" stroke-width="5" stroke-linecap="round" opacity=".95"/>
-        <circle cx="28" cy="220" r="7" fill="#4fe3e0"/>
-        <g transform="translate(238 92)">
-          <ellipse cy="4" rx="12" ry="4.5" fill="#000" opacity=".45"/>
-          <g class="pinbob">
-            <path d="M0 0C-14-14-17-22-17-29A17 17 0 0 1 17-29C17-22 14-14 0 0Z" fill="#ff4fa3" stroke="#fff3e6" stroke-width="2.5"/>
-            <circle cy="-29" r="6" fill="#fff3e6"/>
-          </g>
-        </g>
-        <rect x="0" y="0" width="400" height="230" fill="none" stroke="rgba(79,227,224,.25)" stroke-width="2"/>
+    <h2 class="rv blk cool" style="font-size:22px;line-height:1.35;margin-top:10px">RÈGLE TON GPS</h2>
+    <a class="mapbox rv" id="mapLink" href="https://www.google.com/maps" target="_blank" rel="noopener" aria-label="Ouvrir le lieu dans Google Maps" style="width:100%">
+      <img src="/media/x/fa242d9c535731.webp" alt="Carte de la ville">
+      <svg viewBox="0 0 400 300" aria-hidden="true">
+        <path class="route" d="M232 284 C 246 262, 262 246, 254 222 S 262 176, 296 166 S 336 138, 340 104"/>
+        <g transform="translate(232 284)"><circle r="14" fill="#fff" opacity=".25" class="ping"/><path d="M0-11 9 9 0 4-9 9z" fill="#fff" stroke="#000" stroke-width="1.5"/></g>
+        <g transform="translate(340 104)"><circle r="16" fill="#ff3ea5" class="ping"/><circle r="12" fill="#ff3ea5" stroke="#fff" stroke-width="2.5"/>
+          <path d="M-5 4 0-7 5 4z M-6 4h12" fill="#fff" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></g>
       </svg>
+      <div class="legend"><span><i style="background:#ff3ea5"></i>La fête</span><span><i style="background:#fff"></i>Toi</span><span><i style="background:#b06cff"></i>GPS</span></div>
     </a>
-    <p class="rv muted" style="margin-top:12px;font-size:14px" id="mapAddr">[LIEU]</p>
-    <div class="rv" style="margin-top:12px"><a class="btn" id="mapBtn" href="https://www.google.com/maps" target="_blank" rel="noopener">Itinéraire</a></div>
+    <p class="objective rv">Rends-toi à <b id="mapPlace"></b>.</p>
+    <div class="rv" style="margin-top:16px"><a class="btn" id="mapBtn" href="https://www.google.com/maps" target="_blank" rel="noopener">Lancer l'itinéraire</a></div>
   </div>
 </section>
 
@@ -527,6 +581,7 @@ const CONFIG = {
   venue: "Rooftop Neon",
   address: "Les Berges du Lac, Tunis",
   dressCode: "Néon, vintage ou chemise à fleurs",
+  age: "25",
   mapQuery: "",
   mapLink: ""
 };
@@ -535,7 +590,8 @@ document.documentElement.classList.add('js', 'gate');
 document.getElementById('enterCity').addEventListener('click', (e) => {
   e.preventDefault();
   document.documentElement.classList.remove('gate');
-  const hero = document.getElementById('hero');
+  const hero = document.getElementById('cover');
+  setTimeout(() => document.getElementById('mosaic').classList.add('in'), 250);
   requestAnimationFrame(() => hero.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' }));
 });
 
@@ -547,7 +603,9 @@ const place = [CONFIG.venue, CONFIG.address].filter(Boolean).join(', ');
 const set = (id, v) => { const el = document.getElementById(id); if (el && v) el.textContent = v; };
 set('crewName', CONFIG.name); set('fName', CONFIG.name);
 if (okDate) { set('fDate', DAYS[when.getDay()] + ' ' + when.getDate() + ' ' + MONTHS[when.getMonth()] + ' ' + when.getFullYear()); set('fTime', when.getHours() + 'h' + pad(when.getMinutes())); }
-set('fLoc', CONFIG.venue || place); set('fDress', CONFIG.dressCode); set('mapAddr', place);
+set('fLoc', CONFIG.venue || place); set('fDress', CONFIG.dressCode); set('mapPlace', CONFIG.venue || place); set('coverName', CONFIG.name);
+function roman(n) { n = Math.max(1, Math.min(3999, parseInt(n, 10) || 0)); const m = [[1000,'M'],[900,'CM'],[500,'D'],[400,'CD'],[100,'C'],[90,'XC'],[50,'L'],[40,'XL'],[10,'X'],[9,'IX'],[5,'V'],[4,'IV'],[1,'I']]; let r = ''; m.forEach(([v, x]) => { while (n >= v) { r += x; n -= v; } }); return r; }
+document.querySelectorAll('[data-age]').forEach(e => { const n = parseInt(CONFIG.age, 10); e.textContent = n > 0 ? roman(n) : ''; if (e.textContent.length > 4) e.style.fontSize = '76px'; });
 const mapUrl = /^https:\/\//.test(CONFIG.mapLink || '') ? CONFIG.mapLink : 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(CONFIG.mapQuery || place);
 document.getElementById('mapLink').href = mapUrl;
 document.getElementById('mapBtn').href = mapUrl;
