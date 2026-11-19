@@ -11,7 +11,7 @@ const SUR_MESURE_PRICE = 50;          // Création sur mesure, en DT
 const FIXED_PRICES = { 'Mariage': 86, 'Anniversaire': 24, '7enna': 36, 'Wteya': 86, 'Baby shower': 36, 'Fiançailles': 30, 'Bridal party': 36 };
 // Prix d'origine (barrés sur le site) et promo Happy Friday : -66 % sur le prix d'origine,
 // du 20 au 27 novembre 2026 inclus (heure de Tunis). Même calcul que le site (FARHA-PRIX-CARTES).
-const ORIGINAL_PRICES = { 'Mariage': 116, 'Anniversaire': 29, '7enna': 45, 'Wteya': 116, 'Baby shower': 41, 'Bridal party': 41 };
+const ORIGINAL_PRICES = { 'Mariage': 116, 'Anniversaire': 29, '7enna': 45, 'Wteya': 116, 'Baby shower': 41, 'Bridal party': 45, 'Fiançailles': 50, 'Diplôme': 28, 'Tahara': 28 };
 const PROMO = { start: Date.UTC(2026, 10, 19, 23, 0, 0), end: Date.UTC(2026, 10, 27, 23, 0, 0), keep: 0.34 };
 function promoPrice(category, regular) {
   const now = Date.now();
