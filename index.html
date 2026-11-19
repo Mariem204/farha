@@ -1,4 +1,4 @@
-<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Farha — Invitations digitales</title>
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style id="farha-route">html.farha-routing::after{content:"";position:fixed;inset:0;z-index:2147483600;background:#f6f0e6 url(/media/farha-logo.webp) center/120px auto no-repeat;animation:farhaRoute 1.2s ease-in-out infinite alternate}@keyframes farhaRoute{from{background-size:112px auto}to{background-size:128px auto}}@media(prefers-reduced-motion:reduce){html.farha-routing::after{animation:none}}</style><script>/* lien ou rafraîchissement d’un modèle / d’une collection : écran de chargement au lieu de l’accueil */if(/^#(m|p|c|modele)=/.test(location.hash))document.documentElement.classList.add("farha-routing");setTimeout(function(){document.documentElement.classList.remove("farha-routing")},11000);</script><title>Farha — Invitations digitales</title>
 <meta name="description" content="Créez vos invitations digitales personnalisées en quelques minutes : mariage, fiançailles, anniversaire, naissance et événements. Un design élégant, un partage facile et rapide par WhatsApp.">
 <link rel="icon" type="image/png" sizes="96x96" href="/favicon/favicon-96x96.png">
 <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg">
@@ -3480,9 +3480,10 @@ body:has(#farhaConsent) .farha-wa{display:none}
  if(typeof openDetail!=='function'||typeof show!=='function')return;
  var isInvite=function(){return /^#i=/.test(location.hash)};
  function setHash(h){if(isInvite())return;try{history.replaceState(null,'',location.pathname+location.search+(h||''))}catch(e){}}
- var od=openDetail;openDetail=function(id){var r=od.apply(this,arguments);if(id)setHash('#m='+encodeURIComponent(id));return r};
+ function ready(){requestAnimationFrame(function(){document.documentElement.classList.remove('farha-routing')})}
+ var od=openDetail;openDetail=function(id){var r=od.apply(this,arguments);if(id)setHash('#m='+encodeURIComponent(id));ready();return r};
  if(typeof customize==='function'){var cz=customize;customize=function(){var r=cz.apply(this,arguments);if(typeof chosen!=='undefined'&&chosen)setHash('#p='+encodeURIComponent(chosen.id));return r}}
- if(typeof farhaOpenCollection==='function'){var oc=farhaOpenCollection;farhaOpenCollection=function(name){var r=oc.apply(this,arguments);setHash(name?'#c='+encodeURIComponent(name):'');return r}}
+ if(typeof farhaOpenCollection==='function'){var oc=farhaOpenCollection;farhaOpenCollection=function(name){var r=oc.apply(this,arguments);setHash(name?'#c='+encodeURIComponent(name):'');ready();return r}}
  var sh=show;show=function(v){var r=sh.apply(this,arguments);if(v==='home'||(v==='inspirations'&&/^#[mp]=/.test(location.hash)))setHash('');if(v==='detail'&&/^#p=/.test(location.hash)&&typeof chosen!=='undefined'&&chosen)setHash('#m='+encodeURIComponent(chosen.id));return r};
  // position dans l'accueil, gardée pour un rafraîchissement
  var saveT=0;addEventListener('scroll',function(){if(saveT)return;saveT=setTimeout(function(){saveT=0;try{if(!location.hash&&document.getElementById('home')&&document.getElementById('home').classList.contains('active'))sessionStorage.setItem('farha-y',String(scrollY))}catch(e){}},250)},{passive:true});
@@ -3494,9 +3495,9 @@ body:has(#farhaConsent) .farha-wa{display:none}
  (function go(){
   if(m[1]==='m'||m[1]==='p'){var t=typeof templates!=='undefined'&&templates.find(function(x){return x.id===key});
    if(t){openDetail(key);if(m[1]==='p'&&typeof customize==='function')customize();return}
-   if(Date.now()-t0<10000)return setTimeout(go,200);setHash('');return}
+   if(Date.now()-t0<10000)return setTimeout(go,200);setHash('');ready();return}
   if(typeof farhaOpenCollection==='function'&&typeof templates!=='undefined'&&(key==='Tous'||templates.some(function(x){return x.category===key}))){show('inspirations');farhaOpenCollection(key);return}
-  if(Date.now()-t0<10000)return setTimeout(go,200);setHash('');
+  if(Date.now()-t0<10000)return setTimeout(go,200);setHash('');ready();
  })();
 })();
 </script>
