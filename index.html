@@ -1040,7 +1040,7 @@ SOURCES["sarah"]="<!DOCTYPE html>\n<html lang=\"fr\">\n<head>\n<meta charset=\"u
 const templates=[{id:'lake',name:'Lake Como · Enveloppe interactive',category:'Mariage',style:'lake',base:'lake',color:'#b48a43'},{id:'sidi',name:'Sidi Bou Said · Portes bleues',category:'Mariage',style:'sidi',base:'sidi',color:'#1f56a5'},{id:'sarah',name:'Jardin des Oliviers · Sarah & Yassine',category:'Mariage',style:'sarah',base:'sarah',color:'#b88a44'},{id:'sand',name:'Sable doré',category:'Fiançailles',style:'sand',base:'royal',color:'#b88b50'},{id:'night',name:'Nuit étoilée',category:'Anniversaire',style:'night',base:'editorial',color:'#c3a268'},{id:'lavender',name:'Douce lavande',category:'Naissance',style:'lavender',base:'royal',color:'#9275b7'},{id:'sky',name:'Bleu ciel',category:'Événement',style:'sky',base:'editorial',color:'#5389aa'}];
 let chosen=templates[0],lastDoc='';const $=id=>document.getElementById(id);
 // Prix par catégorie de modèle (en DT). Les catégories non listées gardent le prix par défaut.
-const FARHA_PRICES={'Mariage':86,'Fiançailles':30,'Anniversaire':24,'Tahara':30,'Diplôme':15,'Naissance':20,'Baby shower':36,'7enna':36,'Wteya':86,'Événement':20},FARHA_DEFAULT_PRICE=50;
+const FARHA_PRICES={'Mariage':86,'Fiançailles':30,'Anniversaire':24,'Tahara':30,'Diplôme':15,'Naissance':20,'Baby shower':36,'7enna':36,'Wteya':86,'Bridal party':36,'Événement':20},FARHA_DEFAULT_PRICE=50;
 function farhaPrice(t){return FARHA_PRICES[t&&t.category]??FARHA_DEFAULT_PRICE}
 // Aperçus (démo, personnalisation, livraison) : déchargés dès qu'on quitte leur page, pour que leur musique s'arrête.
 const FARHA_VIEW_FRAMES={detail:'detailFrame',custom:'customFrame',complete:'deliveryFrame'};
@@ -2044,7 +2044,7 @@ refreshCustom=function(){if(chosen&&chosen.custom)farhaCustomText=JSON.stringify
 // FARHA-COLLECTIONS : « Thèmes » et « Voir tous les modèles » ouvrent d'abord les collections (une par catégorie) ;
 // un clic sur une collection affiche ses modèles avec la recherche et les filtres existants.
 // farhaInsp.coll : null = liste des collections, 'Tous' = tous les modèles, sinon le nom de la catégorie.
-const FARHA_COLLECTION_TAGLINES={'Mariage':'Le grand jour, en majesté','Fiançailles':'La promesse, en douceur','Anniversaire':'Des fêtes pleines de vie','Naissance':'Bienvenue au petit trésor','Baby shower':'Une touche de rose, une touche de bleu','Tahara':'La tradition, avec élégance','Wteya':'La fête de la mariée, entre femmes','Diplôme':'Célébrer la réussite','Événement':'Pour toutes vos occasions'};
+const FARHA_COLLECTION_TAGLINES={'Mariage':'Le grand jour, en majesté','Fiançailles':'La promesse, en douceur','Anniversaire':'Des fêtes pleines de vie','Naissance':'Bienvenue au petit trésor','Baby shower':'Une touche de rose, une touche de bleu','Tahara':'La tradition, avec élégance','Wteya':'La fête de la mariée, entre femmes','Bridal party':'La dernière soirée entre copines','Diplôme':'Célébrer la réussite','Événement':'Pour toutes vos occasions'};
 // Photos de couverture (Unsplash, licence libre). Sans photo, ou si elle ne charge pas, la carte montre les aperçus des modèles.
 const FARHA_COLLECTION_PHOTOS={'Mariage':'1591604466107-ec97de577aff','Fiançailles':'1518370265276-f22b706aeac8','Anniversaire':'1606983340126-99ab4feaa64a','Naissance':'1773243086631-962baefccd8a','Tahara':'1777980652216-68112200e3c8','Diplôme':'1523580846011-d3a5bc25702b','Événement':'1492684223066-81342ee5ff30'};
 farhaInsp.coll=null;
@@ -2593,7 +2593,7 @@ body .farha-header .farha-logo{line-height:1.1}
 (function(){
  if(typeof farhaCustomDefaults!=='function')return;
  // Libellés des clés connues ; les autres textes simples du CONFIG reçoivent un libellé tiré de leur nom.
- var LABELS={reception:'Lieu de la réception (dîner)',progAccueil:'Programme · accueil des invités (heure)',progBagues:'Programme · échange des bagues (heure)',progCocktail:'Programme · cocktail (heure)',progDiner:'Programme · dîner & soirée (heure)',school:'École / université',family:'La famille',degree:'Diplôme obtenu',year:'Année (promotion)',verse:'Verset / citation',whatsapp:'WhatsApp pour les réponses (ex. 21612345678)',
+ var LABELS={progManucure:'Programme · manucure & cocktails (heure)',progToast:'Programme · toast à la mariée (heure)',progJeux:'Programme · jeux & confidences (heure)',progDanse:'Programme · danse (heure)',reception:'Lieu de la réception (dîner)',progAccueil:'Programme · accueil des invités (heure)',progBagues:'Programme · échange des bagues (heure)',progCocktail:'Programme · cocktail (heure)',progDiner:'Programme · dîner & soirée (heure)',school:'École / université',family:'La famille',degree:'Diplôme obtenu',year:'Année (promotion)',verse:'Verset / citation',whatsapp:'WhatsApp pour les réponses (ex. 21612345678)',
   title:'Titre',subtitle:'Sous-titre',host:'Invité par',parents:'Les parents',quote:'Citation',hashtag:'Hashtag',dressNote:'Indication Dress Code',childName:'Prénom de l’enfant',age:'Âge',city:'Ville',tagline:'Phrase d’accroche',story:'Notre histoire',venueType:'Type de lieu',brideAr:'Prénom de la mariée en arabe',mapLabel:'Texte sur la carte',dressTheme:'Thème de la tenue',rsvpBy:'Répondre avant le',groomAr:'Prénom du marié en arabe',dressCode:'Code vestimentaire',
   timeNote:'Fin de la fête (texte sous l’heure)',parent1Label:'Parent 1 · nom affiché',parent1Phone:'Parent 1 · téléphone',parent2Label:'Parent 2 · nom affiché (facultatif)',parent2Phone:'Parent 2 · téléphone (facultatif)',
   gateKicker:'Enveloppe · petit titre',gateTitle:'Enveloppe · titre',gateButton:'Enveloppe · bouton',gateHint:'Enveloppe · indication',alert:'Bandeau d’alerte',quote:'Phrase de la bulle',
@@ -2868,6 +2868,7 @@ body .farha-header .farha-logo{line-height:1.1}
   {id:'jacaranda',name:'Jacaranda',category:'Mariage',color:'#5e3b82',file:'templates/jacaranda.html',preview:'templates/apercus/jacaranda.webp',description:'Arche de glycines et pétales mauves, bougies, cadre photo lilas, date et lieu avec la carte, couleurs de la tenue et réponses des invités.'},
   {id:'orchid-wedding',name:'Orchidée',category:'Mariage',color:'#a81e52',file:'templates/orchid-wedding.html',preview:'templates/apercus/orchid-wedding.webp',description:'Carte fuchsia et paon, colibris et orchidées, cadre photo, date et lieu avec la carte, couleurs de la tenue et réponses des invités.'},
   {id:'fiancailles-vert',name:'Vert & marron',category:'Fiançailles',color:'#6f8456',file:'templates/fiancailles-vert.html',preview:'templates/apercus/fiancailles-vert.webp',description:'Rideaux verts et lustre, les fiancés illustrés, bague dans son écrin, calendrier, programme de la soirée, compte à rebours et réponses des invités.'},
+  {id:'single-bye-bye',name:'Single bye bye',category:'Bridal party',color:'#e8749a',file:'templates/single-bye-bye.html',preview:'templates/apercus/single-bye-bye.webp',description:'Ballons « bride to be », la mariée et ses copines illustrées, dress code rose, programme de la soirée, carte, compte à rebours et réponses des invitées.'},
   {id:'carthage',name:'Carthage',category:'Mariage',color:'#6A2525',file:'templates/carthage.html',preview:'templates/apercus/carthage.webp',description:'Sceau de Tanit à briser, parchemin d’Élyssa, éléphants d’Hannibal, galère punique, date dorée à gratter et un mot pour les mariés.'}
  ];
  var ready={};
@@ -2982,7 +2983,7 @@ body .farha-header .farha-logo{line-height:1.1}
 (function(){
  if(typeof farhaTemplateCard!=='function')return;
  var base=farhaTemplateCard;
- var SUITE=['henna-rideau-rouge','save-the-date-olive','lotus-wedding','sidi','sarah','sand','huntrix','huntrixConcert','diplome','tahara','anniversaire-dino','anniversaire-super-heros','baby-shower','enchanted-garden','bord-de-mer','henna-sultan','perla','carthage','outeya-gold','forest-wedding','jacaranda','orchid-wedding','neon-coast','fiancailles-vert'];
+ var SUITE=['henna-rideau-rouge','save-the-date-olive','lotus-wedding','sidi','sarah','sand','huntrix','huntrixConcert','diplome','tahara','anniversaire-dino','anniversaire-super-heros','baby-shower','enchanted-garden','bord-de-mer','henna-sultan','perla','carthage','outeya-gold','forest-wedding','jacaranda','orchid-wedding','neon-coast','fiancailles-vert','single-bye-bye'];
  function fitFrames(box){box.querySelectorAll('iframe.card-frame').forEach(function(f){var p=f.parentElement,w=p.clientWidth;if(w)f.style.transform='scale('+(w/390)+')'})}
  farhaTemplateCard=function(t){
   var card=base.apply(this,arguments),art=card.querySelector('.template-artwork');if(!art)return card;
@@ -3028,6 +3029,10 @@ body .farha-header .farha-logo{line-height:1.1}
   if(solo&&t.category==='Wteya'){
    var W={bride:'Prénom de la mariée',date:'Date de la wtiya',place:'Salle / lieu de la wtiya'};
    Object.keys(W).forEach(function(k){var l=document.querySelector('label[for="'+k+'"]');if(l)l.textContent=W[k]});
+  }
+  if(solo&&t.category==='Bridal party'){
+   var P={bride:'Prénom de la mariée',date:'Date de la soirée',place:'Nom du lieu de la soirée'};
+   Object.keys(P).forEach(function(k){var l=document.querySelector('label[for="'+k+'"]');if(l)l.textContent=P[k]});
   }
   if(solo&&t.category==='Anniversaire'){
    var L={bride:t.id==='neon-coast'?'Prénom de la star du jour':'Prénom de l’enfant',date:'Date de la fête',place:'Lieu de la fête'};
@@ -3297,8 +3302,8 @@ addEventListener('message',function(e){
 // Prix barrés (promotion) : ancien prix par collection, affiché barré à côté du prix actuel
 (function(){
  if(typeof farhaTemplateCard!=='function'||typeof farhaPrice!=='function')return;
- var FIXED={'Mariage':86,'Anniversaire':24,'7enna':36,'Wteya':86,'Baby shower':36,'Fiançailles':30},pr=farhaPrice;
- var OLD={'Anniversaire':29,'Mariage':116,'7enna':41,'Wteya':116,'Baby shower':41},base=farhaTemplateCard;
+ var FIXED={'Mariage':86,'Anniversaire':24,'7enna':36,'Wteya':86,'Baby shower':36,'Fiançailles':30,'Bridal party':36},pr=farhaPrice;
+ var OLD={'Anniversaire':29,'Mariage':116,'7enna':41,'Wteya':116,'Baby shower':41,'Bridal party':41},base=farhaTemplateCard;
  // Promo Happy Friday : -66 % sur le prix d'origine (barré), du 20 au 27 novembre 2026 inclus, heure de Tunis.
  // Même calcul côté serveur (api/orders.js). Sur une preview, ?promo=1 l'active pour tester.
  var PROMO={start:Date.UTC(2026,10,19,23,0,0),end:Date.UTC(2026,10,27,23,0,0),keep:.34};
