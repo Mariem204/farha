@@ -8,7 +8,7 @@
 
 const SUR_MESURE_PRICE = 50;          // Création sur mesure, en DT
 // Prix fixés par catégorie : ils passent avant ceux de l'admin.
-const FIXED_PRICES = { 'Mariage': 86, 'Anniversaire': 24, '7enna': 36, 'Wteya': 86, 'Baby shower': 36 };
+const FIXED_PRICES = { 'Mariage': 86, 'Anniversaire': 24, '7enna': 36, 'Wteya': 86, 'Baby shower': 36, 'Fiançailles': 30 };
 // Prix d'origine (barrés sur le site) et promo Happy Friday : -66 % sur le prix d'origine,
 // du 20 au 27 novembre 2026 inclus (heure de Tunis). Même calcul que le site (FARHA-PRIX-CARTES).
 const ORIGINAL_PRICES = { 'Mariage': 116, 'Anniversaire': 29, '7enna': 41, 'Wteya': 116, 'Baby shower': 41 };
@@ -26,7 +26,7 @@ const FILE_TEMPLATES = {
   'henna-rideau-rouge': ['Henna', '7enna'], 'henna-sultan': ['حنة السلطان', '7enna'],
   'anniversaire-dino': ['Dino Jungle', 'Anniversaire'], 'anniversaire-super-heros': ['Spiderman', 'Anniversaire'], 'huntrixConcert': ['Huntrix', 'Anniversaire'],
   'baby-shower': ['Fille ou garçon ?', 'Baby shower'], 'outeya-gold': ['الوطية · Gold', 'Wteya'],
-  'forest-wedding': ['Forêt', 'Mariage'], 'jacaranda': ['Jacaranda', 'Mariage'], 'orchid-wedding': ['Orchidée', 'Mariage'], 'neon-coast': ['Neon Coast', 'Anniversaire']
+  'forest-wedding': ['Forêt', 'Mariage'], 'jacaranda': ['Jacaranda', 'Mariage'], 'orchid-wedding': ['Orchidée', 'Mariage'], 'neon-coast': ['Neon Coast', 'Anniversaire'], 'fiancailles-vert': ['Vert & marron', 'Fiançailles']
 };
 const MAX_PER_EMAIL_10_MIN = 5;       // Limite anti-abus
 const KINDS = ['template', 'test', 'sur_mesure'];
