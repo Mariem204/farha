@@ -770,6 +770,8 @@ label.farha-pick:hover{background:#e0cbbf}
 </head><body><style id="farha-portal">
 /* Ouverture au scroll : sur un fond bordeaux uni, la bouche du personnage Farha s'ouvre et laisse voir le site. */
 .fp{position:fixed;inset:0;z-index:9999;overflow:hidden;touch-action:none;cursor:pointer}
+/* tant que la page n'est pas entièrement lue (styles en fin de fichier), elle reste cachée derrière le portail : pas de « saut » mesuré par Google (CLS) */
+html.fp-lock:not(.fp-ready) main{visibility:hidden}
 .fp-stage{position:absolute;inset:0;background:#4a0916}
 .fp-face{position:absolute;left:0;top:0;transform-origin:0 0;overflow:visible}
 .fp-brand{position:absolute;left:22px;bottom:20px;z-index:2;font:700 20px/1 'Amiri','Cormorant Garamond',serif;color:#f1d7a3;pointer-events:none}
@@ -821,7 +823,7 @@ html.fp-lock main,html.fp-lock .farha-header{transform:scale(var(--fp-zoom,1.06)
  var root=document.documentElement;
  var farhaReload=false;try{var nv=performance.getEntriesByType('navigation')[0];farhaReload=nv?nv.type==='reload':performance.navigation&&performance.navigation.type===1}catch(e){}
  if(farhaReload||/[#&](i|m|c|p|modele)=/.test(location.hash)||/^#(themes|how-it-works|packages|faq|contact)$/.test(location.hash)){fp.remove();return} // rafraîchissement, invitation, modèle, collection ou section : pas d'intro // invitation, modèle, collection ou section : pas d'intro
- if('scrollRestoration' in history)history.scrollRestoration='manual';scrollTo(0,0);root.classList.add('fp-lock');
+ if('scrollRestoration' in history)history.scrollRestoration='manual';scrollTo(0,0);root.classList.add('fp-lock');function ready(){root.classList.add('fp-ready')}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',ready);else ready();setTimeout(ready,4000);
  var hint=fp.querySelector('.fp-hint'),vid=fp.querySelector('.fz-vid'),scene=fp.querySelector('.fz-scene'),entering=false,done=false,ty=null,timer=0;
  if(matchMedia('(pointer:coarse)').matches){hint.classList.add('touch');hint.lastChild.textContent='Glissez vers le haut pour entrer'}
  var say=fp.querySelector('.fz-say'),sayT=0,playing=false;
