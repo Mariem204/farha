@@ -819,7 +819,7 @@ html.fp-lock main,html.fp-lock .farha-header{transform:scale(var(--fp-zoom,1.06)
 (function(){
  var fp=document.getElementById('farhaPortal');if(!fp)return;
  var root=document.documentElement;
- if(/[#&](i|modele)=/.test(location.hash)||/^#(themes|how-it-works|packages|faq|contact)$/.test(location.hash)){fp.remove();return}
+ if(/[#&](i|m|c|modele)=/.test(location.hash)||/^#(themes|how-it-works|packages|faq|contact)$/.test(location.hash)){fp.remove();return} // invitation, modèle, collection ou section : pas d'intro
  if('scrollRestoration' in history)history.scrollRestoration='manual';scrollTo(0,0);root.classList.add('fp-lock');
  var hint=fp.querySelector('.fp-hint'),vid=fp.querySelector('.fz-vid'),scene=fp.querySelector('.fz-scene'),entering=false,done=false,ty=null,timer=0;
  if(matchMedia('(pointer:coarse)').matches){hint.classList.add('touch');hint.lastChild.textContent='Glissez vers le haut pour entrer'}
@@ -3470,4 +3470,26 @@ body:has(#farhaConsent) .farha-wa{display:none}
 @media print{.farha-wa{display:none}}
 </style>
 <!-- /FARHA-WHATSAPP -->
+<!-- FARHA-LIENS-MODELES : chaque modèle et chaque collection a son propre lien (#m=carthage, #c=Mariage), à copier depuis la barre d'adresse. -->
+<script>
+(function(){
+ if(typeof openDetail!=='function'||typeof show!=='function')return;
+ var isInvite=function(){return /^#i=/.test(location.hash)};
+ function setHash(h){if(isInvite())return;try{history.replaceState(null,'',location.pathname+location.search+(h||''))}catch(e){}}
+ var od=openDetail;openDetail=function(id){var r=od.apply(this,arguments);if(id)setHash('#m='+encodeURIComponent(id));return r};
+ if(typeof farhaOpenCollection==='function'){var oc=farhaOpenCollection;farhaOpenCollection=function(name){var r=oc.apply(this,arguments);setHash(name&&name!=='Tous'?'#c='+encodeURIComponent(name):'');return r}}
+ var sh=show;show=function(v){var r=sh.apply(this,arguments);if(v==='home'||(v==='inspirations'&&/^#m=/.test(location.hash)))setHash('');return r};
+ // à l'ouverture d'un lien de modèle ou de collection : attendre que le modèle soit chargé (modèles en fichiers), puis l'afficher
+ var m=location.hash.match(/^#([mc])=([^&]+)/);if(!m)return;
+ var key=decodeURIComponent(m[2]),t0=Date.now();
+ (function go(){
+  if(m[1]==='m'){var t=typeof templates!=='undefined'&&templates.find(function(x){return x.id===key});
+   if(t){openDetail(key);return}
+   if(Date.now()-t0<10000)return setTimeout(go,200);setHash('');return}
+  if(typeof farhaOpenCollection==='function'&&typeof templates!=='undefined'&&templates.some(function(x){return x.category===key})){show('inspirations');farhaOpenCollection(key);return}
+  if(Date.now()-t0<10000)return setTimeout(go,200);setHash('');
+ })();
+})();
+</script>
+<!-- /FARHA-LIENS-MODELES -->
 </body></html>
