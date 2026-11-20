@@ -1195,7 +1195,7 @@ function farhaClientSubmit(e){
 
 // Popup d'avis après le test gratuit. Envoi via FormSubmit (formsubmit.co) vers l'adresse ci-dessous :
 // au tout premier envoi, FormSubmit envoie un e-mail d'activation à cette adresse, il faut cliquer sur le lien une fois.
-const FARHA_FEEDBACK_EMAIL='maryemayadi05@gmail.com';
+const FARHA_FEEDBACK_EMAIL='farhacontact0@gmail.com';
 function farhaOpenFeedback(){const f=$('feedbackForm');f.reset();$('feedbackStatus').textContent='';$('feedbackSubmit').disabled=false;farhaOpenDialog('feedbackDialog')}
 function farhaSendFeedback(e){
   e.preventDefault();const f=e.currentTarget,d=new FormData(f);
@@ -2165,7 +2165,7 @@ function farhaSendPaymentEmails(ref,rkey){
  const d=readData(),c=farhaClient||{},base=farhaPrice(chosen),sup=d.musicType?FARHA_MUSIC_PRICE:0,total=base+sup;
  const names=farhaOrderNames(d).replace(/^Invitation : /,''),link=farhaInviteLink(rkey);
  const music=d.musicType?(farhaState.music.fileName||d.music||'Oui'):'Sans musique';
- const order={model:chosen.name,names,date:fmt(d.date)+' · '+d.time,event_date:fmt(d.date),place:d.place,music,base,music_price:sup,total};
+ const order={model:chosen.name,category:chosen.category||'',names,date:fmt(d.date)+' · '+d.time,event_date:fmt(d.date),place:d.place,music,base,music_price:sup,total};
  // Secours : l'admin reçoit au moins la commande et le lien (FormSubmit ne peut pas écrire au client).
  const fallback=()=>fetch('https://formsubmit.co/ajax/'+FARHA_ADMIN_EMAIL,{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},
   body:JSON.stringify({_subject:'Farha · Nouvelle commande'+(ref?' '+ref:'')+' — '+names+' (RIB NON envoyé au client)',_template:'table',_captcha:'false',_replyto:c.email,
