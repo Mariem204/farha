@@ -91,7 +91,7 @@ module.exports = async function handler(req, res) {
   if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(customer.email)) return res.status(400).json({ error: 'E-mail invalide' });
   const order = {
     reference: clean(body.reference, 40), model: clean(o.model, 120), names: clean(o.names, 160), date: clean(o.date, 80), eventDate: clean(o.event_date, 60),
-    place: clean(o.place, 200), music: clean(o.music, 120), base: money(o.base), musicPrice: money(o.music_price), total: money(o.total)
+    category: clean(o.category, 40), place: clean(o.place, 200), music: clean(o.music, 120), base: money(o.base), musicPrice: money(o.music_price), total: money(o.total)
   };
   if (!order.model || order.total == null || order.base == null) return res.status(400).json({ error: 'Commande invalide' });
   // Le lien doit ouvrir une invitation de ce site (ou du site principal).
@@ -108,8 +108,11 @@ module.exports = async function handler(req, res) {
   // Date et heure de la commande (heure de Tunis).
   const placedAt = new Date().toLocaleString('fr-FR', { timeZone: 'Africa/Tunis', day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' });
   const ref = order.reference || 'en attente';
-  // Motif du virement : référence + nom du client + date de l'événement.
-  const motif = [order.reference || 'Farha', customer.name, order.eventDate].filter(Boolean).join(' · ');
+  // Motif du virement : type d'invitation (« Mariage invitation digitale », « Henna invitation digitale »…) + référence.
+  const MOTIF = { 'Mariage': 'Mariage', '7enna': 'Henna', 'Wteya': 'Wtiya', 'Fiançailles': 'Fiançailles', 'Anniversaire': 'Anniversaire', 'Baby shower': 'Baby shower',
+    'Bridal party': 'Bridal party', 'Tahara': 'Tahara', 'Diplôme': 'Soutenance', 'Naissance': 'Naissance' };
+  const kind = MOTIF[order.category];
+  const motif = [kind ? kind + ' invitation digitale' : 'Invitation digitale', order.reference].filter(Boolean).join(' · ');
   const recap = [['Commande passée le', placedAt], ['Modèle', order.model], ['Invitation', order.names], ['Date de l’événement', order.date], ['Lieu', order.place],
     ['Musique', order.music], ['Prix de l’invitation', order.base + ' DT'], ...(order.musicPrice ? [['Prix de la musique', order.musicPrice + ' DT']] : []),
     ['Total à régler', order.total + ' DT']];
