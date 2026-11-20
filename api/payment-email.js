@@ -108,11 +108,11 @@ module.exports = async function handler(req, res) {
   // Date et heure de la commande (heure de Tunis).
   const placedAt = new Date().toLocaleString('fr-FR', { timeZone: 'Africa/Tunis', day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' });
   const ref = order.reference || 'en attente';
-  // Motif du virement : type d'invitation (« Mariage invitation digitale », « Henna invitation digitale »…) + référence.
+  // Motif du virement : « Cadeau mariage invitation digitale », « Cadeau henna invitation digitale »… + référence.
   const MOTIF = { 'Mariage': 'Mariage', '7enna': 'Henna', 'Wteya': 'Wtiya', 'Fiançailles': 'Fiançailles', 'Anniversaire': 'Anniversaire', 'Baby shower': 'Baby shower',
     'Bridal party': 'Bridal party', 'Tahara': 'Tahara', 'Diplôme': 'Soutenance', 'Naissance': 'Naissance' };
   const kind = MOTIF[order.category];
-  const motif = [kind ? kind + ' invitation digitale' : 'Invitation digitale', order.reference].filter(Boolean).join(' · ');
+  const motif = [kind ? 'Cadeau ' + kind.toLowerCase() + ' invitation digitale' : 'Cadeau invitation digitale', order.reference].filter(Boolean).join(' · ');
   const recap = [['Commande passée le', placedAt], ['Modèle', order.model], ['Invitation', order.names], ['Date de l’événement', order.date], ['Lieu', order.place],
     ['Musique', order.music], ['Prix de l’invitation', order.base + ' DT'], ...(order.musicPrice ? [['Prix de la musique', order.musicPrice + ' DT']] : []),
     ['Total à régler', order.total + ' DT']];
