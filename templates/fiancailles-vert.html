@@ -309,8 +309,8 @@ body{margin:0;background:#2b1f18}
 a{color:#c9a86a}a:hover{color:#e2c99a}
 .cal{display:flex;align-items:center;justify-content:center;height:30px;font-size:15px;color:#e6dbc9;position:relative}
 .cal.off{color:transparent}
-.cal.on{color:#2b1f18;font-weight:600}
-.cal.on::before{content:"";position:absolute;inset:1px;border-radius:50%;background:#c9a86a;z-index:-1}
+.cal.on{color:#2b1f18;font-weight:700;isolation:isolate}
+.cal.on::before{content:"";position:absolute;left:50%;top:50%;width:32px;height:32px;transform:translate(-50%,-50%);border-radius:50%;background:#c9a86a;box-shadow:0 0 0 3px rgba(201,168,106,.25);z-index:-1}
 .scr{font-family:'Pinyon Script',cursive;font-weight:400}
 .ser{font-family:'Cormorant Garamond',Georgia,serif}
 .caps{font-family:'Cormorant Garamond',Georgia,serif;text-transform:uppercase;letter-spacing:.32em}
