@@ -1855,7 +1855,10 @@ const host=document.getElementById('farhaLibrary'),choice=document.getElementByI
 const note=[0,2,4,7,9,7,4,2],scale=[0,2,3,5,7,8,10];
 const wav=farhaDemoWav;
 // Bibliothèque : les 20 démos intégrées, remplacées par les musiques actives du back-office dès qu'elles sont lues (farhaSetMusicLibrary).
-let tracks=names.map(([n,c],i)=>({n,c,kind:'demo',demo:i}));
+// Bibliothèque proposée : 3 musiques douces (YouTube). Les démos synthétiques ne sont plus proposées
+// (elles restent lisibles pour les anciennes invitations qui les utilisent).
+const FARHA_YT_TRACKS=[['Mélodie romantique · 1','FoCG-WNsZio'],['Mélodie romantique · 2','j67Tc1mFrHY'],['Mélodie romantique · 3','-E5ovOA9VM8']];
+let tracks=FARHA_YT_TRACKS.map(([n,id])=>({n,c:'Romantique',kind:'youtube',src:id}));
 let filter='Pour vous',playing=-1,audio=null,previewUrl=null,selectedUrl=null,chosen=-1;
 choice.style.display='none';
 function options(){choice.innerHTML='<option value="">Sans musique</option>';tracks.forEach((t,i)=>{const o=document.createElement('option');o.value='track-'+i;o.textContent=t.n;choice.append(o)})}
@@ -2102,7 +2105,7 @@ function farhaInspBack(){show('home');goSection('themes')}
 // FARHA-MUSIQUES-SUPABASE : musiques actives gérées dans le back-office (fichier du bucket « music », YouTube ou démo).
 // Sans configuration, en cas d'erreur ou si aucune musique n'est active, les 20 démos intégrées restent proposées.
 (function(){
- const cfg=window.FARHA_CONFIG||{};
+ const cfg=window.FARHA_CONFIG||{},FARHA_YT_IDS=['FoCG-WNsZio','j67Tc1mFrHY','-E5ovOA9VM8'];
  if(!window.farhaSetMusicLibrary||!/^https:\/\/[a-z0-9-]+\.supabase\.co\/?$/.test(cfg.SUPABASE_URL||'')||!cfg.SUPABASE_ANON_KEY||/VOTRE-/.test(cfg.SUPABASE_ANON_KEY))return;
  if((location.protocol==='file:'||/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))&&!/[?&]supabase=1\b/.test(location.search))return;
  if(farhaReadInvite())return;
@@ -2116,7 +2119,9 @@ function farhaInspBack(){show('home');goSection('themes')}
     if(r.source==='youtube'&&/^[A-Za-z0-9_-]{11}$/.test(r.youtube_id||''))return Object.assign(t,{kind:'youtube',src:r.youtube_id});
     if(r.source==='demo'&&r.demo_index>=0&&r.demo_index<20)return Object.assign(t,{kind:'demo',demo:r.demo_index});
     return null}).filter(t=>t&&t.n);
-   if(list.length)farhaSetMusicLibrary(list)})
+   // les 3 musiques choisies restent en tête ; le back-office peut en ajouter (fichiers / YouTube, pas les démos)
+   const extra=list.filter(t=>t.kind!=='demo'&&!FARHA_YT_IDS.includes(t.src));
+   if(extra.length)farhaSetMusicLibrary(FARHA_YT_IDS.map((id,i)=>({n:'Mélodie romantique · '+(i+1),c:'Romantique',kind:'youtube',src:id})).concat(extra))})
   .catch(e=>{clearTimeout(timer);console.warn('Farha : musiques intégrées utilisées ('+(e&&e.message||e)+').')});
 })();
 // /FARHA-MUSIQUES-SUPABASE
