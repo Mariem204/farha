@@ -329,6 +329,8 @@ a{color:#c9a86a}a:hover{color:#e2c99a}
   text-transform:uppercase;text-decoration:none;cursor:pointer;border-radius:26px;
   box-shadow:inset 0 0 0 1px #c9a86a,0 8px 20px rgba(0,0,0,.3);transition:transform .25s ease,background .25s ease}
 .btn:hover{background:#241a13;transform:translateY(-2px)}
+.mapbtn{display:inline-flex;align-items:center;gap:9px;margin-top:16px;padding:11px 22px;border:1px solid #c9a86a;color:#e9d6ac;text-decoration:none;font-family:'Cormorant Garamond',Georgia,serif;font-size:13px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;background:rgba(201,168,106,.08);transition:background .3s,transform .3s}
+.mapbtn:hover{background:rgba(201,168,106,.2);transform:translateY(-2px)}
 .btn:focus-visible,a:focus-visible,button:focus-visible{outline:2px solid #c9a86a;outline-offset:3px}
 .sway{transform-origin:50% 0;animation:sway 12s ease-in-out infinite alternate}
 @keyframes sway{from{transform:rotate(-.45deg)}to{transform:rotate(.45deg)}}
@@ -601,6 +603,7 @@ html,body{margin:0;background:#2b1f18;overflow-x:hidden}
   </div>
   <svg width="130" height="16" viewBox="-60 -8 120 16" aria-hidden="true" style="margin-top: 16px"><use href="#rule"></use></svg>
   <p class="ser" style="margin: 8px 0 0; font-size: 17px; font-style: italic; color: #c9b79c"><span data-c="place"></span></p>
+  <a class="mapbtn" id="mapBtn" href="https://www.google.com/maps" target="_blank" rel="noopener" aria-label="Ouvrir le lieu dans Google Maps"><svg width="14" height="18" viewBox="0 0 24 30" aria-hidden="true"><path d="M12 0C5.4 0 0 5.2 0 11.6 0 20.3 12 30 12 30s12-9.7 12-18.4C24 5.2 18.6 0 12 0Z" fill="#c9a86a"></path><circle cx="12" cy="11.5" r="4.4" fill="#2b1f18"></circle></svg>Voir la localisation</a>
 </div>
 </section>
 
@@ -715,6 +718,9 @@ const CONFIG = {
   // calendrier du mois, le jour de l'événement entouré
   var base = ok ? d : new Date(), y = base.getFullYear(), m = base.getMonth(), lead = (new Date(y, m, 1).getDay() + 6) % 7, days = new Date(y, m + 1, 0).getDate(), box = $('#calCells');
   for (var i = 0; i < 42; i++) { var n = i - lead + 1, inM = n >= 1 && n <= days, s = document.createElement('span'); s.className = inM && n === base.getDate() ? 'ser cal on' : (inM ? 'ser cal' : 'ser cal off'); s.textContent = inM ? n : ''; box.appendChild(s); }
+  // bouton « Voir la localisation » : lien Google Maps donné dans le formulaire, sinon recherche du lieu
+  (function () { var q = String(C.mapQuery || [C.venue, C.address].filter(Boolean).join(', ')).trim(), a = $('#mapBtn');
+    a.href = /^https:\/\//.test(C.mapLink || '') ? C.mapLink : (q ? 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(q) : 'https://www.google.com/maps'); })();
   // compte à rebours
   var cd = {}; all('[data-cd]').forEach(function (el) { cd[el.getAttribute('data-cd')] = el; });
   function tick() { if (!ok) return; var t = Math.max(0, Math.floor((d.getTime() - Date.now()) / 1000)); cd.dd.textContent = pad(Math.floor(t / 86400)); cd.hh.textContent = pad(Math.floor(t / 3600) % 24); cd.mm.textContent = pad(Math.floor(t / 60) % 60); cd.ss.textContent = pad(t % 60); }
