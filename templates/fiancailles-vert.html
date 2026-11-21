@@ -613,7 +613,6 @@ html,body{margin:0;background:#2b1f18;overflow-x:hidden}
 <div class="fly soft" style="offset-path: path('M350 128C412 82 418 20 358 8C298 -4 276 70 316 98C346 120 312 166 350 128Z'); animation-duration: 27s" aria-hidden="true"><span class="bob b3"><img loading="lazy" decoding="async" class="wing" src="/media/x/ddf14425969828.webp" alt="" style="width: 44px; height: 46px"></span></div>
 <div class="rv" style="position: absolute; left: 40px; top: 36px; width: 350px; display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center">
 <p class="scr" style="margin: 0; font-size: 40px; line-height: 1; color: #6f8456">Répondez-nous</p>
-<p class="caps" style="margin: 6px 0 0; font-size: 10px; color: #7a6a56">Avant le <span data-c="rsvpBy"></span></p>
 </div>
 <div style="position: absolute; left: 40px; top: 136px; width: 350px">
 <form class="rv" id="rsvpForm" style="display: flex; flex-direction: column; gap: 14px">
@@ -669,7 +668,6 @@ const CONFIG = {
   prog3Time: "18:30",
   prog4Title: "Dîner & soirée",
   prog4Time: "20:00",
-  rsvpBy: "1er juin 2027",
   mapQuery: "",
   mapLink: ""
 };
@@ -690,12 +688,11 @@ const CONFIG = {
     dateNum: ok ? pad(d.getDate()) + ' . ' + pad(d.getMonth() + 1) + ' . ' + String(d.getFullYear()).slice(2) : '',
     time: ok ? pad(d.getHours()) + ':' + pad(d.getMinutes()) : '',
     place: [C.venue, city].filter(Boolean).join(' · '),
-    rsvpBy: C.rsvpBy || '',
+    
     monthName: MONTHS[(ok ? d : new Date()).getMonth()], year: String((ok ? d : new Date()).getFullYear())
   };
   all('[data-c]').forEach(function (el) { var v = V[el.getAttribute('data-c')]; if (v != null) el.textContent = v; });
   // une étape du programme sans heure est masquée ; « Avant le … » aussi si aucune date limite
-  ['rsvpBy'].forEach(function (k) { if (!V[k]) all('[data-c="' + k + '"]').forEach(function (el) { el.parentElement.style.visibility = 'hidden'; }); });
   // programme : 1 à 4 étapes (titre + heure), toutes facultatives. Les étapes remplies prennent les emplacements
   // dans l'ordre ; la section se raccourcit selon leur nombre, et disparaît si aucune n'est remplie.
   (function () {
