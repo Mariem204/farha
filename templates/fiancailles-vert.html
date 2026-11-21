@@ -460,7 +460,7 @@ html,body{margin:0;background:#2b1f18;overflow-x:hidden}
 </section>
 
 <!-- ============ 4 · PROGRAMME ============ -->
-<section style="position: absolute; left: 0; top: 1760px; width: 430px; height: 740px; overflow: hidden; background: #3a2b21">
+<section id="progSec" style="position: absolute; left: 0; top: 1760px; width: 430px; height: 740px; overflow: hidden; background: #3a2b21">
 <svg viewBox="0 0 430 740" width="430" height="740" style="position: absolute; left: 0; top: 0" aria-hidden="true">
 <defs>
 <g id="leafy"><path d="M0 0C-7-3-12-9-11-15C-10-21-3-21 0-16C3-21 10-21 11-15C12-9 7-3 0 0Z" fill="#7f9668"></path><path d="M0 -1V-17" stroke="#56693f" stroke-width=".8"></path></g>
@@ -491,7 +491,7 @@ html,body{margin:0;background:#2b1f18;overflow-x:hidden}
 <div class="fly" style="offset-path: path('M150 140C236 180 150 246 212 296C272 344 150 414 206 470C256 520 160 586 214 636C248 668 196 700 150 660C104 620 196 556 150 500C104 444 214 388 158 334C104 282 212 212 150 166C118 142 126 128 150 140Z'); animation-duration: 46s; animation-delay: -23s" aria-hidden="true"><span class="bob b2"><img loading="lazy" decoding="async" class="wing sl" src="/media/x/ddf14425969828.webp" alt="" style="width: 42px; height: 44px"></span></div>
 <p class="caps rv1" style="position: absolute; left: 0; top: 24px; width: 430px; text-align: center; margin: 0; font-size: 11px; color: #b7c7a3">Le déroulé</p>
 
-<div class="rv1" style="position: absolute; left: 24px; top: 70px; width: 190px; display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center">
+<div class="rv1 prog-slot" data-slot="1" style="position: absolute; left: 24px; top: 70px; width: 190px; display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center">
 <svg width="42" height="42" viewBox="0 0 48 48" aria-hidden="true">
 <defs><linearGradient id="gi1" x1="0" y1="0" x2=".8" y2="1"><stop offset="0" stop-color="#f6e7c4"></stop><stop offset=".48" stop-color="#c9a86a"></stop><stop offset="1" stop-color="#7f6230"></stop></linearGradient></defs>
 <ellipse cx="24" cy="43" rx="14" ry="3" fill="#1b130d" opacity=".45"></ellipse>
@@ -503,11 +503,11 @@ html,body{margin:0;background:#2b1f18;overflow-x:hidden}
 <rect x="20" y="29" width="8" height="12" rx="1.6" fill="#3a2b21"></rect>
 <circle cx="26.4" cy="35" r="1" fill="#f6e7c4"></circle>
 </svg>
-<span class="caps" style="font-size: 10px; color: #f3ece0">Accueil des invités</span>
-<span class="ser" style="font-size: 21px; color: #c9a86a"><span data-c="progAccueil"></span></span>
+<span class="caps" style="font-size: 10px; color: #f3ece0"><span data-p="title"></span></span>
+<span class="ser" style="font-size: 21px; color: #c9a86a"><span data-p="time"></span></span>
 </div>
 
-<div class="rv1" style="position: absolute; left: 210px; top: 236px; width: 196px; display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center">
+<div class="rv1 prog-slot" data-slot="2" style="position: absolute; left: 210px; top: 236px; width: 196px; display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center">
 <svg width="42" height="42" viewBox="0 0 48 48" aria-hidden="true">
 <defs><linearGradient id="gi2" x1="0" y1="0" x2=".7" y2="1"><stop offset="0" stop-color="#f8ecd0"></stop><stop offset=".45" stop-color="#c9a86a"></stop><stop offset="1" stop-color="#7a5d2c"></stop></linearGradient></defs>
 <ellipse cx="24" cy="43" rx="14" ry="3" fill="#1b130d" opacity=".45"></ellipse>
@@ -521,11 +521,11 @@ html,body{margin:0;background:#2b1f18;overflow-x:hidden}
 <path d="M30 8l5 5h-10z" fill="#fff" opacity=".9"></path>
 <path d="M25 13h10l-5 5z" fill="#9fb0a6"></path>
 </svg>
-<span class="caps" style="font-size: 10px; color: #f3ece0">Échange des bagues</span>
-<span class="ser" style="font-size: 21px; color: #c9a86a"><span data-c="progBagues"></span></span>
+<span class="caps" style="font-size: 10px; color: #f3ece0"><span data-p="title"></span></span>
+<span class="ser" style="font-size: 21px; color: #c9a86a"><span data-p="time"></span></span>
 </div>
 
-<div class="rv1" style="position: absolute; left: 24px; top: 408px; width: 190px; display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center">
+<div class="rv1 prog-slot" data-slot="3" style="position: absolute; left: 24px; top: 408px; width: 190px; display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center">
 <svg width="42" height="42" viewBox="0 0 48 48" aria-hidden="true">
 <defs><linearGradient id="gi3" x1="0" y1="0" x2=".9" y2="1"><stop offset="0" stop-color="#f8ecd0"></stop><stop offset=".5" stop-color="#c9a86a"></stop><stop offset="1" stop-color="#7a5d2c"></stop></linearGradient></defs>
 <ellipse cx="24" cy="43" rx="13" ry="3" fill="#1b130d" opacity=".45"></ellipse>
@@ -537,11 +537,11 @@ html,body{margin:0;background:#2b1f18;overflow-x:hidden}
 <ellipse cx="24" cy="40" rx="9" ry="2.6" fill="url(#gi3)"></ellipse>
 <path d="M12 9.4l9 11" stroke="#fff8e6" stroke-width="1.4" stroke-linecap="round" opacity=".5"></path>
 </svg>
-<span class="caps" style="font-size: 10px; color: #f3ece0">Cocktail</span>
-<span class="ser" style="font-size: 21px; color: #c9a86a"><span data-c="progCocktail"></span></span>
+<span class="caps" style="font-size: 10px; color: #f3ece0"><span data-p="title"></span></span>
+<span class="ser" style="font-size: 21px; color: #c9a86a"><span data-p="time"></span></span>
 </div>
 
-<div class="rv1" style="position: absolute; left: 212px; top: 572px; width: 196px; display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center">
+<div class="rv1 prog-slot" data-slot="4" style="position: absolute; left: 212px; top: 572px; width: 196px; display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center">
 <svg width="42" height="42" viewBox="0 0 48 48" aria-hidden="true">
 <defs><linearGradient id="gi4" x1="0" y1="0" x2=".8" y2="1"><stop offset="0" stop-color="#f8ecd0"></stop><stop offset=".5" stop-color="#c9a86a"></stop><stop offset="1" stop-color="#7a5d2c"></stop></linearGradient></defs>
 <ellipse cx="24" cy="41" rx="15" ry="3" fill="#1b130d" opacity=".45"></ellipse>
@@ -553,8 +553,8 @@ html,body{margin:0;background:#2b1f18;overflow-x:hidden}
 <path d="M3 9v7a3.3 3.3 0 0 0 6.6 0V9" fill="url(#gi4)"></path>
 <path d="M38 9c0-1 6-1 6 0v6c0 2-6 2-6 0z" fill="url(#gi4)"></path>
 </svg>
-<span class="caps" style="font-size: 10px; color: #f3ece0">Dîner &amp; soirée</span>
-<span class="ser" style="font-size: 21px; color: #c9a86a"><span data-c="progDiner"></span></span>
+<span class="caps" style="font-size: 10px; color: #f3ece0"><span data-p="title"></span></span>
+<span class="ser" style="font-size: 21px; color: #c9a86a"><span data-p="time"></span></span>
 </div>
 </section>
 
@@ -658,10 +658,14 @@ const CONFIG = {
   date: "2027-06-12T18:00:00",
   venue: "Dar El Marsa",
   address: "La Marsa, Tunis",
-  progAccueil: "17:00",
-  progBagues: "17:30",
-  progCocktail: "18:30",
-  progDiner: "20:00",
+  prog1Title: "Accueil des invités",
+  prog1Time: "17:00",
+  prog2Title: "Échange des bagues",
+  prog2Time: "17:30",
+  prog3Title: "Cocktail",
+  prog3Time: "18:30",
+  prog4Title: "Dîner & soirée",
+  prog4Time: "20:00",
   rsvpBy: "1er juin 2027",
   mapQuery: "",
   mapLink: ""
@@ -683,12 +687,31 @@ const CONFIG = {
     dateNum: ok ? pad(d.getDate()) + ' . ' + pad(d.getMonth() + 1) + ' . ' + String(d.getFullYear()).slice(2) : '',
     time: ok ? pad(d.getHours()) + ':' + pad(d.getMinutes()) : '',
     place: [C.venue, city].filter(Boolean).join(' · '),
-    rsvpBy: C.rsvpBy || '', progAccueil: C.progAccueil || '', progBagues: C.progBagues || '', progCocktail: C.progCocktail || '', progDiner: C.progDiner || '',
+    rsvpBy: C.rsvpBy || '',
     monthName: MONTHS[(ok ? d : new Date()).getMonth()], year: String((ok ? d : new Date()).getFullYear())
   };
   all('[data-c]').forEach(function (el) { var v = V[el.getAttribute('data-c')]; if (v != null) el.textContent = v; });
   // une étape du programme sans heure est masquée ; « Avant le … » aussi si aucune date limite
-  ['progAccueil', 'progBagues', 'progCocktail', 'progDiner', 'rsvpBy'].forEach(function (k) { if (!V[k]) all('[data-c="' + k + '"]').forEach(function (el) { el.parentElement.style.visibility = 'hidden'; }); });
+  ['rsvpBy'].forEach(function (k) { if (!V[k]) all('[data-c="' + k + '"]').forEach(function (el) { el.parentElement.style.visibility = 'hidden'; }); });
+  // programme : 1 à 4 étapes (titre + heure), toutes facultatives. Les étapes remplies prennent les emplacements
+  // dans l'ordre ; la section se raccourcit selon leur nombre, et disparaît si aucune n'est remplie.
+  (function () {
+    var steps = [1, 2, 3, 4].map(function (i) { return { i: i - 1, t: String(C['prog' + i + 'Title'] || '').trim(), h: String(C['prog' + i + 'Time'] || '').trim() }; }).filter(function (x) { return x.t || x.h; });
+    var slots = all('.prog-slot'), icons = slots.map(function (el) { return el.querySelector('svg'); }), n = steps.length, sec = $('#progSec'), oldH = 740, HEIGHTS = [0, 230, 400, 570, 740];
+    slots.forEach(function (el, k) {
+      if (k >= n) { el.style.display = 'none'; return; }
+      if (steps[k].i !== k) el.replaceChild(icons[steps[k].i].cloneNode(true), el.querySelector('svg'));
+      el.querySelector('[data-p="title"]').textContent = steps[k].t; el.querySelector('[data-p="time"]').textContent = steps[k].h;
+    });
+    var newH = HEIGHTS[n], delta = newH - oldH;
+    if (!n) sec.style.display = 'none'; else sec.style.height = newH + 'px';
+    if (!delta) return;
+    // la tige continue sous la dernière étape : elle s'efface en douceur en bas de la section
+    var fade = document.createElement('div'); fade.setAttribute('aria-hidden', 'true'); fade.style.cssText = 'position:absolute;left:0;bottom:0;width:430px;height:70px;background:linear-gradient(rgba(58,43,33,0),#3a2b21 85%);pointer-events:none;z-index:2'; sec.appendChild(fade);
+    var lim = 1760 + oldH;
+    all('#root > section').forEach(function (el) { var t = parseFloat(el.style.top); if (t >= lim) el.style.top = (t + delta) + 'px'; });
+    H += delta; root.style.height = H + 'px'; fit();
+  })();
   // calendrier du mois, le jour de l'événement entouré
   var base = ok ? d : new Date(), y = base.getFullYear(), m = base.getMonth(), lead = (new Date(y, m, 1).getDay() + 6) % 7, days = new Date(y, m + 1, 0).getDate(), box = $('#calCells');
   for (var i = 0; i < 42; i++) { var n = i - lead + 1, inM = n >= 1 && n <= days, s = document.createElement('span'); s.className = inM && n === base.getDate() ? 'ser cal on' : (inM ? 'ser cal' : 'ser cal off'); s.textContent = inM ? n : ''; box.appendChild(s); }
