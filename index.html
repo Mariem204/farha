@@ -1327,7 +1327,9 @@ function farhaClean(d,t){
  if(!src)type='';
  out.musicType=type;out.music=type?src:'';
  out.dress=Array.isArray(d.dress)?d.dress.slice(0,12).map(c=>typeof c==='string'&&/^#[0-9a-f]{6}$/i.test(c)?c.toLowerCase():null):null;
- out.photos=Array.isArray(d.photos)?d.photos.slice(0,8).map(p=>typeof p==='string'&&(/^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(p)||(farhaHttpsUrl(p)&&!/["'<>()\s\\]/.test(p)))?p:null):null;
+ // photos enregistrées par une version précédente (adresse directe du stockage) : servies par le site, comme les nouvelles
+ const fixPhoto=p=>{const m=typeof p==='string'&&p.match(/^https:\/\/[a-z0-9-]+\.supabase\.co\/storage\/v1\/object\/public\/invitation-photos\/(\d{4}-\d{2}\/[a-z2-9]{16}\.(?:jpg|png|webp))$/);return m?location.origin+'/api/photo?f='+m[1]:p};
+ out.photos=Array.isArray(d.photos)?d.photos.slice(0,8).map(fixPhoto).map(p=>typeof p==='string'&&(/^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(p)||(farhaHttpsUrl(p)&&!/["'<>()\s\\]/.test(p)))?p:null):null;
  return out;
 }
 // Textes du formulaire traduits dans le format propre à chaque modèle (CONFIG, CFG, paramètres…).

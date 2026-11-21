@@ -34,9 +34,29 @@ async function upload(base, key, path, buf, mime) {
   });
 }
 
+const PATH_RE = /^\d{4}-\d{2}\/[a-z2-9]{16}\.(jpg|png|webp)$/;
+const MIME = { jpg: 'image/jpeg', png: 'image/png', webp: 'image/webp' };
+
 module.exports = async function handler(req, res) {
+  const base0 = (process.env.SUPABASE_URL || '').trim().replace(/\/+$/, '').replace(/\/rest\/v1$/, '');
+  const key0 = (process.env.SUPABASE_SERVICE_ROLE_KEY || '').trim();
+  // GET /api/photo?f=2026-11/xxxx.jpg : la photo est servie par le site lui-même (lue dans le stockage avec la clé
+  // serveur), elle s'affiche donc quel que soit le réglage public/privé du stockage.
+  if (req.method === 'GET') {
+    const f = String((req.query && req.query.f) || new URL(req.url, 'https://x').searchParams.get('f') || '');
+    const m = f.match(PATH_RE);
+    if (!m || !key0) return res.status(404).end();
+    try {
+      const r = await fetch(base0 + '/storage/v1/object/authenticated/' + BUCKET + '/' + f, { headers: headers(key0) });
+      if (!r.ok) { res.setHeader('Cache-Control', 'no-store'); return res.status(r.status === 400 || r.status === 404 ? 404 : 502).end(); }
+      const buf = Buffer.from(await r.arrayBuffer());
+      res.setHeader('Content-Type', MIME[m[1]]);
+      res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+      return res.status(200).send(buf);
+    } catch (e) { console.error('photo: lecture', e.message); res.setHeader('Cache-Control', 'no-store'); return res.status(502).end(); }
+  }
   res.setHeader('Cache-Control', 'no-store');
-  if (req.method !== 'POST') { res.setHeader('Allow', 'POST'); return res.status(405).json({ error: 'Méthode non autorisée' }); }
+  if (req.method !== 'POST') { res.setHeader('Allow', 'GET, POST'); return res.status(405).json({ error: 'Méthode non autorisée' }); }
 
   // Uniquement depuis le site lui-même (même domaine).
   const origin = req.headers.origin;
@@ -78,5 +98,6 @@ module.exports = async function handler(req, res) {
     console.error('photo:', e.message);
     return res.status(502).json({ error: 'Enregistrement de la photo impossible' });
   }
-  return res.status(200).json({ url: base + '/storage/v1/object/public/' + BUCKET + '/' + path });
+  // adresse servie par le site (même domaine que l'invitation)
+  return res.status(200).json({ url: 'https://' + req.headers.host + '/api/photo?f=' + path });
 };
