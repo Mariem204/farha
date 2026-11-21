@@ -411,13 +411,13 @@ html,body{margin:0;background:#2b1f18;overflow-x:hidden}
 <div class="fly soft" style="offset-path: path('M326 772C398 720 416 630 346 608C276 586 240 672 294 716C330 746 288 812 326 772Z'); animation-duration: 25s; animation-delay: -8s" aria-hidden="true"><span class="bob b2"><img class="wing sl" src="/media/x/9373401e18e851.webp" alt="" style="width: 50px; height: 62px"></span></div>
 <div class="fade" style="position: absolute; left: 55px; top: 566px; width: 320px; display: flex; flex-direction: column; align-items: center; text-align: center; animation-delay: .6s">
 <p class="caps" style="margin: 0; font-size: 11px; color: #b7c7a3">Nos fiançailles</p>
-<p class="scr shine" style="margin: 6px 0 0; font-size: 62px; line-height: 1.05; transform: skewX(12deg)"><span data-c="bride"></span> &amp; <span data-c="groom"></span></p>
-<svg width="130" height="16" viewBox="-60 -8 120 16" aria-hidden="true" style="margin: 10px 0 6px"><use href="#rule"></use></svg>
+<p class="scr shine" id="names" style="margin: 0; padding: 6px 14px 14px; max-width: 360px; box-sizing: border-box; font-size: 62px; line-height: 1.05; transform: skewX(12deg)"><span data-c="bride"></span> &amp; <span data-c="groom"></span></p>
+<svg width="130" height="16" viewBox="-60 -8 120 16" aria-hidden="true" style="margin: 0 0 6px"><use href="#rule"></use></svg>
 <p class="caps" style="margin: 0; font-size: 13px; letter-spacing: .4em; color: #f3ece0"><span data-c="dateNum"></span></p>
 <p class="ser" style="margin: 14px 0 0; font-style: italic; font-size: 19px; color: #c9b79c">Nous nous sommes dit oui,<br>venez le fêter avec nous</p>
 </div>
-<div style="position: absolute; left: 165px; top: 828px; width: 100px; display: flex; flex-direction: column; align-items: center; gap: 6px">
-<span class="caps" style="font-size: 9px; color: #a9977e">Faites défiler</span>
+<div style="position: absolute; left: 115px; top: 834px; width: 200px; display: flex; flex-direction: column; align-items: center; gap: 6px">
+<span class="caps" style="font-size: 9px; color: #a9977e; white-space: nowrap">Faites défiler</span>
 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a9977e" stroke-width="1.6" class="float" aria-hidden="true"><path d="M12 4v15M6 13l6 6 6-6"></path></svg>
 </div>
 </section>
@@ -692,6 +692,9 @@ const CONFIG = {
     monthName: MONTHS[(ok ? d : new Date()).getMonth()], year: String((ok ? d : new Date()).getFullYear())
   };
   all('[data-c]').forEach(function (el) { var v = V[el.getAttribute('data-c')]; if (v != null) el.textContent = v; });
+  // prénoms longs : la taille diminue jusqu'à ce que tout tienne sur 2 lignes dans la largeur (police chargée ou non)
+  function fitNames() { var p = $('#names'), fs = 62; p.style.fontSize = fs + 'px'; while (fs > 28 && (p.scrollWidth > p.clientWidth + 1 || p.offsetHeight > fs * 1.05 * 2 + 26)) { fs -= 2; p.style.fontSize = fs + 'px'; } }
+  fitNames(); if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitNames);
   // une étape du programme sans heure est masquée ; « Avant le … » aussi si aucune date limite
   // programme : 1 à 4 étapes (titre + heure), toutes facultatives. Les étapes remplies prennent les emplacements
   // dans l'ordre ; la section se raccourcit selon leur nombre, et disparaît si aucune n'est remplie.
