@@ -2758,7 +2758,7 @@ body .farha-header .farha-logo{line-height:1.1}
  var OFF=['superhero','night','lavender','sky','lake','huntrix']; // Superhero · Birthday Boy, Nuit étoilée, Douce lavande, Bleu ciel, Lake Como, Huntrix · Birthday Pop
  var OFF_CAT=['Fiançailles']; // collections retirées du site
  if(/^#i=/.test(location.hash)||typeof templates==='undefined')return;
- var ALLOW=['fiancailles-vert']; // modèles gardés dans une collection retirée (Fiançailles : seulement le nouveau modèle)
+ var ALLOW=['fiancailles-vert','fiancailles-voilee']; // modèles gardés dans une collection retirée (Fiançailles : seulement le nouveau modèle)
  function off(t){return OFF.indexOf(t.id)>=0||(OFF_CAT.indexOf(t.category)>=0&&ALLOW.indexOf(t.id)<0)}
  function prune(){for(var i=templates.length-1;i>=0;i--)if(off(templates[i]))templates.splice(i,1);
   if(typeof chosen!=='undefined'&&chosen&&off(chosen))chosen=templates[0]}
@@ -2879,6 +2879,7 @@ body .farha-header .farha-logo{line-height:1.1}
   {id:'jacaranda',name:'Jacaranda',category:'Mariage',color:'#5e3b82',file:'templates/jacaranda.html',preview:'templates/apercus/jacaranda.webp',description:'Arche de glycines et pétales mauves, bougies, cadre photo lilas, date et lieu avec la carte, couleurs de la tenue et réponses des invités.'},
   {id:'orchid-wedding',name:'Orchidée',category:'Mariage',color:'#a81e52',file:'templates/orchid-wedding.html',preview:'templates/apercus/orchid-wedding.webp',description:'Carte fuchsia et paon, colibris et orchidées, cadre photo, date et lieu avec la carte, couleurs de la tenue et réponses des invités.'},
   {id:'fiancailles-vert',name:'Vert & marron',category:'Fiançailles',color:'#6f8456',file:'templates/fiancailles-vert.html',preview:'templates/apercus/fiancailles-vert.webp',description:'Rideaux verts et lustre, les fiancés illustrés, bague dans son écrin, calendrier, programme de la soirée, compte à rebours et réponses des invités.'},
+  {id:'fiancailles-voilee',name:'Vert & marron · voilée',category:'Fiançailles',color:'#6f8456',file:'templates/fiancailles-voilee.html',preview:'templates/apercus/fiancailles-voilee.webp',description:'Version avec la fiancée voilée : rideaux verts et lustre, bague dans son écrin, calendrier, programme de la soirée, compte à rebours et réponses des invités.'},
   {id:'single-bye-bye',name:'Single bye bye',category:'Bridal party',color:'#e8749a',file:'templates/single-bye-bye.html',preview:'templates/apercus/single-bye-bye.webp',description:'Ballons « bride to be », la mariée et ses copines illustrées, dress code rose, programme de la soirée, carte, compte à rebours et réponses des invitées.'},
   {id:'carthage',name:'Carthage',category:'Mariage',color:'#6A2525',file:'templates/carthage.html',preview:'templates/apercus/carthage.webp',description:'Sceau de Tanit à briser, parchemin d’Élyssa, éléphants d’Hannibal, galère punique, date dorée à gratter et un mot pour les mariés.'}
  ];
@@ -2994,7 +2995,7 @@ body .farha-header .farha-logo{line-height:1.1}
 (function(){
  if(typeof farhaTemplateCard!=='function')return;
  var base=farhaTemplateCard;
- var SUITE=['henna-rideau-rouge','save-the-date-olive','lotus-wedding','sidi','sarah','sand','huntrix','huntrixConcert','diplome','tahara','anniversaire-dino','anniversaire-super-heros','baby-shower','enchanted-garden','bord-de-mer','henna-sultan','perla','carthage','outeya-gold','forest-wedding','jacaranda','orchid-wedding','neon-coast','fiancailles-vert','single-bye-bye'];
+ var SUITE=['henna-rideau-rouge','save-the-date-olive','lotus-wedding','sidi','sarah','sand','huntrix','huntrixConcert','diplome','tahara','anniversaire-dino','anniversaire-super-heros','baby-shower','enchanted-garden','bord-de-mer','henna-sultan','perla','carthage','outeya-gold','forest-wedding','jacaranda','orchid-wedding','neon-coast','fiancailles-vert','fiancailles-voilee','single-bye-bye'];
  function fitFrames(box){box.querySelectorAll('iframe.card-frame').forEach(function(f){var p=f.parentElement,w=p.clientWidth;if(w)f.style.transform='scale('+(w/390)+')'})}
  farhaTemplateCard=function(t){
   var card=base.apply(this,arguments),art=card.querySelector('.template-artwork');if(!art)return card;
