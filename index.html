@@ -1138,7 +1138,7 @@ function farhaDeliver(){
 // Lien d'invitation : le site Netlify relit le modèle et les informations depuis l'adresse (#i=...) et affiche l'invitation.
 // Le lien ouvre le site qui l'a créé (production, ou aperçu test-admin) ; en local, le site de production.
 const FARHA_SITE=location.protocol==='https:'?location.origin+'/':'https://farha-bay.vercel.app/';
-function farhaInviteLink(rkey){const d=readData();delete d.photos;if(d.musicType==='file'){const k=window.farhaDemoIndex?window.farhaDemoIndex():-1;d.music=k>=0?String(k):'';d.musicType=k>=0?'demo':''}const o={t:chosen.id,d};if(typeof rkey==='string'&&/^[a-z0-9-]{2,80}$/.test(rkey))o.r=rkey;const bytes=new TextEncoder().encode(JSON.stringify(o));let bin='';bytes.forEach(b=>bin+=String.fromCharCode(b));return FARHA_SITE+'#i='+btoa(bin).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'')}
+function farhaInviteLink(rkey){const d=readData();if(d.photos){d.photos=d.photos.map(p=>typeof p==='string'&&/^https:\/\//.test(p)?p:null);if(!d.photos.some(Boolean))delete d.photos}if(d.musicType==='file'){const k=window.farhaDemoIndex?window.farhaDemoIndex():-1;d.music=k>=0?String(k):'';d.musicType=k>=0?'demo':''}const o={t:chosen.id,d};if(typeof rkey==='string'&&/^[a-z0-9-]{2,80}$/.test(rkey))o.r=rkey;const bytes=new TextEncoder().encode(JSON.stringify(o));let bin='';bytes.forEach(b=>bin+=String.fromCharCode(b));return FARHA_SITE+'#i='+btoa(bin).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'')}
 function farhaReadInvite(){const m=location.hash.match(/^#i=([A-Za-z0-9_-]+)/);if(!m)return null;try{const bin=atob(m[1].replace(/-/g,'+').replace(/_/g,'/'));const o=JSON.parse(new TextDecoder().decode(Uint8Array.from(bin,c=>c.charCodeAt(0))));const t=templates.find(x=>x.id===o.t);return t&&o.d?{t,d:o.d,r:typeof o.r==='string'&&/^[a-z0-9-]{2,80}$/.test(o.r)?o.r:''}:null}catch(e){return null}}
 function farhaToast(t){$('deliveryToast').textContent=t}
 function farhaCopy(text){if(navigator.clipboard&&window.isSecureContext)return navigator.clipboard.writeText(text);const i=$('deliveryLink');i.select();try{document.execCommand('copy')}catch(e){}return Promise.resolve()}
@@ -1797,6 +1797,19 @@ function farhaReadPhoto(file){return new Promise((resolve,reject)=>{
  img.onerror=()=>{URL.revokeObjectURL(url);reject(new Error('Cette image ne peut pas être lue.'))};
  img.src=url;
 })}
+// Photos du client : enregistrées sur le serveur Farha (/api/photo) avant de créer le lien d'invitation,
+// pour qu'elles s'affichent aussi chez les invités. Une photo déjà envoyée ne l'est pas deux fois.
+const farhaPhotoUrls={};
+function farhaShrinkPhoto(src){return new Promise(res=>{if(src.length<3e6)return res(src);const img=new Image();img.onload=()=>{const k=Math.min(1,1400/Math.max(img.naturalWidth,img.naturalHeight)),c=document.createElement('canvas');c.width=Math.round(img.naturalWidth*k);c.height=Math.round(img.naturalHeight*k);c.getContext('2d').drawImage(img,0,0,c.width,c.height);res(c.toDataURL('image/jpeg',.82))};img.onerror=()=>res(src);img.src=src})}
+function farhaUploadPhotos(){
+ const t=chosen,list=t&&farhaState.photos[t.id];if(!list||!list.some(p=>typeof p==='string'&&/^data:/.test(p)))return Promise.resolve();
+ const one=(p,i)=>{if(typeof p!=='string'||!/^data:/.test(p))return Promise.resolve();
+  const done=farhaPhotoUrls[p]?Promise.resolve(farhaPhotoUrls[p]):farhaShrinkPhoto(p).then(img=>fetch('/api/photo',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({image:img})}))
+   .then(r=>r.ok?r.json():Promise.reject(new Error('HTTP '+r.status))).then(j=>{const u=j&&j.url;if(!/^https:\/\//.test(u||''))throw new Error('réponse invalide');farhaPhotoUrls[p]=u;return u});
+  return done.then(u=>{if(list[i]===p)list[i]=u}).catch(e=>console.warn('Farha : photo non enregistrée ('+(e&&e.message||e)+'), elle ne sera pas dans le lien.'))};
+ // 25 s au plus : sans réponse, la commande continue (le lien part sans la photo)
+ return Promise.race([Promise.all(list.map(one)),new Promise(r=>setTimeout(r,25000))]);
+}
 function farhaSetPhoto(i,file){
  const t=chosen;$('photoStatus').textContent='Préparation de la photo…';
  farhaReadPhoto(file).then(src=>{if(chosen!==t)return;const list=farhaState.photos[t.id]||(farhaState.photos[t.id]=[]);list[i]=src;farhaState.ver.photos++;$('photoStatus').textContent='';farhaRenderControls();farhaSync()},
@@ -2186,11 +2199,12 @@ function farhaSendPaymentEmails(ref,rkey){
 simulatePayment=function(){farhaAskClient(()=>{
  $('payStatus').textContent='';farhaPendingDelivery();
  // Les e-mails attendent la référence du back-office (8 s au plus) ; sans réponse, ils partent avec « en attente ».
- Promise.race([farhaRecordOrder('template',farhaInvitationPayload()),new Promise(r=>setTimeout(()=>r(null),8000))])
+ // Les photos du client sont d'abord enregistrées, pour que le lien envoyé à Farha les contienne.
+ farhaUploadPhotos().then(()=>Promise.race([farhaRecordOrder('template',farhaInvitationPayload()),new Promise(r=>setTimeout(()=>r(null),8000))]))
   .then(r=>farhaSendPaymentEmails(r&&r.reference,r&&r.invitation&&r.invitation.slug));
 })};
 // Bouton « Terminé · test gratuit » : commande enregistrée à 0 DT, de type « test ».
-farhaFreeFinish=function(){farhaAskClient(()=>{$('payStatus').textContent='';farhaDeliver();$('deliveryStatus').textContent='Mode test : livraison sans paiement.';setTimeout(farhaOpenFeedback,1200);farhaRecordOrder('test',farhaInvitationPayload()).then(r=>{if(r&&r.invitation&&r.invitation.slug)$('deliveryLink').value=farhaInviteLink(r.invitation.slug)})})};
+farhaFreeFinish=function(){farhaAskClient(()=>{$('payStatus').textContent='';farhaDeliver();$('deliveryStatus').textContent='Mode test : livraison sans paiement.';setTimeout(farhaOpenFeedback,1200);farhaUploadPhotos().then(()=>{$('deliveryLink').value=farhaInviteLink();return farhaRecordOrder('test',farhaInvitationPayload())}).then(r=>{if(r&&r.invitation&&r.invitation.slug)$('deliveryLink').value=farhaInviteLink(r.invitation.slug)})})};
 // Formulaire « Création sur mesure » : demande enregistrée (50 DT), puis la messagerie s'ouvre comme avant.
 const farhaSendBespokeBefore=sendBespoke;
 sendBespoke=function(e){
