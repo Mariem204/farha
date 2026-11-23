@@ -304,7 +304,7 @@ Revoir · FARHA — Invitations Digitales
 <div class="intro" id="intro" aria-label="L’ouverture">
 <div class="introBg">
 <img id="introBas" src="/media/x/d44d4a7a882b4f.webp" alt="بسم الله الرحمن الرحيم" style="position: absolute; left: 50%; top: 80px; width: 230px; transform: translateX(-50%); z-index: 1">
-<img id="introHands" src="/media/x/44b080b7e6533c.webp" alt="Les mains des mariés échangeant les alliances" style="position: absolute; left: 0; bottom: -14px; width: 100%; z-index: 1">
+<img id="introHands" src="/media/x/2878201a0ebc56.webp" alt="Les mains des mariés échangeant les alliances" style="position: absolute; left: 0; bottom: -40px; width: 100%; z-index: 1">
 <img decoding="async" src="/media/x/dabd7b249a514b.webp" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%">
 </div>
 <div class="copy" id="introCopy" dir="rtl" lang="ar" style="position: absolute; left: 48px; right: 48px; top: 19%; bottom: 31%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center">
@@ -351,8 +351,8 @@ const CONFIG = {
   function placeIntro() { var R = root.offsetHeight, sc = Math.max(390 / 750, R / 1333), dh = 1333 * sc, off = (dh - R) / 2;
     var cta = $('#introCta'), copy = $('#introCopy'), bas = $('#introBas'), hands = $('#introHands'); if (!cta || !copy || !bas || !hands) return;
     var bt = 0.135 * dh - off; bas.style.top = bt + 'px';
-    var bb = bt + (bas.offsetHeight || 35), ht = R + 14 - (hands.offsetHeight || 250), bh = cta.offsetHeight || 48, ct = ht - bh - 2;
-    cta.style.top = ct + 'px'; copy.style.top = (bb + 30) + 'px'; copy.style.bottom = (R - ct + 8) + 'px'; }
+    var bb = bt + (bas.offsetHeight || 35), ht = R + 40 - (hands.offsetHeight || 250), bh = cta.offsetHeight || 48, ct = ht - bh - 2;
+    cta.style.top = ct + 'px'; copy.style.top = (bb + 56) + 'px'; copy.style.bottom = (R - ct + 8) + 'px'; }
   placeIntro(); addEventListener('resize', placeIntro); addEventListener('load', placeIntro); if (document.fonts && document.fonts.ready) document.fonts.ready.then(placeIntro);
   // textes
   var d = new Date(C.date), ok = !isNaN(d.getTime());
@@ -391,7 +391,7 @@ const CONFIG = {
   // dernière image (bordure du bas) ; la dernière section s'allonge juste ce qu'il faut pour finir sur une image entière.
   (function () {
     var sc = $('#scroller'), last = all('.scene').pop(); if (!sc || !last) return;
-    var W = 460, hTop = Math.round(W * 1.48711), hMid = W * 1.40089, hBot = Math.round(W * 1.49600);
+    var W = 460, hTop = Math.round(W * 1.48711), hMid = W * 1.40089, hBot = Math.round(W * 1.45600);
     // nombre impair d'images au milieu (pour que la dernière se raccorde), hauteur ajustée pour tomber pile sur la fin
     var H0 = sc.scrollHeight, need = Math.max(hMid * 0.6, H0 - hTop - hBot), k = Math.max(1, Math.round(need / hMid)); if (k % 2 === 0) k += (need / hMid > k ? 1 : -1) || 1;
     hMid = need / k; var total = Math.round(hTop + k * hMid + hBot);
@@ -400,7 +400,7 @@ const CONFIG = {
     var add = function (src, h) { var i = document.createElement('img'); i.src = src; i.alt = ''; i.style.height = h + 'px'; L.appendChild(i); };
     add('/media/x/9e661225183c88.webp', hTop);
     for (var j = 0; j < k; j++) add(j % 2 ? '/media/x/b9f3c240d214ff.webp' : '/media/x/7c4aa5304ec0d9.webp', hMid);
-    add('/media/x/1a7b62007f9059.webp', hBot);
+    add('/media/x/a5fb099cf3c428.webp', hBot);
     var v = document.createElement('div'); v.className = 'veil'; L.appendChild(v); sc.insertBefore(L, sc.firstChild);
   })();
   var scroller = $('#scroller'), px = all('[data-px]'), ons = all('[data-on]'), dots = all('#dots .dot'), sy = 0, maxSy = 0, entered = false, raf = 0;
