@@ -767,6 +767,7 @@ label.farha-pick:hover{background:#e0cbbf}
 <style id="farha-boutons-detail">html body #detail .actions button{padding-top:17px;padding-bottom:17px;padding-left:28px;padding-right:28px;font-size:15px}html #farhaFS{--fs-h:calc(env(safe-area-inset-top,0px) + 64px)}html #farhaFS .fs-bar button{height:44px;line-height:44px;padding:0 18px;font-size:15px}@media(max-width:360px){html #farhaFS .fs-bar button{padding:0 13px;font-size:14px}}html #farhaFS .fs-bar{gap:8px}html #farhaFS .fs-close{width:44px;height:44px;line-height:44px;top:calc(env(safe-area-inset-top,0px) + 10px)}</style>
 <style id="farha-nav-boutons">html body .farha-header{padding-top:11px;padding-bottom:11px}html body .farha-header .farha-nav a{padding:12px 22px}@media(max-width:680px){html body .farha-header{padding-top:9px!important;padding-bottom:9px!important}html body .farha-header .farha-nav a{padding:11px 10px}}</style>
 <style id="farha-logo-img">.farha-logo{display:inline-flex;align-items:center;line-height:0!important}.farha-logo-img{display:block;height:22px;width:auto}@media(max-width:680px){.farha-logo-img{height:18px}body .farha-header .farha-logo{display:none!important}body .farha-header{padding-top:6px!important}}</style>
+<script id="farha-versions">window.FARHA_TPL_HISTORY={"anniversaire-dino":[["2026-11-13T20:17:21+00:00","6974b618ad7e"]],"anniversaire-super-heros":[["2026-11-13T20:17:21+00:00","f26c9cf0b88b"]],"baby-shower":[["2026-11-13T20:17:21+00:00","f3f704c35424"]],"bord-de-mer":[["2026-11-13T20:17:21+00:00","07c3d9830206"]],"carthage":[["2026-11-16T14:02:33+00:00","28fba068ce63"]],"enchanted-garden":[["2026-11-13T20:17:21+00:00","6dfc5f580610"]],"fiancailles-vert":[["2026-11-22T12:27:58+00:00","5f71654c8ea7"]],"fiancailles-voilee":[["2026-11-22T12:27:58+00:00","2a90319f6116"]],"forest-wedding":[["2026-11-18T19:27:33+00:00","e09aaf5a0200"]],"graduation-navy":[["2026-11-13T20:17:21+00:00","c1c9da2dccc9"]],"graduation-rose":[["2026-11-13T20:17:21+00:00","d724554a2d25"]],"henna-rideau-rouge":[["2026-11-13T20:17:21+00:00","0346f6639cef"]],"henna-sultan":[["2026-11-13T20:17:21+00:00","8955690b8f15"]],"jacaranda":[["2026-11-18T19:27:33+00:00","173a038fec01"]],"lotus-wedding":[["2026-11-04T15:07:24+00:00","168b87fcce66"]],"neon-coast":[["2026-11-19T13:21:58+00:00","5d7b7d41e1fe"]],"olive-wedding":[["2026-11-13T20:17:21+00:00","1892820959a9"]],"orchid-wedding":[["2026-11-18T19:27:33+00:00","fa872b7dfc56"]],"outeya-gold":[["2026-11-19T22:38:49+00:00","ae2629864b61"]],"perla":[["2026-11-13T20:17:21+00:00","ec8a202c5876"],["2026-11-23T12:56:04+00:00","5850a0442aa3"],["2026-11-23T13:10:19+00:00","d055cb44c0b4"],["2026-11-23T13:12:10+00:00","2b80a8270ba6"],["2026-11-23T13:41:19+00:00","bbf7df9e51bf"],["2026-11-23T14:29:20+00:00","527405672646"],["","bc1e3ab03663"]],"pirate-wedding":[["2026-11-13T20:17:21+00:00","dd30240a8227"]],"save-the-date-olive":[["2026-11-13T20:17:21+00:00","c16264f49f00"]],"save-the-date-red":[["2026-11-13T20:17:21+00:00","79f915a2fdf8"]],"single-bye-bye":[["2026-11-19T20:18:39+00:00","6a68eec7754a"]]};window.FARHA_TPL_SINCE="2026-11-23T12:35:00+00:00";</script>
 </head><body><style id="farha-portal">
 /* Ouverture au scroll : sur un fond bordeaux uni, la bouche du personnage Farha s'ouvre et laisse voir le site. */
 .fp{position:fixed;inset:0;z-index:9999;overflow:hidden;touch-action:none;cursor:pointer}
@@ -1138,7 +1139,7 @@ function farhaDeliver(){
 // Lien d'invitation : le site Netlify relit le modèle et les informations depuis l'adresse (#i=...) et affiche l'invitation.
 // Le lien ouvre le site qui l'a créé (production, ou aperçu test-admin) ; en local, le site de production.
 const FARHA_SITE=location.protocol==='https:'?location.origin+'/':'https://farha-bay.vercel.app/';
-function farhaInviteLink(rkey){const d=readData();if(d.photos){d.photos=d.photos.map(p=>typeof p==='string'&&/^https:\/\//.test(p)?p:null);if(!d.photos.some(Boolean))delete d.photos}if(d.musicType==='file'){const k=window.farhaDemoIndex?window.farhaDemoIndex():-1;d.music=k>=0?String(k):'';d.musicType=k>=0?'demo':''}const o={t:chosen.id,d};if(typeof rkey==='string'&&/^[a-z0-9-]{2,80}$/.test(rkey))o.r=rkey;const bytes=new TextEncoder().encode(JSON.stringify(o));let bin='';bytes.forEach(b=>bin+=String.fromCharCode(b));return FARHA_SITE+'#i='+btoa(bin).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'')}
+function farhaInviteLink(rkey){const d=readData();if(d.photos){d.photos=d.photos.map(p=>typeof p==='string'&&/^https:\/\//.test(p)?p:null);if(!d.photos.some(Boolean))delete d.photos}if(d.musicType==='file'){const k=window.farhaDemoIndex?window.farhaDemoIndex():-1;d.music=k>=0?String(k):'';d.musicType=k>=0?'demo':''}const o={t:chosen.id,d};if(chosen.vhash)o.v=chosen.vhash;if(typeof rkey==='string'&&/^[a-z0-9-]{2,80}$/.test(rkey))o.r=rkey;const bytes=new TextEncoder().encode(JSON.stringify(o));let bin='';bytes.forEach(b=>bin+=String.fromCharCode(b));return FARHA_SITE+'#i='+btoa(bin).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'')}
 function farhaReadInvite(){const m=location.hash.match(/^#i=([A-Za-z0-9_-]+)/);if(!m)return null;try{const bin=atob(m[1].replace(/-/g,'+').replace(/_/g,'/'));const o=JSON.parse(new TextDecoder().decode(Uint8Array.from(bin,c=>c.charCodeAt(0))));const t=templates.find(x=>x.id===o.t);return t&&o.d?{t,d:o.d,r:typeof o.r==='string'&&/^[a-z0-9-]{2,80}$/.test(o.r)?o.r:''}:null}catch(e){return null}}
 function farhaToast(t){$('deliveryToast').textContent=t}
 function farhaCopy(text){if(navigator.clipboard&&window.isSecureContext)return navigator.clipboard.writeText(text);const i=$('deliveryLink');i.select();try{document.execCommand('copy')}catch(e){}return Promise.resolve()}
@@ -2002,8 +2003,10 @@ function farhaCustomPreview(html){
  const i=html.search(/<\/head>/i);html=i<0?noBar+html:html.slice(0,i)+noBar+html.slice(i);
  return '<iframe class="card-shot card-frame" title="" aria-hidden="true" tabindex="-1" loading="lazy" scrolling="no" sandbox="allow-scripts" srcdoc="'+html.replace(/&/g,'&amp;').replace(/"/g,'&quot;')+'"></iframe>';
 }
+// Empreinte de la version d'un modèle (12 premiers caractères du SHA-256 du fichier) : gardée dans chaque lien d'invitation
+function farhaHashHtml(html){try{return crypto.subtle.digest('SHA-256',new TextEncoder().encode(html)).then(b=>Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,'0')).join('').slice(0,12))}catch(e){return Promise.resolve('')}}
 function farhaRegisterCustom(t,html){
- FARHA_CUSTOM_HTML[t.id]=html;t.custom=true;t.defaults=farhaCustomDefaults(html);
+ FARHA_CUSTOM_HTML[t.id]=html;t.custom=true;t.defaults=farhaCustomDefaults(html);farhaHashHtml(html).then(v=>{if(v&&FARHA_CUSTOM_HTML[t.id]===html)t.vhash=v});
  if(!t.hasPreviewImage)previewMarkup[t.id]=farhaCustomPreview(html);
 }
 function farhaLoadCustomHtml(base,key,list){
@@ -3313,14 +3316,34 @@ addEventListener('message',function(e){
  var m=location.hash.match(/^#i=([A-Za-z0-9_-]+)/);if(!m)return;
  var o=null;try{var bin=atob(m[1].replace(/-/g,'+').replace(/_/g,'/'));o=JSON.parse(new TextDecoder().decode(Uint8Array.from(bin,function(c){return c.charCodeAt(0)})))}catch(e){return}
  if(!o||!o.d||typeof o.t!=='string')return;
+ var busy=false;
+ // version à afficher : celle gardée dans le lien, sinon celle qui était en ligne quand le lien a été créé
+ function wanted(){
+  if(typeof o.v==='string'&&/^[0-9a-f]{12}$/.test(o.v))return o.v;
+  var H=(window.FARHA_TPL_HISTORY||{})[o.t];if(!H||!H.length)return null;
+  var d=window.FARHA_LINK_CREATED||window.FARHA_TPL_SINCE||'',pick=H[0][1];
+  H.forEach(function(e){if(e[0]&&d&&Date.parse(e[0])<=Date.parse(d))pick=e[1]});return pick;
+ }
  window.farhaGuestPending=function(){
-  if(document.querySelector('iframe[title="Invitation"]'))return; // déjà affichée
+  if(busy||document.querySelector('iframe[title="Invitation"]'))return; // déjà affichée
   if(typeof templates==='undefined')return;var t=templates.find(function(x){return x.id===o.t});if(!t)return;
+  var want=wanted(),H=(window.FARHA_TPL_HISTORY||{})[o.t],cur=H&&H.length?H[H.length-1][1]:null;
+  if(t.custom&&want&&want!==cur){
+   busy=true;
+   fetch('templates/v/'+o.t+'/'+want+'.html').then(function(r){return r.ok?r.text():Promise.reject(r.status)}).then(function(html){
+    FARHA_CUSTOM_HTML[t.id]=html;t.defaults=farhaCustomDefaults(html);t.vhash=want;
+   }).catch(function(){}).then(function(){busy=false;show(t)});
+   return;
+  }
+  show(t);
+ };
+ function show(t){
+  if(document.querySelector('iframe[title="Invitation"]'))return;
   var f=document.createElement('iframe');f.title='Invitation';f.setAttribute('allow','autoplay');
   f.style.cssText='position:fixed;inset:0;width:100%;height:100%;border:0;z-index:2147483647;background:#fff';
   if(typeof o.r==='string'&&/^[a-z0-9-]{2,80}$/.test(o.r))f.dataset.rsvpKey=o.r;
   f.srcdoc=buildDoc(t,o.d);document.body.style.overflow='hidden';document.body.append(f);
- };
+ }
  farhaGuestPending();
 })();
 </script>

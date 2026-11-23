@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Carthage · Invitation de mariage</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&amp;family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&amp;family=EB+Garamond:ital,wght@0,400;0,500;1,400&amp;family=Noto+Sans+Phoenician&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#6A2525}a:hover{color:#4d1a1a}
+.ag *{box-sizing:border-box}
+.cin{font-family:'Cinzel',serif}
+.cor{font-family:'Cormorant Garamond',Georgia,serif}
+.ebg{font-family:'EB Garamond',Georgia,serif}
+
+.scroller{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;opacity:0;transition:opacity 1.3s ease;scrollbar-width:none;z-index:1;scroll-behavior:smooth;
+background:linear-gradient(180deg,#f7eedd 0%,#F5EBD8 15%,#efe0c4 28%,#F5EBD8 42%,#ecdcbd 55%,#F5EBD8 68%,#efe1c6 82%,#ead9b8 100%);background-size:100% 3376px;background-attachment:local}
+.bird{position:absolute;left:0;top:0;filter:drop-shadow(4px 8px 8px rgba(80,55,25,.3))}
+.b1{animation:bfly1 24s linear infinite}
+.b2{animation:bfly2 30s linear -10s infinite}
+.b3{animation:bfly3 27s linear -18s infinite}
+@keyframes bfly1{0%{transform:translate(-90px,560px) rotate(-6deg)}50%{transform:translate(170px,430px) rotate(-12deg)}100%{transform:translate(460px,250px) rotate(-8deg)}}
+@keyframes bfly2{0%{transform:translate(-80px,240px) rotate(-4deg)}50%{transform:translate(180px,170px) rotate(2deg)}100%{transform:translate(460px,90px) rotate(-6deg)}}
+@keyframes bfly3{0%{transform:translate(-80px,760px) rotate(-10deg)}50%{transform:translate(160px,660px) rotate(-4deg)}100%{transform:translate(460px,560px) rotate(-12deg)}}
+.scroller::-webkit-scrollbar{display:none}
+.scroller.on{opacity:1}
+.scene{position:relative;height:844px;overflow:visible}
+
+/* reveals */
+.rv>*{opacity:0;transform:translateY(16px);transition:opacity 1.2s ease,transform 1.4s cubic-bezier(.2,.8,.2,1)}
+.rv.on>*{opacity:1;transform:none}
+.rv.on>*:nth-child(2){transition-delay:.2s}
+.rv.on>*:nth-child(3){transition-delay:.4s}
+.rv.on>*:nth-child(4){transition-delay:.6s}
+.rv.on>*:nth-child(5){transition-delay:.8s}
+.rv.on>*:nth-child(6){transition-delay:1s}
+.rv.on>*:nth-child(7){transition-delay:1.2s}
+.zf{opacity:0;transform:scale(.9);transition:opacity 1.4s ease,transform 2s cubic-bezier(.2,.8,.2,1)}
+.on .zf{opacity:1;transform:none}
+.colL,.colR{transition:transform 2.2s cubic-bezier(.2,.8,.2,1),opacity 1.4s ease;opacity:0}
+.colL{transform:translateX(-80px)}
+.colR{transform:translateX(80px)}
+.on .colL,.on .colR{opacity:1;transform:none}
+.depth{opacity:0;transform:translateY(40px) scale(.9);filter:blur(5px);transition:opacity 1.6s ease .4s,transform 2s cubic-bezier(.2,.8,.2,1) .4s,filter 1.6s ease .4s}
+.on .depth{opacity:1;transform:none;filter:blur(0)}
+.unfold{clip-path:inset(0 0 100% 0);transition:clip-path 1.8s cubic-bezier(.6,0,.2,1) 1.2s}
+.on .unfold{clip-path:inset(0 0 0 0)}
+.hh,.mh{transform-box:view-box;transform-origin:125px 120.4px;transition:transform 3.4s cubic-bezier(.15,.7,.2,1) .4s}
+.hh{transform:rotate(-422deg)}
+.mh{transform:rotate(-1378deg)}
+.on .hh{transform:rotate(298deg)}
+.on .mh{transform:rotate(62deg)}
+.sheen{animation:sheen 6s ease-in-out infinite}
+@keyframes sheen{0%,100%{transform:translate(-60px,-40px)}50%{transform:translate(60px,30px)}}
+
+/* intro */
+.intro{position:absolute;inset:0;z-index:5;overflow:hidden}
+.introBg{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 42%,#fbf4e6 0%,#F5EBD8 50%,#e3cfa9 100%);transition:opacity 1.2s ease}
+.intro.light .introBg{opacity:0}
+.intro.light{pointer-events:none}
+.copy{transition:opacity .6s ease}
+.intro.crack .copy{opacity:0;pointer-events:none}
+.ci{animation:ciIn 1.3s cubic-bezier(.2,.8,.2,1) both}
+@keyframes ciIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.scrollW{position:absolute;left:45px;width:300px;top:300px;transition:top 1.6s cubic-bezier(.6,0,.2,1),opacity 1s ease}
+.intro.unroll .scrollW{top:176px}
+.intro.light .scrollW{opacity:0}
+.sBody{height:0;overflow:hidden;position:relative;transition:height 1.6s cubic-bezier(.6,0,.2,1)}
+.intro.unroll .sBody{height:298px}
+.sText{opacity:0;transition:opacity 1s ease .9s}
+.intro.unroll .sText{opacity:1}
+.sealW{position:absolute;left:125px;top:290px;width:140px;height:147px;transition:opacity .4s ease}
+.half{position:absolute;inset:0;transition:transform 1.1s cubic-bezier(.3,.6,.3,1),opacity 1s ease .2s}
+.hL{clip-path:polygon(0 0,52% 0,46% 18%,55% 34%,45% 52%,54% 70%,47% 86%,52% 100%,0 100%)}
+.hR{clip-path:polygon(52% 0,100% 0,100% 100%,52% 100%,47% 86%,54% 70%,45% 52%,55% 34%,46% 18%)}
+.intro.crack .sealW{animation:shake .5s ease}
+@keyframes shake{0%,100%{transform:none}20%{transform:translateX(-2px) rotate(-1deg)}40%{transform:translateX(2px) rotate(1deg)}60%{transform:translateX(-1px)}80%{transform:translateX(1px)}}
+.crk{stroke-dasharray:200;stroke-dashoffset:200;transition:stroke-dashoffset .5s ease}
+.intro.crack .crk{stroke-dashoffset:0}
+.intro.brk .crk{opacity:0;transition:opacity .2s}
+.intro.brk .hL{transform:translate(-70px,30px) rotate(-22deg);opacity:0}
+.intro.brk .hR{transform:translate(70px,40px) rotate(24deg);opacity:0}
+.frag{position:absolute;left:62px;top:66px;width:12px;height:10px;background:linear-gradient(135deg,#8a3330,#5a1d1d);opacity:0;transition:transform 1.1s cubic-bezier(.2,.7,.3,1),opacity 1.1s ease}
+.intro.brk .frag{opacity:1}
+.intro.unroll .frag{opacity:0}
+.intro.brk .fr1{transform:translate(-80px,-60px) rotate(140deg)}
+.intro.brk .fr2{transform:translate(90px,-50px) rotate(-120deg)}
+.intro.brk .fr3{transform:translate(-100px,40px) rotate(200deg)}
+.intro.brk .fr4{transform:translate(100px,60px) rotate(-160deg)}
+.intro.brk .fr5{transform:translate(-20px,110px) rotate(90deg)}
+.intro.brk .fr6{transform:translate(30px,-110px) rotate(-60deg)}
+.glowF{position:absolute;inset:0;background:radial-gradient(circle at 50% 46%,rgba(255,226,150,.95),rgba(255,214,130,.4) 35%,rgba(255,214,130,0) 65%);opacity:0;pointer-events:none}
+.intro.light .glowF{animation:glowF 1.6s ease both}
+@keyframes glowF{0%{opacity:0}40%{opacity:1}100%{opacity:0}}
+
+/* ambient */
+.sway{animation:sway 7s ease-in-out infinite;transform-origin:50% 100%}
+.swayB{animation:sway 8s ease-in-out -3s infinite;transform-origin:50% 100%}
+@keyframes sway{0%,100%{rotate:-2deg}50%{rotate:2deg}}
+.rays{animation:rays 9s ease-in-out infinite}
+@keyframes rays{0%,100%{opacity:.45}50%{opacity:.85}}
+.hover{animation:hover 7s ease-in-out infinite}
+@keyframes hover{0%,100%{translate:0 0}50%{translate:0 -6px}}
+.fx{position:absolute;inset:0;pointer-events:none;z-index:6;overflow:hidden}
+.pa{position:absolute;bottom:-10px;width:3px;height:3px;border-radius:50%;background:#d8b56a;box-shadow:0 0 6px 2px rgba(216,181,106,.55);animation:rise 16s linear infinite}
+@keyframes rise{0%{transform:translate(0,0);opacity:0}10%{opacity:.9}50%{transform:translate(16px,-430px);opacity:.7}100%{transform:translate(-8px,-880px);opacity:0}}
+
+/* buttons */
+.btn{position:relative;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:0 28px;border-radius:999px;cursor:pointer;text-decoration:none;font-family:'Cinzel',serif;font-size:13px;font-weight:600;letter-spacing:.14em;transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(106,37,37,.25)}
+.btn:active{transform:scale(.98)}
+.btn:focus-visible{outline:2px solid #6A2525;outline-offset:3px}
+.btn::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,240,200,.55),transparent);transform:skewX(-20deg);animation:shine 5s ease-in-out infinite}
+@keyframes shine{0%,72%{left:-60%}100%{left:130%}}
+.btnWine{background:#6A2525;color:#F5EBD8;border:1px solid #B89A58}
+.btnGold{background:linear-gradient(180deg,#d8bd7d,#B89A58 60%,#9a7d43);color:#3b2018;border:0}
+
+/* nav */
+.dots{position:absolute;right:8px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:2px;z-index:3}
+.dot{width:24px;height:24px;border:0;background:transparent;padding:0;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.dot span{width:7px;height:7px;border-radius:50%;border:1px solid #B89A58;background:transparent;transition:transform .3s,background-color .3s}
+.dot.act span{background:#6A2525;border-color:#6A2525;transform:scale(1.35)}
+.dot:focus-visible{outline:2px solid #6A2525;border-radius:50%}
+
+/* form */
+.fld{display:flex;flex-direction:column;gap:6px}
+.lbl{font-family:'Cinzel',serif;font-size:11px;font-weight:600;letter-spacing:.14em;color:#5a2a22}
+.inp{width:100%;height:44px;border:1px solid #cdb68a;border-radius:10px;background:#fdf8ee;padding:0 14px;font-family:'EB Garamond',serif;font-size:17px;color:#3b2f25;transition:border-color .25s,box-shadow .25s}
+.inp:focus{outline:none;border-color:#6A2525;box-shadow:0 0 0 3px rgba(184,154,88,.35)}
+textarea.inp{height:96px;padding:10px 14px;resize:none;line-height:1.4}
+.inp.bad{border-color:#b3261e}
+.err{font-family:'EB Garamond',serif;font-size:14px;color:#a1221b;margin:0}
+.linkbtn{background:none;border:0;cursor:pointer;font-family:'Cinzel',serif;font-size:10px;font-weight:600;letter-spacing:.14em;color:#6A2525;display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 10px}
+.mapcard{transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s}
+.mapcard:hover{transform:translateY(-2px)}
+.mapcard:focus-visible{outline:2px solid #6A2525;outline-offset:3px}
+.pulse{transform-box:fill-box;transform-origin:center;animation:pulse 2.4s ease-out infinite}
+@keyframes pulse{from{transform:scale(.6);opacity:.55}to{transform:scale(2.6);opacity:0}}
+
+/* reduced motion */
+.rm *, .rm *::after{animation:none !important;transition-duration:.01ms !important;transition-delay:0s !important}
+@media (prefers-reduced-motion: reduce){.ag *, .ag *::after{animation:none !important;transition-duration:.01ms !important;transition-delay:0s !important}}
+.rm .fx .pa,.rm .fx .bird{display:none}
+.scr{transition:opacity .9s ease}
+.scr.done{opacity:0;pointer-events:none}
+
+/* ===== CARTHAGE PUNIQUE ===== */
+.pano{position:absolute;inset:-4%;background-size:cover;background-position:50% 60%;animation:kb 26s ease-in-out infinite alternate}
+@keyframes kb{from{transform:scale(1.06) translateY(0)}to{transform:scale(1) translateY(-10px)}}
+.veil{position:absolute;inset:0;background:linear-gradient(180deg,rgba(247,238,221,.94) 0%,rgba(247,238,221,.78) 26%,rgba(247,238,221,.35) 55%,rgba(247,238,221,.15) 75%,rgba(60,35,20,.25) 100%)}
+.haze{position:absolute;inset:0;background:radial-gradient(ellipse at 70% 46%,rgba(255,214,140,.35),rgba(255,214,140,0) 60%);animation:haze 8s ease-in-out infinite;mix-blend-mode:screen}
+@keyframes haze{0%,100%{opacity:.6}50%{opacity:1}}
+.copyBg{position:absolute;left:30px;right:30px;top:440px;height:160px;border-radius:50%;background:radial-gradient(ellipse,rgba(247,238,221,.92) 30%,rgba(247,238,221,0) 72%);pointer-events:none}
+/* procession d'éléphants */
+.march{position:absolute;left:0;top:0;will-change:transform;filter:drop-shadow(4px 10px 8px rgba(50,30,15,.35))}
+.march img{display:block;width:100%}
+@keyframes stomp{0%,100%{transform:translateY(0) rotate(0)}25%{transform:translateY(-3px) rotate(-.6deg)}50%{transform:translateY(0) rotate(0)}75%{transform:translateY(-3px) rotate(.6deg)}}
+.m1{animation:walk 22.5s linear infinite}
+.m2{animation:walk 27s linear -13s infinite}
+@keyframes walk{from{transform:translateX(-200px)}to{transform:translateX(460px)}}
+.mW{animation:walkW 20s linear infinite}
+@keyframes walkW{from{transform:translateX(-230px)}to{transform:translateX(430px)}}
+/* galère */
+.sail{position:absolute;left:0;will-change:transform;animation:sailX 52s linear infinite}
+.sail img{display:block;width:100%;animation:rock 4.5s ease-in-out infinite;transform-origin:50% 80%}
+@keyframes sailX{from{transform:translateX(-210px)}to{transform:translateX(420px)}}
+@keyframes rock{0%,100%{transform:rotate(-1.4deg) translateY(0)}50%{transform:rotate(1.4deg) translateY(-3px)}}
+.waves{position:absolute;left:0;right:0;height:18px;background:repeating-radial-gradient(ellipse at 50% 0,rgba(90,140,150,.0) 0 6px,rgba(90,140,150,.18) 7px 8px,rgba(90,140,150,0) 9px 14px);background-size:40px 18px;animation:wv 6s linear infinite;opacity:.8}
+@keyframes wv{from{background-position:0 0}to{background-position:40px 0}}
+/* braseros */
+.braz{position:absolute;width:74px;filter:drop-shadow(4px 10px 10px rgba(60,40,20,.35))}
+.braz img{display:block;width:100%}
+.flame{position:absolute;left:50%;top:6%;width:34px;height:52px;margin-left:-17px;transform-origin:50% 100%;translate:0 -88%;
+background:radial-gradient(ellipse at 50% 85%,#fff6c9 0%,#ffd36a 28%,#ff8a2a 55%,rgba(220,60,20,.0) 75%);border-radius:50% 50% 45% 45%/70% 70% 30% 30%;filter:blur(1.2px);mix-blend-mode:screen;animation:flick 1.1s ease-in-out infinite alternate}
+.flame.f2{width:22px;height:36px;margin-left:-11px;animation-duration:.8s;animation-delay:-.4s;opacity:.9}
+.glowB{position:absolute;left:50%;top:0;width:120px;height:120px;margin:-70px 0 0 -60px;border-radius:50%;background:radial-gradient(circle,rgba(255,190,90,.45),rgba(255,190,90,0) 65%);animation:haze 2.4s ease-in-out infinite}
+@keyframes flick{0%{transform:scale(1,1) skewX(-3deg)}35%{transform:scale(.92,1.08) skewX(3deg)}70%{transform:scale(1.05,.94) skewX(-2deg)}100%{transform:scale(.96,1.12) skewX(2deg)}}
+.ember{position:absolute;left:50%;top:0;width:3px;height:3px;border-radius:50%;background:#ffcf6a;box-shadow:0 0 6px 2px rgba(255,170,60,.7);animation:ember 2.6s linear infinite;opacity:0}
+@keyframes ember{0%{transform:translate(0,0);opacity:0}15%{opacity:1}100%{transform:translate(var(--dx,8px),-90px);opacity:0}}
+/* Tanit */
+.tanit{animation:tglow 5s ease-in-out infinite}
+@keyframes tglow{0%,100%{filter:drop-shadow(0 6px 8px rgba(60,40,20,.35)) brightness(1)}50%{filter:drop-shadow(0 0 14px rgba(255,214,130,.85)) brightness(1.08)}}
+
+.phn{font-family:'Noto Sans Phoenician',serif;letter-spacing:.32em;color:#8c6f37}
+.orn{display:block;margin:14px auto 12px;width:150px;height:14px}
+.frameP{position:absolute;inset:7px;z-index:7;pointer-events:none;border:1px solid rgba(184,154,88,.55);box-shadow:inset 0 0 0 4px rgba(245,235,216,0),inset 0 0 0 5px rgba(184,154,88,.35)}
+.frameP i{position:absolute;width:14px;height:14px;border:1px solid rgba(184,154,88,.8);background:radial-gradient(circle,#B89A58 0 2px,transparent 2.5px)}
+.frameP i:nth-child(1){left:-4px;top:-4px}.frameP i:nth-child(2){right:-4px;top:-4px}.frameP i:nth-child(3){left:-4px;bottom:-4px}.frameP i:nth-child(4){right:-4px;bottom:-4px}
+.quote{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:17px;line-height:1.35;color:#5a4636}
+.quote b{display:block;margin-top:6px;font:600 9px 'Cinzel',serif;letter-spacing:.24em;color:#8c6f37;font-style:normal}
+.punic{font-family:'Cinzel',serif;font-size:10px;font-weight:600;letter-spacing:.38em;color:#8c6f37}
+.rm .march,.rm .sail{animation:none!important}
+[hidden]{display:none!important}
+html,body{height:100%;margin:0;overflow:hidden;background:#F5EBD8}
+#root{position:absolute!important;left:50%;top:50%;transform-origin:50% 50%;transform:translate(-50%,-50%) scale(var(--fit,1))}
+</style>
+</head>
+<body>
+<div class="ag" id="root" style="position: relative; width: 390px; height: 844px; overflow: hidden; background: #F5EBD8; color: #3b2f25; font-family: 'EB Garamond', serif">
+
+<div class="scroller" id="scroller">
+<svg aria-hidden="true" width="390" height="3376" style="position: absolute; left: 0; top: 0; pointer-events: none; opacity: 0.09; mix-blend-mode: multiply">
+<filter id="agGrain"><feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="3" stitchTiles="stitch"></feTurbulence><feColorMatrix type="matrix" values="0 0 0 0 0.45  0 0 0 0 0.33  0 0 0 0 0.18  0 0 0 1 0"></feColorMatrix></filter>
+<rect width="390" height="3376" filter="url(#agGrain)"></rect>
+</svg>
+
+<!-- 02 · LE PALAIS ANTIQUE -->
+<section class="scene" aria-label="Le palais antique" style="z-index: 2">
+<div aria-hidden="true" style="position: absolute; inset: 0; background-color: #F5EBD8; background-image: linear-gradient(rgba(245,235,216,0.6), rgba(245,235,216,0.6)), url(/media/x/a51fbb67938c77.webp); background-size: 100% 100%, 100% 100%; background-repeat: no-repeat; -webkit-mask-image: linear-gradient(180deg, #000 88%, transparent 100%); mask-image: linear-gradient(180deg, #000 88%, transparent 100%)"></div>
+<div data-on="0" style="position: absolute; inset: 0">
+<div class="rays" style="position: absolute; left: 40px; right: 40px; top: 0; height: 844px; background: repeating-linear-gradient(105deg, rgba(255,236,190,0) 0px, rgba(255,236,190,0) 34px, rgba(255,236,190,0.55) 46px, rgba(255,236,190,0) 64px); filter: blur(8px)"></div>
+<svg aria-hidden="true" width="74" height="844" viewBox="0 0 74 844" style="position: absolute; left: -8px; top: 0; display: none">
+<defs>
+<linearGradient id="agMarble" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#d9cdb6"></stop><stop offset="0.35" stop-color="#fbf6ec"></stop><stop offset="0.7" stop-color="#efe6d4"></stop><stop offset="1" stop-color="#cbbd9f"></stop></linearGradient>
+<linearGradient id="agGilt" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ead39a"></stop><stop offset="0.5" stop-color="#B89A58"></stop><stop offset="1" stop-color="#8c6f37"></stop></linearGradient>
+</defs>
+<rect x="2" y="0" width="70" height="12" fill="url(#agGilt)"></rect>
+<path d="M6 12H68L64 30H10Z" fill="url(#agMarble)"></path>
+<circle cx="12" cy="34" r="9" fill="none" stroke="url(#agGilt)" stroke-width="3"></circle>
+<circle cx="62" cy="34" r="9" fill="none" stroke="url(#agGilt)" stroke-width="3"></circle>
+<path d="M12 34Q37 26 62 34" fill="none" stroke="url(#agGilt)" stroke-width="3"></path>
+<rect x="12" y="44" width="50" height="6" fill="url(#agGilt)"></rect>
+<rect x="14" y="50" width="46" height="740" fill="url(#agMarble)"></rect>
+<g stroke="#cbbd9f" stroke-width="1.2" opacity="0.8"><path d="M21 50V790M28 50V790M35 50V790M42 50V790M49 50V790M56 50V790"></path></g>
+<rect x="10" y="790" width="54" height="8" fill="url(#agGilt)"></rect>
+<rect x="6" y="798" width="62" height="14" rx="3" fill="url(#agMarble)"></rect>
+<rect x="2" y="812" width="70" height="32" fill="url(#agMarble)" stroke="#cbbd9f"></rect>
+</svg>
+<svg aria-hidden="true" width="74" height="844" viewBox="0 0 74 844" style="position: absolute; right: -8px; top: 0; display: none">
+<rect x="2" y="0" width="70" height="12" fill="url(#agGilt)"></rect>
+<path d="M6 12H68L64 30H10Z" fill="url(#agMarble)"></path>
+<circle cx="12" cy="34" r="9" fill="none" stroke="url(#agGilt)" stroke-width="3"></circle>
+<circle cx="62" cy="34" r="9" fill="none" stroke="url(#agGilt)" stroke-width="3"></circle>
+<path d="M12 34Q37 26 62 34" fill="none" stroke="url(#agGilt)" stroke-width="3"></path>
+<rect x="12" y="44" width="50" height="6" fill="url(#agGilt)"></rect>
+<rect x="14" y="50" width="46" height="740" fill="url(#agMarble)"></rect>
+<g stroke="#cbbd9f" stroke-width="1.2" opacity="0.8"><path d="M21 50V790M28 50V790M35 50V790M42 50V790M49 50V790M56 50V790"></path></g>
+<rect x="10" y="790" width="54" height="8" fill="url(#agGilt)"></rect>
+<rect x="6" y="798" width="62" height="14" rx="3" fill="url(#agMarble)"></rect>
+<rect x="2" y="812" width="70" height="32" fill="url(#agMarble)" stroke="#cbbd9f"></rect>
+</svg>
+<img loading="lazy" decoding="async" data-img="8946fa6a" alt="" style="position: absolute; left: -66px; top: -6px; width: 522px; height: 236px; pointer-events: none; filter: drop-shadow(0 8px 10px rgba(60,20,30,.25))">
+
+<div class="rv" data-on="0" style="position: absolute; left: 70px; right: 70px; top: 112px; display: flex; flex-direction: column; align-items: center; text-align: center">
+<p class="cor" style="margin: 0; font-size: 20px; font-style: italic; line-height: 1.25; color: #6A2525">Comme Élyssa fonda Carthage,<br>ils fondent leur histoire</p>
+<p class="cin" style="margin: 14px 0 0; font-size: 15px; font-weight: 600; letter-spacing: 0.08em; line-height: 1.3; color: #3b2f25"><span data-c="bride"></span></p>
+<p class="cor" style="margin: 0; font-size: 18px; font-style: italic; color: #B89A58">&amp;</p>
+<p class="cin" style="margin: 0; font-size: 15px; font-weight: 600; letter-spacing: 0.08em; line-height: 1.3; color: #3b2f25"><span data-c="groom"></span></p>
+</div>
+
+<div class="zf" style="position: absolute; left: 60px; top: 282px; width: 270px; height: 330px">
+<img loading="lazy" decoding="async" data-farha-photo="Photo des mariés" src="/media/x/d602ab58fea345.webp" alt="Photo des mariés" style="position: absolute; left: 44px; top: 36px; width: 182px; height: 260px; object-fit: cover">
+<img loading="lazy" decoding="async" data-img="8ff30ed7" alt="" style="position: absolute; left: 135px; top: 0; width: 135px; height: 165px; pointer-events: none">
+<img loading="lazy" decoding="async" data-img="8ff30ed7" alt="" style="position: absolute; left: 0; top: 0; width: 135px; height: 165px; scale: -1 1; pointer-events: none">
+<img loading="lazy" decoding="async" data-img="8ff30ed7" alt="" style="position: absolute; left: 135px; top: 165px; width: 135px; height: 165px; scale: 1 -1; pointer-events: none">
+<img loading="lazy" decoding="async" data-img="8ff30ed7" alt="" style="position: absolute; left: 0; top: 165px; width: 135px; height: 165px; scale: -1 -1; pointer-events: none">
+</div>
+<div aria-hidden="true" style="position: absolute; left: 0; right: 0; top: 690px; height: 140px; overflow: hidden; pointer-events: none">
+<div class="march mW" style="top: 16px; width: 150px; animation-duration: 25.5s; animation-delay: -8s"><img data-img="elew" alt=""></div>
+</div>
+<div class="rv" data-on="0" style="position: absolute; left: 96px; right: 96px; top: 628px; text-align: center">
+<p class="ebg" style="margin: 0; font-size: 17px; line-height: 1.5; color: #3b2f25">Avec leurs familles, ils vous convient à célébrer leur union, sous le soleil de Carthage.</p>
+</div>
+</div>
+</section>
+
+<!-- 03 · LA DATE ROYALE -->
+<section class="scene" aria-label="La date royale">
+<div data-on="1" style="position: absolute; inset: 0">
+<img loading="lazy" decoding="async" class="zf" data-img="c4a30a7d" alt="" style="position: absolute; left: 150px; top: -30px; width: 260px; opacity: 0.7; -webkit-mask-image: radial-gradient(ellipse at 60% 40%, #000 45%, transparent 75%); mask-image: radial-gradient(ellipse at 60% 40%, #000 45%, transparent 75%)">
+<div class="zf" style="position: absolute; left: 70px; top: 54px; width: 250px; height: 250px">
+<div style="position: absolute; left: 6px; right: 6px; bottom: -14px; height: 26px; border-radius: 50%; background: rgba(60,40,20,0.28); filter: blur(12px)"></div>
+<img loading="lazy" decoding="async" data-img="1bbe360d" alt="Horloge ancienne ornée" style="position: absolute; inset: 0; width: 250px; height: 250px; filter: drop-shadow(0 10px 16px rgba(60,40,20,0.35))">
+<svg aria-hidden="true" width="250" height="250" viewBox="0 0 250 250" style="position: absolute; inset: 0">
+<defs>
+<linearGradient id="agHand" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#2a1d12"></stop><stop offset="0.5" stop-color="#5b4128"></stop><stop offset="1" stop-color="#2a1d12"></stop></linearGradient>
+<radialGradient id="agCap" cx="0.35" cy="0.3" r="0.8"><stop offset="0" stop-color="#fbe7b0"></stop><stop offset="0.5" stop-color="#c9a85e"></stop><stop offset="1" stop-color="#7d5e2a"></stop></radialGradient>
+</defs>
+<g class="hh"><path d="M125 126L121.5 120.4L125 68L128.5 120.4Z" fill="url(#agHand)"></path><path d="M125 80l5 7-5 7-5-7z" fill="#2a1d12"></path></g>
+<g class="mh"><path d="M125 128L122.6 120.4L125 38L127.4 120.4Z" fill="url(#agHand)"></path><path d="M125 50l4 6-4 6-4-6z" fill="#2a1d12"></path></g>
+<circle cx="125" cy="120.4" r="7.5" fill="url(#agCap)" stroke="#5b4128" stroke-width="0.8"></circle>
+</svg>
+<div style="position: absolute; inset: 0; border-radius: 50%; overflow: hidden; pointer-events: none">
+<div class="sheen" style="position: absolute; left: 30px; top: 20px; width: 190px; height: 120px; border-radius: 50%; background: radial-gradient(ellipse, rgba(255,250,235,0.35) 0%, rgba(255,250,235,0) 70%)"></div>
+</div>
+</div>
+<div class="braz zf" aria-hidden="true" style="left: 4px; top: 694px; z-index: 0">
+<div class="glowB"></div><img data-img="brz" alt=""><div class="flame"></div><div class="flame f2"></div>
+<span class="ember" style="--dx:-10px"></span><span class="ember" style="--dx:12px;animation-delay:-.9s"></span><span class="ember" style="--dx:4px;animation-delay:-1.7s"></span>
+</div>
+<div class="braz zf" aria-hidden="true" style="right: 4px; top: 694px; z-index: 0">
+<div class="glowB"></div><img data-img="brz" alt=""><div class="flame"></div><div class="flame f2"></div>
+<span class="ember" style="--dx:-10px"></span><span class="ember" style="--dx:12px;animation-delay:-.9s"></span><span class="ember" style="--dx:4px;animation-delay:-1.7s"></span>
+</div>
+<div class="unfold" style="position: absolute; left: 32px; right: 32px; top: 330px; height: 316px; border-radius: 6px; background: radial-gradient(ellipse at 50% 40%, #fbf3e1 0%, #f1e2c2 70%, #e5cfa3 100%); box-shadow: 0 16px 34px rgba(80,55,25,0.2), inset 0 0 0 1px #d1b47a, inset 0 0 0 7px #f7ecd6, inset 0 0 0 8px #c9a96a, inset 0 0 40px rgba(160,120,60,0.18)">
+<div class="rv" data-on="1" style="position: absolute; inset: 0; padding: 28px 18px; display: flex; flex-direction: column; align-items: center; text-align: center">
+<p class="cin" style="margin: 0; font-size: 12px; font-weight: 600; letter-spacing: 0.16em; line-height: 1.6; color: #6A2525">LE JOUR OÙ COMMENCE<br>NOTRE ÉTERNITÉ</p>
+<svg class="orn" aria-hidden="true" viewBox="0 0 150 14"><g fill="none" stroke="#B89A58" stroke-width="1"><path d="M0 7H52M98 7H150"/><path d="M56 7l4-4 4 4-4 4z" fill="#B89A58"/><path d="M86 7l4-4 4 4-4 4z" fill="#B89A58"/></g><g fill="#6A2525"><circle cx="75" cy="3.2" r="2.2"/><path d="M69 6.2h12v1.2H69z"/><path d="M75 7.4l-4.6 6h9.2z"/></g></svg>
+<div style="position: relative; width: 250px; height: 86px; display: flex; flex-direction: column; align-items: center; justify-content: center">
+<p class="ebg" style="margin: 0; font-size: 27px; line-height: 1.2; color: #3b2f25"><span data-c="dateLabel"></span></p>
+<p class="cor" style="margin: 4px 0 0; font-size: 20px; font-style: italic; color: #5a4636"><span data-c="timeLabel"></span></p>
+<canvas class="scr" id="scr" width="500" height="172" role="img" aria-label="Zone dorée à gratter pour découvrir la date" style="position: absolute; left: 0; top: 0; width: 250px; height: 86px; border-radius: 12px; touch-action: none; cursor: grab; box-shadow: 0 6px 14px rgba(80,55,25,0.25)"></canvas>
+</div>
+<button type="button" class="linkbtn" id="scrReveal" style=" min-height: 32px; font-size: 9px">ou touchez ici pour révéler la date</button>
+<div role="timer" aria-label="Compte à rebours jusqu’au mariage" style="display: flex; margin-top: 22px">
+<div style="width: 70px; display: flex; flex-direction: column; align-items: center; gap: 4px; border-left: 0">
+<span class="cin" style="font-size: 28px; font-weight: 500; line-height: 1; color: #6A2525; font-variant-numeric: tabular-nums" data-cd="d">00</span>
+<span class="ebg" style="font-size: 12px; font-style: italic; color: #5a4636">Jours</span>
+</div>
+<div style="width: 70px; display: flex; flex-direction: column; align-items: center; gap: 4px; border-left: 1px solid rgba(184,154,88,0.6)">
+<span class="cin" style="font-size: 28px; font-weight: 500; line-height: 1; color: #6A2525; font-variant-numeric: tabular-nums" data-cd="h">00</span>
+<span class="ebg" style="font-size: 12px; font-style: italic; color: #5a4636">Heures</span>
+</div>
+<div style="width: 70px; display: flex; flex-direction: column; align-items: center; gap: 4px; border-left: 1px solid rgba(184,154,88,0.6)">
+<span class="cin" style="font-size: 28px; font-weight: 500; line-height: 1; color: #6A2525; font-variant-numeric: tabular-nums" data-cd="m">00</span>
+<span class="ebg" style="font-size: 12px; font-style: italic; color: #5a4636">Minutes</span>
+</div>
+<div style="width: 70px; display: flex; flex-direction: column; align-items: center; gap: 4px; border-left: 1px solid rgba(184,154,88,0.6)">
+<span class="cin" style="font-size: 28px; font-weight: 500; line-height: 1; color: #6A2525; font-variant-numeric: tabular-nums" data-cd="s">00</span>
+<span class="ebg" style="font-size: 12px; font-style: italic; color: #5a4636">Secondes</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- 04 · LE LIEU HISTORIQUE -->
+<section class="scene" aria-label="Le lieu">
+<div aria-hidden="true" style="position: absolute; left: 0; right: 0; top: 0; height: 150px; overflow: hidden; -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 30%, #000 70%, transparent 100%); mask-image: linear-gradient(180deg, transparent 0%, #000 30%, #000 70%, transparent 100%); pointer-events: none">
+<div data-bg="pano" style="position: absolute; inset: 0; background-size: 390px auto; background-position: 50% 44%; opacity: .55"></div>
+<div class="sail" style="top: 40px; width: 120px"><img data-img="ship" alt=""></div>
+<div class="waves" style="top: 112px"></div>
+</div>
+<div aria-hidden="true" style="position: absolute; left: 0; right: 0; top: 560px; height: 284px; overflow: hidden; pointer-events: none">
+<div style="position: absolute; left: 0; right: 0; bottom: 22px; height: 30px; background: radial-gradient(ellipse at 50% 50%, rgba(120,85,45,.18), rgba(120,85,45,0) 70%)"></div>
+<div class="march mW" style="top: 118px; width: 190px"><img data-img="elew" alt=""></div>
+</div>
+<div data-on="2" style="position: absolute; inset: 0">
+<img loading="lazy" decoding="async" class="colL" data-img="fa8003de" alt="" style="z-index: 2; position: absolute; left: -40px; top: 520px; width: 130px; filter: drop-shadow(6px 12px 14px rgba(80,55,25,0.3))">
+<img loading="lazy" decoding="async" class="colR" data-img="fa8003de" alt="" style="z-index: 2; position: absolute; right: -40px; top: 520px; width: 130px; scale: -1 1; filter: drop-shadow(-6px 12px 14px rgba(80,55,25,0.3))">
+</div>
+<div class="rv" data-on="2" style="position: absolute; left: 50px; right: 50px; top: 150px; display: flex; flex-direction: column; align-items: center; text-align: center">
+<p class="cin" style="margin: 0; font-size: 14px; font-weight: 600; letter-spacing: 0.18em; color: #6A2525">LA GRANDE CÉLÉBRATION</p>
+<svg class="orn" aria-hidden="true" viewBox="0 0 150 14"><g fill="none" stroke="#B89A58" stroke-width="1"><path d="M0 7H52M98 7H150"/><path d="M56 7l4-4 4 4-4 4z" fill="#B89A58"/><path d="M86 7l4-4 4 4-4 4z" fill="#B89A58"/></g><g fill="#6A2525"><circle cx="75" cy="3.2" r="2.2"/><path d="M69 6.2h12v1.2H69z"/><path d="M75 7.4l-4.6 6h9.2z"/></g></svg>
+<p class="cor" style="margin: 0; font-size: 28px; font-weight: 600; line-height: 1.15; color: #3b2f25"><span data-c="venueName"></span></p>
+<p class="ebg" style="margin: 8px 0 0; font-size: 16px; font-style: italic; color: #5a4636"><span data-c="location"></span></p>
+<a class="mapcard" href="#" data-maps target="_blank" rel="noopener" aria-label="Ouvrir le lieu dans Google Maps" style="margin-top: 20px; display: block; position: relative; width: 250px; height: 92px; box-shadow: 0 10px 22px rgba(80,55,25,0.18); border-radius: 10px; overflow: hidden; border: 1px solid #c9a96a">
+<svg aria-hidden="true" width="250" height="92" viewBox="0 0 190 70" preserveAspectRatio="xMidYMid slice" style="display: block">
+<rect width="190" height="70" fill="#f3e7cf"></rect>
+<path d="M118 4h44a6 6 0 0 1 6 6v18a6 6 0 0 1-6 6h-44a6 6 0 0 1-6-6V10a6 6 0 0 1 6-6z" fill="#dfe0c9"></path>
+<path d="M0 52C30 46 56 60 84 56C116 52 132 64 190 58V70H0Z" fill="#dde6e6"></path>
+<g fill="none" stroke-linecap="round" stroke="#e3d1ad"><path d="M-10 34C40 30 90 40 200 28" stroke-width="8"></path><path d="M70 -10C74 20 86 44 92 80" stroke-width="6"></path><path d="M146 -10L168 80" stroke-width="4"></path></g>
+<g fill="none" stroke-linecap="round" stroke="#fffaf0"><path d="M-10 34C40 30 90 40 200 28" stroke-width="5"></path><path d="M70 -10C74 20 86 44 92 80" stroke-width="3.5"></path><path d="M146 -10L168 80" stroke-width="2.4"></path></g>
+<g transform="translate(108 34)"><circle class="pulse" r="7" fill="#B87552"></circle><path d="M0 0C-7-7-8-10-8-14A8 8 0 0 1 8-14C8-10 7-7 0 0Z" fill="#6A2525" stroke="#fffaf0" stroke-width="1.6"></path><circle cy="-14" r="2.8" fill="#F5EBD8"></circle></g>
+</svg>
+</a>
+<a class="btn btnWine" href="#" data-maps target="_blank" rel="noopener" style="margin-top: 20px">Découvrir le lieu</a>
+<p class="quote" style="margin: 26px 18px 0">« Les éléphants d’Hannibal ont franchi les Alpes&nbsp;; rien n’arrêtera notre amour. »<b>— D’APRÈS LA LÉGENDE D’HANNIBAL</b></p>
+</div>
+</section>
+
+<!-- 05 · UN MOT POUR LES MARIÉS -->
+<section class="scene" aria-label="Un mot pour les mariés" style="overflow: hidden">
+<div data-on="3" style="position: absolute; inset: 0">
+<div class="zf" style="position: absolute; left: 75px; top: 40px; width: 240px; height: 292px">
+<div style="position: absolute; left: 38px; top: 32px; width: 164px; height: 228px; background: radial-gradient(ellipse at 50% 40%, #fbf3e1 0%, #f0e0bf 100%)"></div>
+<img loading="lazy" decoding="async" data-img="8ff30ed7" alt="" style="position: absolute; left: 120px; top: 0; width: 120px; height: 146px">
+<img loading="lazy" decoding="async" data-img="8ff30ed7" alt="" style="position: absolute; left: 0; top: 0; width: 120px; height: 146px; scale: -1 1">
+<img loading="lazy" decoding="async" data-img="8ff30ed7" alt="" style="position: absolute; left: 120px; top: 146px; width: 120px; height: 146px; scale: 1 -1">
+<img loading="lazy" decoding="async" data-img="8ff30ed7" alt="" style="position: absolute; left: 0; top: 146px; width: 120px; height: 146px; scale: -1 -1">
+<div style="position: absolute; left: 44px; top: 40px; width: 152px; height: 212px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 10px">
+<p class="cor" style="margin: 0; font-size: 19px; font-style: italic; line-height: 1.25; color: #6A2525">Toute grande histoire mérite des témoins</p>
+<img class="hover tanit" data-img="tanit" alt="Médaillon d’or au signe de Tanit" style="width: 74px">
+</div>
+</div>
+<img loading="lazy" decoding="async" class="sway" data-img="aa325650" alt="" style="position: absolute; left: 30px; top: 200px; width: 70px; rotate: -16deg">
+<img loading="lazy" decoding="async" class="swayB" data-img="aa325650" alt="" style="position: absolute; right: 30px; top: 200px; width: 70px; scale: -1 1; rotate: 16deg">
+</div>
+
+<div class="rv" data-on="3" style="position: absolute; left: 0; right: 0; top: 350px; text-align: center">
+<p class="cin" style="margin: 0; font-size: 11px; font-weight: 600; letter-spacing: 0.2em; color: #6A2525">UN MOT POUR LES MARIÉS</p>
+</div>
+<div style="position: absolute; left: 28px; right: 28px; top: 376px">
+<form id="msgForm" novalidate="novalidate" aria-label="Un mot pour les mariés" style="padding: 18px; border-radius: 14px; background: rgba(253,248,238,0.9); border: 1px solid #d6bf8f; box-shadow: 0 14px 30px rgba(80,55,25,0.14); display: flex; flex-direction: column; gap: 12px">
+<div class="fld">
+<label class="lbl" for="ag-name">VOTRE NOM</label>
+<input id="ag-name" class="inp" data-f="name" type="text" autocomplete="name" placeholder="Votre nom complet">
+<p class="err" id="errName" hidden>Merci d’indiquer votre nom.</p>
+</div>
+<div class="fld">
+<label class="lbl" for="ag-msg">VOTRE MESSAGE</label>
+<textarea id="ag-msg" class="inp" data-f="msg" placeholder="Quelques mots pour les mariés"></textarea>
+<p class="err" id="errMsg" hidden>Merci d’écrire quelques mots.</p>
+</div>
+<button type="submit" class="btn btnWine" style="width: 100%"><span id="msgBtnLabel">Envoyer votre message</span></button>
+<p role="status" id="msgNote" hidden class="ebg" style="margin: 0; padding: 10px 12px; border-radius: 10px; background: #f6e3df; color: #8c1d18; font-size: 14px; line-height: 1.45"></p>
+</form>
+<div id="msgSent" hidden role="status" style="padding: 30px 22px; border-radius: 14px; background: rgba(253,248,238,0.92); border: 1px solid #d6bf8f; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px">
+<img data-img="e64a0322" alt="" style="width: 54px">
+<p class="cor" style="margin: 0; font-size: 30px; font-style: italic; color: #6A2525">Merci</p>
+<p class="ebg" style="margin: 0; font-size: 17px; line-height: 1.45; color: #3b2f25"><span id="msgThanks"></span></p>
+</div>
+
+</div>
+
+<div style="position: absolute; left: 0; right: 0; bottom: 8px; display: flex; flex-direction: column; align-items: center">
+<p class="cor" style="margin: 0; font-size: 22px; font-style: italic; color: #6A2525">Scellé sous le signe de Tanit</p>
+<button type="button" class="linkbtn" id="replay">
+<svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
+REVOIR · FARHA — INVITATIONS DIGITALES
+</button>
+</div>
+</section>
+</div>
+
+<nav class="dots" id="dots" aria-label="Scènes" hidden>
+<button type="button" class="dot" aria-label="Aller à : Le palais antique" data-go="0"><span></span></button>
+<button type="button" class="dot" aria-label="Aller à : La date royale" data-go="1"><span></span></button>
+<button type="button" class="dot" aria-label="Aller à : Le lieu" data-go="2"><span></span></button>
+<button type="button" class="dot" aria-label="Aller à : Un mot pour les mariés" data-go="3"><span></span></button>
+</nav>
+
+<!-- 01 · LA LETTRE SCELLÉE -->
+<div class="intro" id="intro" aria-label="La lettre scellée">
+<div class="introBg">
+<div class="pano" data-bg="pano"></div>
+<div class="veil"></div>
+<div class="haze"></div>
+<svg aria-hidden="true" width="390" height="844" style="position: absolute; inset: 0; opacity: 0.1; mix-blend-mode: multiply"><rect width="390" height="844" filter="url(#agGrain)"></rect></svg>
+<div aria-hidden="true" style="position: absolute; left: 0; right: 0; top: 0; height: 844px; overflow: hidden; pointer-events: none">
+<div class="march m2" style="top: 700px; width: 140px; opacity: .92"><img data-img="elew" alt=""></div>
+<div class="march m1" style="top: 692px; width: 170px"><img data-img="elew" alt=""></div>
+</div>
+</div>
+<div class="copy" style="position: absolute; left: 20px; right: 20px; top: 84px; display: flex; flex-direction: column; align-items: center; text-align: center">
+<p class="cin ci" style="margin: 0; font-size: 11px; font-weight: 600; letter-spacing: 0.4em; color: #B89A58; animation-delay: .3s">FARHA</p>
+<p class="phn ci" style="margin: 12px 0 0; font-size: 15px; animation-delay: .45s">𐤒𐤓𐤕𐤇𐤃𐤔𐤕</p>
+<p class="punic ci" style="margin: 4px 0 0; animation-delay: .55s">QART-ḤADAŠT · CARTHAGE</p>
+<h1 class="cin ci" style="margin: 14px 0 0; font-size: 22px; font-weight: 500; letter-spacing: 0.12em; line-height: 1.5; color: #6A2525; animation-delay: .6s">UNE INVITATION<br>À TRAVERS LE TEMPS</h1>
+<p class="cor ci" style="margin: 8px 0 0; font-size: 16px; font-style: italic; color: #5a4636; animation-delay: .8s">Par décret de la cité d’Élyssa</p>
+</div>
+
+<div class="scrollW">
+<div style="height: 57px; overflow: hidden; position: relative"><img loading="lazy" decoding="async" data-img="8d1c0948" alt="" style="position: absolute; left: 0; top: 0; width: 300px"></div>
+<div class="sBody">
+<img loading="lazy" decoding="async" data-img="8d1c0948" alt="" style="position: absolute; left: 0; top: -57px; width: 300px">
+<div class="sText" style="position: absolute; left: 40px; right: 40px; top: 0; height: 298px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center">
+<p class="phn" style="margin: 0 0 6px; font-size: 13px">𐤌𐤋𐤊𐤕</p><p class="cin" style="margin: 0; font-size: 24px; font-weight: 500; letter-spacing: 0.1em; color: #6A2525">L’ÂGE D’OR<br>DE CARTHAGE</p>
+<p class="cor" style="margin: 10px 0 0; font-size: 18px; font-style: italic; color: #5a4636">Comme au temps d’Élyssa, reine de Carthage, certaines histoires d’amour sont éternelles</p>
+</div>
+</div>
+<div style="height: 57px; overflow: hidden; position: relative"><img loading="lazy" decoding="async" data-img="8d1c0948" alt="" style="position: absolute; left: 0; top: -355px; width: 300px"></div>
+</div>
+
+<div class="sealW">
+<img class="half hL" data-img="e64a0322" alt="" style="width: 140px; height: 147px; filter: drop-shadow(0 8px 10px rgba(60,20,20,0.35))">
+<img class="half hR" data-img="e64a0322" alt="Sceau de cire bordeaux au signe de Tanit" style="width: 140px; height: 147px; filter: drop-shadow(0 8px 10px rgba(60,20,20,0.35))">
+<svg aria-hidden="true" width="140" height="147" viewBox="0 0 100 100" preserveAspectRatio="none" style="position: absolute; inset: 0">
+<path class="crk" d="M52 0L46 18L55 34L45 52L54 70L47 86L52 100" fill="none" stroke="#2d0d0d" stroke-width="1.6" stroke-linejoin="round"></path>
+</svg>
+<span class="frag fr1" style="clip-path: polygon(0 0,100% 30%,60% 100%)"></span>
+<span class="frag fr2" style="clip-path: polygon(20% 0,100% 50%,0 100%)"></span>
+<span class="frag fr3" style="clip-path: polygon(0 20%,100% 0,80% 100%)"></span>
+<span class="frag fr4" style="clip-path: polygon(50% 0,100% 100%,0 70%)"></span>
+<span class="frag fr5" style="clip-path: polygon(0 0,100% 10%,40% 100%)"></span>
+<span class="frag fr6" style="clip-path: polygon(10% 30%,100% 0,70% 100%)"></span>
+</div>
+
+<div class="copy copyBg" aria-hidden="true"></div>
+<div class="copy" style="position: absolute; left: 20px; right: 20px; top: 470px; display: flex; flex-direction: column; align-items: center; text-align: center">
+<p class="cor ci" style="margin: 0; font-size: 24px; font-weight: 500; line-height: 1.3; color: #3b2f25; animation-delay: 1s"><span data-c="bride"></span><br><span style="font-style: italic; color: #B89A58">&amp;</span> <span data-c="groom"></span></p>
+<button type="button" class="btn btnWine ci" id="openIntro" style="margin-top: 26px; animation-delay: 1.4s">Briser le sceau de Tanit</button>
+</div>
+<div class="glowF"></div>
+</div>
+
+
+<div class="frameP" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+<div class="fx" aria-hidden="true">
+<div id="birds" hidden>
+<img class="bird b1" data-img="1c31bfa3" alt="" style="width: 54px">
+<img class="bird b2" data-img="ce7db256" alt="" style="width: 44px">
+<img class="bird b3" data-img="f697cdc2" alt="" style="width: 62px">
+</div>
+<span class="pa" style="left: 36px; animation-delay: -2s"></span>
+<span class="pa" style="left: 92px; animation-duration: 19s; animation-delay: -9s"></span>
+<span class="pa" style="left: 150px; width: 2px; height: 2px; animation-duration: 17s; animation-delay: -5s"></span>
+<span class="pa" style="left: 214px; animation-duration: 21s; animation-delay: -13s"></span>
+<span class="pa" style="left: 266px; width: 2px; height: 2px; animation-duration: 18s; animation-delay: -1s"></span>
+<span class="pa" style="left: 318px; animation-duration: 20s; animation-delay: -11s"></span>
+<span class="pa" style="left: 360px; width: 2px; height: 2px; animation-duration: 16s; animation-delay: -7s"></span>
+</div>
+
+</div>
+<script>
+// ===== Données personnalisables (formulaire Farha) =====
+const CONFIG = {
+  bride: "Yasmine",
+  groom: "Elyes",
+  date: "2027-10-09T18:00:00",
+  venue: "Palais Ennejma Ezzahra",
+  address: "Sidi Bou Saïd, Tunis",
+  mapQuery: "",
+  mapLink: ""
+};
+(function () {
+  'use strict';
+  var C = CONFIG, O = {"fields": [["bride", "bride"], ["groom", "groom"], ["dateLabel", "@date"], ["timeLabel", "@time"], ["venueName", "venue"], ["location", "address"]], "days": ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"], "months": ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"], "timePrefix": "à ", "timeSep": "h", "px": {}, "openPhase": "crack", "phase2": "light", "t1": 3300, "t2": 4600, "btn": "Envoyer votre message", "sending": "Envoi…", "thanks": "Vos mots sont bien parvenus à {bride} & {groom}, {name}.", "error": "Votre message n’a pas pu être envoyé. Vérifiez votre connexion et réessayez."}, IMG = {"elew": "/media/x/23b3527e722a5c.webp", "ship": "/media/x/00632119781671.webp", "tanit": "/media/x/c6f458b71a1a12.webp", "brz": "/media/x/647fb0a981e4b9.webp", "pano": "/media/x/44ce44ddec03fb.webp", "1bbe360d": "/media/x/f3823e82c9fa14.webp", "1c31bfa3": "/media/x/e62a9f20ccdaf2.webp", "8946fa6a": "/media/x/7b8a9bfc8f8257.webp", "8d1c0948": "/media/x/42036410ce69e9.webp", "8ff30ed7": "/media/x/3c52cb1e5b2ca4.webp", "aa325650": "/media/x/39bffb836c0f26.webp", "c4a30a7d": "/media/x/c5748ac9644895.webp", "ce7db256": "/media/x/92834570c65047.webp", "e64a0322": "/media/x/a4cd3c170770d4.webp", "f697cdc2": "/media/x/2e4c3d8ccf8dd3.webp", "fa8003de": "/media/x/c59fa6598b844c.webp"}, H = 844;
+  var $ = function (s) { return document.querySelector(s); }, all = function (s) { return [].slice.call(document.querySelectorAll(s)); };
+  all('img[data-img]').forEach(function (i) { i.src = IMG[i.getAttribute('data-img')]; });
+  all('[data-bg]').forEach(function (e) { e.style.backgroundImage = 'url(' + IMG[e.getAttribute('data-bg')] + ')'; });
+  var pad = function (n) { return (n < 10 ? '0' : '') + n; };
+  // le modèle (390 × 844) remplit l'écran sans être coupé
+  var root = $('#root');
+  function fit() { root.style.setProperty('--fit', Math.min(innerWidth / 390, innerHeight / 844)); }
+  fit(); addEventListener('resize', fit);
+  // textes
+  var d = new Date(C.date), ok = !isNaN(d.getTime());
+  var dateLabel = '', timeLabel = '';
+  if (ok) {
+    dateLabel = (O.days ? O.days[d.getDay()] + ' ' : '') + d.getDate() + ' ' + O.months[d.getMonth()] + ' ' + d.getFullYear();
+    timeLabel = O.timePrefix + pad(d.getHours()) + O.timeSep + pad(d.getMinutes());
+  }
+  var V = {}; O.fields.forEach(function (f) { V[f[0]] = f[1] === '@date' ? dateLabel : f[1] === '@time' ? timeLabel : C[f[1]]; });
+  (O.letters || []).forEach(function (L) {
+    var box = document.querySelector('[data-letters="' + L[0] + '"]'); if (!box) return;
+    Array.from(String(C[L[1]] || '')).forEach(function (ch, i) { var s = document.createElement('span'); s.className = 'lt'; s.style.transitionDelay = (L[2] + i * 0.06).toFixed(2) + 's'; s.textContent = ch === ' ' ? '\u00a0' : ch; box.appendChild(s); });
+  });
+  all('[data-c]').forEach(function (el) { var v = V[el.getAttribute('data-c')]; if (v != null) el.textContent = v; });
+  var q = C.mapQuery || [C.venue, C.address].filter(Boolean).join(', ');
+  var maps = /^https:\/\//.test(C.mapLink || '') ? C.mapLink : 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(q);
+  all('[data-maps]').forEach(function (a) { a.href = maps; });
+  // compte à rebours
+  var cd = {}; all('[data-cd]').forEach(function (el) { cd[el.getAttribute('data-cd')] = el; });
+  function tick() {
+    var diff = ok ? Math.max(0, d.getTime() - Date.now()) : 0;
+    cd.d.textContent = String(Math.floor(diff / 864e5)); cd.h.textContent = pad(Math.floor(diff / 36e5) % 24);
+    cd.m.textContent = pad(Math.floor(diff / 6e4) % 60); cd.s.textContent = pad(Math.floor(diff / 1e3) % 60);
+  }
+  tick(); setInterval(tick, 1000);
+  // scènes : parallaxe et apparitions
+  var rm = false; try { rm = matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+  if (rm) root.classList.add('rm');
+  var scroller = $('#scroller'), px = all('[data-px]'), ons = all('[data-on]'), dots = all('#dots .dot'), sy = 0, maxSy = 0, entered = false, raf = 0;
+  function render() {
+    px.forEach(function (el) { var a = el.getAttribute('data-px').split(' '), local = rm ? 0 : sy - (+a[0]) * H; el.style.translate = '0 ' + (local * O.px[a[1]]).toFixed(1) + 'px'; });
+    ons.forEach(function (el) { var j = +el.getAttribute('data-on'); el.classList.toggle('on', entered && maxSy >= j * H - 460); });
+    var active = Math.round(sy / H); dots.forEach(function (b, k) { b.classList.toggle('act', k === active); });
+  }
+  scroller.addEventListener('scroll', function () { if (raf) return; raf = requestAnimationFrame(function () { raf = 0; sy = scroller.scrollTop; maxSy = Math.max(maxSy, sy); render(); }); }, { passive: true });
+  dots.forEach(function (b) { b.addEventListener('click', function () { scroller.scrollTo({ top: (+b.getAttribute('data-go')) * H, behavior: rm ? 'auto' : 'smooth' }); }); });
+  // ouverture
+  var intro = $('#intro'), phase = 'closed', timers = [], win = $('#win');
+  $('#openIntro').addEventListener('click', function () {
+    if (phase !== 'closed') return; phase = O.openPhase; intro.classList.add(O.openPhase);
+    timers.push(setTimeout(function () { phase = 'reveal'; intro.classList.add(O.phase2 || 'reveal'); entered = true; scroller.classList.add('on'); $('#dots').hidden = false; render(); }, rm ? 150 : O.t1));
+    timers.push(setTimeout(function () { phase = 'done'; intro.hidden = true; }, rm ? 400 : O.t2));
+  });
+  if (win) $('#winBtn').addEventListener('click', function () { win.classList.add('open'); $('#winBtn').hidden = true; });
+  $('#replay').addEventListener('click', function () {
+    timers.forEach(clearTimeout); timers = []; scroller.scrollTop = 0; sy = 0; maxSy = 0; entered = false; phase = 'closed';
+    scroller.classList.remove('on'); $('#dots').hidden = true; intro.hidden = false; intro.classList.remove(O.openPhase, O.phase2 || 'reveal');
+    if (win) { win.classList.remove('open'); $('#winBtn').hidden = false; } render();
+  });
+  render();
+  // un mot : envoyé au site Farha, qui le transmet par e-mail
+  var form = $('#msgForm'), nameIn = form.querySelector('[data-f=name]'), msgIn = form.querySelector('[data-f=msg]'), sending = false;
+  nameIn.addEventListener('input', function () { nameIn.classList.remove('bad'); $('#errName').hidden = true; });
+  msgIn.addEventListener('input', function () { msgIn.classList.remove('bad'); $('#errMsg').hidden = true; });
+  form.addEventListener('submit', function (ev) {
+    ev.preventDefault(); if (sending) return;
+    var n = nameIn.value.trim(), m = msgIn.value.trim(), bad = false;
+    if (!n) { nameIn.classList.add('bad'); $('#errName').hidden = false; bad = true; }
+    if (!m) { msgIn.classList.add('bad'); $('#errMsg').hidden = false; bad = true; }
+    $('#msgNote').hidden = true; if (bad) return;
+    var id = Math.random().toString(36).slice(2), done = false;
+    sending = true; $('#msgBtnLabel').textContent = O.sending;
+    function finish(okk, err) {
+      if (done) return; done = true; removeEventListener('message', on); sending = false; $('#msgBtnLabel').textContent = O.btn;
+      if (okk) { $('#msgThanks').textContent = O.thanks.replace('{name}', n).replace('{bride}', C.bride || '').replace('{groom}', C.groom || ''); form.hidden = true; $('#msgSent').hidden = false; }
+      else { var note = $('#msgNote'); note.textContent = err || O.error; note.hidden = false; }
+    }
+    function on(e) { var x = e.data; if (x && x.type === 'farha:rsvp-result' && x.id === id) finish(x.ok, x.error); }
+    addEventListener('message', on);
+    if (window.parent === window) { finish(true); return; }
+    try { parent.postMessage({ type: 'farha:rsvp', id: id, name: n, attending: true, kind: 'mot', message: m.slice(0, 560) }, '*'); } catch (e) {}
+    setTimeout(function () { finish(true); }, 15000);
+  });
+})();
+
+(function () {
+  var intro = document.getElementById('intro'), birds = document.getElementById('birds'), T = [];
+  var rm = false; try { rm = matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+  document.getElementById('openIntro').addEventListener('click', function () {
+    if (T.length) return;
+    T.push(setTimeout(function () { intro.classList.add('brk'); }, rm ? 60 : 650));
+    T.push(setTimeout(function () { intro.classList.add('unroll'); }, rm ? 100 : 1300));
+    T.push(setTimeout(function () { birds.hidden = false; }, rm ? 150 : 3300));
+  });
+  // zone dorée à gratter sur la date
+  var c = document.getElementById('scr'), btn = document.getElementById('scrReveal'), drawing = false, last = null, scratched = false, revealed = false;
+  function paint() {
+    var x = c.getContext('2d'), W = c.width, Hh = c.height;
+    x.globalCompositeOperation = 'source-over'; x.clearRect(0, 0, W, Hh);
+    var g = x.createLinearGradient(0, 0, W, Hh);
+    g.addColorStop(0, '#f3dc9c'); g.addColorStop(0.28, '#c9a554'); g.addColorStop(0.5, '#f7e6b0'); g.addColorStop(0.72, '#b8913f'); g.addColorStop(1, '#e6c97f');
+    x.fillStyle = g; x.fillRect(0, 0, W, Hh);
+    for (var i = 0; i < 1100; i++) {
+      x.fillStyle = 'rgba(255,250,230,' + (Math.random() * 0.4).toFixed(2) + ')'; x.fillRect(Math.random() * W, Math.random() * Hh, 2, 2);
+      x.fillStyle = 'rgba(110,80,25,' + (Math.random() * 0.25).toFixed(2) + ')'; x.fillRect(Math.random() * W, Math.random() * Hh, 2, 2);
+    }
+    x.strokeStyle = 'rgba(110,80,25,0.55)'; x.lineWidth = 3; x.strokeRect(12, 12, W - 24, Hh - 24);
+    x.fillStyle = '#4e3613'; x.textAlign = 'center'; x.textBaseline = 'middle';
+    x.font = '600 32px Cinzel, Georgia, serif'; x.fillText('GRATTEZ ICI', W / 2, Hh / 2 - 16);
+    x.font = 'italic 28px "Cormorant Garamond", Georgia, serif'; x.fillText('pour découvrir la date', W / 2, Hh / 2 + 24);
+  }
+  function reveal() { revealed = true; c.classList.add('done'); btn.style.visibility = 'hidden'; }
+  function at(e) {
+    var r = c.getBoundingClientRect(), px = (e.clientX - r.left) * c.width / r.width, py = (e.clientY - r.top) * c.height / r.height, x = c.getContext('2d');
+    x.globalCompositeOperation = 'destination-out'; x.lineCap = 'round'; x.lineWidth = 48;
+    if (last) { x.beginPath(); x.moveTo(last[0], last[1]); x.lineTo(px, py); x.stroke(); }
+    x.beginPath(); x.arc(px, py, 24, 0, Math.PI * 2); x.fill(); last = [px, py]; scratched = true;
+  }
+  function up() {
+    if (!drawing) return; drawing = false; last = null;
+    var d = c.getContext('2d').getImageData(0, 0, c.width, c.height).data, n = 0, t = 0;
+    for (var i = 3; i < d.length; i += 64) { t++; if (d[i] < 40) n++; }
+    if (n / t > 0.45) reveal();
+  }
+  c.addEventListener('pointerdown', function (e) { if (revealed) return; drawing = true; last = null; try { c.setPointerCapture(e.pointerId); } catch (er) {} at(e); });
+  c.addEventListener('pointermove', function (e) { if (drawing) at(e); });
+  ['pointerup', 'pointerleave', 'pointercancel'].forEach(function (n) { c.addEventListener(n, up); });
+  btn.addEventListener('click', reveal);
+  paint(); try { document.fonts.ready.then(function () { if (!scratched) paint(); }); } catch (e) {}
+  document.getElementById('replay').addEventListener('click', function () {
+    T.forEach(clearTimeout); T = []; intro.classList.remove('brk', 'unroll'); birds.hidden = true;
+    revealed = false; scratched = false; c.classList.remove('done'); btn.style.visibility = 'visible'; paint();
+  });
+})();
+
+</script>
+</body>
+</html>
