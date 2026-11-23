@@ -97,7 +97,9 @@ module.exports = async function handler(req, res) {
   // Le lien doit ouvrir une invitation de ce site (ou du site principal).
   const link = clean(body.link, 8000);
   let linkOk = false;
-  try { const u = new URL(link); linkOk = u.protocol === 'https:' && (u.host === req.headers.host || u.host === 'farha-bay.vercel.app') && /^#i=[A-Za-z0-9_-]+$/.test(u.hash); } catch (e) {}
+  // lien complet (#i=…) ou lien court www.invitation-digitale.tn/<collection>-<prénoms>
+  try { const u = new URL(link); linkOk = u.protocol === 'https:' && (u.host === req.headers.host || u.host === 'farha-bay.vercel.app' || /^(www\.)?invitation-digitale\.tn$/.test(u.host)) &&
+    (/^#i=[A-Za-z0-9_-]+$/.test(u.hash) || (!u.hash && !u.search && /^\/(mariage|henna|wteya|fiancailles|anniversaire|baby-shower|bridal-party|tahara|soutenance|naissance|fete)-[a-z0-9-]{1,80}$/.test(u.pathname))); } catch (e) {}
 
   // Limite comptée uniquement sur les demandes valides.
   const ip = String(req.headers['x-forwarded-for'] || '').split(',')[0].trim() || 'inconnu';

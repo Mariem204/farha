@@ -1,4 +1,4 @@
-<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style id="farha-route">html.farha-routing::after{content:"";position:fixed;inset:0;z-index:2147483600;background:#f6f0e6 url(/media/farha-logo.webp) center/120px auto no-repeat;animation:farhaRoute 1.2s ease-in-out infinite alternate}@keyframes farhaRoute{from{background-size:112px auto}to{background-size:128px auto}}@media(prefers-reduced-motion:reduce){html.farha-routing::after{animation:none}}</style><script>/* lien ou rafraîchissement d’un modèle / d’une collection : écran de chargement au lieu de l’accueil */if(/^#(m|p|c|modele)=/.test(location.hash))document.documentElement.classList.add("farha-routing");setTimeout(function(){document.documentElement.classList.remove("farha-routing")},11000);</script><title>Farha — Invitations digitales</title>
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><script>/* lien court d’invitation (www.invitation-digitale.tn/mariage-souhir-et-skander) : on récupère son contenu avant le reste de la page */(function(){var m=location.pathname.match(/^\/((?:mariage|henna|wteya|fiancailles|anniversaire|baby-shower|bridal-party|tahara|soutenance|naissance|fete)-[a-z0-9-]{1,80})\/?$/);if(!m||/[#&]i=/.test(location.hash))return;try{var x=new XMLHttpRequest();x.open("GET","/api/link?s="+m[1],false);x.send();if(x.status===200){var j=JSON.parse(x.responseText);if(j&&/^[A-Za-z0-9_-]+$/.test(j.i))history.replaceState(null,"",location.pathname+"#i="+j.i)}}catch(e){}})();</script><style id="farha-route">html.farha-routing::after{content:"";position:fixed;inset:0;z-index:2147483600;background:#f6f0e6 url(/media/farha-logo.webp) center/120px auto no-repeat;animation:farhaRoute 1.2s ease-in-out infinite alternate}@keyframes farhaRoute{from{background-size:112px auto}to{background-size:128px auto}}@media(prefers-reduced-motion:reduce){html.farha-routing::after{animation:none}}</style><script>/* lien ou rafraîchissement d’un modèle / d’une collection : écran de chargement au lieu de l’accueil */if(/^#(m|p|c|modele)=/.test(location.hash))document.documentElement.classList.add("farha-routing");setTimeout(function(){document.documentElement.classList.remove("farha-routing")},11000);</script><title>Farha — Invitations digitales</title>
 <meta name="description" content="Créez vos invitations digitales personnalisées en quelques minutes : mariage, fiançailles, anniversaire, naissance et événements. Un design élégant, un partage facile et rapide par WhatsApp.">
 <link rel="icon" type="image/png" sizes="96x96" href="/favicon/favicon-96x96.png">
 <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg">
@@ -1802,6 +1802,14 @@ function farhaReadPhoto(file){return new Promise((resolve,reject)=>{
 // Photos du client : enregistrées sur le serveur Farha (/api/photo) avant de créer le lien d'invitation,
 // pour qu'elles s'affichent aussi chez les invités. Une photo déjà envoyée ne l'est pas deux fois.
 const farhaPhotoUrls={};
+// Lien court envoyé à Farha (et au client) : www.invitation-digitale.tn/<collection>-<prénoms>. Le long lien reste en secours.
+function farhaShortLink(long){
+ const code=(String(long).split('#i=')[1]||'');if(!code||!chosen)return Promise.resolve(long);
+ const d=readData(),df=chosen.custom&&chosen.defaults,solo=!!(df&&df.mode==='name'&&!df.second);
+ return Promise.race([fetch('/api/link',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({i:code,kind:chosen.category,names:solo?[d.bride]:[d.bride,d.groom]})})
+  .then(r=>r.ok?r.json():Promise.reject(new Error('HTTP '+r.status))).then(j=>/^https:\/\/www\.invitation-digitale\.tn\/[a-z0-9-]+$/.test(j&&j.url||'')?j.url:long),new Promise(r=>setTimeout(()=>r(long),8000))])
+  .catch(e=>{console.warn('Farha : lien court impossible ('+(e&&e.message||e)+'), lien complet utilisé.');return long});
+}
 function farhaShrinkPhoto(src){return new Promise(res=>{if(src.length<3e6)return res(src);const img=new Image();img.onload=()=>{const k=Math.min(1,1400/Math.max(img.naturalWidth,img.naturalHeight)),c=document.createElement('canvas');c.width=Math.round(img.naturalWidth*k);c.height=Math.round(img.naturalHeight*k);c.getContext('2d').drawImage(img,0,0,c.width,c.height);res(c.toDataURL('image/jpeg',.82))};img.onerror=()=>res(src);img.src=src})}
 function farhaUploadPhotos(){
  const t=chosen,list=t&&farhaState.photos[t.id];if(!list||!list.some(p=>typeof p==='string'&&/^data:/.test(p)))return Promise.resolve();
@@ -2184,19 +2192,20 @@ function farhaPendingDelivery(){
 }
 function farhaSendPaymentEmails(ref,rkey){
  const d=readData(),c=farhaClient||{},base=farhaPrice(chosen),sup=d.musicType?FARHA_MUSIC_PRICE:0,total=base+sup;
- const names=farhaOrderNames(d).replace(/^Invitation : /,''),link=farhaInviteLink(rkey);
+ const names=farhaOrderNames(d).replace(/^Invitation : /,''),longLink=farhaInviteLink(rkey);
  const music=d.musicType?(farhaState.music.fileName||d.music||'Oui'):'Sans musique';
  const order={model:chosen.name,category:chosen.category||'',names,date:fmt(d.date)+' · '+d.time,event_date:fmt(d.date),place:d.place,music,base,music_price:sup,total};
  // Secours : l'admin reçoit au moins la commande et le lien (FormSubmit ne peut pas écrire au client).
+ let fallbackLink='';
  const fallback=()=>fetch('https://formsubmit.co/ajax/'+FARHA_ADMIN_EMAIL,{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},
   body:JSON.stringify({_subject:'Farha · Nouvelle commande'+(ref?' '+ref:'')+' — '+names+' (RIB NON envoyé au client)',_template:'table',_captcha:'false',_replyto:c.email,
    Référence:ref||'—',Client:c.name||'—','E-mail':c.email||'—',Téléphone:c.phone||'—',Adresse:c.address||'—',Modèle:chosen.name,Invitation:names,Date:order.date,Lieu:d.place,Musique:music,
-   'Total à régler':total+' DT','À faire':'Envoyer le RIB au client par e-mail','Lien de l’invitation (à envoyer après le virement)':link})})
+   'Total à régler':total+' DT','À faire':'Envoyer le RIB au client par e-mail','Lien de l’invitation (à envoyer après le virement)':fallbackLink||longLink})})
   .catch(e=>console.warn('Farha : e-mail admin non envoyé ('+(e&&e.message||e)+').'));
- return fetch('/api/payment-email',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({reference:ref||'',customer:c,order,link})})
+ return farhaShortLink(longLink).then(link=>{ fallbackLink=link; return fetch('/api/payment-email',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({reference:ref||'',customer:c,order,link})})
   .then(r=>r.ok?r.json():r.json().catch(()=>({})).then(j=>Promise.reject(new Error((j&&j.error)||'HTTP '+r.status))))
   .then(r=>{if(r&&r.admin===false)fallback()})
-  .catch(e=>{console.warn('Farha : e-mails de paiement via le serveur impossibles ('+(e&&e.message||e)+'), secours FormSubmit.');return fallback()});
+  .catch(e=>{console.warn('Farha : e-mails de paiement via le serveur impossibles ('+(e&&e.message||e)+'), secours FormSubmit.');return fallback()})});
 }
 simulatePayment=function(){farhaAskClient(()=>{
  $('payStatus').textContent='';farhaPendingDelivery();
@@ -2206,7 +2215,7 @@ simulatePayment=function(){farhaAskClient(()=>{
   .then(r=>farhaSendPaymentEmails(r&&r.reference,r&&r.invitation&&r.invitation.slug));
 })};
 // Bouton « Terminé · test gratuit » : commande enregistrée à 0 DT, de type « test ».
-farhaFreeFinish=function(){farhaAskClient(()=>{$('payStatus').textContent='';farhaDeliver();$('deliveryStatus').textContent='Mode test : livraison sans paiement.';setTimeout(farhaOpenFeedback,1200);farhaUploadPhotos().then(()=>{$('deliveryLink').value=farhaInviteLink();return farhaRecordOrder('test',farhaInvitationPayload())}).then(r=>{if(r&&r.invitation&&r.invitation.slug)$('deliveryLink').value=farhaInviteLink(r.invitation.slug)})})};
+farhaFreeFinish=function(){farhaAskClient(()=>{$('payStatus').textContent='';farhaDeliver();$('deliveryStatus').textContent='Mode test : livraison sans paiement.';setTimeout(farhaOpenFeedback,1200);farhaUploadPhotos().then(()=>farhaRecordOrder('test',farhaInvitationPayload())).then(r=>farhaShortLink(farhaInviteLink(r&&r.invitation&&r.invitation.slug))).then(l=>{$('deliveryLink').value=l})})};
 // Formulaire « Création sur mesure » : demande enregistrée (50 DT), puis la messagerie s'ouvre comme avant.
 const farhaSendBespokeBefore=sendBespoke;
 sendBespoke=function(e){

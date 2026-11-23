@@ -50,6 +50,10 @@
   ],
   "rewrites": [
     {
+      "source": "/:slug((?:mariage|henna|wteya|fiancailles|anniversaire|baby-shower|bridal-party|tahara|soutenance|naissance|fete)-[a-z0-9-]+)",
+      "destination": "/index.html"
+    },
+    {
       "source": "/i/:slug",
       "destination": "/index.html"
     },
