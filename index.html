@@ -1879,9 +1879,9 @@ const host=document.getElementById('farhaLibrary'),choice=document.getElementByI
 const note=[0,2,4,7,9,7,4,2],scale=[0,2,3,5,7,8,10];
 const wav=farhaDemoWav;
 // Bibliothèque : les 20 démos intégrées, remplacées par les musiques actives du back-office dès qu'elles sont lues (farhaSetMusicLibrary).
-// Bibliothèque proposée : 6 musiques douces (YouTube). Les démos synthétiques ne sont plus proposées
+// Bibliothèque proposée : 7 musiques douces (YouTube). Les démos synthétiques ne sont plus proposées
 // (elles restent lisibles pour les anciennes invitations qui les utilisent).
-const FARHA_YT_TRACKS=[['Mélodie romantique · 1','FoCG-WNsZio'],['Mélodie romantique · 2','j67Tc1mFrHY'],['Mélodie romantique · 3','-E5ovOA9VM8'],['Mélodie romantique · 4','QG2lY-wFrv4'],['Mélodie romantique · 5','irLdBYnktJg'],['Mélodie romantique · 6','8KwG32AZJRQ']];
+const FARHA_YT_TRACKS=[['Mélodie romantique · 1','FoCG-WNsZio'],['Mélodie romantique · 2','j67Tc1mFrHY'],['Mélodie romantique · 3','-E5ovOA9VM8'],['Mélodie romantique · 4','QG2lY-wFrv4'],['Mélodie romantique · 5','irLdBYnktJg'],['Mélodie romantique · 6','8KwG32AZJRQ'],['Mélodie romantique · 7','buPMuhzQwJI']];
 let tracks=FARHA_YT_TRACKS.map(([n,id])=>({n,c:'Romantique',kind:'youtube',src:id}));
 let filter='Pour vous',playing=-1,audio=null,previewUrl=null,selectedUrl=null,chosen=-1;
 choice.style.display='none';
@@ -2129,7 +2129,7 @@ function farhaInspBack(){show('home');goSection('themes')}
 // FARHA-MUSIQUES-SUPABASE : musiques actives gérées dans le back-office (fichier du bucket « music », YouTube ou démo).
 // Sans configuration, en cas d'erreur ou si aucune musique n'est active, les 20 démos intégrées restent proposées.
 (function(){
- const cfg=window.FARHA_CONFIG||{},FARHA_YT_IDS=['FoCG-WNsZio','j67Tc1mFrHY','-E5ovOA9VM8','QG2lY-wFrv4','irLdBYnktJg','8KwG32AZJRQ'];
+ const cfg=window.FARHA_CONFIG||{},FARHA_YT_IDS=['FoCG-WNsZio','j67Tc1mFrHY','-E5ovOA9VM8','QG2lY-wFrv4','irLdBYnktJg','8KwG32AZJRQ','buPMuhzQwJI'];
  if(!window.farhaSetMusicLibrary||!/^https:\/\/[a-z0-9-]+\.supabase\.co\/?$/.test(cfg.SUPABASE_URL||'')||!cfg.SUPABASE_ANON_KEY||/VOTRE-/.test(cfg.SUPABASE_ANON_KEY))return;
  if((location.protocol==='file:'||/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))&&!/[?&]supabase=1\b/.test(location.search))return;
  if(farhaReadInvite())return;
@@ -3057,6 +3057,9 @@ body .farha-header .farha-logo{line-height:1.1}
   base.apply(this,arguments);
   var d=t&&t.custom&&t.defaults,solo=!!(d&&d.mode==='name'&&!d.second),g=document.getElementById('groom'),gl=document.querySelector('label[for="groom"]');
   if(g)g.hidden=solo;if(gl)gl.hidden=solo;
+  // Mariage : le prénom du marié vient en premier dans le formulaire (ailleurs : la mariée d'abord)
+  var bb=document.getElementById('bride'),bdv=bb&&bb.parentElement,gdv=g&&g.parentElement;
+  if(bdv&&gdv&&bdv.parentNode===gdv.parentNode){var groomFirst=!solo&&t&&t.category==='Mariage';if(groomFirst&&bdv.nextElementSibling===gdv)bdv.parentNode.insertBefore(gdv,bdv);else if(!groomFirst&&gdv.nextElementSibling===bdv)gdv.parentNode.insertBefore(bdv,gdv)}
   if(d&&d.mode==='couple'&&t.category==='Fiançailles'){
    var F={bride:'Prénom de la fiancée',groom:'Prénom du fiancé',date:'Date des fiançailles',place:'Lieu des fiançailles'};
    Object.keys(F).forEach(function(k){var l=document.querySelector('label[for="'+k+'"]');if(l)l.textContent=F[k]});
