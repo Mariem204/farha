@@ -350,7 +350,7 @@ const CONFIG = {
   // ouverture : Basmala en haut de l'arche, mains en bas, bouton juste au-dessus des mains, texte centré entre les deux
   function placeIntro() { var R = root.offsetHeight, sc = Math.max(390 / 750, R / 1333), dh = 1333 * sc, off = (dh - R) / 2;
     var cta = $('#introCta'), copy = $('#introCopy'), bas = $('#introBas'), hands = $('#introHands'); if (!cta || !copy || !bas || !hands) return;
-    var bt = 0.135 * dh - off; bas.style.top = bt + 'px';
+    var bt = 0.135 * dh - off + 18; bas.style.top = bt + 'px';
     var bb = bt + (bas.offsetHeight || 35), ht = R + 40 - (hands.offsetHeight || 250), bh = cta.offsetHeight || 48, ct = ht - bh - 2;
     cta.style.top = ct + 'px'; copy.style.top = (bb + 56) + 'px'; copy.style.bottom = (R - ct + 8) + 'px'; }
   placeIntro(); addEventListener('resize', placeIntro); addEventListener('load', placeIntro); if (document.fonts && document.fonts.ready) document.fonts.ready.then(placeIntro);
