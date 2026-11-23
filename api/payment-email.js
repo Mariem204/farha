@@ -44,7 +44,8 @@ function page(title, intro, rows, outro, box) {
     '<table style="border-collapse:collapse;margin:8px 0 16px">' + lines + '</table>' +
     (box ? '<div style="margin:4px 0 18px;padding:14px 16px;border-radius:10px;background:#fbf1e6;border:1px dashed #c9a27a">' +
       '<div style="font-size:12px;font-weight:bold;letter-spacing:.06em;text-transform:uppercase;color:#8d4565;margin-bottom:6px">' + esc(box.title) + '</div>' +
-      (box.ok ? '<a href="' + esc(box.value) + '" style="color:#8d4565;word-break:break-all">' + esc(box.value) + '</a>' : '<span style="color:#29252c">' + esc(box.value) + '</span>') + '</div>' : '') +
+      // lien en texte (pas de balise <a>) : Brevo ne le remplace pas par son adresse de suivi (sendibt3.com), on copie le vrai lien
+      (box.ok ? '<span style="color:#8d4565;word-break:break-all;font-size:16px;font-weight:600;user-select:all">' + esc(box.value) + '</span>' : '<span style="color:#29252c">' + esc(box.value) + '</span>') + '</div>' : '') +
     outro.map(p => '<p style="margin:0 0 12px">' + esc(p) + '</p>').join('') +
     '</div></div>';
 }
