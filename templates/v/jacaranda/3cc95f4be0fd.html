@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Jacaranda · Invitation de mariage</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<style>
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Caveat';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/l/font?kit=WnzQHAc5bAfYB2QRah7pcpNvOx-pjSx6KomBkMTTKQ2ysvYDK_gjvzEJ99YUvUw&skey=7833cd5b856b60c9&v=v23) format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Caveat';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/l/font?kit=WnzQHAc5bAfYB2QRah7pcpNvOx-pjSx6KomBkMTTKQ2ysvYDK_gqvzEJ99YUvUw&skey=7833cd5b856b60c9&v=v23) format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Caveat';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/l/font?kit=WnzQHAc5bAfYB2QRah7pcpNvOx-pjSx6KomBkMTTKQ2ysvYDK_ggvzEJ99YUvUw&skey=7833cd5b856b60c9&v=v23) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Caveat';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/media/x/00cf519700d49d.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Caveat';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/l/font?kit=WnzQHAc5bAfYB2QRah7pcpNvOx-pjSx6KomBkMTTKQ2ysvYDK_gjvzEJ99YUvUw&skey=7833cd5b856b60c9&v=v23) format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Caveat';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/l/font?kit=WnzQHAc5bAfYB2QRah7pcpNvOx-pjSx6KomBkMTTKQ2ysvYDK_gqvzEJ99YUvUw&skey=7833cd5b856b60c9&v=v23) format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Caveat';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/l/font?kit=WnzQHAc5bAfYB2QRah7pcpNvOx-pjSx6KomBkMTTKQ2ysvYDK_ggvzEJ99YUvUw&skey=7833cd5b856b60c9&v=v23) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Caveat';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/media/x/00cf519700d49d.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/l/font?kit=co3_mX5slCNuHLi8bLeY9MK7whWMhyjYrGFEsdtdc62E6zd58jCshPvN-WcaV6n8gvITD9OC4cQ0oPXltw&skey=e666f2218a05acfc&v=v21) format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/l/font?kit=co3_mX5slCNuHLi8bLeY9MK7whWMhyjYrGFEsdtdc62E6zd58jCshPvN-WcaV6n8gvITD9qC4cQ0oPXltw&skey=e666f2218a05acfc&v=v21) format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/l/font?kit=co3_mX5slCNuHLi8bLeY9MK7whWMhyjYrGFEsdtdc62E6zd58jCshPvN-WcaV6n8gvITD9GC4cQ0oPXltw&skey=e666f2218a05acfc&v=v21) format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/l/font?kit=co3_mX5slCNuHLi8bLeY9MK7whWMhyjYrGFEsdtdc62E6zd58jCshPvN-WcaV6n8gvITD9CC4cQ0oPXltw&skey=e666f2218a05acfc&v=v21) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/media/x/83b0d41007bc48.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: italic;
+  font-weight: 500;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/l/font?kit=co3_mX5slCNuHLi8bLeY9MK7whWMhyjYrGFEsdtdc62E6zd58jCshPvN-WcaV6n8gvITD9OC4cQ0oPXltw&skey=e666f2218a05acfc&v=v21) format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: italic;
+  font-weight: 500;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/l/font?kit=co3_mX5slCNuHLi8bLeY9MK7whWMhyjYrGFEsdtdc62E6zd58jCshPvN-WcaV6n8gvITD9qC4cQ0oPXltw&skey=e666f2218a05acfc&v=v21) format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: italic;
+  font-weight: 500;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/l/font?kit=co3_mX5slCNuHLi8bLeY9MK7whWMhyjYrGFEsdtdc62E6zd58jCshPvN-WcaV6n8gvITD9GC4cQ0oPXltw&skey=e666f2218a05acfc&v=v21) format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: italic;
+  font-weight: 500;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/l/font?kit=co3_mX5slCNuHLi8bLeY9MK7whWMhyjYrGFEsdtdc62E6zd58jCshPvN-WcaV6n8gvITD9CC4cQ0oPXltw&skey=e666f2218a05acfc&v=v21) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: italic;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/media/x/83b0d41007bc48.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/l/font?kit=co3hmX5slCNuHLi8bLeY9MK7whWMhyjypVO7abI26QOD_v86eHjmeyOkkv20ULzqxhhaP9yI5uY2kPQ&skey=a863d1376a24bd7a&v=v21) format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/l/font?kit=co3hmX5slCNuHLi8bLeY9MK7whWMhyjypVO7abI26QOD_v86eHjmeyOkkv20ULzqxhhTP9yI5uY2kPQ&skey=a863d1376a24bd7a&v=v21) format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/l/font?kit=co3hmX5slCNuHLi8bLeY9MK7whWMhyjypVO7abI26QOD_v86eHjmeyOkkv20ULzqxhhYP9yI5uY2kPQ&skey=a863d1376a24bd7a&v=v21) format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/l/font?kit=co3hmX5slCNuHLi8bLeY9MK7whWMhyjypVO7abI26QOD_v86eHjmeyOkkv20ULzqxhhZP9yI5uY2kPQ&skey=a863d1376a24bd7a&v=v21) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/media/x/3307a88a700dfd.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/l/font?kit=co3hmX5slCNuHLi8bLeY9MK7whWMhyjypVO7abI26QOD_v86eHjmeyOkkv20ULzqxhhaP9yI5uY2kPQ&skey=a863d1376a24bd7a&v=v21) format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/l/font?kit=co3hmX5slCNuHLi8bLeY9MK7whWMhyjypVO7abI26QOD_v86eHjmeyOkkv20ULzqxhhTP9yI5uY2kPQ&skey=a863d1376a24bd7a&v=v21) format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/l/font?kit=co3hmX5slCNuHLi8bLeY9MK7whWMhyjypVO7abI26QOD_v86eHjmeyOkkv20ULzqxhhYP9yI5uY2kPQ&skey=a863d1376a24bd7a&v=v21) format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/l/font?kit=co3hmX5slCNuHLi8bLeY9MK7whWMhyjypVO7abI26QOD_v86eHjmeyOkkv20ULzqxhhZP9yI5uY2kPQ&skey=a863d1376a24bd7a&v=v21) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/media/x/3307a88a700dfd.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/l/font?kit=co3hmX5slCNuHLi8bLeY9MK7whWMhyjypVO7abI26QOD_v86eHjmeyOkkv20ULzqxhhaP9yI5uY2kPQ&skey=a863d1376a24bd7a&v=v21) format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/l/font?kit=co3hmX5slCNuHLi8bLeY9MK7whWMhyjypVO7abI26QOD_v86eHjmeyOkkv20ULzqxhhTP9yI5uY2kPQ&skey=a863d1376a24bd7a&v=v21) format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/l/font?kit=co3hmX5slCNuHLi8bLeY9MK7whWMhyjypVO7abI26QOD_v86eHjmeyOkkv20ULzqxhhYP9yI5uY2kPQ&skey=a863d1376a24bd7a&v=v21) format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/l/font?kit=co3hmX5slCNuHLi8bLeY9MK7whWMhyjypVO7abI26QOD_v86eHjmeyOkkv20ULzqxhhZP9yI5uY2kPQ&skey=a863d1376a24bd7a&v=v21) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/media/x/3307a88a700dfd.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* latin */
+@font-face {
+  font-family: 'Italiana';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/italiana/v21/QldNNTtLsx4E__B0XQmWaXx0xKVu.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+
+body{margin:0;background:#2e1c44}
+a{color:#5e3b82}a:hover{color:#3b2250}
+.dsp{font-family:'Italiana',serif;letter-spacing:.12em}
+.lbl{font-family:'Italiana',serif;letter-spacing:.34em;text-transform:uppercase}
+.bd{font-family:'Cormorant Garamond',serif}
+.hand{font-family:'Caveat',cursive}
+.fld{width:100%;box-sizing:border-box;border:1px solid #c3b0da;background:#fffcff;padding:9px 12px;font-family:'Cormorant Garamond',serif;font-size:18px;color:#3b2250}
+.fld:focus{outline:2px solid #5e3b82;outline-offset:1px}
+.opt{position:relative;flex:1;display:flex;align-items:center;justify-content:center;gap:8px;min-height:44px;box-sizing:border-box;padding:6px;border:1px solid #c3b0da;background:#fffcff;font-family:'Cormorant Garamond',serif;font-weight:600;font-size:16px;color:#5e3b82;cursor:pointer;white-space:nowrap}
+.opt input{position:absolute;opacity:0;pointer-events:none}
+.opt:focus-within{outline:2px solid #5e3b82;outline-offset:1px}
+.opt.on{background:#ece2f7;border-color:#5e3b82}
+.opt .rd{flex:none;width:14px;height:14px;box-sizing:border-box;border-radius:50%;border:1px solid #b49fd0;background:#fffcff}
+.opt.on .rd{border:5px solid #5e3b82}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:46px;min-width:170px;padding:0 26px;border:0;background:#5e3b82;color:#f1e6fb;font-family:'Italiana',serif;font-size:14px;letter-spacing:.26em;text-transform:uppercase;text-decoration:none;cursor:pointer;box-shadow:inset 0 0 0 1px #5e3b82,inset 0 0 0 3px #f6f0fa,inset 0 0 0 4px #b49fd0;transition:transform .25s ease,background .25s ease}
+.btn:hover{background:#3b2250;color:#fff;transform:translateY(-2px)}
+.sw{display:flex;flex-direction:column;align-items:center;gap:5px}
+.sw span.c{width:46px;height:46px;border-radius:50%;box-shadow:0 0 0 2px #f6f0fa,0 0 0 3px #5e3b82;transition:transform .3s ease}
+.sw:hover span.c{transform:scale(1.14)}
+.petal{position:absolute;top:-24px;width:8px;height:11px;border-radius:50% 50% 50% 0;background:#b494e0;opacity:0;animation:petalFall linear infinite}
+.petal.l{background:#d8c6ef}
+.petal.d{background:#8a63bb}
+@keyframes petalFall{0%{transform:translate(0,0) rotate(0deg);opacity:0}8%{opacity:.9}32%{transform:translate(24px,260px) rotate(150deg)}60%{transform:translate(-20px,520px) rotate(290deg)}88%{opacity:.5}100%{transform:translate(14px,900px) rotate(430deg);opacity:0}}
+.petal.sm{animation-name:petalFallS}
+@keyframes petalFallS{0%{transform:translate(0,0) rotate(0deg);opacity:0}10%{opacity:.85}40%{transform:translate(22px,200px) rotate(160deg)}72%{transform:translate(-16px,400px) rotate(280deg)}100%{transform:translate(10px,580px) rotate(400deg);opacity:0}}
+.sway{transform-origin:72% 0;animation:sway 11s ease-in-out infinite alternate}
+@keyframes sway{from{transform:rotate(-1.8deg)}to{transform:rotate(1.6deg)}}
+.sway2{transform-origin:28% 0;animation:sway2 13s ease-in-out infinite alternate}
+@keyframes sway2{from{transform:rotate(1.4deg)}to{transform:rotate(-1.6deg)}}
+.treesway{transform-origin:50% 100%;animation:treesway 16s ease-in-out infinite alternate}
+@keyframes treesway{from{transform:rotate(-.8deg) scale(1)}to{transform:rotate(.8deg) scale(1.012)}}
+.flame{position:absolute;border-radius:50%;pointer-events:none;background:radial-gradient(circle,rgba(255,214,150,.85) 0%,rgba(255,186,96,.45) 38%,rgba(255,170,70,0) 72%);mix-blend-mode:screen;animation:flick ease-in-out infinite alternate}
+@keyframes flick{0%{transform:scale(.82);opacity:.55}45%{transform:scale(1.08);opacity:.95}100%{transform:scale(.92);opacity:.7}}
+.beam{position:absolute;pointer-events:none;background:linear-gradient(180deg,rgba(214,188,255,.3),rgba(214,188,255,0));animation:beam 9s ease-in-out infinite alternate}
+@keyframes beam{from{opacity:.25}to{opacity:.65}}
+.shim{background:linear-gradient(100deg,#e3d2f7 0,#e3d2f7 40%,#fffdff 50%,#e3d2f7 60%,#e3d2f7 100%);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shim 8s ease-in-out 2s infinite}
+@keyframes shim{0%{background-position:170% 0}50%,100%{background-position:-70% 0}}
+.fade{animation:fadeUp 1.3s ease both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes rvUp{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+@keyframes zoomIn{from{opacity:0;transform:scale(.88)}to{opacity:1;transform:none}}
+@keyframes pop{from{opacity:0;transform:scale(.55) translateY(16px)}to{opacity:1;transform:none}}
+@supports (animation-timeline: view()){
+.rv > *{animation:rvUp linear both;animation-timeline:view();animation-range:entry 5% entry 55%}
+.rv > *:nth-child(2){animation-range:entry 12% entry 62%}
+.rv > *:nth-child(3){animation-range:entry 19% entry 69%}
+.rv > *:nth-child(4){animation-range:entry 26% entry 76%}
+.rv > *:nth-child(n+5){animation-range:entry 33% entry 83%}
+.rv1{animation:rvUp linear both;animation-timeline:view();animation-range:entry 5% entry 60%}
+.zi{animation:zoomIn linear both;animation-timeline:view();animation-range:entry 2% entry 68%}
+.sw{animation:pop linear both;animation-timeline:view();animation-range:entry 12% entry 62%}
+.sw:nth-child(2){animation-range:entry 18% entry 68%}
+.sw:nth-child(3){animation-range:entry 24% entry 74%}
+.sw:nth-child(4){animation-range:entry 30% entry 80%}
+.sw:nth-child(5){animation-range:entry 36% entry 86%}
+}
+@media (prefers-reduced-motion: reduce){.fade,.rv > *,.rv1,.zi,.sw,.shim,.sway,.sway2,.treesway,.flame,.beam,.pin{animation:none !important}.petal{display:none}.shim{color:#e3d2f7;-webkit-text-fill-color:#e3d2f7}}
+.pin{transform-box:fill-box;transform-origin:50% 100%;animation:pinBob 2.8s ease-in-out infinite}
+@keyframes pinBob{0%,100%{transform:translateY(0)}45%{transform:translateY(-6px)}}
+.mapc{transition:transform .35s ease}
+.mapc:hover{transform:translateY(-3px)}
+
+[hidden]{display:none!important}
+html,body{margin:0;background:#3b2250;overflow-x:hidden}
+#wrap{position:relative;margin:0 auto;overflow:hidden}
+#root{transform-origin:0 0}
+</style>
+</head>
+<body>
+<div id="wrap">
+<div id="root" style="width: 430px; height: 4200px; position: absolute; left: 0; top: 0; overflow: hidden; background: #f6f0fa; font-family: 'Cormorant Garamond', serif; color: #3b2250" data-canvas-width="430" data-canvas-height="4120" data-document-role="page" data-label="Jacaranda mimosifolia — scroll">
+
+<svg width="0" height="0" style="position: absolute" aria-hidden="true" focusable="false">
+<defs>
+<linearGradient id="gDusk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#271539"></stop><stop offset="60%" stop-color="#3b2250"></stop><stop offset="100%" stop-color="#4a2c63"></stop></linearGradient>
+<g id="gSprigW" fill="none" stroke-linecap="round">
+<path d="M0 0C0 -13 2 -26 6 -38" stroke="#8f74b5" stroke-width="1.3"></path>
+<ellipse cx="-5" cy="-11" rx="4.5" ry="6" fill="#a98ad2" stroke="none" transform="rotate(-24 -5 -11)"></ellipse>
+<ellipse cx="7" cy="-21" rx="4" ry="5.4" fill="#a98ad2" stroke="none" transform="rotate(26 7 -21)"></ellipse>
+<ellipse cx="-3" cy="-31" rx="3.6" ry="4.8" fill="#c3a9e4" stroke="none" transform="rotate(-18 -3 -31)"></ellipse>
+</g>
+<g id="gRuleW"><path d="M-48 0H-14M14 0H48" stroke="#a98ad2" stroke-width=".9"></path><path d="M0 -5L2.6 0L0 5L-2.6 0Z" fill="#a98ad2"></path><circle cx="-6" cy="0" r="1.1" fill="#a98ad2"></circle><circle cx="6" cy="0" r="1.1" fill="#a98ad2"></circle></g>
+</defs>
+</svg>
+
+<!-- ============ 1 · SAVE THE DATE ============ -->
+<section style="position: absolute; left: 0; top: 0; width: 430px; height: 840px; overflow: hidden">
+<svg viewBox="0 0 430 840" width="430" height="840" style="position: absolute; left: 0; top: 0" aria-hidden="true">
+<rect width="430" height="840" fill="url(#gDusk)"></rect>
+<ellipse cx="215" cy="430" rx="190" ry="250" fill="#6a4494" opacity=".2"></ellipse>
+</svg>
+<div class="beam" style="left: 96px; top: 90px; width: 70px; height: 560px; clip-path: polygon(34% 0, 66% 0, 100% 100%, 0 100%); animation-delay: 0s"></div>
+<div class="beam" style="left: 250px; top: 90px; width: 86px; height: 560px; clip-path: polygon(38% 0, 70% 0, 100% 100%, 6% 100%); animation-delay: 3s"></div>
+<img class="fade" src="/media/x/864ea3210c915e.webp" alt="" style="position: absolute; left: 0; top: 24px; width: 430px; height: 691px; filter: drop-shadow(0 14px 26px rgba(20,8,34,.5))">
+<img class="sway" src="/media/x/622c762545336a.webp" alt="" style="position: absolute; left: -58px; top: -18px; width: 210px; height: 268px; opacity: .95">
+<div class="fade" style="position: absolute; left: 90px; top: 352px; width: 250px; display: flex; flex-direction: column; align-items: center; text-align: center; animation-delay: .5s">
+<div class="lbl" style="font-size: 11px; color: #c3a9e4">Réservez la date</div>
+<svg width="120" height="16" viewBox="-55 -8 110 16" aria-hidden="true" style="margin: 12px 0 6px"><use href="#gRuleW"></use></svg>
+<h1 class="dsp" style="margin: 4px 0 0; font-size: 34px; font-weight: 400; line-height: 1.3"><span class="shim"><span data-c="bride"></span><br>&amp; <span data-c="groom"></span></span></h1>
+<svg width="120" height="16" viewBox="-55 -8 110 16" aria-hidden="true" style="margin: 10px 0 8px"><use href="#gRuleW"></use></svg>
+<div class="lbl" style="font-size: 16px; letter-spacing: .22em; color: #f1e6fb"><span data-c="dateNum"></span></div>
+<div class="bd" style="font-style: italic; font-size: 17px; color: #c3a9e4; margin-top: 14px">sous les glycines</div>
+</div>
+<div aria-hidden="true" style="position: absolute; inset: 0; pointer-events: none; overflow: hidden">
+<i class="petal" style="left: 34px; animation-duration: 16s; animation-delay: 0s"></i>
+<i class="petal l" style="left: 104px; animation-duration: 21s; animation-delay: 4s"></i>
+<i class="petal d" style="left: 168px; animation-duration: 18s; animation-delay: 8.5s"></i>
+<i class="petal" style="left: 236px; animation-duration: 23s; animation-delay: 2s"></i>
+<i class="petal l" style="left: 304px; animation-duration: 17s; animation-delay: 11s"></i>
+<i class="petal d" style="left: 364px; animation-duration: 20s; animation-delay: 6s"></i>
+<i class="petal" style="left: 406px; animation-duration: 19s; animation-delay: 14s"></i>
+</div>
+</section>
+
+<!-- ============ 2 · INVITATION ============ -->
+<section style="position: absolute; left: 0; top: 840px; width: 430px; height: 540px; overflow: hidden">
+<svg viewBox="0 0 430 540" width="430" height="540" style="position: absolute; left: 0; top: 0" aria-hidden="true">
+<rect width="430" height="540" fill="#f6f0fa"></rect>
+<g opacity=".55"><use href="#gSprigW" transform="translate(42 66) rotate(-22) scale(1.2)"></use><use href="#gSprigW" transform="translate(390 66) rotate(22) scale(-1.2 1.2)"></use></g>
+</svg>
+<img loading="lazy" decoding="async" class="sway2" src="/media/x/622c762545336a.webp" alt="" style="position: absolute; left: 288px; top: -40px; width: 180px; height: 230px; opacity: .9">
+<div class="rv" style="position: absolute; left: 56px; top: 92px; width: 318px; display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center">
+<div class="lbl" style="font-size: 10px; color: #5e3b82">Avec leurs familles</div>
+<div class="dsp" style="font-size: 26px; line-height: 1.4; margin-top: 6px"><span data-c="bride"></span></div>
+<div class="bd" style="font-style: italic; font-size: 20px; color: #5e3b82">et</div>
+<div class="dsp" style="font-size: 26px; line-height: 1.4"><span data-c="groom"></span></div>
+<svg width="130" height="16" viewBox="-55 -8 110 16" aria-hidden="true" style="margin: 8px 0"><use href="#gRuleW"></use></svg>
+<p class="bd" style="margin: 0; font-size: 19px; line-height: 1.55">vous invitent à célébrer leur mariage<br>à l'ombre des glycines</p>
+</div>
+<img loading="lazy" decoding="async" class="rv1" src="/media/x/247d968e270299.webp" alt="" style="position: absolute; left: 6px; top: 374px; width: 158px; height: 163px">
+<div aria-hidden="true">
+<i class="flame" style="left: 31px; top: 381px; width: 31px; height: 37px; animation-duration: 2.4s"></i>
+<i class="flame" style="left: 98px; top: 372px; width: 33px; height: 39px; animation-duration: 3.1s; animation-delay: .6s"></i>
+<i class="flame" style="left: 70px; top: 439px; width: 27px; height: 33px; animation-duration: 2.7s; animation-delay: 1.2s"></i>
+</div>
+</section>
+
+<!-- ============ 3 · PORTRAIT ============ -->
+<section style="position: absolute; left: 0; top: 1380px; width: 430px; height: 620px; overflow: hidden">
+<svg viewBox="0 0 430 620" width="430" height="620" style="position: absolute; left: 0; top: 0" aria-hidden="true">
+<rect width="430" height="620" fill="#3b2250"></rect>
+<ellipse cx="215" cy="275" rx="178" ry="234" fill="#4f2f6c" opacity=".55"></ellipse>
+</svg>
+<div class="rv1" style="position: absolute; left: 65px; top: 32px; width: 300px; display: flex; flex-direction: column; align-items: center">
+<div class="lbl" style="font-size: 10px; color: #c3a9e4">Nous deux</div>
+</div>
+<div class="zi" style="position: absolute; left: 62px; top: 74px; width: 306px; height: 402px">
+<div data-farha-photo="Photo des mariés" style="position: absolute; left: 61px; top: 66px; width: 188px; height: 253px; border-radius: 50%; background: radial-gradient(120% 100% at 50% 20%, #553573 0%, #341e49 72%); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 7px; text-align: center">
+<svg width="34" height="30" viewBox="0 0 34 30" aria-hidden="true" fill="none" stroke="#a98ad2" stroke-width="1.4"><rect x="1" y="6" width="32" height="23" rx="3"></rect><path d="M11 6l2.5-5h7L23 6"></path><circle cx="17" cy="17.5" r="7"></circle></svg>
+<span class="lbl" style="font-size: 9px; color: #a98ad2">votre photo</span>
+</div>
+<img loading="lazy" decoding="async" src="/media/x/db2bd8263eacae.webp" alt="" style="position: absolute; left: 0; top: 0; width: 306px; height: 402px; filter: drop-shadow(0 10px 18px rgba(16,6,28,.5))">
+</div>
+<div class="rv1" style="position: absolute; left: 55px; top: 532px; width: 320px; text-align: center">
+<span class="hand" style="font-size: 30px; font-weight: 600; color: #d8c6ef">et l'aventure commence</span>
+</div>
+</section>
+
+<!-- ============ 4 · QUAND & OÙ ============ -->
+<section style="position: absolute; left: 0; top: 2000px; width: 430px; height: 840px; overflow: hidden">
+<svg viewBox="0 0 430 840" width="430" height="840" style="position: absolute; left: 0; top: 0" aria-hidden="true">
+<rect width="430" height="840" fill="#f6f0fa"></rect>
+</svg>
+<img loading="lazy" decoding="async" class="treesway" src="/media/x/3e0ff25e894bb3.webp" alt="" style="position: absolute; left: 35px; top: 14px; width: 360px; height: 338px; opacity: .22">
+<div class="rv" style="position: absolute; left: 50px; top: 56px; width: 330px; display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center">
+<h2 class="dsp" style="margin: 0; font-size: 30px; font-weight: 400; line-height: 1.3">Quand &amp; Où</h2>
+<svg width="130" height="16" viewBox="-55 -8 110 16" aria-hidden="true" style="margin: 8px 0 14px"><use href="#gRuleW"></use></svg>
+<div class="lbl" style="font-size: 10px; color: #5e3b82">Cérémonie</div>
+<div class="dsp" style="font-size: 22px; line-height: 1.45; margin-top: 4px"><span data-c="dateLong"></span></div>
+<div class="bd" style="font-size: 19px; font-weight: 600; color: #5e3b82"><span data-c="time"></span></div>
+<div class="bd" style="font-size: 18px; line-height: 1.4; margin-top: 2px"><span data-c="venue"></span><br><span data-c="address"></span></div>
+<div class="lbl" data-if="reception" style="font-size: 10px; color: #5e3b82; margin-top: 18px">Dîner &amp; soirée</div>
+<div class="bd" data-if="reception" style="font-size: 18px; line-height: 1.4; margin-top: 2px">ensuite à <span data-c="reception"></span></div>
+</div>
+<a class="rv1 mapc" href="#" data-maps target="_blank" rel="noopener" aria-label="Ouvrir le lieu dans Google Maps" style="position: absolute; left: 55px; top: 452px; width: 320px; height: 170px; display: block; overflow: hidden; border: 1px solid #c3b0da; box-shadow: 0 0 0 4px #f6f0fa, 0 0 0 5px #5e3b82, 0 10px 18px rgba(50,25,80,.14)">
+<svg width="320" height="170" viewBox="0 0 320 170" aria-hidden="true" style="display: block">
+<rect width="320" height="170" fill="#efe7f6"></rect>
+<path d="M186 0H320V64H202Z" fill="#e2dcf2"></path><path d="M0 116H112L98 170H0Z" fill="#e2dcf2"></path><path d="M248 112H320V170H234Z" fill="#dde6ef"></path>
+<g fill="none" stroke-linecap="round" stroke="#d9cde9"><path d="M-10 84C70 78 150 92 330 70" stroke-width="13"></path><path d="M118 -10C122 48 146 100 154 180" stroke-width="10"></path><path d="M0 34L320 52" stroke-width="7"></path></g>
+<g fill="none" stroke-linecap="round" stroke="#fffcff"><path d="M-10 84C70 78 150 92 330 70" stroke-width="9"></path><path d="M118 -10C122 48 146 100 154 180" stroke-width="6.5"></path><path d="M0 34L320 52" stroke-width="4"></path></g>
+<g transform="translate(178 84)"><ellipse cy="2" rx="9" ry="3.4" fill="#3b2250" opacity=".22"></ellipse><g class="pin"><path d="M0 0C-11-11-13-17-13-23A13 13 0 0 1 13-23C13-17 11-11 0 0Z" fill="#5e3b82" stroke="#fffcff" stroke-width="2"></path><circle cy="-23" r="4.6" fill="#e3d2f7"></circle></g></g>
+</svg>
+</a>
+<div style="position: absolute; left: 55px; top: 648px; width: 320px; display: flex; justify-content: center"><a class="btn" href="#" data-maps target="_blank" rel="noopener">Itinéraire</a></div>
+<svg width="140" height="16" viewBox="-55 -8 110 16" aria-hidden="true" style="position: absolute; left: 145px; top: 744px"><use href="#gRuleW"></use></svg>
+</section>
+
+<!-- ============ 5 · TENUE ============ -->
+<section style="position: absolute; left: 0; top: 2840px; width: 430px; height: 600px; overflow: hidden">
+<svg viewBox="0 0 430 600" width="430" height="600" style="position: absolute; left: 0; top: 0" aria-hidden="true">
+<rect width="430" height="600" fill="#3b2250"></rect>
+</svg>
+<img loading="lazy" decoding="async" src="/media/x/587ae157682cc7.webp" alt="" style="position: absolute; left: -54px; top: 40px; width: 180px; height: 506px; opacity: .85">
+<img loading="lazy" decoding="async" src="/media/x/59bad78352e220.webp" alt="" style="position: absolute; left: 304px; top: 40px; width: 180px; height: 504px; opacity: .85">
+<div class="beam" style="left: 60px; top: 40px; width: 60px; height: 420px; clip-path: polygon(36% 0, 68% 0, 100% 100%, 0 100%)"></div>
+<div class="beam" style="left: 304px; top: 40px; width: 60px; height: 420px; clip-path: polygon(32% 0, 64% 0, 100% 100%, 0 100%); animation-delay: 4s"></div>
+<div class="rv" style="position: absolute; left: 112px; top: 74px; width: 206px; display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center">
+<div class="lbl" style="font-size: 10px; color: #c3a9e4">Tenue</div>
+<div class="dsp" style="font-size: 27px; line-height: 1.3; color: #f1e6fb; margin-top: 4px">Élégance<br>lilas</div>
+<p data-farha-dresstext class="bd" style="margin: 4px 0 0; font-size: 18px; line-height: 1.5; color: #d8c6ef">Robes longues et costumes sombres. Un soupçon de mauve, de parme ou de lavande serait parfait.</p>
+</div>
+<div class="rv" style="position: absolute; left: 30px; top: 400px; width: 370px; display: flex; flex-direction: column; align-items: center; gap: 14px">
+<div id="swatches" style="display: flex; gap: 14px; justify-content: center">
+<div class="sw"><span class="c swatch" data-def="#3b2250" style="background: #3b2250"></span><b class="bd sw-name" style="font-size: 14px; color: #d8c6ef; font-weight: 400">Prune</b></div>
+<div class="sw"><span class="c swatch" data-def="#5e3b82" style="background: #5e3b82"></span><b class="bd sw-name" style="font-size: 14px; color: #d8c6ef; font-weight: 400">Violet</b></div>
+<div class="sw"><span class="c swatch" data-def="#9b7bc4" style="background: #9b7bc4"></span><b class="bd sw-name" style="font-size: 14px; color: #d8c6ef; font-weight: 400">Glycine</b></div>
+<div class="sw"><span class="c swatch" data-def="#c9b3e6" style="background: #c9b3e6"></span><b class="bd sw-name" style="font-size: 14px; color: #d8c6ef; font-weight: 400">Parme</b></div>
+<div class="sw"><span class="c swatch" data-def="#ece4f4" style="background: #ece4f4"></span><b class="bd sw-name" style="font-size: 14px; color: #d8c6ef; font-weight: 400">Lilas</b></div>
+</div>
+</div>
+<div aria-hidden="true" style="position: absolute; inset: 0; pointer-events: none; overflow: hidden">
+<i class="petal sm" style="left: 142px; animation-duration: 19s; animation-delay: 1s"></i>
+<i class="petal sm l" style="left: 228px; animation-duration: 24s; animation-delay: 7s"></i>
+<i class="petal sm d" style="left: 300px; animation-duration: 21s; animation-delay: 13s"></i>
+</div>
+</section>
+
+<!-- ============ 6 · RSVP ============ -->
+<section style="position: absolute; left: 0; top: 3440px; width: 430px; height: 520px; overflow: hidden">
+<svg viewBox="0 0 430 520" width="430" height="520" style="position: absolute; left: 0; top: 0" aria-hidden="true">
+<rect width="430" height="520" fill="#f6f0fa"></rect>
+<g opacity=".5"><use href="#gSprigW" transform="translate(388 56) rotate(20) scale(-1.1 1.1)"></use></g>
+</svg>
+<div class="rv" style="position: absolute; left: 76px; top: 40px; width: 278px; display: flex; flex-direction: column; align-items: center">
+<h2 class="dsp" style="margin: 0; font-size: 28px; font-weight: 400; line-height: 1.3">RSVP</h2>
+<svg width="130" height="16" viewBox="-55 -8 110 16" aria-hidden="true" style="margin: 7px 0 14px"><use href="#gRuleW"></use></svg>
+<form class="rv" id="rsvpForm" style="width: 100%; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<label for="rsvp-name" class="lbl" style="font-size: 10px; color: #5e3b82">Votre nom</label>
+<input id="rsvp-name" class="fld" type="text" required="" autocomplete="name">
+</div>
+<fieldset style="border: 0; margin: 0; padding: 0">
+<legend class="lbl" style="padding: 0; margin-bottom: 4px; font-size: 10px; color: #5e3b82">Serez-vous des nôtres ?</legend>
+<div style="display: flex; gap: 6px">
+<label class="opt"><input type="radio" name="att" value="yes" required=""><span class="rd"></span>Oui, avec joie</label>
+<label class="opt"><input type="radio" name="att" value="no"><span class="rd"></span>Hélas non</label>
+</div>
+</fieldset>
+<div style="display: flex; flex-direction: column; gap: 4px">
+<label for="rsvp-msg" class="lbl" style="font-size: 10px; color: #5e3b82">Un mot pour les mariés</label>
+<textarea id="rsvp-msg" class="fld" rows="3" required="" style="resize: none"></textarea>
+</div>
+<div style="display: flex; justify-content: center; margin-top: 2px"><button class="btn" type="submit" id="rsvpBtn">Envoyer</button></div>
+<p class="bd" id="rsvpErr" role="status" hidden style="margin: 0; padding: 8px 10px; background: #f6e3df; color: #8c1d18; font-size: 15px; text-align: center"></p>
+</form>
+<div id="rsvpSent" hidden style="margin-top: 30px; display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center">
+<div class="hand" style="font-size: 46px; font-weight: 700; line-height: 1.1; color: #5e3b82">Merci</div>
+<div class="dsp" style="font-size: 20px" id="rsvpGuest"></div>
+<div class="bd" style="font-style: italic; font-size: 19px; width: 240px" id="rsvpReply"></div>
+</div>
+</div>
+</section>
+
+<!-- ============ 7 · CLÔTURE ============ -->
+<section style="position: absolute; left: 0; top: 3960px; width: 430px; height: 240px; overflow: hidden; background: #3b2250">
+<img loading="lazy" decoding="async" class="sway2" src="/media/x/622c762545336a.webp" alt="" style="position: absolute; left: 282px; top: -74px; width: 170px; height: 217px; opacity: .85">
+<div class="rv" style="position: absolute; left: 50px; top: 58px; width: 250px; display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center">
+<div class="dsp" style="font-size: 22px; color: #f1e6fb; letter-spacing: .18em"><span data-c="bride"></span> &amp; <span data-c="groom"></span></div>
+<div class="bd" style="font-style: italic; font-size: 17px; color: #c3a9e4">nous avons hâte de vous y retrouver</div>
+</div>
+</section>
+
+</div>
+</div>
+<script>
+// ===== Données personnalisables (formulaire Farha) =====
+const CONFIG = {
+  bride: "Sarra",
+  groom: "Youssef",
+  date: "2027-05-22T18:00:00",
+  venue: "Jardin des Glycines",
+  address: "Avenue Habib Bourguiba, Sidi Bou Saïd",
+  reception: "Dar Glycine",
+  mapQuery: "",
+  mapLink: ""
+};
+
+(function () {
+  'use strict';
+  var C = CONFIG, $ = function (s) { return document.querySelector(s); }, all = function (s) { return [].slice.call(document.querySelectorAll(s)); };
+  var DAYS = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+  var MONTHS = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
+  var pad = function (n) { return (n < 10 ? '0' : '') + n; };
+  // la page (430 px de large) occupe toute la largeur de l'écran
+  var root = $('#root'), wrap = $('#wrap'), H = 4200;
+  function fit() { var s = Math.min(innerWidth / 430, 1.15); root.style.transform = 'scale(' + s + ')'; wrap.style.width = (430 * s) + 'px'; wrap.style.height = (H * s) + 'px'; }
+  fit(); addEventListener('resize', fit);
+  // textes
+  var d = new Date(C.date), ok = !isNaN(d.getTime()), addr = String(C.address || '').trim();
+  var parts = addr.split(/[,،]/).map(function (x) { return x.trim(); }).filter(Boolean), city = parts.length ? parts[parts.length - 1] : '';
+  var V = {
+    bride: C.bride || '', groom: C.groom || '',
+    dateNum: ok ? pad(d.getDate()) + ' . ' + pad(d.getMonth() + 1) + ' . ' + String(d.getFullYear()).slice(2) : '',
+    dateLong: ok ? DAYS[d.getDay()] + ' ' + d.getDate() + ' ' + MONTHS[d.getMonth()] + ' ' + d.getFullYear() : '',
+    time: ok ? 'à ' + d.getHours() + 'h' + pad(d.getMinutes()) : '',
+    venue: C.venue || '', address: addr, city: city, reception: C.reception || ''
+  };
+  all('[data-c]').forEach(function (el) { var v = V[el.getAttribute('data-c')]; if (v != null) el.textContent = v; });
+  all('[data-if]').forEach(function (el) { if (!V[el.getAttribute('data-if')]) el.hidden = true; });
+  var q = C.mapQuery || [C.venue, C.address].filter(Boolean).join(', ');
+  var maps = /^https:\/\//.test(C.mapLink || '') ? C.mapLink : 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(q);
+  all('[data-maps]').forEach(function (a) { a.href = maps; });
+  // couleurs de la tenue : si une couleur est changée, son nom n'est plus juste et se cache
+  function toHex(c) { var m = String(c).match(/[\d.]+/g); return m && m.length >= 3 ? '#' + m.slice(0, 3).map(function (x) { return ('0' + Math.round(+x).toString(16)).slice(-2); }).join('') : ''; }
+  var sws = all('#swatches .swatch');
+  function names() { sws.forEach(function (s) { var n = s.nextElementSibling, cur = toHex(getComputedStyle(s).backgroundColor); if (n) n.style.visibility = (!cur || cur === s.getAttribute('data-def')) ? '' : 'hidden'; }); }
+  try { new MutationObserver(names).observe($('#swatches'), { attributes: true, subtree: true, attributeFilter: ['style'] }); } catch (e) {}
+  names();
+  // choix oui / non
+  var form = $('#rsvpForm'), opts = all('#rsvpForm .opt');
+  opts.forEach(function (l) { l.querySelector('input').addEventListener('change', function () { opts.forEach(function (o) { o.classList.toggle('on', o.querySelector('input').checked); }); }); });
+  // réponse : envoyée au site Farha, qui la transmet par e-mail
+  var sending = false;
+  form.addEventListener('submit', function (ev) {
+    ev.preventDefault(); if (sending) return;
+    var name = $('#rsvp-name').value.trim(), msg = $('#rsvp-msg').value.trim(), att = (form.querySelector('input[name=att]:checked') || {}).value;
+    var err = $('#rsvpErr'); err.hidden = true;
+    if (!name || !att || !msg) { err.textContent = 'Indiquez votre nom, votre réponse et un petit mot pour les mariés.'; err.hidden = false; return; }
+    var id = Math.random().toString(36).slice(2), done = false, btn = $('#rsvpBtn');
+    sending = true; btn.textContent = 'Envoi…';
+    function finish(okk, e) {
+      if (done) return; done = true; removeEventListener('message', on); sending = false; btn.textContent = "Envoyer";
+      if (okk) {
+        $('#rsvpGuest').textContent = name;
+        $('#rsvpReply').textContent = att === 'no' ? "vous allez nous manquer — merci pour vos mots" : "nous avons hâte de fêter ça avec vous";
+        form.hidden = true; $('#rsvpSent').hidden = false;
+      } else { err.textContent = e || 'Votre réponse n’a pas pu être envoyée. Vérifiez votre connexion et réessayez.'; err.hidden = false; }
+    }
+    function on(e) { var x = e.data; if (x && x.type === 'farha:rsvp-result' && x.id === id) finish(x.ok, x.error); }
+    addEventListener('message', on);
+    if (window.parent === window) { finish(true); return; }
+    try { parent.postMessage({ type: 'farha:rsvp', id: id, name: name, attending: att === 'yes', message: msg.slice(0, 560) }, '*'); } catch (e) {}
+    setTimeout(function () { finish(true); }, 15000);
+  });
+})();
+</script>
+</body>
+</html>

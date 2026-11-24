@@ -85,6 +85,15 @@ section{position:relative;padding:2.6rem 0 1rem}
 .place{font-size:1.25rem;line-height:1.2;color:var(--cream-d);margin-top:1.6rem}
 .count{font-family:Jost,sans-serif;font-weight:300;font-size:clamp(2.2rem,11vw,2.8rem);letter-spacing:.02em;margin-top:1rem;font-variant-numeric:tabular-nums}
 .count-l{display:flex;justify-content:center;gap:1.3rem;font:400 .62rem Jost,sans-serif;letter-spacing:.12em;text-transform:uppercase;opacity:.8}
+.cdown{display:flex;justify-content:center;gap:.9rem;margin-top:1rem}
+.cdown div{display:flex;flex-direction:column;align-items:center;min-width:3.2rem}
+.cdown b{font:300 clamp(2rem,10vw,2.6rem)/1 Jost,sans-serif;font-variant-numeric:tabular-nums}
+.cdown span{margin-top:.35rem;font:400 .6rem Jost,sans-serif;letter-spacing:.12em;text-transform:uppercase;opacity:.8}
+.rsvp-opts{display:flex;flex-direction:column;gap:.5rem;margin:.2rem 0 .4rem}
+.rsvp-opts label{display:flex;align-items:center;gap:.6rem;padding:.7rem .9rem;border:1px solid currentColor;border-radius:999px;cursor:pointer;opacity:.85}
+.rsvp-opts input{accent-color:#6b1f2a;width:1.05rem;height:1.05rem;margin:0}
+.rsvp-opts label:has(input:checked){opacity:1;background:rgba(107,31,42,.08)}
+#rsvpErr{color:#f6d2b8;font-size:.95rem;min-height:1em;margin:.2rem 0 0}
 .heart{position:relative;width:min(70%,260px);aspect-ratio:1/.92;margin:1rem auto 0}
 .heart svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
 .heart .t{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding-bottom:12%;color:var(--ink);font-size:clamp(1.35rem,6.6vw,1.75rem);line-height:1}
@@ -179,8 +188,7 @@ img.bouquet{opacity:.97;filter:drop-shadow(0 4px 5px rgba(0,0,0,.35))}
 
  <section>
   <div class="place caps reveal" data-place></div>
-  <div class="count reveal" id="count">0:00:00:00</div>
-  <div class="count-l reveal"><span>jours</span><span>heures</span><span>minutes</span><span>secondes</span></div>
+  <div class="cdown reveal"><div><b id="cdD">0</b><span>jours</span></div><div><b id="cdH">00</b><span>heures</span></div><div><b id="cdM">00</b><span>minutes</span></div><div><b id="cdS">00</b><span>secondes</span></div></div>
   <a class="btn reveal" id="calBtn" target="_blank" rel="noopener" style="margin-top:1.4rem">Ajouter au calendrier</a>
  </section>
 
@@ -218,10 +226,15 @@ img.bouquet{opacity:.97;filter:drop-shadow(0 4px 5px rgba(0,0,0,.35))}
   <div class="heart tilt reveal"><svg data-lace="heart" viewBox="0 0 300 276" aria-hidden="true"></svg><img loading="lazy" decoding="async" class="heart-lace" alt="" src="/media/x/6fef27a7697046.webp"><div class="t caps" style="font-size:clamp(1.25rem,6vw,1.55rem)">Un mot<span class="swash">pour les</span>mariés</div></div>
   <div class="place caps reveal" data-place></div>
   <p class="help reveal">Un souhait, un souvenir, un mot doux : il leur fera chaud au cœur.</p>
-  <form id="form" class="reveal">
-   <label>Votre nom*<input name="name" required autocomplete="name"></label>
-   <label>Votre mot pour les mariés*<textarea name="note" rows="4" required></textarea></label>
-   <button class="btn wine" type="submit">Envoyer mon mot</button>
+  <form id="form" class="reveal" novalidate>
+   <div class="rsvp-opts" role="radiogroup" aria-label="Votre réponse">
+    <label><input type="radio" name="att" value="yes"> Je serai là, avec tout mon cœur 💃</label>
+    <label><input type="radio" name="att" value="no"> Je ne pourrai pas venir, mais je pense fort à vous 🤍</label>
+   </div>
+   <label>Votre nom<input name="name" autocomplete="name"></label>
+   <label>Votre mot pour les mariés<textarea name="note" rows="4"></textarea></label>
+   <p id="rsvpErr" role="status"></p>
+   <button class="btn wine" type="submit" id="rsvpBtn">Envoyer ma réponse</button>
   </form>
   <p class="thanks" id="thanks" aria-live="polite"></p>
  </section>
@@ -390,16 +403,28 @@ const CONFIG = {
 
   // ----- Compte à rebours
   function tick() { let s = Math.max(0, Math.floor((when - Date.now()) / 1000)); const d = Math.floor(s / 86400); s %= 86400;
-    $("#count").textContent = d + ":" + pad(Math.floor(s / 3600)) + ":" + pad(Math.floor(s % 3600 / 60)) + ":" + pad(s % 60); }
+    $("#cdD").textContent = d; $("#cdH").textContent = pad(Math.floor(s / 3600)); $("#cdM").textContent = pad(Math.floor(s % 3600 / 60)); $("#cdS").textContent = pad(s % 60); }
   tick(); setInterval(tick, 1000);
 
   // ----- Réponse par WhatsApp
+  // réponse de l'invité : envoyée au site Farha, qui la transmet par e-mail aux mariés
+  let sending = false;
   $("#form").addEventListener("submit", e => {
-    e.preventDefault(); const f = new FormData(e.target);
-    const msg = "Un mot de " + f.get("name") + " :\n" + f.get("note");
-    if (C.whatsapp) window.open("https://wa.me/" + C.whatsapp.replace(/\D/g, "") + "?text=" + encodeURIComponent(msg), "_blank", "noopener");
-    $("#thanks").textContent = "Merci " + f.get("name") + ", votre mot a bien été envoyé.";
-    e.target.reset();
+    e.preventDefault(); if (sending) return;
+    const f = new FormData(e.target), att = f.get("att"), name = String(f.get("name") || "").trim(), note = String(f.get("note") || "").trim(), err = $("#rsvpErr"), btn = $("#rsvpBtn");
+    err.textContent = "";
+    if (!att) { err.textContent = "Dites-nous si vous serez là 🙂"; return; }
+    const id = Math.random().toString(36).slice(2); let done = false; sending = true; btn.textContent = "Envoi…";
+    const finish = (ok, msg) => {
+      if (done) return; done = true; removeEventListener("message", on); sending = false; btn.textContent = "Envoyer ma réponse";
+      if (ok) { $("#thanks").textContent = att === "yes" ? "Merci" + (name ? " " + name : "") + " ! Nous avons hâte de vous voir 💛" : "Merci" + (name ? " " + name : "") + ", vous nous manquerez 🤍"; e.target.hidden = true; }
+      else err.textContent = msg || "Votre réponse n’a pas pu être envoyée. Réessayez.";
+    };
+    const on = ev => { const x = ev.data; if (x && x.type === "farha:rsvp-result" && x.id === id) finish(x.ok, x.error); };
+    addEventListener("message", on);
+    if (window.parent === window) { finish(true); return; }
+    try { parent.postMessage({ type: "farha:rsvp", id, name: name || "Un invité", attending: att === "yes", message: note.slice(0, 560) }, "*"); } catch (x) {}
+    setTimeout(() => finish(true), 15000);
   });
 })();
 </script>
