@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Single bye bye</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500&amp;family=Poppins:wght@300;400;500;600;700&amp;family=Caveat:wght@600;700&amp;display=swap" rel="stylesheet">
+<style>
+
+body{margin:0;background:#fdeef1}
+a{color:#b03a62}a:hover{color:#8a2748}
+.ser{font-family:'Playfair Display',Georgia,serif}
+.ui{font-family:'Poppins',system-ui,sans-serif}
+.hand{font-family:'Caveat',cursive}
+.caps{font-family:'Poppins',system-ui,sans-serif;text-transform:uppercase;letter-spacing:.3em;font-weight:600}
+.fld{width:100%;box-sizing:border-box;border:1px solid #efc3ce;background:#fffafc;padding:11px 13px;
+  font-family:'Poppins',system-ui,sans-serif;font-size:15px;color:#4a2630;border-radius:14px}
+.fld:focus{outline:2px solid #e8749a;outline-offset:1px}
+.opt{position:relative;display:flex;align-items:center;gap:10px;min-height:48px;box-sizing:border-box;padding:10px 14px;
+  border:1px solid #efc3ce;background:#fffafc;border-radius:14px;font-family:'Poppins',system-ui,sans-serif;
+  font-size:14px;font-weight:500;color:#4a2630;cursor:pointer;text-align:left;transition:transform .2s ease}
+.opt:hover{transform:translateY(-2px)}
+.opt input{position:absolute;opacity:0;pointer-events:none}
+.opt:focus-within{outline:2px solid #e8749a;outline-offset:1px}
+.opt.on{background:#fde4ea;border-color:#e8749a}
+.opt .rd{flex:none;width:13px;height:13px;box-sizing:border-box;border-radius:50%;border:1px solid #d9a3b4;background:#fff}
+.opt.on .rd{border:5px solid #e8749a}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:50px;min-width:190px;padding:0 28px;border:0;
+  background:#e8749a;color:#fff;font-family:'Poppins',system-ui,sans-serif;font-size:13px;letter-spacing:.22em;
+  font-weight:600;text-transform:uppercase;text-decoration:none;cursor:pointer;border-radius:26px;
+  box-shadow:0 10px 22px rgba(232,116,154,.38);transition:transform .25s ease,background .25s ease}
+.btn:hover{background:#d2567f;transform:translateY(-2px)}
+.btn:focus-visible,a:focus-visible,button:focus-visible{outline:2px solid #b03a62;outline-offset:3px}
+.sw{display:flex;flex-direction:column;align-items:center;gap:6px}
+.sw span.c{width:46px;height:46px;border-radius:50%;box-shadow:0 0 0 2px #fffafc,0 0 0 3px #e8749a;transition:transform .3s ease}
+.sw:hover span.c{transform:scale(1.14)}
+.float{animation:float 6s ease-in-out infinite alternate}
+@keyframes float{from{transform:translateY(0)}to{transform:translateY(-10px)}}
+.float2{animation:float2 8s ease-in-out infinite alternate}
+@keyframes float2{from{transform:translateY(4px) rotate(-1.5deg)}to{transform:translateY(-8px) rotate(1.5deg)}}
+.sway{transform-origin:50% 0;animation:sway 7s ease-in-out infinite alternate}
+@keyframes sway{from{transform:rotate(-2deg)}to{transform:rotate(2deg)}}
+.pulse{animation:pulse 1s ease-out infinite}
+@keyframes pulse{0%{transform:scale(1.06);opacity:.75}22%,100%{transform:scale(1);opacity:1}}
+.twinkle{animation:twinkle 3.4s ease-in-out infinite alternate}
+@keyframes twinkle{from{opacity:.72;filter:saturate(.9)}to{opacity:1;filter:saturate(1.15) brightness(1.08)}}
+.petal{position:absolute;top:-22px;width:11px;height:14px;border-radius:52% 48% 50% 50% / 60% 60% 40% 40%;background:#f6b9cb;opacity:0;animation:petalFall linear infinite}
+.petal.l{background:#fcd9e3}
+.petal.d{background:#e8749a}
+.petal.w{background:#fff3f7}
+@keyframes petalFall{0%{transform:translate(0,0) rotate(0deg);opacity:0}8%{opacity:.9}32%{transform:translate(26px,230px) rotate(150deg)}60%{transform:translate(-20px,460px) rotate(280deg)}88%{opacity:.5}100%{transform:translate(16px,760px) rotate(430deg);opacity:0}}
+.petal.sm{animation-name:petalFallS}
+@keyframes petalFallS{0%{transform:translate(0,0) rotate(0deg);opacity:0}10%{opacity:.85}40%{transform:translate(22px,170px) rotate(160deg)}72%{transform:translate(-16px,340px) rotate(290deg)}100%{transform:translate(12px,520px) rotate(410deg);opacity:0}}
+.heart{position:absolute;width:12px;height:12px;opacity:0;animation:rise linear infinite}
+@keyframes rise{0%{transform:translateY(0) rotate(0);opacity:0}12%{opacity:.85}60%{transform:translateY(-260px) rotate(140deg);opacity:.7}100%{transform:translateY(-520px) rotate(260deg);opacity:0}}
+.shine{background:linear-gradient(100deg,#e8749a 0,#e8749a 38%,#ffd7e3 50%,#e8749a 62%,#e8749a 100%);
+  background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:shine 9s ease-in-out 1.5s infinite}
+@keyframes shine{0%{background-position:170% 0}50%,100%{background-position:-70% 0}}
+.fade{animation:fadeUp 1.2s ease both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes rvUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+@keyframes popIn{from{opacity:0;transform:scale(.6) rotate(-6deg)}to{opacity:1;transform:none}}
+@keyframes zoomIn{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:none}}
+@keyframes drawIn{from{stroke-dashoffset:900}to{stroke-dashoffset:0}}
+@supports (animation-timeline: view()){
+.rv > *{animation:rvUp linear both;animation-timeline:view();animation-range:entry 5% entry 55%}
+.rv > *:nth-child(2){animation-range:entry 12% entry 62%}
+.rv > *:nth-child(3){animation-range:entry 19% entry 69%}
+.rv > *:nth-child(4){animation-range:entry 26% entry 76%}
+.rv > *:nth-child(n+5){animation-range:entry 33% entry 83%}
+.rv1{animation:rvUp linear both;animation-timeline:view();animation-range:entry 5% entry 60%}
+.zi{animation:zoomIn linear both;animation-timeline:view();animation-range:entry 2% entry 66%}
+.pop{animation:popIn linear both;animation-timeline:view();animation-range:entry 6% entry 62%}
+.sw{animation:popIn linear both;animation-timeline:view();animation-range:entry 12% entry 64%}
+.sw:nth-child(2){animation-range:entry 18% entry 70%}
+.sw:nth-child(3){animation-range:entry 24% entry 76%}
+.sw:nth-child(4){animation-range:entry 30% entry 82%}
+.path{stroke-dasharray:900;animation:drawIn linear both;animation-timeline:view();animation-range:entry 0% entry 88%}
+}
+@media (prefers-reduced-motion:reduce){.fade,.rv > *,.rv1,.zi,.pop,.sw,.path,.float,.float2,.sway,.twinkle,.shine,.pulse{animation:none !important}
+.heart,.petal{display:none}.shine{color:#e8749a;-webkit-text-fill-color:#e8749a}.path{stroke-dasharray:none}}
+
+[hidden]{display:none!important}
+html,body{margin:0;background:#fdeef1;overflow-x:hidden}
+#wrap{position:relative;margin:0 auto;overflow:hidden}
+#root{transform-origin:0 0}
+</style>
+</head>
+<body>
+<div id="wrap">
+<div id="root" style="width: 430px; height: 4180px; position: absolute; left: 0; top: 0; overflow: hidden; background: #fdeef1; font-family: 'Poppins', system-ui, sans-serif; color: #4a2630" data-canvas-width="430" data-canvas-height="4180" data-document-role="page" data-label="Single bye bye — scroll">
+
+<svg width="0" height="0" style="position: absolute" aria-hidden="true" focusable="false">
+<defs>
+<g id="hrt"><path d="M6 11C2 8 0 5.6 0 3.6A3.6 3.6 0 0 1 6 1.4A3.6 3.6 0 0 1 12 3.6C12 5.6 10 8 6 11Z" fill="#f0a0b8"></path></g>
+<g id="rule"><path d="M-52 0H-14M14 0H52" stroke="#e8a9bc" stroke-width="1"></path><path d="M0 -4.5L2.6 0L0 4.5L-2.6 0Z" fill="#e8749a"></path></g>
+</defs>
+</svg>
+
+<!-- ============ 1 · OUVERTURE ============ -->
+<section style="position: absolute; left: 0; top: 0; width: 430px; height: 900px; overflow: hidden">
+<svg viewBox="0 0 430 900" width="430" height="900" style="position: absolute; left: 0; top: 0" aria-hidden="true">
+<defs><linearGradient id="hg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbd9e2"></stop><stop offset=".55" stop-color="#fdeef1"></stop><stop offset="1" stop-color="#fff7f9"></stop></linearGradient></defs>
+<rect width="430" height="900" fill="url(#hg)"></rect>
+<circle cx="86" cy="300" r="120" fill="#fbcfdc" opacity=".45"></circle>
+<circle cx="352" cy="420" r="140" fill="#fbcfdc" opacity=".35"></circle>
+</svg>
+<img class="twinkle" src="/media/x/6620ae4cb00162.webp" alt="" style="position: absolute; left: -16px; top: 6px; width: 462px; height: 115px">
+<img class="fade float2" src="/media/x/205b526f64ea8a.webp" alt="Ballons « bride to be »" style="position: absolute; left: 62px; top: 150px; width: 306px; height: 200px; animation-delay: .3s, 0s">
+<img class="fade" src="/media/x/8088f40f756626.webp" alt="Illustration de la mariée et de ses demoiselles d'honneur" style="position: absolute; left: 22px; top: 374px; width: 390px; height: 279px; animation-delay: .6s">
+<div class="fade" style="position: absolute; left: 50px; top: 706px; width: 330px; display: flex; flex-direction: column; align-items: center; text-align: center; animation-delay: .9s">
+<p class="hand shine" style="margin: 0; font-size: 58px; line-height: .95">Single bye bye</p>
+<svg width="140" height="14" viewBox="-60 -7 120 14" aria-hidden="true" style="margin: 8px 0 6px"><use href="#rule"></use></svg>
+<p class="caps" style="margin: 0; font-size: 12px; color: #b03a62">La dernière soirée de <span data-c="name"></span></p>
+<p class="ser" style="margin: 10px 0 0; font-size: 22px; font-style: italic; color: #8a2748"><span data-c="dateLong"></span> · <span data-c="time"></span></p>
+</div>
+<div aria-hidden="true" style="position: absolute; inset: 0; pointer-events: none; overflow: hidden">
+<svg class="heart" viewBox="0 0 12 12" style="left: 40px; top: 760px; animation-duration: 11s; animation-delay: 0s"><use href="#hrt"></use></svg>
+<svg class="heart" viewBox="0 0 12 12" style="left: 128px; top: 800px; width: 9px; height: 9px; animation-duration: 14s; animation-delay: 3s"><use href="#hrt"></use></svg>
+<svg class="heart" viewBox="0 0 12 12" style="left: 242px; top: 780px; width: 14px; height: 14px; animation-duration: 12s; animation-delay: 6s"><use href="#hrt"></use></svg>
+<svg class="heart" viewBox="0 0 12 12" style="left: 336px; top: 820px; animation-duration: 15s; animation-delay: 2s"><use href="#hrt"></use></svg>
+<svg class="heart" viewBox="0 0 12 12" style="left: 396px; top: 770px; width: 10px; height: 10px; animation-duration: 13s; animation-delay: 8s"><use href="#hrt"></use></svg>
+<i class="petal" style="left: 30px; animation-duration: 15s; animation-delay: 0s"></i>
+<i class="petal l" style="left: 104px; animation-duration: 19s; animation-delay: 4s"></i>
+<i class="petal d" style="left: 182px; animation-duration: 17s; animation-delay: 8.5s"></i>
+<i class="petal w" style="left: 256px; animation-duration: 22s; animation-delay: 2s"></i>
+<i class="petal" style="left: 322px; animation-duration: 16s; animation-delay: 11s"></i>
+<i class="petal l" style="left: 392px; animation-duration: 20s; animation-delay: 6s"></i>
+</div>
+</section>
+
+<!-- ============ 2 · LE MOT ============ -->
+<section style="position: absolute; left: 0; top: 900px; width: 430px; height: 440px; overflow: hidden; background: #fffafc">
+<img loading="lazy" src="/media/x/7b7dca0dc34317.webp" alt="" style="position: absolute; left: 0; top: 0; width: 430px; height: 609px; object-fit: cover; object-position: 50% 100%; opacity: .9">
+<img loading="lazy" class="rv1 float" src="/media/x/cf49ae324139e2.webp" alt="" style="position: absolute; left: 268px; top: 34px; width: 150px; height: 177px">
+<div class="rv" style="position: absolute; left: 36px; top: 70px; width: 236px; display: flex; flex-direction: column; gap: 10px">
+<p class="caps" style="margin: 0; font-size: 10px; color: #b03a62">Avant le grand jour</p>
+<p class="ser" style="margin: 0; font-size: 27px; line-height: 1.22; color: #4a2630">Une dernière<br>soirée de folle</p>
+<p class="ui" style="margin: 0; font-size: 15px; line-height: 1.65; color: #6b4450; font-weight: 300">
+  <span data-c="name"></span> dit au revoir à sa vie de célibataire, et on compte sur toi pour que ce soit mémorable. Musique, gâteau et photos qu'on ressortira au mariage.
+</p>
+</div>
+</section>
+
+<!-- ============ 3 · DRESS CODE ============ -->
+<section style="position: absolute; left: 0; top: 1340px; width: 430px; height: 560px; overflow: hidden; background: #fdeef1">
+<img loading="lazy" class="rv1" src="/media/x/4c84324bbec180.webp" alt="Illustration d'une invitée en rose devant une robe" style="position: absolute; left: 14px; top: 56px; width: 196px; height: 404px">
+<div aria-hidden="true" style="position: absolute; inset: 0; pointer-events: none; overflow: hidden">
+<i class="petal sm l" style="left: 240px; animation-duration: 18s; animation-delay: 1s"></i>
+<i class="petal sm" style="left: 330px; animation-duration: 23s; animation-delay: 7s"></i>
+<i class="petal sm d" style="left: 398px; animation-duration: 20s; animation-delay: 13s"></i>
+</div>
+<div class="rv" style="position: absolute; left: 216px; top: 86px; width: 190px; display: flex; flex-direction: column; gap: 10px">
+<p class="caps" style="margin: 0; font-size: 10px; color: #b03a62">Dress code</p>
+<p class="ser" style="margin: 0; font-size: 26px; line-height: 1.2; color: #4a2630">Bridal<br>party</p>
+<p data-farha-dresstext class="ui" style="margin: 0; font-size: 14px; line-height: 1.6; color: #6b4450; font-weight: 300">
+  Satin, plumes et talons. La mariée est en blanc — tout le reste du rose, du blush ou du fuchsia.
+</p>
+</div>
+<div class="rv" id="swatches" style="position: absolute; left: 216px; top: 330px; width: 196px; display: flex; gap: 12px">
+<div class="sw"><span class="c" style="background: #f7c9d6"></span><b class="ui" style="font-size: 11px; font-weight: 400; color: #6b4450">Blush</b></div>
+<div class="sw"><span class="c" style="background: #e8749a"></span><b class="ui" style="font-size: 11px; font-weight: 400; color: #6b4450">Rose</b></div>
+<div class="sw"><span class="c" style="background: #b03a62"></span><b class="ui" style="font-size: 11px; font-weight: 400; color: #6b4450">Fuchsia</b></div>
+<div class="sw"><span class="c" style="background: #fffafc"></span><b class="ui" style="font-size: 11px; font-weight: 400; color: #6b4450">Blanc</b></div>
+</div>
+<p data-farha-dresstext class="hand rv1" style="position: absolute; left: 216px; top: 452px; width: 196px; margin: 0; font-size: 26px; color: #b03a62">le blanc, c'est pour elle !</p>
+</section>
+
+<!-- ============ 4 · PROGRAMME ============ -->
+<section style="position: absolute; left: 0; top: 1900px; width: 430px; height: 740px; overflow: hidden; background: #fffafc">
+<svg viewBox="0 0 430 740" width="430" height="740" style="position: absolute; left: 0; top: 0" aria-hidden="true">
+<path class="path" d="M128 104C206 150 118 232 196 282C274 332 124 414 200 466C268 512 134 598 212 648" fill="none" stroke="#f3b9c9" stroke-width="2.4" stroke-dasharray="3 9" stroke-linecap="round"></path>
+<g fill="#fffafc" stroke="#e8749a" stroke-width="1.6">
+<circle cx="128" cy="104" r="5.5"></circle><circle cx="196" cy="282" r="5.5"></circle><circle cx="200" cy="466" r="5.5"></circle><circle cx="212" cy="648" r="5.5"></circle></g>
+</svg>
+<p class="caps rv1" style="position: absolute; left: 0; top: 26px; width: 430px; text-align: center; margin: 0; font-size: 10px; color: #b03a62">Le programme</p>
+
+<div class="rv1" style="position: absolute; left: 20px; top: 66px; width: 200px; display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center">
+<img loading="lazy" class="pop" src="/media/x/4c5b15261d8a0d.webp" alt="" style="width: 54px; height: 77px">
+<span class="caps" style="font-size: 9.5px; color: #4a2630">Manucure &amp; cocktails</span>
+<i class="petal sm" style="left: 300px; animation-duration: 24s; animation-delay: 3s" aria-hidden="true"></i>
+<span class="ser" style="font-size: 20px; color: #b03a62"><span data-c="progManucure"></span></span>
+</div>
+
+<div class="rv1" style="position: absolute; left: 210px; top: 246px; width: 200px; display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center">
+<img loading="lazy" class="pop" src="/media/x/7f5a6eab5be07f.webp" alt="" style="width: 60px; height: 71px">
+<span class="caps" style="font-size: 9.5px; color: #4a2630">Toast à la mariée</span>
+<span class="ser" style="font-size: 20px; color: #b03a62"><span data-c="progToast"></span></span>
+</div>
+
+<div class="rv1" style="position: absolute; left: 20px; top: 430px; width: 200px; display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center">
+<img loading="lazy" class="pop" src="/media/x/f5ad7f7cd0fc09.webp" alt="" style="width: 56px; height: 67px">
+<span class="caps" style="font-size: 9.5px; color: #4a2630">Jeux &amp; confidences</span>
+<span class="ser" style="font-size: 20px; color: #b03a62"><span data-c="progJeux"></span></span>
+</div>
+
+<div class="rv1" style="position: absolute; left: 212px; top: 612px; width: 200px; display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center">
+<img loading="lazy" class="pop" src="/media/x/7fd092b85be862.webp" alt="" style="width: 66px; height: 80px">
+<span class="caps" style="font-size: 9.5px; color: #4a2630">Danse jusqu'au bout</span>
+<span class="ser" style="font-size: 20px; color: #b03a62"><span data-c="progDanse"></span></span>
+</div>
+<img loading="lazy" src="/media/x/322628898c39d6.webp" alt="" style="position: absolute; left: 324px; top: 92px; width: 56px; height: 94px; opacity: .85">
+<img loading="lazy" src="/media/x/bb44410e5b76a7.webp" alt="" style="position: absolute; left: 36px; top: 300px; width: 62px; height: 108px; opacity: .8">
+</section>
+
+<!-- ============ 5 · QUAND & OÙ ============ -->
+<section style="position: absolute; left: 0; top: 2640px; width: 430px; height: 600px; overflow: hidden; background: #fdeef1">
+<div class="rv" style="position: absolute; left: 50px; top: 40px; width: 330px; display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center">
+<p class="caps" style="margin: 0; font-size: 10px; color: #b03a62">On se retrouve</p>
+<i class="petal sm w" style="left: -24px; animation-duration: 21s; animation-delay: 2s" aria-hidden="true"></i>
+<h2 class="ser" style="margin: 8px 0 0; font-size: 27px; font-weight: 500; line-height: 1.2">Quand &amp; où</h2>
+<svg width="140" height="14" viewBox="-60 -7 120 14" aria-hidden="true" style="margin: 8px 0 10px"><use href="#rule"></use></svg>
+<p class="ser" style="margin: 0; font-size: 21px; color: #4a2630"><span data-c="dateLong"></span></p>
+<p class="ui" style="margin: 2px 0 0; font-size: 15px; font-weight: 500; color: #b03a62"><span data-c="time"></span></p>
+<p class="ui" style="margin: 6px 0 0; font-size: 14px; line-height: 1.6; color: #6b4450; font-weight: 300"><span data-c="venue"></span><br><span data-c="address"></span></p>
+</div>
+<a class="rv1" id="mapLink" href="https://www.google.com/maps" target="_blank" rel="noopener" aria-label="Ouvrir le lieu dans Google Maps" style="position: absolute; left: 55px; top: 282px; width: 320px; height: 168px; display: block; overflow: hidden; border-radius: 18px; box-shadow: 0 0 0 1px #efc3ce, 0 14px 30px rgba(176,58,98,.16)">
+<svg width="320" height="168" viewBox="0 0 320 168" aria-hidden="true" style="display: block">
+<rect width="320" height="168" fill="#fff4f7"></rect>
+<g fill="#fde4ea"><rect x="16" y="14" width="86" height="54"></rect><rect x="214" y="10" width="92" height="52"></rect><rect x="22" y="112" width="74" height="46"></rect><rect x="236" y="108" width="80" height="50"></rect></g>
+<path d="M0 88h320M126 0v168" stroke="#f7d2dd" stroke-width="14"></path>
+<path d="M0 88h320M126 0v168" stroke="#fffafc" stroke-width="9"></path>
+<path d="M24 150C62 132 92 112 126 88c30-22 62-32 108-36" fill="none" stroke="#e8749a" stroke-width="4" stroke-linecap="round" stroke-dasharray="7 7"></path>
+<circle cx="24" cy="150" r="6" fill="#e8749a"></circle>
+<g transform="translate(234 52)"><ellipse cy="3" rx="9" ry="3.4" fill="#b03a62" opacity=".25"></ellipse>
+<path d="M0 0C-11-11-13-17-13-23A13 13 0 0 1 13-23C13-17 11-11 0 0Z" fill="#e8749a" stroke="#fffafc" stroke-width="2"></path>
+<circle cy="-23" r="4.6" fill="#fffafc"></circle></g>
+</svg>
+</a>
+<div class="rv1" style="position: absolute; left: 55px; top: 482px; width: 320px; display: flex; justify-content: center">
+<a class="btn" id="mapBtn" href="https://www.google.com/maps" target="_blank" rel="noopener">Itinéraire</a>
+</div>
+</section>
+
+<!-- ============ 6 · COMPTE À REBOURS ============ -->
+<section style="position: absolute; left: 0; top: 3240px; width: 430px; height: 280px; overflow: hidden; background: #fffafc">
+<div class="rv1" style="position: absolute; left: 32px; top: 46px; width: 366px; padding: 32px 18px 22px; box-sizing: border-box; text-align: center;
+  background: #fffafc; border: 1px solid #f7d2dd; border-radius: 28px; box-shadow: 0 18px 36px rgba(176,58,98,.13)">
+  <span style="position: absolute; left: 50%; top: -15px; transform: translateX(-50%); display: inline-flex; align-items: center; gap: 7px;
+    padding: 7px 18px; border-radius: 999px; background: #e8749a; box-shadow: 0 8px 18px rgba(232,116,154,.4); white-space: nowrap">
+    <svg width="11" height="11" viewBox="0 0 12 12" aria-hidden="true"><path d="M6 11C2 8 0 5.6 0 3.6A3.6 3.6 0 0 1 6 1.4A3.6 3.6 0 0 1 12 3.6C12 5.6 10 8 6 11Z" fill="#fffafc"></path></svg>
+    <span class="caps" style="font-size: 9px; color: #fffafc">Plus que</span>
+  </span>
+  <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 9px; margin-top: 4px">
+    <div style="position: relative; padding: 13px 2px 10px; border-radius: 18px; background: linear-gradient(180deg,#fde4ea,#fff4f7); box-shadow: inset 0 0 0 1px rgba(255,255,255,.9)">
+      <span class="ser" style="display: block; font-size: 31px; line-height: 1; color: #b03a62; font-variant-numeric: tabular-nums"><span data-cd="dd">--</span></span>
+      <span class="caps" style="display: block; margin-top: 7px; font-size: 7.5px; letter-spacing: .18em; color: #8a6070">Jours</span></div>
+    <div style="position: relative; padding: 13px 2px 10px; border-radius: 18px; background: linear-gradient(180deg,#fde4ea,#fff4f7); box-shadow: inset 0 0 0 1px rgba(255,255,255,.9)">
+      <span class="ser" style="display: block; font-size: 31px; line-height: 1; color: #b03a62; font-variant-numeric: tabular-nums"><span data-cd="hh">--</span></span>
+      <span class="caps" style="display: block; margin-top: 7px; font-size: 7.5px; letter-spacing: .18em; color: #8a6070">Heures</span></div>
+    <div style="position: relative; padding: 13px 2px 10px; border-radius: 18px; background: linear-gradient(180deg,#fde4ea,#fff4f7); box-shadow: inset 0 0 0 1px rgba(255,255,255,.9)">
+      <span class="ser" style="display: block; font-size: 31px; line-height: 1; color: #b03a62; font-variant-numeric: tabular-nums"><span data-cd="mm">--</span></span>
+      <span class="caps" style="display: block; margin-top: 7px; font-size: 7.5px; letter-spacing: .18em; color: #8a6070">Min</span></div>
+    <div style="position: relative; padding: 13px 2px 10px; border-radius: 18px; background: linear-gradient(180deg,#f9cbd9,#fde4ea); box-shadow: inset 0 0 0 1px rgba(255,255,255,.9)">
+      <span class="ser pulse" style="display: block; font-size: 31px; line-height: 1; color: #b03a62; font-variant-numeric: tabular-nums"><span data-cd="ss">--</span></span>
+      <span class="caps" style="display: block; margin-top: 7px; font-size: 7.5px; letter-spacing: .18em; color: #8a6070">Sec</span></div>
+  </div>
+  <svg width="120" height="14" viewBox="-60 -7 120 14" aria-hidden="true" style="margin: 16px 0 8px"><use href="#rule"></use></svg>
+  <p class="ui" style="margin: 0; font-size: 12.5px; font-weight: 300; color: #6b4450"><span data-c="dateLong"></span> · <span data-c="time"></span> · <span data-c="venue"></span></p>
+</div>
+</section>
+
+<!-- ============ 7 · RSVP ============ -->
+<section style="position: absolute; left: 0; top: 3520px; width: 430px; height: 480px; overflow: hidden; background: #fdeef1">
+<img loading="lazy" class="float2" src="/media/x/9c0f1bc58e61e5.webp" alt="" style="position: absolute; left: 330px; top: 20px; width: 92px; height: 135px; opacity: .9">
+<div class="rv" style="position: absolute; left: 40px; top: 34px; width: 280px; display: flex; flex-direction: column; gap: 2px">
+<p class="hand" style="margin: 0; font-size: 40px; line-height: 1; color: #b03a62">Tu viens ?</p>
+<p class="caps" style="margin: 4px 0 0; font-size: 9px; color: #6b4450"><span id="rsvpByLine">Réponds avant le <span data-c="rsvpBy"></span></span></p>
+</div>
+<div style="position: absolute; left: 40px; top: 126px; width: 350px">
+<form class="rv" id="rsvpForm" style="display: flex; flex-direction: column; gap: 12px">
+  <div style="display: flex; flex-direction: column; gap: 5px">
+    <label for="gname" class="caps" style="font-size: 9px; color: #b03a62">Ton prénom</label>
+    <input id="gname" class="fld" type="text" required="" autocomplete="name">
+  </div>
+  <fieldset style="border: 0; margin: 0; padding: 0; display: flex; gap: 10px">
+    <legend class="caps" style="padding: 0; font-size: 9px; color: #b03a62; margin-bottom: 6px">Présente ?</legend>
+    <label class="opt" style="flex: 1"><input type="radio" name="rep" value="yes" required=""><span class="rd"></span>Je viens !</label>
+    <label class="opt" style="flex: 1"><input type="radio" name="rep" value="no"><span class="rd"></span>Je peux pas</label>
+  </fieldset>
+  <div style="display: flex; flex-direction: column; gap: 5px">
+    <label for="gmsg" class="caps" style="font-size: 9px; color: #b03a62">Un mot pour la mariée</label>
+    <textarea id="gmsg" class="fld" rows="2" style="resize: none"></textarea>
+  </div>
+  <div style="display: flex; justify-content: center; margin-top: 2px"><button class="btn" type="submit" id="rsvpBtn">Envoyer</button></div>
+<p class="ui" id="rsvpErr" role="status" hidden style="margin: 0; padding: 8px 10px; border-radius: 12px; background: #fde4ea; color: #8a2748; font-size: 13px; text-align: center"></p>
+</form>
+<div id="rsvpSent" hidden style="margin-top: 30px; display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center">
+  <p class="hand" style="margin: 0; font-size: 44px; line-height: 1; color: #b03a62">Merci</p>
+  <p class="ser" style="margin: 0; font-size: 21px; color: #4a2630" id="rsvpGuest"></p>
+  <p class="ui" style="margin: 0; font-size: 14px; color: #6b4450; width: 250px; font-weight: 300" id="rsvpReply"></p>
+</div>
+</div>
+</section>
+
+<!-- ============ 8 · CLÔTURE ============ -->
+<section style="position: absolute; left: 0; top: 4000px; width: 430px; height: 180px; overflow: hidden; background: #fffafc">
+<img loading="lazy" class="float" src="/media/x/468974591e4e0a.webp" alt="" style="position: absolute; left: 14px; top: -26px; width: 92px; height: 198px; opacity: .95">
+<div class="rv" style="position: absolute; left: 112px; top: 48px; width: 250px; display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center">
+<svg width="120" height="14" viewBox="-60 -7 120 14" aria-hidden="true"><use href="#rule"></use></svg>
+<p class="hand" style="margin: 0; font-size: 32px; line-height: 1; color: #b03a62">On t'attend !</p>
+<p class="caps" style="margin: 0; font-size: 9px; color: #6b4450">Team <span data-c="name"></span></p>
+</div>
+</section>
+
+</div>
+</div>
+<script>
+// ===== Données personnalisables (formulaire Farha) =====
+const CONFIG = {
+  name: "Sarah",
+  date: "2027-05-15T20:00:00",
+  venue: "Villa Rose",
+  address: "Gammarth, Tunis",
+  progManucure: "18:00",
+  progToast: "20:00",
+  progJeux: "21:30",
+  progDanse: "00:00",
+  rsvpBy: "1er mai 2027",
+  mapQuery: "",
+  mapLink: ""
+};
+
+(function () {
+  'use strict';
+  var C = CONFIG, $ = function (s) { return document.querySelector(s); }, all = function (s) { return [].slice.call(document.querySelectorAll(s)); };
+  var DAYS = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+  var MONTHS = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
+  var pad = function (n) { return (n < 10 ? '0' : '') + n; };
+  // la page (430 px de large) occupe toute la largeur de l'écran
+  var root = $('#root'), wrap = $('#wrap'), H = 4180;
+  function fit() { var s = Math.min(innerWidth / 430, 1.15); root.style.transform = 'scale(' + s + ')'; wrap.style.width = (430 * s) + 'px'; wrap.style.height = (H * s) + 'px'; }
+  fit(); addEventListener('resize', fit);
+  var d = new Date(C.date), ok = !isNaN(d.getTime());
+  var V = {
+    name: C.name || '', venue: C.venue || '', address: C.address || '', rsvpBy: C.rsvpBy || '',
+    dateLong: ok ? DAYS[d.getDay()] + ' ' + (d.getDate() === 1 ? '1er' : d.getDate()) + ' ' + MONTHS[d.getMonth()] : '',
+    time: ok ? pad(d.getHours()) + ':' + pad(d.getMinutes()) : '',
+    progManucure: C.progManucure || '', progToast: C.progToast || '', progJeux: C.progJeux || '', progDanse: C.progDanse || ''
+  };
+  all('[data-c]').forEach(function (el) { var v = V[el.getAttribute('data-c')]; if (v != null) el.textContent = v; });
+  // une étape du programme sans heure est masquée ; « Réponds avant le … » aussi sans date limite
+  ['progManucure', 'progToast', 'progJeux', 'progDanse'].forEach(function (k) { if (!V[k]) all('[data-c="' + k + '"]').forEach(function (el) { el.parentElement.style.visibility = 'hidden'; }); });
+  if (!V.rsvpBy) $('#rsvpByLine').style.visibility = 'hidden';
+  // carte : lien Google Maps vers le lieu
+  var q = String(C.mapQuery || [C.venue, C.address].filter(Boolean).join(', ')).trim();
+  var href = C.mapLink ? C.mapLink : (q ? 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(q) : 'https://www.google.com/maps');
+  ['#mapLink', '#mapBtn'].forEach(function (s) { var a = $(s); if (a) a.href = href; });
+  // si une couleur de tenue est modifiée, son nom (Blush, Rose…) n'a plus de sens : on le masque
+  all('#swatches span.c').forEach(function (sp) {
+    var first = sp.style.background;
+    function chk() { var b = sp.nextElementSibling; if (b) b.style.visibility = sp.style.background === first ? '' : 'hidden'; }
+    if (window.MutationObserver) new MutationObserver(chk).observe(sp, { attributes: true, attributeFilter: ['style'] });
+  });
+  // compte à rebours
+  var cd = {}; all('[data-cd]').forEach(function (el) { cd[el.getAttribute('data-cd')] = el; });
+  function tick() { if (!ok) return; var t = Math.max(0, Math.floor((d.getTime() - Date.now()) / 1000)); cd.dd.textContent = pad(Math.floor(t / 86400)); cd.hh.textContent = pad(Math.floor(t / 3600) % 24); cd.mm.textContent = pad(Math.floor(t / 60) % 60); cd.ss.textContent = pad(t % 60); }
+  tick(); setInterval(tick, 1000);
+  // réponse : envoyée au site Farha, qui la transmet par e-mail
+  var form = $('#rsvpForm'), opts = all('#rsvpForm .opt'), sending = false;
+  opts.forEach(function (l) { l.querySelector('input').addEventListener('change', function () { opts.forEach(function (o) { o.classList.toggle('on', o.querySelector('input').checked); }); }); });
+  form.addEventListener('submit', function (ev) {
+    ev.preventDefault(); if (sending) return;
+    var name = $('#gname').value.trim(), msg = $('#gmsg').value.trim(), att = (form.querySelector('input[name=rep]:checked') || {}).value, err = $('#rsvpErr');
+    err.hidden = true;
+    if (!name || !att) { err.textContent = 'Indique ton prénom et ta réponse.'; err.hidden = false; return; }
+    var id = Math.random().toString(36).slice(2), done = false, btn = $('#rsvpBtn');
+    sending = true; btn.textContent = 'Envoi…';
+    function finish(okk, e) {
+      if (done) return; done = true; removeEventListener('message', on); sending = false; btn.textContent = 'Envoyer';
+      if (okk) { $('#rsvpGuest').textContent = name; $('#rsvpReply').textContent = att === 'no' ? 'Tu vas nous manquer — on pensera fort à toi.' : 'Prépare ton pyjama, on compte sur toi.'; form.hidden = true; $('#rsvpSent').hidden = false; }
+      else { err.textContent = e || 'Ta réponse n’a pas pu être envoyée. Vérifie ta connexion et réessaie.'; err.hidden = false; }
+    }
+    function on(e) { var x = e.data; if (x && x.type === 'farha:rsvp-result' && x.id === id) finish(x.ok, x.error); }
+    addEventListener('message', on);
+    if (window.parent === window) { finish(true); return; }
+    try { parent.postMessage({ type: 'farha:rsvp', id: id, name: name, attending: att === 'yes', message: msg ? ('Un mot pour la mariée : ' + msg).slice(0, 560) : '' }, '*'); } catch (e) {}
+    setTimeout(function () { finish(true); }, 15000);
+  });
+})();
+</script>
+</body>
+</html>

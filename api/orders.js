@@ -124,7 +124,7 @@ module.exports = async function handler(req, res) {
     if (recent.length >= MAX_PER_EMAIL_10_MIN) return res.status(429).json({ error: 'Trop de demandes, réessayez plus tard.' });
 
     // Prix et libellé calculés côté serveur.
-    let template = null, unit = 0, label;
+    let template = null, unit = 0, label, fileSlug = '';
     if (kind === 'sur_mesure') {
       unit = SUR_MESURE_PRICE;
       label = 'Création sur mesure';
@@ -137,6 +137,7 @@ module.exports = async function handler(req, res) {
       template = rows[0];
       const file = !template && FILE_TEMPLATES[slug];
       if (file) {
+        fileSlug = slug;
         // modèle en fichier, absent de la base : prix fixe de sa catégorie
         template = null;
         unit = kind === 'test' ? 0 : promoPrice(file[1], FIXED_PRICES[file[1]]);
@@ -189,6 +190,22 @@ module.exports = async function handler(req, res) {
         } catch (e) { if (e.status !== 409) throw e; } // lien déjà pris : nouveau tirage
       }
     } catch (e) { console.error('orders: invitation', e.status || '', e.code || '', e.message); }
+    // Modèles en fichiers (absents de la table « templates ») : la clé des réponses des invités est gardée dans le
+    // stockage (bucket privé « invitation-keys ») avec la commande, pour que /api/rsvp retrouve l'e-mail du client.
+    if (!template && fileSlug) try {
+      const data = {};
+      INVITATION_FIELDS.forEach(k => { if (details[k]) data[k] = details[k]; });
+      const kslug = (slugBase([data.bride, data.groom].filter(Boolean).join(' ')) || 'invitation') + '-' + randomSuffix();
+      const put = () => fetch(base + '/storage/v1/object/invitation-keys/' + kslug + '.json', { method: 'POST',
+        headers: headers(key, { 'Content-Type': 'application/json', 'x-upsert': 'false' }), body: JSON.stringify({ order_id: order.id, data, created: new Date().toISOString() }) });
+      let r = await put();
+      if (!r.ok && /bucket/i.test(await r.text())) {
+        await fetch(base + '/storage/v1/bucket', { method: 'POST', headers: headers(key), body: JSON.stringify({ id: 'invitation-keys', name: 'invitation-keys', public: false, file_size_limit: 65536 }) });
+        r = await put();
+      }
+      if (r.ok) invitation = { slug: kslug, status: kind === 'test' ? 'published' : 'draft' };
+      else console.error('orders: clé invitée', r.status);
+    } catch (e) { console.error('orders: clé invitée', e.message); }
     return res.status(201).json({
       reference: order.reference,
       total_dt: Number(order.total_dt),

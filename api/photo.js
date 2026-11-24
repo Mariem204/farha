@@ -56,12 +56,15 @@ module.exports = async function handler(req, res) {
     } catch (e) { console.error('photo: lecture', e.message); res.setHeader('Cache-Control', 'no-store'); return res.status(502).end(); }
   }
   res.setHeader('Cache-Control', 'no-store');
+  // Depuis le site lui-même, ou depuis une preview Vercel du projet (qui n'a pas accès au stockage) : en-têtes CORS.
+  const origin = req.headers.origin;
+  const preview = /^https:\/\/farha-[a-z0-9-]+-maryemayadi05-7793s-projects\.vercel\.app$/.test(origin || '') || origin === 'https://farha-bay.vercel.app';
+  if (preview) { res.setHeader('Access-Control-Allow-Origin', origin); res.setHeader('Access-Control-Allow-Methods', 'POST'); res.setHeader('Access-Control-Allow-Headers', 'Content-Type'); res.setHeader('Vary', 'Origin'); }
+  if (req.method === 'OPTIONS') return res.status(preview ? 204 : 403).end();
   if (req.method !== 'POST') { res.setHeader('Allow', 'GET, POST'); return res.status(405).json({ error: 'Méthode non autorisée' }); }
 
-  // Uniquement depuis le site lui-même (même domaine).
-  const origin = req.headers.origin;
   if (!origin) return res.status(403).json({ error: 'Origine refusée' });
-  try { if (new URL(origin).host !== req.headers.host) return res.status(403).json({ error: 'Origine refusée' }); }
+  try { if (new URL(origin).host !== req.headers.host && !preview) return res.status(403).json({ error: 'Origine refusée' }); }
   catch (e) { return res.status(403).json({ error: 'Origine refusée' }); }
 
   const base = (process.env.SUPABASE_URL || '').trim().replace(/\/+$/, '').replace(/\/rest\/v1$/, '');
