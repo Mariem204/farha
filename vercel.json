@@ -50,6 +50,10 @@
   ],
   "rewrites": [
     {
+      "source": "/invitation/oussema-et-nesrine",
+      "destination": "/perso/oussema-et-nesrine.html"
+    },
+    {
       "source": "/votre-avis-farha-invitation-digitale",
       "destination": "/donner-mon-avis.html"
     },
