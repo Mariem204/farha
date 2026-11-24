@@ -78,7 +78,7 @@ module.exports = async function handler(req, res) {
       .replace(/(<meta property="og:url" content=")[^"]*/, '$1' + esc(site + '/' + s))
       // le contenu de l'invitation est inscrit tout de suite : la page s'ouvre directement sur l'invitation
       .replace('<head>', '<head><script>history.replaceState(null,"",location.pathname+"#i=' + code + '");' + (created ? 'window.FARHA_LINK_CREATED="' + created + '";' : '') + 'document.documentElement.classList.add("farha-guest")</script>');
-    res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=300');
+    res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=86400, stale-while-revalidate=3600');
   } else {
     res.setHeader('Cache-Control', 'no-store');
   }
