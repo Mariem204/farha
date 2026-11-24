@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mariage · Oussema &amp; Nesrine</title>
+<meta name="robots" content="noindex">
+<meta property="og:title" content="Mariage de Oussema &amp; Nesrine">
+<meta property="og:description" content="Vous êtes invités ✦ 28 août 2027 · Palais Kobbet Ennhas, à 16h30">
+<meta property="og:image" content="https://www.invitation-digitale.tn/favicon/web-app-manifest-512x512.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&amp;family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&amp;family=DM+Sans:wght@400;500;600&amp;family=Amiri:wght@400;700&amp;family=Aref+Ruqaa:wght@400;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#4a4038}a:hover{color:#2f2822}
+.pr *{box-sizing:border-box}
+.bod{font-family:'Bodoni Moda',Didot,Georgia,serif}
+.cor{font-family:'Cormorant Garamond',Georgia,serif}
+.dm{font-family:'DM Sans',system-ui,sans-serif}
+.ami{font-family:'Amiri',serif}
+.ruq{font-family:'Aref Ruqaa',serif}
+.pulse{transform-box:fill-box;transform-origin:center;animation:pulse 2.4s ease-out infinite}
+@keyframes pulse{from{transform:scale(.6);opacity:.5}to{transform:scale(2.6);opacity:0}}
+.mapcard{transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s}
+.mapcard:hover{transform:translateY(-2px);box-shadow:0 12px 24px rgba(120,100,80,.2)}
+.mapcard:focus-visible{outline:2px solid #4a4038;outline-offset:3px}
+
+/* one continuous embossed-ivory backdrop */
+.scroller{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;opacity:0;transition:opacity 1.3s ease;scrollbar-width:none;z-index:1;scroll-behavior:smooth;
+background-color:#F3EDE3}
+.bgLayer{position:absolute;left:-35px;top:0;width:460px;pointer-events:none;z-index:0}
+.bgLayer img{display:block;width:460px;height:auto}
+.bgLayer .veil{position:absolute;inset:0;background:linear-gradient(90deg,rgba(248,243,236,0) 12%,rgba(248,243,236,.62) 19%,rgba(248,243,236,.62) 81%,rgba(248,243,236,0) 88%)}
+.scene{z-index:1}
+
+.scroller::-webkit-scrollbar{display:none}
+.scroller.on{opacity:1}
+.scene{position:relative;height:844px;overflow:visible}
+
+/* reveals */
+.rv>*{opacity:0;transform:translateY(16px);transition:opacity 1.2s ease,transform 1.4s cubic-bezier(.2,.8,.2,1)}
+.rv.on>*{opacity:1;transform:none}
+.rv.on>*:nth-child(2){transition-delay:.2s}
+.rv.on>*:nth-child(3){transition-delay:.4s}
+.rv.on>*:nth-child(4){transition-delay:.6s}
+.rv.on>*:nth-child(5){transition-delay:.8s}
+.rv.on>*:nth-child(6){transition-delay:1s}
+.zf{opacity:0;transform:scale(.88);transition:opacity 1.4s ease,transform 2s cubic-bezier(.2,.8,.2,1)}
+.on .zf{opacity:1;transform:none}
+.swL,.swR{opacity:0;transition:opacity 1.6s ease .7s,transform 2.6s cubic-bezier(.25,.8,.25,1) .7s}
+.swL{transform:translateX(-64px)}
+.swR{transform:translateX(64px)}
+.on .swL,.on .swR{opacity:1;transform:none}
+.lt{display:inline-block;opacity:0;transform:translateY(8px);filter:blur(4px);transition:opacity .9s ease,transform 1s cubic-bezier(.2,.8,.2,1),filter .9s ease}
+.on .lt{opacity:1;transform:none;filter:blur(0)}
+.bloom{opacity:0;transform:scale(.55) rotate(-36deg);transition:opacity 1.4s ease,transform 2.6s cubic-bezier(.2,.8,.2,1)}
+.on .bloom{opacity:1;transform:none}
+.brL,.brR{transition:transform 2s cubic-bezier(.2,.8,.2,1),opacity 1.4s ease;opacity:0}
+.brL{transform:translateX(-120%) rotate(-20deg)}
+.brR{transform:translateX(120%) rotate(20deg)}
+.on .brL,.on .brR{opacity:1;transform:none}
+
+/* intro */
+.intro{position:absolute;inset:0;z-index:5;overflow:hidden}
+.introBg{position:absolute;inset:0;transition:opacity 1.1s ease .5s}
+.intro.part .introBg{opacity:0}
+.intro.part{pointer-events:none}
+.copy{transition:opacity .6s ease}
+.intro.open .copy{opacity:0}
+.ttl span{display:inline-block;animation:ttlIn 1.4s cubic-bezier(.2,.8,.2,1) both}
+.ttl span:nth-child(1){animation-delay:.6s}.ttl span:nth-child(2){animation-delay:.75s}.ttl span:nth-child(3){animation-delay:.9s}.ttl span:nth-child(4){animation-delay:1.05s}.ttl span:nth-child(5){animation-delay:1.2s}
+@keyframes ttlIn{from{opacity:0;transform:translateY(14px);filter:blur(6px)}to{opacity:1;transform:none;filter:blur(0)}}
+.ci{animation:ciIn 1.3s cubic-bezier(.2,.8,.2,1) both}
+@keyframes ciIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+
+/* pearl curtain */
+.curtain{position:absolute;top:0;bottom:0;width:50%;display:flex;justify-content:space-around;pointer-events:none;transform:translateY(-105%);transition:transform .8s cubic-bezier(.5,0,.2,1)}
+.cL{left:0}.cR{right:0}
+.intro.open .curtain{transform:none}
+.intro.part .cL{transform:translateX(-112%) rotate(-3deg);transition:transform 1.6s cubic-bezier(.6,0,.2,1)}
+.intro.part .cR{transform:translateX(112%) rotate(3deg);transition:transform 1.6s cubic-bezier(.6,0,.2,1)}
+.strand{width:14px;height:100%;background-image:radial-gradient(circle at 7px 7px,#ffffff 0,#f6f1e8 2.6px,#e2d8c8 5.4px,#c9bba6 6.6px,rgba(201,187,166,0) 7px);background-size:14px 15px;background-repeat:repeat-y;filter:drop-shadow(1px 2px 2px rgba(120,100,80,.25))}
+
+/* ambient */
+.sway{animation:sway 7s ease-in-out infinite;transform-origin:0 0}
+.swayR{animation:sway 8s ease-in-out -2.5s infinite;transform-origin:100% 0}
+@keyframes sway{0%,100%{rotate:-1.6deg}50%{rotate:1.6deg}}
+.hover{animation:hover 7s ease-in-out infinite}
+@keyframes hover{0%,100%{translate:0 0}50%{translate:0 -7px}}
+.fp{position:absolute;filter:drop-shadow(3px 6px 6px rgba(120,100,80,.22))}
+.f1{animation:fl1 26s ease-in-out infinite}
+.f2{animation:fl2 31s ease-in-out -9s infinite}
+.f3{animation:fl3 23s ease-in-out -4s infinite}
+.f4{animation:fl4 35s ease-in-out -15s infinite}
+@keyframes fl1{0%,100%{transform:translate(20px,640px) rotate(0)}50%{transform:translate(60px,420px) rotate(40deg)}}
+@keyframes fl2{0%,100%{transform:translate(330px,260px) rotate(0)}50%{transform:translate(290px,520px) rotate(-30deg)}}
+@keyframes fl3{0%,100%{transform:translate(300px,700px) rotate(0)}50%{transform:translate(250px,600px) rotate(25deg)}}
+@keyframes fl4{0%,100%{transform:translate(40px,140px) rotate(0)}50%{transform:translate(90px,300px) rotate(-20deg)}}
+.shim{position:absolute;width:5px;height:5px;border-radius:50%;background:radial-gradient(circle,#fff 0%,rgba(255,255,255,.6) 40%,rgba(255,255,255,0) 70%);animation:shim 3.4s ease-in-out infinite}
+@keyframes shim{0%,100%{opacity:.2;transform:scale(.6)}50%{opacity:1;transform:scale(1.4)}}
+
+/* buttons */
+.btn{position:relative;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:0 30px;border-radius:999px;cursor:pointer;text-decoration:none;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(120,100,80,.22)}
+.btn:active{transform:scale(.98)}
+.btn:focus-visible{outline:2px solid #4a4038;outline-offset:3px}
+.btn::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.7),transparent);transform:skewX(-20deg);animation:shine 5s ease-in-out infinite}
+@keyframes shine{0%,72%{left:-60%}100%{left:130%}}
+.btnPearl{background:linear-gradient(180deg,#fffdf9,#efe7da);color:#4a4038;border:1px solid #c9b796;box-shadow:0 6px 16px rgba(120,100,80,.16)}
+.btnDark{background:#4a4038;color:#F9F7F2;border:0}
+
+/* nav */
+.dots{position:absolute;right:8px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:2px;z-index:3}
+.dot{width:24px;height:24px;border:0;background:transparent;padding:0;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.dot span{width:8px;height:8px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#e6dccb 60%,#c9bba6);box-shadow:0 1px 2px rgba(120,100,80,.3);transition:transform .3s}
+.dot.act span{transform:scale(1.5)}
+.dot:focus-visible{outline:2px solid #4a4038;border-radius:50%}
+
+/* form */
+.fld{display:flex;flex-direction:column;gap:6px}
+.lbl{font-family:'DM Sans',sans-serif;font-size:10px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:#5e544a}
+.inp{width:100%;height:44px;border:1px solid #d8ccb8;border-radius:12px;background:#fffdf9;padding:0 14px;font-family:'Cormorant Garamond',serif;font-size:18px;color:#3a322b;transition:border-color .25s,box-shadow .25s}
+.inp:focus{outline:none;border-color:#a99c8d;box-shadow:0 0 0 3px rgba(230,214,190,.7)}
+textarea.inp{height:104px;padding:10px 14px;resize:none;line-height:1.35}
+.inp.bad{border-color:#b3261e}
+.err{font-family:'DM Sans',sans-serif;font-size:12px;color:#a1221b;margin:0}
+.linkbtn{background:none;border:0;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:10px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#5e544a;display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 10px}
+
+/* reduced motion */
+.rm *, .rm *::after{animation:none !important;transition-duration:.01ms !important;transition-delay:0s !important}
+@media (prefers-reduced-motion: reduce){.pr *, .pr *::after{animation:none !important;transition-duration:.01ms !important;transition-delay:0s !important}}
+.rm .fx .fp{display:none}
+[hidden]{display:none!important}
+html,body{height:100%;margin:0;overflow:hidden;background:#F3EDE3}
+#root{position:absolute!important;left:50%;top:50%;transform-origin:50% 50%;transform:translate(-50%,-50%) scale(var(--fit,1))}
+</style>
+</head>
+<body>
+</helmet>
+<div class="pr" id="root" style="position: relative; width: 390px; height: 844px; overflow: hidden; background: #F3EDE3; color: #3a322b; font-family: 'DM Sans', system-ui, sans-serif">
+
+<div class="scroller" id="scroller">
+
+<!-- 02 · THE SWAN LOVE STORY -->
+<section class="scene" aria-label="L’histoire des cygnes" style="display: none">
+<div data-on="0" style="position: absolute; inset: 0">
+<span class="shim" style="left: 40px; top: 230px"></span>
+<span class="shim" style="left: 344px; top: 300px; animation-delay: -1s"></span>
+<span class="shim" style="left: 58px; top: 520px; animation-delay: -2s"></span>
+<span class="shim" style="left: 330px; top: 600px; animation-delay: -.5s"></span>
+<span class="shim" style="left: 196px; top: 190px; animation-delay: -1.6s"></span>
+<div style="position: absolute; left: 28px; right: 28px; top: 30px; display: flex; flex-direction: column; align-items: center; text-align: center">
+<img src="/media/x/d44d4a7a882b4f.webp" alt="بسم الله الرحمن الرحيم" style="width: 230px">
+</div>
+<div class="zf" style="position: absolute; left: 45px; top: 110px; width: 300px; height: 345px">
+<div class="hover" style="position: absolute; inset: 0">
+<div style="position: absolute; left: 50px; top: 38px; width: 200px; height: 272px; border-radius: 50%; background: #f5efe5"></div>
+<img loading="lazy" decoding="async" data-img="e7575bef" alt="" style="position: absolute; left: 0; top: 0; width: 300px; height: 345px; pointer-events: none; filter: drop-shadow(0 14px 20px rgba(120,100,80,0.2))">
+<img loading="lazy" decoding="async" data-farha-photo="Photo des mariés" src="/media/x/d602ab58fea345.webp" alt="Photo des mariés" style="position: absolute; left: 55.8px; top: 58.8px; width: 195.6px; height: 249.5px; border-radius: 50%; object-fit: cover">
+<img loading="lazy" decoding="async" class="swL" data-img="9da301aa" alt="" style="position: absolute; left: 0; top: 0; width: 300px; height: 345px; pointer-events: none">
+<img loading="lazy" decoding="async" class="swR" data-img="0262534f" alt="Deux cygnes formant un cœur" style="position: absolute; left: 0; top: 0; width: 300px; height: 345px; pointer-events: none">
+</div>
+</div>
+<div class="rv" data-on="0" style="position: absolute; left: 50px; right: 50px; top: 499px; text-align: center">
+<p class="ami" dir="rtl" lang="ar" style="margin: 0; font-size: 17px; line-height: 1.75; color: #3a322b">﴿وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً ۚ إِنَّ فِي ذَٰلِكَ لَآيَاتٍ لِّقَوْمٍ يَتَفَكَّرُونَ﴾</p>
+</div>
+</div>
+</section>
+
+<!-- 03 · SAVE THE DATE -->
+<section class="scene" aria-label="La date" style="height: 515px">
+<div data-on="1" style="position: absolute; inset: 0">
+<img loading="lazy" decoding="async" class="brL" data-img="812badc6" alt="" style="position: absolute; left: -40px; bottom: -40px; width: 150px; transform-origin: 0 100%">
+<div style="position: absolute; left: 80px; top: 40px; width: 230px; height: 241px">
+<img loading="lazy" decoding="async" class="bloom" data-img="8539492c" alt="Fleur de satin au cœur de perle" style="display: block; width: 230px; filter: drop-shadow(0 18px 24px rgba(120,100,80,0.22))">
+</div>
+</div>
+<div class="rv" data-on="1" style="position: absolute; left: 0; right: 0; top: 300px; display: flex; flex-direction: column; align-items: center; text-align: center">
+<p class="dm" style="margin: 0; font-size: 11px; font-weight: 600; letter-spacing: 0.32em; color: #5e544a">LE JOUR DU MARIAGE</p>
+<p class="bod" style="margin: 12px 0 0; font-size: 32px; line-height: 1.1; color: #3a322b"><span data-c="dateLabel"></span></p>
+<p class="cor" style="margin: 6px 0 0; font-size: 21px; font-style: italic; color: #5e544a"><span data-c="timeLabel"></span></p>
+<div role="timer" aria-label="Compte à rebours jusqu’au mariage" style="display: flex; align-items: stretch; margin-top: 24px">
+<div style="width: 72px; display: flex; flex-direction: column; align-items: center; gap: 4px; border-left: 0">
+<span class="cor" style="font-size: 38px; font-weight: 500; line-height: 1; color: #3a322b; font-variant-numeric: tabular-nums" data-cd="d">00</span>
+<span class="dm" style="font-size: 9px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: #5e544a">Jours</span>
+</div>
+<div style="width: 72px; display: flex; flex-direction: column; align-items: center; gap: 4px; border-left: 1px solid rgba(201,183,150,0.6)">
+<span class="cor" style="font-size: 38px; font-weight: 500; line-height: 1; color: #3a322b; font-variant-numeric: tabular-nums" data-cd="h">00</span>
+<span class="dm" style="font-size: 9px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: #5e544a">Heures</span>
+</div>
+<div style="width: 72px; display: flex; flex-direction: column; align-items: center; gap: 4px; border-left: 1px solid rgba(201,183,150,0.6)">
+<span class="cor" style="font-size: 38px; font-weight: 500; line-height: 1; color: #3a322b; font-variant-numeric: tabular-nums" data-cd="m">00</span>
+<span class="dm" style="font-size: 9px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: #5e544a">Minutes</span>
+</div>
+<div style="width: 72px; display: flex; flex-direction: column; align-items: center; gap: 4px; border-left: 1px solid rgba(201,183,150,0.6)">
+<span class="cor" style="font-size: 38px; font-weight: 500; line-height: 1; color: #3a322b; font-variant-numeric: tabular-nums" data-cd="s">00</span>
+<span class="dm" style="font-size: 9px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: #5e544a">Secondes</span>
+</div>
+</div>
+</div>
+</section>
+
+<!-- 04 · THE VENUE -->
+<section class="scene" aria-label="Le lieu" style="height: 580px">
+<div data-on="2" style="position: absolute; inset: 0">
+<img loading="lazy" decoding="async" class="brR" data-img="812badc6" alt="" style="position: absolute; right: -46px; top: 40px; width: 150px; scale: -1 1; rotate: -18deg; transform-origin: 50% 50%">
+<div class="zf" style="position: absolute; left: 45px; top: 60px; width: 300px; height: 470px">
+<svg aria-hidden="true" width="300" height="470" viewBox="0 0 300 470" style="position: absolute; inset: 0; filter: drop-shadow(0 14px 22px rgba(120,100,80,0.16))">
+<path d="M10 470V150A140 140 0 0 1 290 150V470Z" fill="rgba(251,248,242,0.92)"></path>
+<path d="M10 470V150A140 140 0 0 1 290 150V470Z" fill="none" stroke="#c9b796" stroke-width="1.2"></path>
+<g><image href="/media/x/b98d023d16d4a1.png" x="19.0" y="452.0" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="19.0" y="439.0" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="19.0" y="426.0" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="19.0" y="413.0" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="19.0" y="400.0" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="19.0" y="387.0" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="19.0" y="374.0" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="19.0" y="361.0" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="19.0" y="348.0" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="19.0" y="335.0" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="19.0" y="322.0" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="19.0" y="309.0" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="19.0" y="296.0" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="19.0" y="283.0" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="19.0" y="270.0" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="19.0" y="257.0" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="19.0" y="244.0" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="19.0" y="231.0" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="19.0" y="218.0" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="19.0" y="205.0" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="19.0" y="192.0" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="19.0" y="179.0" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="19.0" y="166.0" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="19.0" y="153.0" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="19.2" y="140.0" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="20.6" y="127.1" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="23.3" y="114.4" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="27.3" y="102.0" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="32.6" y="90.1" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="39.0" y="78.9" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="46.6" y="68.3" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="55.2" y="58.6" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="64.8" y="49.8" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="75.2" y="42.1" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="86.4" y="35.4" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="98.2" y="30.0" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="110.5" y="25.8" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="123.2" y="22.9" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="136.1" y="21.3" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="149.1" y="21.1" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="162.0" y="22.2" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="174.8" y="24.6" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="187.2" y="28.3" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="199.2" y="33.3" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="210.7" y="39.5" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="221.4" y="46.8" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="231.3" y="55.2" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="240.3" y="64.6" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="248.3" y="74.8" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="255.2" y="85.9" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="260.9" y="97.5" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="265.4" y="109.7" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="268.6" y="122.3" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="270.4" y="135.2" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="271.0" y="148.2" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="271.0" y="161.2" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="271.0" y="174.2" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="271.0" y="187.2" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="271.0" y="200.2" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="271.0" y="213.2" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="271.0" y="226.2" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="271.0" y="239.2" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="271.0" y="252.2" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="271.0" y="265.2" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="271.0" y="278.2" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="271.0" y="291.2" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="271.0" y="304.2" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="271.0" y="317.2" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="271.0" y="330.2" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="271.0" y="343.2" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="271.0" y="356.2" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="271.0" y="369.2" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="271.0" y="382.2" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="271.0" y="395.2" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="271.0" y="408.2" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="271.0" y="421.2" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="271.0" y="434.2" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="271.0" y="447.2" width="10" height="10"></image><image href="/media/x/b98d023d16d4a1.png" x="271.0" y="460.2" width="10" height="10"></image></g>
+<path d="M36 470V154A114 114 0 0 1 264 154V470" fill="none" stroke="#c9b796" stroke-width="0.8"></path>
+</svg>
+</div>
+</div>
+<div class="rv" data-on="2" style="position: absolute; left: 62px; right: 62px; top: 158px; display: flex; flex-direction: column; align-items: center; text-align: center">
+<p class="cor" style="margin: 0; font-size: 27px; font-style: italic; line-height: 1.12; color: #3a322b">Là où commence<br>notre éternité</p>
+<span aria-hidden="true" style="width: 60px; height: 1px; margin: 14px 0 12px; background: #c9b796"></span>
+<p class="bod" style="margin: 0; font-size: 20px; line-height: 1.15; color: #3a322b; white-space: nowrap"><span data-c="venueName"></span></p>
+<p class="dm" style="margin: 8px 0 0; font-size: 9.5px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: #5e544a"><span data-c="location"></span></p>
+<a class="mapcard" href="#" data-maps target="_blank" rel="noopener" aria-label="Ouvrir le lieu dans Google Maps" style="margin-top: 16px; display: block; position: relative; width: 226px; height: 92px; border-radius: 14px; overflow: hidden; border: 1px solid #e0d4c1; box-shadow: 0 8px 18px rgba(120,100,80,0.12)">
+<svg aria-hidden="true" width="100%" height="100%" viewBox="0 0 230 112" preserveAspectRatio="xMidYMid slice" style="display: block">
+<rect width="230" height="112" fill="#f4efe6"></rect>
+<path d="M134 6h56a8 8 0 0 1 8 8v26a8 8 0 0 1-8 8h-56a8 8 0 0 1-8-8V14a8 8 0 0 1 8-8z" fill="#e3e6d6"></path>
+<circle cx="38" cy="24" r="18" fill="#e6e8da"></circle>
+<path d="M0 82C36 74 64 92 98 88C134 84 152 100 230 92V112H0Z" fill="#e1e9ec"></path>
+<g fill="none" stroke-linecap="round" stroke="#e2d8c8">
+<path d="M-10 54C50 50 106 60 240 46" stroke-width="10"></path>
+<path d="M84 -10C88 34 104 66 112 122" stroke-width="8"></path>
+<path d="M0 20L230 34" stroke-width="5"></path>
+<path d="M176 -10L204 122" stroke-width="5"></path>
+</g>
+<g fill="none" stroke-linecap="round" stroke="#ffffff">
+<path d="M-10 54C50 50 106 60 240 46" stroke-width="7"></path>
+<path d="M84 -10C88 34 104 66 112 122" stroke-width="5"></path>
+<path d="M0 20L230 34" stroke-width="3"></path>
+<path d="M176 -10L204 122" stroke-width="3"></path>
+</g>
+<g transform="translate(132 52)">
+<circle class="pulse" r="9" fill="#a99c8d"></circle>
+<path d="M0 0C-8-8-10-12-10-17A10 10 0 0 1 10-17C10-12 8-8 0 0Z" fill="#4a4038" stroke="#ffffff" stroke-width="2"></path>
+<circle cy="-17" r="3.5" fill="#F9F7F2"></circle>
+</g>
+</svg>
+</a>
+<a class="btn btnDark" href="#" data-maps target="_blank" rel="noopener" style="margin-top: 18px">
+<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>
+Voir le lieu
+</a>
+</div>
+</section>
+
+<!-- 05 · A WORD FOR THE COUPLE -->
+<section class="scene" aria-label="Un mot pour les mariés" style="overflow: hidden; height: 1010px">
+<div data-on="3" style="position: absolute; left: 30px; top: -28px; width: 330px">
+<img loading="lazy" decoding="async" class="zf" src="/media/x/9bee686a26ff2f.webp" alt="Nœud de perles" style="display: block; width: 90px; margin: 30px auto 0; filter: drop-shadow(0 6px 8px rgba(120,100,80,0.22))">
+</div>
+<div class="rv" data-on="3" style="position: absolute; left: 24px; right: 24px; top: 124px; display: flex; flex-direction: column; align-items: center; text-align: center">
+<p class="cor" style="margin: 0; font-size: 22px; line-height: 1.2; color: #3a322b">Chaque histoire d’amour est belle</p>
+<p class="cor" style="margin: 2px 0 0; font-size: 22px; font-style: italic; line-height: 1.2; color: #3a322b">mais la nôtre est notre préférée.</p>
+<p class="dm" style="margin: 14px 0 0; font-size: 10px; font-weight: 600; letter-spacing: 0.24em; text-transform: uppercase; color: #5e544a">Un mot pour les mariés</p>
+</div>
+
+<div style="position: absolute; left: 36px; right: 36px; top: 232px">
+<form id="msgForm" novalidate="novalidate" aria-label="Un mot pour les mariés" style="padding: 18px; border-radius: 22px; background: rgba(255,253,249,0.86); border: 1px solid #e3d8c6; box-shadow: 0 16px 36px rgba(120,100,80,0.12); display: flex; flex-direction: column; gap: 12px">
+<div class="fld">
+<label class="lbl" for="pr-name">Votre nom</label>
+<input id="pr-name" class="inp" data-f="name" type="text" autocomplete="name" placeholder="Votre nom complet">
+<p class="err" id="errName" hidden>Merci d’indiquer votre nom.</p>
+</div>
+<div class="fld">
+<label class="lbl" for="pr-msg">Votre message</label>
+<textarea id="pr-msg" class="inp" data-f="msg" placeholder="Quelques mots pour les mariés"></textarea>
+<p class="err" id="errMsg" hidden>Merci d’écrire quelques mots.</p>
+</div>
+<button type="submit" class="btn btnDark" style="width: 100%"><span id="msgBtnLabel">Envoyer votre message</span></button>
+<p role="status" id="msgNote" hidden class="dm" style="margin: 0; padding: 10px 12px; border-radius: 12px; background: #f8ebe8; color: #8c1d18; font-size: 12px; line-height: 1.45"></p>
+</form>
+<div id="msgSent" hidden role="status" style="padding: 34px 22px; border-radius: 22px; background: rgba(255,253,249,0.9); border: 1px solid #e3d8c6; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px">
+<img data-img="2c346a23" alt="" style="width: 44px; filter: drop-shadow(2px 4px 5px rgba(120,100,80,0.25))">
+<p class="cor" style="margin: 0; font-size: 32px; font-style: italic; color: #3a322b">Merci</p>
+<p class="cor" style="margin: 0; font-size: 18px; line-height: 1.4; color: #5e544a"><span id="msgThanks"></span></p>
+</div>
+
+</div>
+
+<div class="rv" data-on="3" style="position: absolute; left: 24px; right: 24px; top: 578px; text-align: center">
+<p class="cor" style="margin: 0; font-size: 19px; font-style: italic; color: #3a322b">Avec amour, <span data-c="bride"></span> &amp; <span data-c="groom"></span></p>
+</div>
+<img loading="lazy" decoding="async" data-img="3054dc37" alt="Deux cygnes mariés, l’un avec un nœud noir, l’autre avec un voile de dentelle" style="position: absolute; left: 50px; top: 634px; width: 290px; filter: drop-shadow(0 10px 14px rgba(120,100,80,0.2))">
+<div style="position: absolute; left: 0; right: 0; top: 846px; display: flex; flex-direction: column; align-items: center">
+<button type="button" class="linkbtn" id="replay">
+<svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
+Revoir · FARHA — Invitations Digitales
+</button>
+</div>
+</section>
+</div>
+
+<nav class="dots" id="dots" aria-label="Scènes" hidden>
+<button type="button" class="dot" aria-label="Aller à : La date" data-go="1"><span></span></button>
+<button type="button" class="dot" aria-label="Aller à : Le lieu" data-go="2"><span></span></button>
+<button type="button" class="dot" aria-label="Aller à : Un mot pour les mariés" data-go="3"><span></span></button>
+</nav>
+
+<!-- 01 · THE PEARL REVEAL -->
+<div class="intro" id="intro" aria-label="L’ouverture">
+<div class="introBg">
+<img id="introBas" src="/media/x/d44d4a7a882b4f.webp" alt="بسم الله الرحمن الرحيم" style="position: absolute; left: 50%; top: 80px; width: 230px; transform: translateX(-50%); z-index: 1">
+<img id="introHands" src="/media/x/2878201a0ebc56.webp" alt="Les mains des mariés échangeant les alliances" style="position: absolute; left: 0; bottom: -40px; width: 100%; z-index: 1">
+<img decoding="async" src="/media/x/dabd7b249a514b.webp" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%">
+</div>
+<div class="copy" id="introCopy" lang="fr" style="position: absolute; left: 40px; right: 40px; top: 19%; bottom: 31%; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: 6px; text-align: center">
+<p class="cor ci" style="margin: 0; font-size: 20px; line-height: 1.45; color: #4a4038; animation-delay: .6s">Les familles <b>Smida</b> et <b>Tahari</b><br>sont heureuses de vous faire part<br>du mariage de leurs enfants</p>
+<h1 class="cor ci" id="introNames" style="margin: 16px 0 6px; max-width: 100%; white-space: nowrap; font-size: 38px; font-weight: 600; font-style: italic; line-height: 1.2; color: #5d6450; animation-delay: 1.4s">Oussema &amp; Nesrine</h1>
+<span class="ci" aria-hidden="true" style="width: 54px; height: 1px; margin: 8px 0 0; background: #c9b796; animation-delay: 1.8s"></span>
+</div>
+<div class="copy" id="introCta" style="position: absolute; left: 0; right: 0; display: flex; justify-content: center">
+<button type="button" class="btn btnPearl ci" id="openIntro" style="font-family: 'Cormorant Garamond', serif; font-size: 17px; font-weight: 600; letter-spacing: .02em; text-transform: none; animation-delay: 2.5s">Ouvrir l’invitation</button>
+</div>
+<div class="curtain cL" aria-hidden="true"><span class="strand"></span><span class="strand"></span><span class="strand"></span><span class="strand"></span><span class="strand"></span><span class="strand"></span><span class="strand"></span></div>
+<div class="curtain cR" aria-hidden="true"><span class="strand"></span><span class="strand"></span><span class="strand"></span><span class="strand"></span><span class="strand"></span><span class="strand"></span><span class="strand"></span></div>
+</div>
+
+
+
+</div>
+<script>
+// ===== Données personnalisables (formulaire Farha) =====
+const CONFIG = {
+  bride: "Oussema",
+  groom: "Nesrine",
+  date: "2027-08-28T16:30:00",
+  venue: "Palais Kobbet Ennhas",
+  address: "Manouba",
+  mapQuery: "Kobbet Ennhas Palace, 53 Ave Habib Bourguiba, Manouba 2010",
+  mapLink: "https://maps.google.com?q=R35V+WHQ%20Kobbet%20Ennhas%20Palace,%2053%20Ave%20Habib%20Bourguiba,%20Manouba%202010&ftid=0x12fd326e80378953:0x46760e04fcd255cf&entry=gps&shh=CAE&lucs=,100826479,94231188,100821555,47071704,94218641,100849095,100804975&g_st=ic"
+};
+(function () {
+  'use strict';
+  var C = CONFIG, O = {"fields": [["bride", "bride"], ["groom", "groom"], ["brideAr", "bride"], ["groomAr", "groom"], ["dateLabel", "@date"], ["timeLabel", "@time"], ["venueName", "venue"], ["location", "address"]], "letters": [["bride", "bride", 1.2], ["groom", "groom", 1.9]], "days": null, "months": ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"], "timePrefix": "à ", "timeSep": "h", "px": {}, "openPhase": "open", "phase2": "part", "t1": 950, "t2": 2700, "btn": "Envoyer votre message", "sending": "Envoi…", "thanks": "Vos mots sont bien parvenus à {bride} & {groom}, {name}.", "error": "Votre message n’a pas pu être envoyé. Vérifiez votre connexion et réessayez."}, IMG = {"0262534f": "/media/x/bdfec26e7f1a1c.webp", "2c346a23": "/media/x/b9acbd57747da8.webp", "3054dc37": "/media/x/6ddd33933f03c7.webp", "616475a4": "/media/x/f1c3793472f0aa.webp", "812badc6": "/media/x/3aafaea0dbf1b3.webp", "8440d2fc": "/media/x/171a662b700252.webp", "8539492c": "/media/x/1117c1155996c8.webp", "9da301aa": "/media/x/d008b531a347b5.webp", "b2f6e336": "/media/x/34bd1f3a0c6641.webp", "c73acf11": "/media/x/e555dd6e8769d6.webp", "d9722d5f": "/media/x/e1053a6e2bc08f.webp", "e7575bef": "/media/x/6d1391f3f0de97.webp"}, H = 844;
+  var $ = function (s) { return document.querySelector(s); }, all = function (s) { return [].slice.call(document.querySelectorAll(s)); };
+  all('img[data-img]').forEach(function (i) { i.src = IMG[i.getAttribute('data-img')]; });
+  var pad = function (n) { return (n < 10 ? '0' : '') + n; };
+  // le modèle (390 × 844) remplit l'écran sans être coupé
+  var root = $('#root');
+  // le modèle prend toute la largeur de l'écran ; sa hauteur suit celle de l'écran
+  function fit() { var f = Math.min(innerWidth / 390, 1.15); root.style.setProperty('--fit', f); root.style.height = (innerHeight / f) + 'px'; }
+  fit(); addEventListener('resize', fit);
+  // ouverture : le bouton juste au-dessus des mains, le texte centré entre la Basmala et le bouton
+  // ouverture : Basmala en haut de l'arche, mains en bas, bouton juste au-dessus des mains, texte centré entre les deux
+  function placeIntro() { var R = root.offsetHeight, sc = Math.max(390 / 750, R / 1333), dh = 1333 * sc, off = (dh - R) / 2;
+    var cta = $('#introCta'), copy = $('#introCopy'), bas = $('#introBas'), hands = $('#introHands'); if (!cta || !copy || !bas || !hands) return;
+    var bt = 0.135 * dh - off + 18; bas.style.top = bt + 'px';
+    var bb = bt + (bas.offsetHeight || 35), ht = R + 40 - (hands.offsetHeight || 250), bh = cta.offsetHeight || 48, ct = ht - bh - 2;
+    cta.style.top = ct + 'px'; copy.style.top = (bb + 26) + 'px'; copy.style.bottom = (R - ct + 8) + 'px'; }
+  placeIntro(); addEventListener('resize', placeIntro); addEventListener('load', placeIntro); if (document.fonts && document.fonts.ready) document.fonts.ready.then(placeIntro);
+  // textes
+  var d = new Date(C.date), ok = !isNaN(d.getTime());
+  var dateLabel = '', timeLabel = '';
+  if (ok) {
+    dateLabel = (O.days ? O.days[d.getDay()] + ' ' : '') + d.getDate() + ' ' + O.months[d.getMonth()] + ' ' + d.getFullYear();
+    timeLabel = O.timePrefix + pad(d.getHours()) + O.timeSep + pad(d.getMinutes());
+  }
+  var V = {}; O.fields.forEach(function (f) { V[f[0]] = f[1] === '@date' ? dateLabel : f[1] === '@time' ? timeLabel : C[f[1]]; });
+  (O.letters || []).forEach(function (L) {
+    var box = document.querySelector('[data-letters="' + L[0] + '"]'); if (!box) return;
+    Array.from(String(C[L[1]] || '')).forEach(function (ch, i) { var s = document.createElement('span'); s.className = 'lt'; s.style.transitionDelay = (L[2] + i * 0.06).toFixed(2) + 's'; s.textContent = ch === ' ' ? '\u00a0' : ch; box.appendChild(s); });
+  });
+  all('[data-c]').forEach(function (el) { var v = V[el.getAttribute('data-c')]; if (v != null) el.textContent = v; });
+  // prénoms de l'ouverture (ceux du formulaire) : sur une ligne, taille réduite si besoin
+  function fitIntroNames() { return; var h = $('#introNames'); if (!h) return; var w = h.parentElement.clientWidth, lat = !/[\u0600-\u06ff]/.test(h.textContent), fs = lat ? 40 : 46;
+    if (lat) h.style.setProperty('font-family', "'Amiri', serif", 'important'); h.style.fontSize = fs + 'px';
+    while (fs > 22 && h.scrollWidth > w) { fs -= 2; h.style.fontSize = fs + 'px'; } }
+  fitIntroNames(); if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitIntroNames);
+  var q = C.mapQuery || [C.venue, C.address].filter(Boolean).join(', ');
+  var maps = /^https:\/\//.test(C.mapLink || '') ? C.mapLink : 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(q);
+  all('[data-maps]').forEach(function (a) { a.href = maps; });
+  // compte à rebours
+  var cd = {}; all('[data-cd]').forEach(function (el) { cd[el.getAttribute('data-cd')] = el; });
+  function tick() {
+    var diff = ok ? Math.max(0, d.getTime() - Date.now()) : 0;
+    cd.d.textContent = String(Math.floor(diff / 864e5)); cd.h.textContent = pad(Math.floor(diff / 36e5) % 24);
+    cd.m.textContent = pad(Math.floor(diff / 6e4) % 60); cd.s.textContent = pad(Math.floor(diff / 1e3) % 60);
+  }
+  tick(); setInterval(tick, 1000);
+  // scènes : parallaxe et apparitions
+  var rm = false; try { rm = matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+  if (rm) root.classList.add('rm');
+  var allScenes = all('.scene'), scenes = allScenes.filter(function (e) { return e.style.display !== 'none'; }), T = function (j) { var e = allScenes[Math.max(0, Math.min(allScenes.length - 1, j))]; return e ? e.offsetTop : j * H; };
+  // fond de la page 2 : 1re image (bordure du haut), images du milieu en miroir (bordures continues, sans coupure),
+  // dernière image (bordure du bas) ; la dernière section s'allonge juste ce qu'il faut pour finir sur une image entière.
+  (function () {
+    var sc = $('#scroller'), last = all('.scene').pop(); if (!sc || !last) return;
+    var W = 460, hTop = Math.round(W * 1.48711), hMid = W * 1.40089, hBot = Math.round(W * 1.45600);
+    // nombre impair d'images au milieu (pour que la dernière se raccorde), hauteur ajustée pour tomber pile sur la fin
+    var H0 = sc.scrollHeight, need = Math.max(hMid * 0.6, H0 - hTop - hBot), k = Math.max(1, Math.round(need / hMid)); if (k % 2 === 0) k += (need / hMid > k ? 1 : -1) || 1;
+    hMid = need / k; var total = Math.round(hTop + k * hMid + hBot);
+    if (total > H0) last.style.height = (last.offsetHeight + total - H0) + 'px';
+    var L = document.createElement('div'); L.className = 'bgLayer'; L.setAttribute('aria-hidden', 'true'); L.style.height = total + 'px';
+    var add = function (src, h) { var i = document.createElement('img'); i.src = src; i.alt = ''; i.style.height = h + 'px'; L.appendChild(i); };
+    add('/media/x/9e661225183c88.webp', hTop);
+    for (var j = 0; j < k; j++) add(j % 2 ? '/media/x/b9f3c240d214ff.webp' : '/media/x/7c4aa5304ec0d9.webp', hMid);
+    add('/media/x/a5fb099cf3c428.webp', hBot);
+    var v = document.createElement('div'); v.className = 'veil'; L.appendChild(v); sc.insertBefore(L, sc.firstChild);
+  })();
+  var scroller = $('#scroller'), px = all('[data-px]'), ons = all('[data-on]'), dots = all('#dots .dot'), sy = 0, maxSy = 0, entered = false, raf = 0;
+  function render() {
+    px.forEach(function (el) { var a = el.getAttribute('data-px').split(' '), local = rm ? 0 : sy - T(+a[0]); el.style.translate = '0 ' + (local * O.px[a[1]]).toFixed(1) + 'px'; });
+    ons.forEach(function (el) { var j = +el.getAttribute('data-on'); el.classList.toggle('on', entered && maxSy >= T(j) - 460); });
+    var active = 0; scenes.forEach(function (e, k) { if (sy + 200 >= e.offsetTop) active = k; }); dots.forEach(function (b, k) { b.classList.toggle('act', k === active); });
+  }
+  scroller.addEventListener('scroll', function () { if (raf) return; raf = requestAnimationFrame(function () { raf = 0; sy = scroller.scrollTop; maxSy = Math.max(maxSy, sy); render(); }); }, { passive: true });
+  dots.forEach(function (b) { b.addEventListener('click', function () { scroller.scrollTo({ top: T(+b.getAttribute('data-go')), behavior: rm ? 'auto' : 'smooth' }); }); });
+  // ouverture
+  var intro = $('#intro'), phase = 'closed', timers = [], win = $('#win');
+  $('#openIntro').addEventListener('click', function () {
+    if (phase !== 'closed') return; phase = O.openPhase; intro.classList.add(O.openPhase);
+    timers.push(setTimeout(function () { phase = 'reveal'; intro.classList.add(O.phase2 || 'reveal'); entered = true; scroller.classList.add('on'); $('#dots').hidden = false; render(); }, rm ? 150 : O.t1));
+    timers.push(setTimeout(function () { phase = 'done'; intro.hidden = true; }, rm ? 400 : O.t2));
+  });
+  if (win) $('#winBtn').addEventListener('click', function () { win.classList.add('open'); $('#winBtn').hidden = true; });
+  $('#replay').addEventListener('click', function () {
+    timers.forEach(clearTimeout); timers = []; scroller.scrollTop = 0; sy = 0; maxSy = 0; entered = false; phase = 'closed';
+    scroller.classList.remove('on'); $('#dots').hidden = true; intro.hidden = false; intro.classList.remove(O.openPhase, O.phase2 || 'reveal');
+    if (win) { win.classList.remove('open'); $('#winBtn').hidden = false; } render();
+  });
+  render();
+  // un mot : envoyé au site Farha, qui le transmet par e-mail
+  var form = $('#msgForm'), nameIn = form.querySelector('[data-f=name]'), msgIn = form.querySelector('[data-f=msg]'), sending = false;
+  nameIn.addEventListener('input', function () { nameIn.classList.remove('bad'); $('#errName').hidden = true; });
+  msgIn.addEventListener('input', function () { msgIn.classList.remove('bad'); $('#errMsg').hidden = true; });
+  form.addEventListener('submit', function (ev) {
+    ev.preventDefault(); if (sending) return;
+    var n = nameIn.value.trim(), m = msgIn.value.trim(), bad = false;
+    if (!n) { nameIn.classList.add('bad'); $('#errName').hidden = false; bad = true; }
+    if (!m) { msgIn.classList.add('bad'); $('#errMsg').hidden = false; bad = true; }
+    $('#msgNote').hidden = true; if (bad) return;
+    var id = Math.random().toString(36).slice(2), done = false;
+    sending = true; $('#msgBtnLabel').textContent = O.sending;
+    function finish(okk, err) {
+      if (done) return; done = true; removeEventListener('message', on); sending = false; $('#msgBtnLabel').textContent = O.btn;
+      if (okk) { $('#msgThanks').textContent = O.thanks.replace('{name}', n).replace('{bride}', C.bride || '').replace('{groom}', C.groom || ''); form.hidden = true; $('#msgSent').hidden = false; }
+      else { var note = $('#msgNote'); note.textContent = err || O.error; note.hidden = false; }
+    }
+    function on(e) { var x = e.data; if (x && x.type === 'farha:rsvp-result' && x.id === id) finish(x.ok, x.error); }
+    addEventListener('message', on);
+    // message envoyé par e-mail (invitation personnalisée)
+    fetch('/api/perso-message', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ page: 'oussema-et-nesrine', name: n, message: m.slice(0, 1200) }) })
+      .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { finish(r.ok, j && j.error); }); })
+      .catch(function () { finish(false); });
+  });
+})();
+
+</script>
+</body>
+</html>
