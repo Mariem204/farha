@@ -4,8 +4,8 @@
 
 // invitation → destinataire et titre
 const PAGES = {
-  'oussema-et-nesrine': { to: 'maryemayadi05@gmail.com', title: 'Mariage de Oussema & Nesrine' },
-  'wtiya-nesrine': { to: 'maryemayadi05@gmail.com', title: 'Wtiya de Nesrine', rsvp: true }
+  'oussema-et-nesrine': { to: 'Nesrinetahari5@gmail.com', title: 'Mariage de Oussema & Nesrine' },
+  'wtiya-nesrine': { to: 'Nesrinetahari5@gmail.com', title: 'Wtiya de Nesrine', rsvp: true }
 };
 const MAX_PER_IP_10_MIN = 6;
 const recent = new Map();
