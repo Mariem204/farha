@@ -307,7 +307,7 @@ const CONFIG = {
   all("[data-names-amp]").forEach(el => el.textContent = C.bride + " & " + C.groom);
   // pétales : beige et bordeaux, à des hauteurs, vitesses et tailles différentes
   (function () { const box = $("#petals"); if (!box) return; 
-    for (let i = 0; i < 14; i++) { const p = document.createElement("i"), sz = 7 + Math.random() * 8; p.style.left = (Math.random() * 100) + "%"; p.style.width = sz + "px"; p.style.height = (sz * 1.3) + "px";
+    for (let i = 0; i < 8; i++) { const p = document.createElement("i"), sz = 7 + Math.random() * 8; p.style.left = (Math.random() * 100) + "%"; p.style.width = sz + "px"; p.style.height = (sz * 1.3) + "px";
       p.style.setProperty("--o", (0.25 + Math.random() * 0.2).toFixed(2)); p.style.animationDuration = (12 + Math.random() * 10) + "s"; p.style.animationDelay = (-Math.random() * 22) + "s"; box.appendChild(p); } })();
   all("[data-names-heart]").forEach(el => { el.textContent = ""; const h = document.createElement("i"); h.textContent = "♥"; el.append(C.bride, h, C.groom); });
   all("[data-place]").forEach(el => el.textContent = [C.venue, C.city].filter(Boolean).join(", "));
@@ -376,7 +376,12 @@ const CONFIG = {
 
   // ----- Carte, calendrier
   const link = C.mapLink || "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(C.mapQuery || C.address);
-  $("#mapCard").href = link; $("#mapBtn").href = link;
+  if (C.mapLink) { $("#mapCard").href = link; $("#mapBtn").href = link; }
+  else {
+    // pas de lien Google Maps donné : la carte reste affichée, mais ni elle ni le bouton ne sont cliquables
+    $("#mapCard").removeAttribute("href"); $("#mapCard").style.pointerEvents = "none";
+    const mb = $("#mapBtn"); mb.removeAttribute("href"); mb.setAttribute("aria-disabled", "true"); mb.textContent = "Itinéraire indisponible"; mb.style.opacity = ".55"; mb.style.cursor = "default"; mb.style.pointerEvents = "none";
+  }
   const map = $("#map");
   if (C.mapImage) { const i = new Image(); i.src = C.mapImage; i.alt = "Plan d'accès"; map.append(i); }
   else { const f = document.createElement("iframe"); f.title = "Plan d'accès"; f.loading = "lazy"; f.tabIndex = -1; f.src = "https://www.google.com/maps?q=" + encodeURIComponent(C.mapQuery || C.address) + "&z=15&output=embed"; map.append(f); }
