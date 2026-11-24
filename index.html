@@ -1762,6 +1762,8 @@ function farhaOrderNames(d){
  return 'Invitation : '+d.bride+' & '+d.groom;
 }
 function toPayment(){
+ // « Confirmer » : les photos du client partent vers le serveur (le paiement attend la fin de l'envoi)
+ try{farhaUploadPhotos()}catch(e){}
  // seuls les champs affichés pour ce modèle sont exigés (certains n'ont qu'un prénom)
  const farhaNeed=id=>{const e=$(id);if(!e)return false;const row=e.closest('label,.field')||e;if(e.closest('[hidden]')||!(row.offsetWidth||row.getClientRects().length))return false;return !String(e.value||'').trim()};
  if(['bride','groom','date','place'].some(farhaNeed)){alert('Veuillez remplir les prénoms, la date et le lieu.');return}
@@ -1849,12 +1851,12 @@ function farhaUploadPhotos(maxWait){
     // sur une preview (ou si le service local échoue), la photo est enregistrée par le site principal
     return up('/api/photo').catch(e=>/^(www\.)?invitation-digitale\.tn$/.test(location.hostname)?Promise.reject(e):up('https://www.invitation-digitale.tn/api/photo'))}).then(j=>{const u=j&&j.url;if(!/^https:\/\//.test(u||''))throw new Error('réponse invalide');farhaPhotoUrls[p]=u;return u}).catch(e=>{delete farhaPhotoBusy[p];throw e}));
   return done.then(u=>{if(list[i]===p)list[i]=u}).catch(e=>console.warn('Farha : photo non enregistrée ('+(e&&e.message||e)+'), elle ne sera pas dans le lien.'))};
- // les photos partent dès qu'elles sont choisies ; au paiement on attend la fin (60 s au plus)
+ // les photos partent à la confirmation ; au paiement on attend la fin (60 s au plus)
  return Promise.race([Promise.all(list.map(one)),new Promise(r=>setTimeout(r,maxWait||60000))]);
 }
 function farhaSetPhoto(i,file){
  const t=chosen;$('photoStatus').textContent='Préparation de la photo…';
- farhaReadPhoto(file).then(src=>{if(chosen!==t)return;const list=farhaState.photos[t.id]||(farhaState.photos[t.id]=[]);list[i]=src;farhaState.ver.photos++;$('photoStatus').textContent='';farhaRenderControls();farhaSync();farhaUploadPhotos()},
+ farhaReadPhoto(file).then(src=>{if(chosen!==t)return;const list=farhaState.photos[t.id]||(farhaState.photos[t.id]=[]);list[i]=src;farhaState.ver.photos++;$('photoStatus').textContent='';farhaRenderControls();farhaSync()},
   e=>{$('photoStatus').textContent=e.message});
 }
 
