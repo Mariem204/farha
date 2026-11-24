@@ -7,7 +7,7 @@
 
 const BUCKET = 'invitation-photos';
 const MAX_BYTES = 3 * 1024 * 1024;       // photo déjà réduite à 1600 px par le site : quelques centaines de Ko
-const MAX_PER_IP_10_MIN = 30;            // limite anti-abus (par instance serveur)
+const MAX_PER_IP_10_MIN = 80;            // limite anti-abus (par instance serveur)
 const recent = new Map();
 const TYPES = { 'image/jpeg': 'jpg', 'image/png': 'png', 'image/webp': 'webp' };
 
