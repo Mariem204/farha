@@ -1337,7 +1337,7 @@ function farhaClean(d,t){
 // Textes du formulaire traduits dans le format propre à chaque modèle (CONFIG, CFG, paramètres…).
 function farhaTextPatch(t,d){
  // Mariage : le marié d'abord (liens créés après le 24/11 : marqueur « gf » ; les anciens liens restent inchangés)
- if(t&&t.category==='Mariage'&&d&&d.gf&&d.groom)d=Object.assign({},d,{bride:d.groom,groom:d.bride});
+ if(t&&/^(Mariage|Fiançailles|Baby shower)$/.test(t.category)&&d&&d.gf&&d.groom)d=Object.assign({},d,{bride:d.groom,groom:d.bride});
  const key=farhaKey(t),def=farhaDefaults(t),iso=d.date+'T'+d.time+':00';
  if(key==='royal'||key==='editorial')return {names:d.bride+' & '+d.groom,date:d.date,time:d.time,place:d.place,message:d.message,map:farhaMapUrl(d)};
  if(key==='sidi'){const p=farhaSplitPlace(d.place);return {n1:d.bride,n2:d.groom,date:iso,venue:p.name,addr:p.addr,maps:farhaMapUrl(d),msg:d.message}}
@@ -1828,7 +1828,7 @@ const farhaPhotoUrls={};
 function farhaShortLink(long){
  const code=(String(long).split('#i=')[1]||'');if(!code||!chosen)return Promise.resolve(long);
  const d=readData(),df=chosen.custom&&chosen.defaults,solo=!!(df&&df.mode==='name'&&!df.second);
- const body=JSON.stringify({i:code,kind:chosen.category,names:solo?[d.bride]:chosen.category==='Mariage'?[d.groom,d.bride]:[d.bride,d.groom]});
+ const body=JSON.stringify({i:code,kind:chosen.category,names:solo?[d.bride]:[d.groom,d.bride]});
  const ok=j=>/^https:\/\/www\.invitation-digitale\.tn\/[a-z0-9-]+$/.test(j&&j.url||'')?j.url:Promise.reject(new Error('réponse invalide'));
  const call=u=>fetch(u,{method:'POST',headers:{'Content-Type':'application/json'},body}).then(r=>r.ok?r.json():Promise.reject(new Error('HTTP '+r.status))).then(ok);
  // sur une preview (ou si le service local échoue), le service du site principal crée le lien
@@ -2052,7 +2052,7 @@ farhaDefaults=function(t){return t&&t.custom?t.defaults:farhaDefaultsBefore(t)};
 const farhaTextPatchBefore=farhaTextPatch;
 farhaTextPatch=function(t,d){
  if(!(t&&t.custom))return farhaTextPatchBefore(t,d);
- if(t.category==='Mariage'&&d&&d.gf&&d.groom)d=Object.assign({},d,{bride:d.groom,groom:d.bride}); // le marié d'abord
+ if(/^(Mariage|Fiançailles|Baby shower)$/.test(t.category)&&d&&d.gf&&d.groom)d=Object.assign({},d,{bride:d.groom,groom:d.bride}); // le marié d'abord
  const def=farhaDefaults(t),patch={date:d.date+'T'+d.time+':00'};
  if(def.mode==='name'){patch.name=d.bride;if(def.second)patch[def.second]=d.groom}
  else Object.assign(patch,{bride:d.bride,groom:d.groom});
@@ -3090,7 +3090,7 @@ body .farha-header .farha-logo{line-height:1.1}
   if(g)g.hidden=solo;if(gl)gl.hidden=solo;
   // Mariage : le prénom du marié vient en premier dans le formulaire (ailleurs : la mariée d'abord)
   var bb=document.getElementById('bride'),bdv=bb&&bb.parentElement,gdv=g&&g.parentElement;
-  if(bdv&&gdv&&bdv.parentNode===gdv.parentNode){var groomFirst=!solo&&t&&t.category==='Mariage';if(groomFirst&&bdv.nextElementSibling===gdv)bdv.parentNode.insertBefore(gdv,bdv);else if(!groomFirst&&gdv.nextElementSibling===bdv)gdv.parentNode.insertBefore(bdv,gdv)}
+  if(bdv&&gdv&&bdv.parentNode===gdv.parentNode){var groomFirst=!solo&&!!t; /* toutes les invitations à deux prénoms : l'homme d'abord */if(groomFirst&&bdv.nextElementSibling===gdv)bdv.parentNode.insertBefore(gdv,bdv);else if(!groomFirst&&gdv.nextElementSibling===bdv)gdv.parentNode.insertBefore(bdv,gdv)}
   if(d&&d.mode==='couple'&&t.category==='Fiançailles'){
    var F={bride:'Prénom de la fiancée',groom:'Prénom du fiancé',date:'Date des fiançailles',place:'Lieu des fiançailles'};
    Object.keys(F).forEach(function(k){var l=document.querySelector('label[for="'+k+'"]');if(l)l.textContent=F[k]});

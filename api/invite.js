@@ -18,7 +18,7 @@ function title(kind, d) {
   const two = (x, y) => [x, y].filter(Boolean).join(' et ');
   switch (kind) {
     case 'mariage': return 'Mariage de ' + two(g, b);
-    case 'fiancailles': return 'Fiançailles de ' + two(b, g);
+    case 'fiancailles': return 'Fiançailles de ' + two(g, b);
     case 'wteya': return 'Wtiya de ' + b;
     case 'henna': return 'Henna de ' + b;
     case 'bridal-party': return 'Bridal party de ' + b;
