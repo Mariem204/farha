@@ -7,14 +7,19 @@
   const { db, el, toast, confirm, fmtDate, registerRoute } = window.FarhaAdmin;
 
   const PAGE = 25;
-  const KIND = { template: 'Modèle', sur_mesure: 'Sur mesure', test: 'Test gratuit' };
+  const KIND = { template: 'Modèle', sur_mesure: 'Sur mesure / personnalisée', test: 'Test gratuit' };
+  // invitations personnalisées (pages /invitation/…) : proposées en un clic tant qu'elles n'ont pas de commande
+  const PERSO = [
+    { event: 'Wtiya de Nesrine', name: 'Nesrine', email: 'Nesrinetahari5@gmail.com', link: 'https://www.invitation-digitale.tn/invitation/nesrine-wtiya' },
+    { event: 'Mariage de Oussema & Nesrine', name: 'Nesrine', email: 'Nesrinetahari5@gmail.com', link: 'https://www.invitation-digitale.tn/invitation/nesrine-mariage' }
+  ];
   const PAY = { unpaid: 'Non payée', pending: 'En attente', paid: 'Payée', failed: 'Échouée', refunded: 'Remboursée' };
   const PROC = { new: 'Nouvelle', in_progress: 'En cours', completed: 'Terminée', cancelled: 'Annulée' };
   const PROC_FILTER = Object.assign({ todo: 'À traiter (nouvelles et en cours)' }, PROC);
   const METHODS = { d17: 'D17', virement: 'Virement', especes: 'Espèces', konnect: 'Konnect', flouci: 'Flouci', clictopay: 'ClicToPay', autre: 'Autre' };
   const DETAIL_LABELS = { modele: 'Modèle', bride: 'Prénom 1', groom: 'Prénom 2', date: 'Date', time: 'Heure', place: 'Lieu',
     map: 'Lien Maps', message: 'Message', color: 'Couleur', music: 'Musique', evenement: 'Événement', noms: 'Nom(s)',
-    lieu: 'Lieu', reseaux: 'Réseaux sociaux', description: 'Description', autres: 'Autres détails' };
+    lieu: 'Lieu', reseaux: 'Réseaux sociaux', description: 'Description', autres: 'Autres détails', lien: 'Lien', personnalisee: 'Personnalisée' };
   const PERIODS = { all: 'Toute période', '7': '7 derniers jours', '30': '30 derniers jours', '90': '90 derniers jours' };
 
   const money = v => Number(v || 0).toLocaleString('fr-FR', { minimumFractionDigits: 3, maximumFractionDigits: 3 }) + ' DT';
@@ -27,6 +32,61 @@
     s.value = value;
     return s;
   }
+  // appel d'une fonction serveur réservée aux admins (jeton de la session du back-office)
+  async function adminApi(path, payload) {
+    const { data: s } = await db.auth.getSession();
+    const cfg = window.FARHA_CONFIG || {};
+    const r = await fetch(path, { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + (s && s.session && s.session.access_token || ''), 'X-Farha-Anon': cfg.SUPABASE_ANON_KEY || '' }, body: JSON.stringify(payload) });
+    const j = await r.json().catch(() => ({}));
+    if (!r.ok) throw new Error(j.error || 'HTTP ' + r.status);
+    return j;
+  }
+
+  // ---------- Commande personnalisée (lien externe, prix libre) ----------
+  function customForm(preset, onDone) {
+    const p = preset || {};
+    const f = {
+      event: el('input', { required: '', maxlength: '120', placeholder: 'ex. Wtiya de Nesrine', value: p.event || '' }),
+      name: el('input', { required: '', maxlength: '120', placeholder: 'Nom de la cliente', value: p.name || '' }),
+      email: el('input', { type: 'email', maxlength: '160', placeholder: 'facultatif', value: p.email || '' }),
+      phone: el('input', { type: 'tel', maxlength: '40', placeholder: 'facultatif', value: p.phone || '' }),
+      link: el('input', { type: 'url', maxlength: '300', placeholder: 'https://www.invitation-digitale.tn/invitation/…', value: p.link || '' }),
+      price: el('input', { type: 'number', required: '', min: '0', step: '0.001', placeholder: 'ex. 120', inputmode: 'decimal' })
+    };
+    const ok = el('button', { type: 'submit', class: 'btn primary' }, 'Créer la commande');
+    const cancel = el('button', { type: 'button', class: 'btn ghost' }, 'Annuler');
+    const form = el('form', { class: 'sheet-form' },
+      el('div', { class: 'sheet-head' }, el('h2', {}, 'Commande personnalisée'), el('span', { class: 'sub' }, 'Invitation en lien externe · prix fixé par vous')),
+      el('label', {}, 'Événement', f.event), el('div', { class: 'grid2' }, el('label', {}, 'Cliente', f.name), el('label', {}, 'Prix (DT)', f.price)),
+      el('div', { class: 'grid2' }, el('label', {}, 'E-mail', f.email), el('label', {}, 'Téléphone', f.phone)),
+      el('label', {}, 'Lien de l’invitation', f.link), el('div', { class: 'actions' }, cancel, ok));
+    const dlg = el('dialog', { class: 'sheet' }, form);
+    document.body.append(dlg); dlg.addEventListener('close', () => dlg.remove()); dlg.showModal();
+    cancel.onclick = () => dlg.close();
+    setTimeout(() => (p.event ? f.price : f.event).focus(), 50);
+    form.onsubmit = async e => {
+      e.preventDefault(); ok.disabled = true; ok.textContent = 'Création…';
+      try {
+        const j = await adminApi('/api/order-custom', { action: 'create', event: f.event.value, name: f.name.value, email: f.email.value, phone: f.phone.value, link: f.link.value, price: f.price.value });
+        toast('Commande ' + j.reference + ' créée.', 'ok'); dlg.close(); onDone();
+      } catch (err) { toast(err.message, 'error'); ok.disabled = false; ok.textContent = 'Créer la commande'; }
+    };
+  }
+
+  // invitations personnalisées sans commande : bandeau « à ajouter »
+  async function persoBanner(box, onDone) {
+    const { data } = await db.from('order_items').select('details').ilike('label', 'Personnalisée%').limit(500);
+    const have = new Set((data || []).map(r => (r.details || {}).lien).filter(Boolean));
+    const todo = PERSO.filter(p => !have.has(p.link));
+    if (!todo.length) { box.replaceChildren(); return; }
+    box.replaceChildren(el('div', { class: 'card' }, el('h3', {}, 'Invitations personnalisées sans commande'),
+      todo.map(p => {
+        const b = el('button', { type: 'button', class: 'btn primary sm' }, 'Ajouter');
+        b.onclick = () => customForm(p, onDone);
+        return el('div', { class: 'inline' }, el('span', {}, el('strong', {}, p.event), el('span', { class: 'sub' }, '  ' + p.link.replace('https://www.', ''))), b);
+      })));
+  }
+
   const errText = e => /permission denied|row-level/i.test((e && e.message) || '') ? 'Action refusée : droits insuffisants.' : ((e && e.message) || String(e));
 
   // ---------- Liste ----------
@@ -43,7 +103,12 @@
     const kind = select(KIND, state.kind, 'Type', 'Tous types');
     const period = select(PERIODS, state.period, 'Période');
     const list = el('div', {});
-    box.append(el('div', { class: 'toolbar' }, search, pay, proc, kind, period), list);
+    const banner = el('div', {});
+    const add = el('button', { type: 'button', class: 'btn primary sm' }, '+ Commande personnalisée');
+    box.append(el('div', { class: 'toolbar' }, search, pay, proc, kind, period, add), banner, list);
+    const refresh = () => { load(list); persoBanner(banner, refresh); };
+    add.onclick = () => customForm(null, refresh);
+    persoBanner(banner, refresh);
 
     let timer = null;
     const reload = () => {
@@ -147,13 +212,25 @@
     const items = order.order_items.map(it => el('div', { class: 'item' },
       el('p', {}, el('strong', {}, it.label), ' · ', money(it.unit_price_dt), it.quantity > 1 ? ' × ' + it.quantity : ''),
       el('dl', { class: 'kv' }, Object.entries(it.details || {}).filter(([, v]) => v).flatMap(([k, v]) =>
-        [el('dt', {}, DETAIL_LABELS[k] || k), el('dd', {}, k === 'color' ? [el('span', { class: 'swatch', style: 'background:' + (/^#[0-9a-f]{6}$/i.test(v) ? v : '#fff') }), ' ', v] : v)]))));
+        [el('dt', {}, DETAIL_LABELS[k] || k), el('dd', {}, k === 'lien' && /^https:\/\//.test(v) ? el('a', { href: v, target: '_blank', rel: 'noopener' }, v) : k === 'color' ? [el('span', { class: 'swatch', style: 'background:' + (/^#[0-9a-f]{6}$/i.test(v) ? v : '#fff') }), ' ', v] : v)]))));
     const INV = { draft: 'Brouillon', published: 'Publiée', disabled: 'Désactivée' };
     const invLine = invitation ? el('p', { class: 'sub' }, 'Invitation : ',
       el('a', { href: '#/invitations?q=' + encodeURIComponent(invitation.slug), onclick: 'this.closest("dialog").close()' }, '/i/' + invitation.slug),
       ' · ', el('span', { class: 'badge inv-' + invitation.status }, INV[invitation.status])) : '';
+    let priceEdit = '';
+    if (order.kind === 'sur_mesure') {
+      // prix libre pour les commandes sur mesure / personnalisées
+      const pin = el('input', { type: 'number', min: '0', step: '0.001', inputmode: 'decimal', value: String(Number(order.total_dt || 0)), 'aria-label': 'Prix (DT)' });
+      const pbtn = el('button', { type: 'button', class: 'btn ghost sm' }, 'Modifier le prix');
+      pbtn.onclick = async () => {
+        pbtn.disabled = true;
+        try { await adminApi('/api/order-custom', { action: 'price', id, price: pin.value }); toast('Prix enregistré.', 'ok'); onChange(); dlg.close(); detail(id, onChange); }
+        catch (e) { toast(e.message, 'error'); pbtn.disabled = false; }
+      };
+      priceEdit = el('div', { class: 'inline' }, el('span', { class: 'sub' }, 'Prix (DT)'), pin, pbtn);
+    }
     const content = el('section', { class: 'card' }, el('h3', {}, 'Commande · ' + KIND[order.kind]), items.length ? items : el('p', { class: 'sub' }, 'Aucune ligne.'), invLine,
-      el('p', { class: 'total' }, 'Total : ', el('strong', {}, money(order.total_dt))));
+      el('p', { class: 'total' }, 'Total : ', el('strong', {}, money(order.total_dt))), priceEdit);
 
     // Paiement
     const method = select(METHODS, order.payment_method || 'd17', 'Moyen de paiement');
