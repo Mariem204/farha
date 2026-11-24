@@ -74,10 +74,13 @@ section{position:relative;padding:2.6rem 0 1rem}
 .vinyl:focus-visible{outline:2px solid var(--cream);outline-offset:4px;border-radius:50%}
 .in .oval{transform:translateY(-30px) rotate(-4deg)}.in .vinyl{transform:translateY(-14px)}
 .env-stage .bouquet{right:4px;top:52px;width:92px;height:auto;z-index:4}
-.env .card{position:absolute;left:0;right:0;bottom:7%;display:flex;flex-direction:column;align-items:center;color:var(--wine);text-align:center}
-.env .card .s{font:400 .66rem Jost,sans-serif;letter-spacing:.3em;text-transform:uppercase;opacity:.75}
-.env .card .n{margin-top:.35rem;font:italic 400 1.35rem "Cormorant Garamond",serif}
-.env .card .l{width:44px;height:1px;background:var(--gold);margin-top:.5rem}
+.env .card{position:absolute;left:7%;right:7%;top:-44px;bottom:8px;z-index:2;background:linear-gradient(#fdfbf6,#f3eee4);box-shadow:0 -2px 8px rgba(0,0,0,.12);border:1px solid rgba(201,178,122,.45)}
+.env-stage .oval{z-index:6}.env-stage .vinyl{z-index:6}.env-stage .bouquet{z-index:7}
+.deco{position:absolute;pointer-events:none;z-index:2;filter:drop-shadow(0 4px 6px rgba(0,0,0,.25))}
+.closing{display:flex;flex-direction:column;align-items:center;gap:.5rem;padding:2.2rem 0 1rem;text-align:center}
+.closing img{width:78px;filter:drop-shadow(0 4px 6px rgba(0,0,0,.3))}
+.closing .nh{font:italic 400 1.7rem "Cormorant Garamond",serif;color:var(--cream)}
+.closing .nh i{font-style:normal;color:#c23a4b;margin:0 .35rem}
 .lace-card{position:relative;margin:28px auto 0;width:min(86%,330px);z-index:5}
 .lace-card svg.lace{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
 .lace-card .inner{position:relative;padding:22% 12% 20%;color:var(--wine)}
@@ -173,7 +176,7 @@ img.bouquet{opacity:.97;filter:drop-shadow(0 4px 5px rgba(0,0,0,.35))}
 <main id="content">
  <!-- Enveloppe : photo ovale + vinyle -->
  <div class="env-stage reveal">
-  <div class="env"><div class="flap"></div><div class="front"><div class="card" aria-hidden="true"><span class="s">Save the date</span><span class="n" data-names-amp></span><span class="l"></span></div></div></div>
+  <div class="env"><div class="flap"></div><div class="card" aria-hidden="true"></div><div class="front"></div></div>
   <div class="oval"><div class="ph" id="photo" data-farha-photo="Photo du cadre ovale" role="img" aria-label="Photo des mariés"></div><img loading="lazy" decoding="async" class="wreath" alt="" src="/media/x/8c2e27d76dd0e3.webp"></div>
   <button class="vinyl" id="music" type="button" aria-label="Activer la musique" aria-pressed="false"><span class="disc"><span class="lbl"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18.5a3 3 0 1 1-2-2.83V5l12-2.5v12a3 3 0 1 1-2-2.83V6.6L9 8.3z"/></svg></span></span></button>
   <img loading="lazy" decoding="async" class="bouquet" data-bouquet="C" alt="">
@@ -214,12 +217,14 @@ img.bouquet{opacity:.97;filter:drop-shadow(0 4px 5px rgba(0,0,0,.35))}
 
  <!-- Programme -->
  <section>
+  <img class="deco reveal" src="/media/x/e28dec5ed53a32.webp" alt="" style="right:2%;top:1.2rem;width:62px;transform:rotate(10deg)">
   <h2 class="title reveal">Programme</h2>
   <div class="program reveal" id="program"></div>
  </section>
 
  <!-- Dress code -->
  <section>
+  <img class="deco reveal" src="/media/x/e63c5eadfdc7f8.webp" alt="" style="left:2%;top:1.6rem;width:64px;transform:rotate(-14deg)">
   <h2 class="title reveal">Dress code</h2>
   <div class="swatches reveal" id="swatches"></div>
   <p class="dress-note reveal" data-f="dressNote"></p>
@@ -241,6 +246,7 @@ img.bouquet{opacity:.97;filter:drop-shadow(0 4px 5px rgba(0,0,0,.35))}
   </form>
   <p class="thanks" id="thanks" aria-live="polite"></p>
  </section>
+ <div class="closing reveal"><img src="/media/x/e63c5eadfdc7f8.webp" alt=""><div class="nh" data-names-heart></div></div>
 </main>
 
 <script>
@@ -288,6 +294,7 @@ const CONFIG = {
   // ----- Textes
   all("[data-f]").forEach(el => el.textContent = C[el.dataset.f] || "");
   all("[data-names-amp]").forEach(el => el.textContent = C.bride + " & " + C.groom);
+  all("[data-names-heart]").forEach(el => { el.textContent = ""; const h = document.createElement("i"); h.textContent = "♥"; el.append(C.bride, h, C.groom); });
   all("[data-place]").forEach(el => el.textContent = [C.venue, C.city].filter(Boolean).join(", "));
   const big = $("[data-bigdate]"); big.textContent = "";
   [String(when.getDate()), months[when.getMonth()], String(when.getFullYear())].forEach((part, i) => { const d = document.createElement("div"); if (i === 1) swFirst(d, part); else d.textContent = part; big.append(d); });
