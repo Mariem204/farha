@@ -4,6 +4,8 @@
 
 function headers(key) { const h = { apikey: key }; if (/^eyJ/.test(key)) h.Authorization = 'Bearer ' + key; return h; }
 function shortName(n) {
+  // « Karim & Lina » (formulaire d'avis : prénoms des mariés) : affiché tel quel
+  if (/&/.test(String(n))) return String(n).split('&').map(x => x.trim().split(/\s+/)[0]).filter(Boolean).map(x => x.charAt(0).toUpperCase() + x.slice(1)).join(' & ');
   const p = String(n || '').trim().split(/\s+/).filter(Boolean);
   if (!p.length) return 'Client Farha';
   return p[0].charAt(0).toUpperCase() + p[0].slice(1) + (p[1] ? ' ' + p[1].charAt(0).toUpperCase() + '.' : '');
