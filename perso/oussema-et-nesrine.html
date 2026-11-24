@@ -216,8 +216,8 @@ html,body{height:100%;margin:0;overflow:hidden;background:#F3EDE3}
 <div class="rv" data-on="2" style="position: absolute; left: 62px; right: 62px; top: 158px; display: flex; flex-direction: column; align-items: center; text-align: center">
 <p class="cor" style="margin: 0; font-size: 27px; font-style: italic; line-height: 1.12; color: #3a322b">Là où commence<br>notre éternité</p>
 <span aria-hidden="true" style="width: 60px; height: 1px; margin: 14px 0 12px; background: #c9b796"></span>
-<p class="bod" style="margin: 0; font-size: 24px; line-height: 1.15; color: #3a322b"><span data-c="venueName"></span></p>
-<p class="dm" style="margin: 8px 0 0; font-size: 10px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: #5e544a"><span data-c="location"></span></p>
+<p class="bod" style="margin: 0; font-size: 20px; line-height: 1.15; color: #3a322b; white-space: nowrap"><span data-c="venueName"></span></p>
+<p class="dm" style="margin: 8px 0 0; font-size: 9.5px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: #5e544a"><span data-c="location"></span></p>
 <a class="mapcard" href="#" data-maps target="_blank" rel="noopener" aria-label="Ouvrir le lieu dans Google Maps" style="margin-top: 16px; display: block; position: relative; width: 226px; height: 92px; border-radius: 14px; overflow: hidden; border: 1px solid #e0d4c1; box-shadow: 0 8px 18px rgba(120,100,80,0.12)">
 <svg aria-hidden="true" width="100%" height="100%" viewBox="0 0 230 112" preserveAspectRatio="xMidYMid slice" style="display: block">
 <rect width="230" height="112" fill="#f4efe6"></rect>
@@ -310,9 +310,9 @@ Revoir · FARHA — Invitations Digitales
 <img id="introHands" src="/media/x/2878201a0ebc56.webp" alt="Les mains des mariés échangeant les alliances" style="position: absolute; left: 0; bottom: -40px; width: 100%; z-index: 1">
 <img decoding="async" src="/media/x/dabd7b249a514b.webp" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%">
 </div>
-<div class="copy" id="introCopy" lang="fr" style="position: absolute; left: 40px; right: 40px; top: 19%; bottom: 31%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center">
+<div class="copy" id="introCopy" lang="fr" style="position: absolute; left: 40px; right: 40px; top: 19%; bottom: 31%; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: 6px; text-align: center">
 <p class="cor ci" style="margin: 0; font-size: 20px; line-height: 1.45; color: #4a4038; animation-delay: .6s">Les familles <b>Smida</b> et <b>Tahari</b><br>sont heureuses de vous faire part<br>du mariage de leurs enfants</p>
-<h1 class="cor ci" id="introNames" style="margin: 16px 0 6px; max-width: 100%; white-space: nowrap; font-size: 46px; font-weight: 600; font-style: italic; line-height: 1.2; color: #5d6450; animation-delay: 1.4s">Oussema &amp; Nesrine</h1>
+<h1 class="cor ci" id="introNames" style="margin: 16px 0 6px; max-width: 100%; white-space: nowrap; font-size: 38px; font-weight: 600; font-style: italic; line-height: 1.2; color: #5d6450; animation-delay: 1.4s">Oussema &amp; Nesrine</h1>
 <span class="ci" aria-hidden="true" style="width: 54px; height: 1px; margin: 8px 0 0; background: #c9b796; animation-delay: 1.8s"></span>
 </div>
 <div class="copy" id="introCta" style="position: absolute; left: 0; right: 0; display: flex; justify-content: center">
@@ -353,7 +353,7 @@ const CONFIG = {
     var cta = $('#introCta'), copy = $('#introCopy'), bas = $('#introBas'), hands = $('#introHands'); if (!cta || !copy || !bas || !hands) return;
     var bt = 0.135 * dh - off + 18; bas.style.top = bt + 'px';
     var bb = bt + (bas.offsetHeight || 35), ht = R + 40 - (hands.offsetHeight || 250), bh = cta.offsetHeight || 48, ct = ht - bh - 2;
-    cta.style.top = ct + 'px'; copy.style.top = (bb + 56) + 'px'; copy.style.bottom = (R - ct + 8) + 'px'; }
+    cta.style.top = ct + 'px'; copy.style.top = (bb + 26) + 'px'; copy.style.bottom = (R - ct + 8) + 'px'; }
   placeIntro(); addEventListener('resize', placeIntro); addEventListener('load', placeIntro); if (document.fonts && document.fonts.ready) document.fonts.ready.then(placeIntro);
   // textes
   var d = new Date(C.date), ok = !isNaN(d.getTime());
@@ -445,9 +445,10 @@ const CONFIG = {
     }
     function on(e) { var x = e.data; if (x && x.type === 'farha:rsvp-result' && x.id === id) finish(x.ok, x.error); }
     addEventListener('message', on);
-    if (window.parent === window) { finish(true); return; }
-    try { parent.postMessage({ type: 'farha:rsvp', id: id, name: n, attending: true, kind: 'mot', message: m.slice(0, 560) }, '*'); } catch (e) {}
-    setTimeout(function () { finish(true); }, 15000);
+    // message envoyé par e-mail (invitation personnalisée)
+    fetch('/api/perso-message', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ page: 'oussema-et-nesrine', name: n, message: m.slice(0, 1200) }) })
+      .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { finish(r.ok, j && j.error); }); })
+      .catch(function () { finish(false); });
   });
 })();
 
