@@ -21,7 +21,7 @@
       [5, 4, 3, 2, 1].map(n => el('option', { value: String(n) }, stars(n))));
     rating.value = state.rating;
     const list = el('div', {});
-    box.append(el('p', { class: 'note' }, 'Lien à envoyer aux clients pour donner leur avis : https://www.invitation-digitale.tn/donner-mon-avis — chaque avis arrive « En attente ». « Publier » l’affiche sur la page « Vos avis » (www.invitation-digitale.tn/avis) ; « Masquer » le retire du site.'),
+    box.append(el('p', { class: 'note' }, 'Lien à envoyer aux clients pour donner leur avis : https://www.invitation-digitale.tn/votre-avis-farha-invitation-digitale — chaque avis arrive « En attente ». « Publier » l’affiche sur la page « Vos avis » (www.invitation-digitale.tn/avis) ; « Masquer » le retire du site.'),
       el('div', { class: 'toolbar' }, search, status, rating), list);
     let timer = null;
     search.oninput = () => { clearTimeout(timer); timer = setTimeout(() => { state.q = search.value; state.page = 0; load(list); }, 300); };

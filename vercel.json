@@ -50,6 +50,10 @@
   ],
   "rewrites": [
     {
+      "source": "/votre-avis-farha-invitation-digitale",
+      "destination": "/donner-mon-avis.html"
+    },
+    {
       "source": "/avis",
       "destination": "/avis.html"
     },
