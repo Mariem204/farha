@@ -23,7 +23,7 @@ module.exports = async function handler(req, res) {
     const reviews = rows.map(f => ({ name: shortName(f.author_name), rating: Math.max(1, Math.min(5, f.rating | 0)), tags: (f.tags || []).slice(0, 4),
       message: String(f.message || '').slice(0, 600), date: f.created_at, model: f.template && f.template.name || '' }));
     const avg = reviews.length ? Math.round(reviews.reduce((s, x) => s + x.rating, 0) / reviews.length * 10) / 10 : 0;
-    res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=60');
+    res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=600, stale-while-revalidate=60');
     return res.status(200).json({ count: reviews.length, average: avg, reviews });
   } catch (e) {
     console.error('reviews:', e.message);
