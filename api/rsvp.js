@@ -106,7 +106,13 @@ module.exports = async function handler(req, res) {
   if (typeof body.attending !== 'boolean') return res.status(400).json({ error: 'Réponse manquante' });
 
   try {
-    const [inv] = await rest(base, key, 'invitations?select=slug,status,order_id,data&slug=eq.' + encodeURIComponent(slug) + '&limit=1');
+    let [inv] = await rest(base, key, 'invitations?select=slug,status,order_id,data&slug=eq.' + encodeURIComponent(slug) + '&limit=1');
+    if (!inv) {
+      // modèle en fichier : clé gardée dans le stockage par /api/orders
+      const h = { apikey: key }; if (/^eyJ/.test(key)) h.Authorization = 'Bearer ' + key;
+      const r = await fetch(base + '/storage/v1/object/authenticated/invitation-keys/' + slug + '.json', { headers: h });
+      if (r.ok) { const j = JSON.parse(await r.text()); if (j && j.order_id) inv = { slug, status: 'published', order_id: j.order_id, data: j.data || {} }; }
+    }
     if (!inv || inv.status === 'disabled') return res.status(404).json({ error: 'Invitation inconnue' });
     const count = await rest(base, key, 'rsvps?select=id&invitation_slug=eq.' + encodeURIComponent(slug) + '&limit=' + (MAX_PER_INVITATION + 1));
     if (count.length >= MAX_PER_INVITATION) return res.status(429).json({ error: 'Nombre maximum de réponses atteint' });
