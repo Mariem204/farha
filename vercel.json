@@ -50,6 +50,14 @@
   ],
   "rewrites": [
     {
+      "source": "/avis",
+      "destination": "/avis.html"
+    },
+    {
+      "source": "/donner-mon-avis",
+      "destination": "/donner-mon-avis.html"
+    },
+    {
       "source": "/:slug((?:mariage|henna|wteya|fiancailles|anniversaire|baby-shower|bridal-party|tahara|soutenance|naissance|fete)-[a-z0-9-]+)",
       "destination": "/api/invite?s=:slug"
     },

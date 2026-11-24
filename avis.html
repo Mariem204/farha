@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Vos avis — Farha, invitations digitales</title>
+<meta name="description" content="Ce que nos clients pensent de leurs invitations digitales Farha : mariage, fiançailles, henna, anniversaire…">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon/favicon-96x96.png">
+<link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+<meta name="theme-color" content="#0d0b1f">
+<meta property="og:title" content="Vos avis — Farha">
+<meta property="og:description" content="Ce que nos clients pensent de leurs invitations digitales Farha.">
+<meta property="og:image" content="https://www.invitation-digitale.tn/favicon/web-app-manifest-512x512.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&display=swap">
+<style>
+:root{--bg:#0b0a1c;--ink:#f3f1fa;--muted:#a9a6c4;--line:rgba(255,255,255,.14);--card:rgba(255,255,255,.07);--card2:rgba(255,255,255,.11);--mint:#7fe0b0;--mint-ink:#0f3b2a;--gold:#e8c98f}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+body{background:var(--bg);color:var(--ink);font-family:"DM Sans",system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;z-index:-1;background:
+ radial-gradient(60vmax 50vmax at -10% -10%,rgba(155,92,255,.55),transparent 60%),
+ radial-gradient(55vmax 45vmax at 110% 110%,rgba(36,201,180,.45),transparent 60%),
+ radial-gradient(40vmax 35vmax at 70% 20%,rgba(74,44,160,.35),transparent 65%),
+ linear-gradient(160deg,#120f2e,#0b0a1c 55%,#08131a)}
+a{color:inherit}
+header{display:flex;align-items:center;justify-content:space-between;gap:16px;max-width:1180px;margin:0 auto;padding:18px 20px;border-bottom:1px solid var(--line)}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:700;letter-spacing:.02em}
+.logo img{height:26px;width:auto;filter:brightness(0) invert(1)}
+.logo b{font-family:"Cormorant Garamond",serif;font-size:20px;font-weight:600;color:var(--muted)}
+nav{display:flex;gap:6px;flex-wrap:wrap}
+nav a{padding:8px 14px;border-radius:999px;text-decoration:none;font-size:14px;font-weight:500;color:var(--muted)}
+nav a:hover{color:var(--ink);background:var(--card)}
+nav a.on{color:var(--mint)}
+main{max-width:1180px;margin:0 auto;padding:46px 20px 70px}
+.hero{display:grid;grid-template-columns:1.2fr .8fr;gap:22px;align-items:end;margin-bottom:34px}
+.kicker{display:inline-block;padding:6px 12px;border-radius:999px;background:var(--card);border:1px solid var(--line);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--mint)}
+h1{margin:14px 0 10px;font-size:clamp(38px,6vw,64px);line-height:1.02;letter-spacing:-.02em}
+.lead{margin:0;max-width:540px;color:var(--muted);font-size:17px;line-height:1.6}
+.glass{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:20px;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 18px 40px rgba(0,0,0,.35)}
+.score{padding:22px 24px;position:relative}
+.score .num{font-size:46px;font-weight:700;line-height:1}
+.score .num small{font-size:18px;color:var(--muted);font-weight:500}
+.score .badge{position:absolute;right:16px;top:-12px;padding:4px 10px;border-radius:999px;background:var(--mint);color:var(--mint-ink);font-size:12px;font-weight:700}
+.stars{color:var(--mint);letter-spacing:2px;font-size:15px}
+.cta{display:inline-flex;align-items:center;gap:8px;margin-top:16px;padding:12px 20px;border-radius:999px;background:var(--mint);color:var(--mint-ink);font-weight:700;text-decoration:none;box-shadow:0 10px 24px rgba(127,224,176,.25)}
+.cta:hover{filter:brightness(1.05)}
+.grid{columns:3 300px;column-gap:20px}
+.rev{break-inside:avoid;margin:0 0 20px;padding:20px 22px;position:relative;transition:transform .3s,border-color .3s}
+.rev:hover{transform:translateY(-3px);border-color:rgba(127,224,176,.45)}
+.rev .top{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.av{flex:none;width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font-weight:700;color:#fff;background:linear-gradient(135deg,#9b5cff,#24c9b4);box-shadow:0 0 0 2px rgba(255,255,255,.15)}
+.who b{display:block;font-size:15px}
+.who span{font-size:12px;color:var(--muted)}
+.rev .stars{margin-left:auto;padding:4px 10px;border-radius:999px;background:rgba(127,224,176,.14);font-size:13px}
+.rev h3{margin:0 0 6px;font-size:20px;line-height:1.25;letter-spacing:-.01em}
+.rev p{margin:0;color:#d9d6ea;line-height:1.6;font-size:15px}
+.rev .q{font-family:"Cormorant Garamond",serif;font-size:44px;line-height:.6;color:var(--mint);opacity:.6}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.tags span{padding:4px 10px;border-radius:999px;background:var(--mint);color:var(--mint-ink);font-size:12px;font-weight:600}
+.rev .model{margin-top:12px;font-size:12px;color:var(--muted)}
+.rev.big h3{font-size:26px}
+.empty{padding:40px 26px;text-align:center}
+.empty h2{margin:0 0 8px}
+.empty p{margin:0 auto;max-width:460px;color:var(--muted);line-height:1.6}
+.skel{height:150px;margin:0 0 20px;break-inside:avoid;opacity:.5;animation:pulse 1.4s ease-in-out infinite alternate}
+@keyframes pulse{to{opacity:.25}}
+footer{text-align:center;padding:26px 20px 40px;color:var(--muted);font-size:13px;border-top:1px solid var(--line)}
+@media (max-width:800px){.hero{grid-template-columns:1fr}nav a.hide-m{display:none}main{padding-top:30px}}
+@media (prefers-reduced-motion:reduce){.rev,.skel{transition:none;animation:none}}
+</style>
+</head>
+<body>
+<header>
+ <a class="logo" href="/" aria-label="Farha — accueil"><img src="/media/farha-logo.webp" alt="Farha" width="480" height="131"></a>
+ <nav aria-label="Navigation"><a href="/">Accueil</a><a class="hide-m" href="/#themes">Thèmes</a><a class="on" href="/avis" aria-current="page">Vos avis</a></nav>
+</header>
+<main>
+ <section class="hero">
+  <div>
+   <span class="kicker">Témoignages</span>
+   <h1>Vos avis</h1>
+   <p class="lead">Mariages, fiançailles, henna, anniversaires… Ce que nos clients pensent de leur invitation digitale Farha.</p>
+   <a class="cta" href="/donner-mon-avis">✦ Donner mon avis</a>
+  </div>
+  <div class="glass score" id="score" hidden>
+   <span class="badge" id="count"></span>
+   <div class="num"><span id="avg"></span><small> / 5</small></div>
+   <div class="stars" id="avgStars"></div>
+   <div style="margin-top:6px;color:var(--muted);font-size:14px" id="avgText"></div>
+  </div>
+ </section>
+ <section class="grid" id="grid" aria-live="polite">
+  <div class="glass skel"></div><div class="glass skel"></div><div class="glass skel"></div><div class="glass skel"></div><div class="glass skel"></div><div class="glass skel"></div>
+ </section>
+</main>
+<footer>Farha — Invitations digitales · <a href="/">www.invitation-digitale.tn</a></footer>
+<script>
+(function(){
+ var grid=document.getElementById('grid');
+ var star=function(n){return '★★★★★'.slice(0,n)+'☆☆☆☆☆'.slice(0,5-n)};
+ var fmt=function(d){try{return new Date(d).toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'})}catch(e){return ''}};
+ var mk=function(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e};
+ // titre court tiré des mots choisis, sinon selon la note
+ var TITLES={5:'Une invitation parfaite',4:'Très belle expérience',3:'Bonne expérience',2:'Peut mieux faire',1:'Déçu'};
+ function card(r,i){
+  var c=mk('article','glass rev'+(i%5===0&&r.message.length>60?' big':''));
+  var top=mk('div','top'),av=mk('span','av',r.name.charAt(0)),who=mk('div','who');who.append(mk('b','',r.name),mk('span','',fmt(r.date)));
+  top.append(av,who,mk('span','stars',star(r.rating)));c.append(top);
+  c.append(mk('h3','',(r.tags&&r.tags[0])||TITLES[r.rating]||'Merci Farha'));
+  if(r.message){c.append(mk('div','q','“'),mk('p','',r.message))}
+  if(r.tags&&r.tags.length>1){var t=mk('div','tags');r.tags.slice(1).forEach(function(x){t.append(mk('span','',x))});c.append(t)}
+  if(r.model)c.append(mk('div','model','Modèle : '+r.model));
+  return c;
+ }
+ function empty(msg){var e=mk('div','glass empty');e.append(mk('h2','','Bientôt vos premiers avis'),mk('p','',msg));grid.replaceChildren(e);grid.style.columns='auto'}
+ fetch('/api/reviews').then(function(r){return r.ok?r.json():Promise.reject(r.status)}).then(function(j){
+  if(!j.reviews||!j.reviews.length){empty('Vous avez commandé une invitation Farha ? Partagez votre expérience : votre avis apparaîtra ici après validation.');return}
+  grid.replaceChildren.apply(grid,j.reviews.map(card));
+  document.getElementById('avg').textContent=String(j.average).replace('.',',');
+  document.getElementById('avgStars').textContent=star(Math.round(j.average));
+  document.getElementById('count').textContent=j.count+' avis';
+  document.getElementById('avgText').textContent='Note moyenne de nos clients';
+  document.getElementById('score').hidden=false;
+ }).catch(function(){empty('Les avis ne peuvent pas être chargés pour le moment. Réessayez dans quelques instants.')});
+})();
+</script>
+</body>
+</html>
