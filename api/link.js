@@ -84,9 +84,19 @@ module.exports = async function handler(req, res) {
   }
   try {
     let created = false;
-    for (let n = 1; n <= 12; n++) {
-      // nom libre d'abord, puis -2, -3… ; au-delà, un suffixe aléatoire
-      const slug = n === 1 ? start : n <= 9 ? start + '-' + n : start + '-' + require('crypto').randomBytes(3).toString('hex');
+    // noms déjà pris (une seule requête) : on vise directement le premier numéro libre
+    let taken = new Set();
+    try {
+      const lr = await fetch(base + '/storage/v1/object/list/' + BUCKET, { method: 'POST', headers: headers(key, { 'Content-Type': 'application/json' }),
+        body: JSON.stringify({ prefix: '', search: start, limit: 1000 }) });
+      if (lr.ok) (await lr.json()).forEach(o => { if (o && o.name) taken.add(String(o.name).replace(/\.json$/, '')); });
+    } catch (e) {}
+    const free = [];
+    if (!taken.has(start)) free.push(start);
+    for (let k = 2; free.length < 3 && k < 200; k++) if (!taken.has(start + '-' + k)) free.push(start + '-' + k);
+    for (let n = 1; n <= 6; n++) {
+      // premier nom libre, puis secours : suffixe aléatoire
+      const slug = free[n - 1] || start + '-' + require('crypto').randomBytes(3).toString('hex');
       let r = await put(slug);
       if (!r.ok) {
         const t = await r.text();

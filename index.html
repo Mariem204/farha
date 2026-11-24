@@ -1837,7 +1837,7 @@ function farhaShortLink(long){
  const call=u=>fetch(u,{method:'POST',headers:{'Content-Type':'application/json'},body}).then(r=>r.ok?r.json():Promise.reject(new Error('HTTP '+r.status))).then(ok);
  // sur une preview (ou si le service local échoue), le service du site principal crée le lien
  const prod=/^(www\.)?invitation-digitale\.tn$/.test(location.hostname);
- return Promise.race([call('/api/link').catch(e=>prod?Promise.reject(e):call('https://www.invitation-digitale.tn/api/link')),new Promise(r=>setTimeout(()=>r(long),8000))])
+ return Promise.race([call('/api/link').catch(e=>prod?Promise.reject(e):call('https://www.invitation-digitale.tn/api/link')),new Promise(r=>setTimeout(()=>r(long),20000))])
   .catch(e=>{console.warn('Farha : lien court impossible ('+(e&&e.message||e)+'), lien complet utilisé.');return long});
 }
 function farhaShrinkPhoto(src){return new Promise(res=>{if(src.length<3e6)return res(src);const img=new Image();img.onload=()=>{const k=Math.min(1,1400/Math.max(img.naturalWidth,img.naturalHeight)),c=document.createElement('canvas');c.width=Math.round(img.naturalWidth*k);c.height=Math.round(img.naturalHeight*k);c.getContext('2d').drawImage(img,0,0,c.width,c.height);res(c.toDataURL('image/jpeg',.82))};img.onerror=()=>res(src);img.src=src})}
