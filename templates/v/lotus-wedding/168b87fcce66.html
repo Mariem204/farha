@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f4efe6">
+<title>Invitation de mariage · Lotus</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Cinzel:wght@400;500&family=Great+Vibes&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* Lotus : papier crème moucheté, lotus roses aquarelle, cachet de cire doré. Défilement vertical, textes qui apparaissent ligne par ligne. */
+:root{
+ --paper:#f4efe6; --paper-2:#ece4d6; --ink:#4a0916; --ink-soft:#7a4a52; --rose:#e9a3b2; --rose-d:#c96d84; --leaf:#7f9a6a; --leaf-d:#4f6b45;
+ --gold:#c49a52; --gold-l:#ecd29a; --gold-d:#8e6526;
+}
+*{box-sizing:border-box}
+html{background:var(--paper);scroll-behavior:smooth}
+body{margin:0;color:var(--ink);font-family:"Cormorant Garamond",Georgia,serif;font-size:1.12rem;line-height:1.6;overflow-x:hidden;
+ background:var(--paper) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .45 0 0 0 0 .38 0 0 0 0 .3 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)'/%3E%3C/svg%3E")}
+body.locked{overflow:hidden;height:100vh}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;
+ background-image:radial-gradient(1.2px 1.2px at 12% 18%,#b8a58c66,transparent),radial-gradient(1px 1px at 67% 32%,#b8a58c55,transparent),radial-gradient(1.4px 1.4px at 38% 71%,#b8a58c55,transparent),radial-gradient(1px 1px at 84% 84%,#b8a58c66,transparent),radial-gradient(1.2px 1.2px at 22% 92%,#b8a58c44,transparent);background-size:240px 240px}
+svg.defs{position:absolute;width:0;height:0}
+main{position:relative;z-index:2;max-width:480px;margin:0 auto;padding:0 1.5rem;text-align:center}
+section{position:relative;padding:3.8rem 0 1.6rem}
+.caps{font-family:Cinzel,serif;letter-spacing:.16em;text-transform:uppercase;font-size:.82rem;line-height:1.9;color:var(--ink)}
+.script{font-family:"Great Vibes",cursive;font-weight:400;line-height:1.15;color:var(--ink)}
+.ar{font-family:Amiri,serif;direction:rtl}
+.lotus{display:block;margin:0 auto;overflow:visible}
+.rule{display:flex;align-items:center;justify-content:center;gap:12px;margin:1.6rem auto 0;color:var(--gold)}
+.rule i{display:block;width:70px;height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
+.rule i:last-child{background:linear-gradient(90deg,var(--gold),transparent)}
+.rule b{width:8px;height:8px;transform:rotate(45deg);background:var(--gold)}
+
+/* ---------- Intro : enveloppe à panneaux festonnés ---------- */
+#intro{position:fixed;inset:0;z-index:50;cursor:pointer;overflow:hidden;background:#e8dfcf}
+#intro .panel{position:absolute;top:0;bottom:0;width:56%;background:var(--paper);transition:transform 1.6s cubic-bezier(.7,0,.2,1);box-shadow:0 0 30px rgba(60,30,20,.22)}
+#intro .panel.l{left:0;transform-origin:left;clip-path:url(#scallopL);-webkit-clip-path:url(#scallopL)}
+#intro .panel.r{right:0;transform-origin:right;clip-path:url(#scallopR);-webkit-clip-path:url(#scallopR)}
+#intro .panel .pat{position:absolute;inset:0;background-repeat:repeat-y;background-size:100% auto;opacity:.95}
+#intro .panel.l .pat{background-position:left top}
+#intro .panel.r .pat{background-position:right top}
+#intro .ribbon{position:absolute;left:-5%;right:-5%;top:50%;height:62px;margin-top:-31px;background:linear-gradient(180deg,#efe6d6,#e3d6c0 45%,#efe6d6);box-shadow:0 3px 8px rgba(80,50,30,.18);transition:opacity .6s,transform 1s}
+#intro .ribbon::before,#intro .ribbon::after{content:"";position:absolute;left:0;right:0;height:5px;background:repeating-linear-gradient(90deg,transparent 0 3px,#d8c8ad 3px 5px);opacity:.7}
+#intro .ribbon::before{top:-3px}#intro .ribbon::after{bottom:-3px}
+#intro .seal{position:absolute;left:50%;top:50%;width:118px;height:118px;margin:-59px 0 0 -59px;transition:transform 1s,opacity .8s;filter:drop-shadow(0 8px 10px rgba(70,40,10,.35))}
+#intro .tap{position:absolute;left:0;right:0;bottom:calc(9% + env(safe-area-inset-bottom,0px));text-align:center;font-family:Cinzel,serif;letter-spacing:.3em;font-size:.72rem;color:var(--ink);animation:pulse 2s ease-in-out infinite}
+#intro .tap span{display:inline-block;background:rgba(244,239,230,.85);padding:.5rem 1rem;border-radius:99px}
+@keyframes pulse{50%{opacity:.45}}
+#intro.open .panel.l{transform:translateX(-102%)}
+#intro.open .panel.r{transform:translateX(102%)}
+#intro.open .ribbon{opacity:0;transform:scaleX(1.4)}
+#intro.open .seal{transform:scale(1.3) rotate(-12deg);opacity:0}
+#intro.open .tap{opacity:0}
+#intro.gone{opacity:0;transition:opacity .8s;pointer-events:none}
+
+/* ---------- Apparitions ---------- */
+.reveal{opacity:0;transform:translateY(16px);filter:blur(4px);transition:opacity 1.1s ease,transform 1.1s ease,filter 1.1s ease}
+.reveal.in{opacity:1;transform:none;filter:none}
+.lines span{display:block;opacity:0;filter:blur(6px);transition:opacity 1s ease,filter 1s ease}
+.lines.in span{opacity:1;filter:none}
+.grow{transform:scale(.86) translateY(20px);opacity:0;transition:transform 1.6s cubic-bezier(.2,.7,.2,1),opacity 1.2s}
+.grow.in{transform:none;opacity:1}
+
+/* ---------- Sections ---------- */
+#hello{padding-top:2.4rem}
+#hello .halo{position:relative;width:260px;margin:0 auto}
+#hello .halo::before{content:"";position:absolute;left:50%;top:-6px;width:210px;height:210px;margin-left:-105px;border:1px solid var(--gold);border-radius:50%;opacity:.55;clip-path:inset(0 0 46% 0)}
+.sparkle{position:absolute;color:var(--gold);font-size:.8rem;opacity:.8;animation:tw 3s ease-in-out infinite}
+@keyframes tw{50%{opacity:.25;transform:scale(.7)}}
+.verse{font-size:1.9rem;color:var(--ink);margin:1.3rem 0 .2rem}
+.subtitle{margin-top:1.4rem}
+.border-sec{padding:4.6rem 1rem 4.8rem;margin:0 -1.5rem}
+.border-sec .vine{position:absolute;left:0;right:0;pointer-events:none}
+.border-sec .vine.top{top:0}.border-sec .vine.bot{bottom:0;transform:scaleY(-1)}
+.border-sec .side{position:absolute;top:18%;bottom:18%;width:44px;pointer-events:none}
+.border-sec .side.l{left:4px}.border-sec .side.r{right:4px;transform:scaleX(-1)}
+.parents{font-family:Cinzel,serif;letter-spacing:.12em;text-transform:uppercase;font-size:.86rem;line-height:2}
+.names{font-size:clamp(2.6rem,12vw,3.4rem);margin:.6rem 0 .2rem}
+.names .amp{display:block;font-size:.6em;color:var(--gold-d);margin:.1em 0}
+.when{font-family:Cinzel,serif;letter-spacing:.14em;font-size:.95rem;color:var(--ink-soft)}
+.when b{color:var(--ink);font-weight:500}
+.meta{margin-top:1.4rem;display:grid;gap:.6rem}
+.meta small{display:block;font-family:Cinzel,serif;letter-spacing:.2em;font-size:.68rem;color:var(--gold-d);text-transform:uppercase}
+.meta div{font-size:1.25rem}
+.see{font-size:2rem;margin-top:1.4rem;color:var(--rose-d)}
+.frame{position:relative;width:min(78%,300px);aspect-ratio:3/4;margin:2.2rem auto 0;border-radius:150px 150px 14px 14px;padding:8px;background:linear-gradient(140deg,var(--gold-l),var(--gold) 45%,var(--gold-d) 70%,var(--gold-l));box-shadow:0 14px 30px rgba(74,9,22,.18)}
+.frame .photo{width:100%;height:100%;border-radius:142px 142px 9px 9px;background:#e7ddcc center/cover no-repeat}
+.frame .lotus{position:absolute;left:50%;bottom:-46px;transform:translateX(-50%)}
+.count{display:flex;justify-content:center;gap:.7rem;margin-top:1.4rem}
+.count .u{min-width:66px;padding:.7rem .3rem;border:1px solid #d9c6a5;border-radius:14px;background:rgba(255,253,248,.6)}
+.count .n{font-family:Cinzel,serif;font-size:1.6rem;line-height:1;color:var(--ink)}
+.count .l{font-size:.78rem;color:var(--ink-soft);margin-top:.3rem}
+h2.title{font-family:"Great Vibes",cursive;font-weight:400;font-size:2.6rem;margin:.4rem 0 0;line-height:1.1}
+.map-card{display:block;position:relative;margin:1.6rem auto 0;width:min(92%,340px);aspect-ratio:1;border-radius:18px;padding:8px;background:#fffdf8;box-shadow:0 14px 34px rgba(74,9,22,.16);transform:rotate(-1.5deg)}
+.map-card .m{width:100%;height:100%;border-radius:12px;overflow:hidden;background:#e5ddd0}
+.map-card .m img,.map-card .m iframe{width:100%;height:100%;object-fit:cover;border:0;display:block;pointer-events:none}
+.map-card .pin{position:absolute;left:50%;top:-22px;width:46px;margin-left:-23px}
+.btn{display:inline-flex;align-items:center;gap:.5rem;margin-top:1.4rem;padding:.85rem 1.6rem;border-radius:99px;border:0;background:var(--ink);color:#f6e7d2;font:600 .82rem Cinzel,serif;letter-spacing:.16em;text-transform:uppercase;text-decoration:none;cursor:pointer}
+.btn:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.program{position:relative;margin:1.8rem auto 0;max-width:320px;text-align:left}
+.program::before{content:"";position:absolute;left:62px;top:6px;bottom:6px;width:1px;background:linear-gradient(var(--gold),var(--rose),var(--gold))}
+.program .st{position:relative;display:grid;grid-template-columns:52px 1fr;gap:30px;padding:.55rem 0;align-items:baseline}
+.program .st::before{content:"";position:absolute;left:57px;top:1.05rem;width:11px;height:11px;border-radius:50%;background:var(--paper);border:2px solid var(--rose-d)}
+.program b{font-family:Cinzel,serif;font-weight:500;font-size:.95rem;text-align:right}
+.program span{font-size:1.18rem}
+.swatches{display:flex;justify-content:center;gap:.8rem;margin-top:1.4rem;flex-wrap:wrap}
+.swatch{width:48px;height:48px;border-radius:50%;box-shadow:inset 0 0 0 3px rgba(255,255,255,.65),0 6px 14px rgba(74,9,22,.16);transform:scale(.4);opacity:0;transition:transform .8s cubic-bezier(.3,1.6,.5,1),opacity .6s;transition-delay:calc(var(--i)*.12s)}
+.in .swatch{transform:none;opacity:1}
+.dress-note{font-style:italic;color:var(--ink-soft);margin-top:1rem}
+form{display:grid;gap:.8rem;margin-top:1.4rem;text-align:left}
+label{font-family:Cinzel,serif;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft);display:grid;gap:.35rem}
+input,textarea{font:inherit;font-size:1.05rem;padding:.75rem .9rem;border-radius:12px;border:1px solid #d8c6a8;background:rgba(255,253,248,.85);color:var(--ink)}
+input:focus,textarea:focus{outline:2px solid var(--rose);border-color:transparent}
+.choice{display:flex;gap:.6rem}
+.choice label{flex:1;display:flex;align-items:center;justify-content:center;gap:.4rem;padding:.7rem;border:1px solid #d8c6a8;border-radius:12px;background:rgba(255,253,248,.85);cursor:pointer;font-size:.68rem}
+.choice input{accent-color:var(--ink)}
+form .btn{justify-self:center}
+.thanks{min-height:1.6em;margin-top:.8rem;font-style:italic}
+footer{padding:2rem 0 5rem;position:relative;z-index:2;text-align:center}
+footer .script{font-size:2.2rem}
+.music{position:fixed;z-index:40;right:calc(14px + env(safe-area-inset-right,0px));bottom:calc(14px + env(safe-area-inset-bottom,0px));width:48px;height:48px;border-radius:50%;border:1px solid var(--gold);background:rgba(244,239,230,.92);color:var(--ink);display:none;place-items:center;cursor:pointer;box-shadow:0 6px 16px rgba(74,9,22,.2)}
+.music.show{display:grid}
+.music svg{width:20px;height:20px;fill:currentColor}
+.music.muted .on{display:none}.music:not(.muted) .off{display:none}
+.music:not(.muted){animation:beat 1.3s ease-in-out infinite}
+@keyframes beat{50%{transform:scale(1.08)}}
+#petals{position:fixed;inset:0;pointer-events:none;z-index:30}
+@media (prefers-reduced-motion:reduce){.reveal,.lines span,.grow,.swatch{transition:none;opacity:1;transform:none;filter:none}#intro .panel{transition-duration:.01s}.sparkle,.music,#intro .tap{animation:none}}
+</style>
+</head>
+<body class="locked">
+
+<svg class="defs" aria-hidden="true">
+ <defs>
+  <!-- bords festonnés des deux panneaux de l'enveloppe -->
+  <clipPath id="scallopL" clipPathUnits="objectBoundingBox"><path d="M0 0H.86C.98 .04 .98 .1 .86 .14C.74 .18 .74 .24 .86 .28C.98 .32 .98 .38 .86 .42C.74 .46 .74 .54 .86 .58C.98 .62 .98 .68 .86 .72C.74 .76 .74 .82 .86 .86C.98 .9 .98 .96 .86 1H0Z"/></clipPath>
+  <clipPath id="scallopR" clipPathUnits="objectBoundingBox"><path d="M1 0H.14C.02 .04 .02 .1 .14 .14C.26 .18 .26 .24 .14 .28C.02 .32 .02 .38 .14 .42C.26 .46 .26 .54 .14 .58C.02 .62 .02 .68 .14 .72C.26 .76 .26 .82 .14 .86C.02 .9 .02 .96 .14 1H1Z"/></clipPath>
+  <linearGradient id="pet" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6c6d1"/><stop offset=".45" stop-color="#eaa5b5"/><stop offset="1" stop-color="#fbeef0"/></linearGradient>
+  <linearGradient id="pet2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e48aa0"/><stop offset=".6" stop-color="#f2bfcb"/><stop offset="1" stop-color="#fdf3f4"/></linearGradient>
+  <linearGradient id="leafG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#a3b98c"/><stop offset=".6" stop-color="#7f9a6a"/><stop offset="1" stop-color="#5d7a52"/></linearGradient>
+  <radialGradient id="goldSeal" cx=".38" cy=".32" r=".8"><stop offset="0" stop-color="#f6dca0"/><stop offset=".45" stop-color="#cfa257"/><stop offset=".8" stop-color="#9a6d2a"/><stop offset="1" stop-color="#7a531c"/></radialGradient>
+  <!-- lotus en fleur -->
+  <symbol id="lotus" viewBox="0 0 200 120">
+   <g stroke="#c47a8c" stroke-width=".6" stroke-opacity=".5">
+    <path d="M100 96C70 92 34 78 16 60C40 58 70 70 100 96Z" fill="url(#pet)"/>
+    <path d="M100 96C130 92 166 78 184 60C160 58 130 70 100 96Z" fill="url(#pet)"/>
+    <path d="M100 96C78 80 52 50 46 24C68 34 90 64 100 96Z" fill="url(#pet2)"/>
+    <path d="M100 96C122 80 148 50 154 24C132 34 110 64 100 96Z" fill="url(#pet2)"/>
+    <path d="M100 96C88 70 82 34 100 4C118 34 112 70 100 96Z" fill="url(#pet2)"/>
+    <path d="M100 98C80 86 62 62 64 40C82 50 96 72 100 98Z" fill="url(#pet)"/>
+    <path d="M100 98C120 86 138 62 136 40C118 50 104 72 100 98Z" fill="url(#pet)"/>
+    <path d="M100 100C86 92 76 74 82 58C94 66 100 82 100 100ZM100 100C114 92 124 74 118 58C106 66 100 82 100 100Z" fill="#fbe9ec"/>
+   </g>
+   <ellipse cx="100" cy="74" rx="11" ry="5" fill="#e8c55e"/>
+   <g fill="#c9982f"><circle cx="94" cy="73" r="1.2"/><circle cx="100" cy="72" r="1.2"/><circle cx="106" cy="73" r="1.2"/><circle cx="97" cy="76" r="1"/><circle cx="103" cy="76" r="1"/></g>
+  </symbol>
+  <!-- lotus posé sur l'eau avec ses feuilles -->
+  <symbol id="lotusPond" viewBox="0 0 260 150">
+   <path d="M18 104C30 84 70 80 98 96L84 104L102 110C74 124 30 122 18 104Z" fill="url(#leafG)"/>
+   <path d="M242 104C230 84 190 80 162 96L176 104L158 110C186 124 230 122 242 104Z" fill="url(#leafG)"/>
+   <g stroke="#5d7a52" stroke-width=".7" opacity=".55" fill="none"><path d="M90 102L30 102M90 102L42 90M90 102L46 114"/><path d="M170 102L230 102M170 102L218 90M170 102L214 114"/></g>
+   <use href="#lotus" x="30" y="8" width="200" height="120"/>
+   <g stroke="#9bb3c6" stroke-width="1.2" stroke-linecap="round" opacity=".55"><path d="M60 128H200"/><path d="M80 135H180" opacity=".7"/><path d="M100 141H160" opacity=".5"/></g>
+   <path d="M216 68C214 46 222 32 232 26C236 40 232 56 216 68Z" fill="url(#pet2)" stroke="#c47a8c" stroke-width=".5"/>
+   <path d="M224 70C226 82 226 92 224 100" stroke="#5d7a52" stroke-width="2" fill="none"/>
+  </symbol>
+  <!-- tige de lotus pour bordures -->
+  <symbol id="stem" viewBox="0 0 60 220">
+   <path d="M30 220C28 170 36 120 30 60" stroke="#6c8a5c" stroke-width="2.4" fill="none"/>
+   <path d="M30 150C10 140 4 120 8 108C22 112 32 128 30 150Z" fill="url(#leafG)"/>
+   <path d="M31 110C50 102 56 84 52 72C40 76 30 92 31 110Z" fill="url(#leafG)"/>
+   <use href="#lotus" x="0" y="20" width="60" height="44"/>
+  </symbol>
+ </defs>
+</svg>
+
+<!-- ========== INTRO : enveloppe ========== -->
+<div id="intro" role="button" tabindex="0" aria-label="Ouvrir l'invitation">
+ <div class="panel l"><div class="pat"></div></div>
+ <div class="panel r"><div class="pat"></div></div>
+ <div class="ribbon"></div>
+ <svg class="seal" viewBox="0 0 120 120" aria-hidden="true">
+  <path d="M60 4c8 0 10 6 17 7s13-3 17 3s1 12 6 17s12 5 13 13s-6 10-6 17s6 10 3 17s-11 6-14 12s0 13-7 16s-12-2-19 0s-9 9-17 8s-8-8-15-10s-14 1-17-6s3-12 1-19s-10-9-9-17s9-8 11-15s-2-13 4-17s13 0 18-5s7-12 14-12z" fill="url(#goldSeal)"/>
+  <circle cx="60" cy="60" r="38" fill="none" stroke="#7a531c" stroke-width="1.5" opacity=".45"/>
+  <circle cx="60" cy="60" r="34" fill="none" stroke="#f6dca0" stroke-width="1" opacity=".5"/>
+  <g transform="translate(26 34) scale(.34)" fill="none" stroke="#6e4a17" stroke-width="4" opacity=".75"><path d="M100 96C70 92 34 78 16 60C40 58 70 70 100 96ZM100 96C130 92 166 78 184 60C160 58 130 70 100 96ZM100 96C78 80 52 50 46 24C68 34 90 64 100 96ZM100 96C122 80 148 50 154 24C132 34 110 64 100 96ZM100 96C88 70 82 34 100 4C118 34 112 70 100 96Z"/></g>
+ </svg>
+ <p class="tap"><span>Touchez le cachet pour ouvrir</span></p>
+</div>
+
+<canvas id="petals" aria-hidden="true"></canvas>
+<button class="music muted" id="music" type="button" aria-label="Activer la musique" aria-pressed="false">
+ <svg class="on" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18.5a3 3 0 1 1-2-2.83V5l12-2.5v12a3 3 0 1 1-2-2.83V6.6L9 8.3z"/></svg>
+ <svg class="off" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18.5a3 3 0 1 1-2-2.83V5l12-2.5v12a3 3 0 1 1-2-2.83V6.6L9 8.3z" opacity=".45"/><path d="M3 3l18 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+</button>
+
+<main id="content">
+ <!-- 1. Bismillah -->
+ <section id="hello">
+  <div class="halo grow"><span class="sparkle" style="left:18px;top:8px">✦</span><span class="sparkle" style="right:20px;top:24px;animation-delay:1s">✦</span><span class="sparkle" style="right:44px;top:-4px;animation-delay:2s;font-size:.6rem">✦</span>
+   <svg class="lotus" width="260" height="150"><use href="#lotusPond"/></svg></div>
+  <p class="verse ar reveal" data-f="verse"></p>
+  <p class="caps lines" data-lines="Au nom de Dieu,|le Tout Miséricordieux, le Très Miséricordieux"></p>
+ </section>
+
+ <!-- 2. Le début d'un chapitre -->
+ <section>
+  <p class="caps lines subtitle" data-f-lines="subtitle"></p>
+  <div class="rule reveal"><i></i><b></b><i></i></div>
+ </section>
+
+ <!-- 3. Les parents, dans une bordure de lotus -->
+ <section class="border-sec">
+  <svg class="vine top" viewBox="0 0 480 70" preserveAspectRatio="none" height="70" aria-hidden="true"><g fill="url(#leafG)" opacity=".85"><path d="M0 0H480V8C420 30 380 10 320 26C260 42 220 18 160 30C100 42 60 14 0 34Z" opacity=".25"/></g><use href="#lotus" x="20" y="10" width="64" height="40"/><use href="#lotus" x="396" y="12" width="64" height="40"/><use href="#lotus" x="208" y="0" width="64" height="40" opacity=".8"/></svg>
+  <svg class="side l" viewBox="0 0 60 220" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><use href="#stem"/></svg>
+  <svg class="side r" viewBox="0 0 60 220" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><use href="#stem"/></svg>
+  <p class="parents lines" data-f-lines="parents"></p>
+  <svg class="vine bot" viewBox="0 0 480 70" preserveAspectRatio="none" height="70" aria-hidden="true"><use href="#lotus" x="30" y="10" width="64" height="40"/><use href="#lotus" x="386" y="12" width="64" height="40"/></svg>
+ </section>
+
+ <!-- 4. Les mariés -->
+ <section id="couple">
+  <h1 class="names script reveal" data-names></h1>
+  <p class="when reveal" data-when></p>
+  <div class="meta">
+   <div class="reveal"><small>Heure</small><span data-f="time"></span></div>
+   <div class="reveal"><small data-f="venueType"></small><span data-f="venue"></span><br><span data-f="city" style="font-size:1rem;color:var(--ink-soft)"></span></div>
+  </div>
+  <p class="see script reveal">Au plaisir de vous voir !</p>
+  <div class="frame grow"><div class="photo" id="photo" role="img" aria-label="Photo des mariés"></div><svg class="lotus" width="170" height="100"><use href="#lotus"/></svg></div>
+ </section>
+
+ <!-- 5. Compte à rebours -->
+ <section>
+  <h2 class="title reveal">Le grand jour approche</h2>
+  <div class="count reveal" aria-live="off">
+   <div class="u"><div class="n" id="cd-d">0</div><div class="l">jours</div></div>
+   <div class="u"><div class="n" id="cd-h">00</div><div class="l">heures</div></div>
+   <div class="u"><div class="n" id="cd-m">00</div><div class="l">min</div></div>
+   <div class="u"><div class="n" id="cd-s">00</div><div class="l">sec</div></div>
+  </div>
+ </section>
+
+ <!-- 6. Le lieu -->
+ <section id="lieu">
+  <p class="caps reveal">Rendez-vous</p>
+  <h2 class="title reveal">Le lieu</h2>
+  <p class="reveal" style="margin:.4rem 0 0"><b data-f="venue"></b><br><span data-f="address" style="color:var(--ink-soft)"></span></p>
+  <a class="map-card reveal" id="mapCard" target="_blank" rel="noopener"><svg class="pin" viewBox="0 0 46 46" aria-hidden="true"><use href="#lotus" x="0" y="4" width="46" height="30"/></svg><div class="m" id="map"></div></a>
+  <a class="btn reveal" id="mapBtn" target="_blank" rel="noopener">Itinéraire Google Maps ↗</a>
+ </section>
+
+ <!-- 7. Programme -->
+ <section id="programme">
+  <p class="caps reveal">Déroulé de la soirée</p>
+  <h2 class="title reveal">Programme</h2>
+  <div class="program" id="program"></div>
+ </section>
+
+ <!-- 8. Dress code -->
+ <section id="dress">
+  <p class="caps reveal">Dress code</p>
+  <h2 class="title reveal">Les tons conseillés</h2>
+  <div class="swatches reveal" id="swatches"></div>
+  <p class="dress-note reveal" data-f="dressNote"></p>
+ </section>
+
+ <!-- 9. RSVP -->
+ <section id="rsvp">
+  <p class="caps reveal">Merci de confirmer</p>
+  <h2 class="title reveal">Votre présence</h2>
+  <form id="form" class="reveal">
+   <label>Nom et prénom<input name="name" required autocomplete="name"></label>
+   <div class="choice"><label><input type="radio" name="rep" value="Je serai présent(e)" checked>Présent(e)</label><label><input type="radio" name="rep" value="Je ne pourrai pas venir">Absent(e)</label></div>
+   <label>Nombre de personnes<input name="nb" type="number" min="1" max="20" value="1"></label>
+   <label>Un petit mot<textarea name="note" rows="3"></textarea></label>
+   <button class="btn" type="submit">Envoyer ma réponse</button>
+  </form>
+  <p class="thanks" id="thanks" aria-live="polite"></p>
+ </section>
+</main>
+
+<footer>
+ <svg class="lotus grow" width="220" height="130"><use href="#lotusPond"/></svg>
+ <p class="script reveal" data-names></p>
+ <p class="caps reveal" data-date-short></p>
+</footer>
+
+<script>
+/* ======== Tout le contenu de l'invitation se modifie ici ======== */
+const CONFIG = {
+  bride: "Lina",
+  groom: "Yassine",
+  parents: "M. et Mme Ben Ammar|ont l'immense joie de vous convier|au mariage de leurs enfants",
+  verse: "بسم الله الرحمن الرحيم",
+  subtitle: "Un merveilleux chapitre|de notre vie commence,|et nous serions honorés|de le vivre avec vous.",
+  date: "2027-09-26T19:00:00",
+  venueType: "Salle des fêtes",
+  venue: "Dar El Marsa",
+  city: "La Marsa, Tunis",
+  address: "Avenue Habib Bourguiba, La Marsa",
+  mapQuery: "La Marsa, Tunis",
+  mapImage: "",          // capture d'écran Google Maps (facultatif) ; vide = carte Google intégrée
+  mapLink: "",           // lien Google Maps (facultatif) ; vide = recherche de l'adresse
+  whatsapp: "",          // numéro au format international, ex. 21612345678 ; vide = message affiché seulement
+  dressNote: "Des tons doux et poudrés, comme un jardin de lotus.",
+  music: "",             // fichier mp3 (facultatif) ; vide = petite mélodie au piano intégrée
+  program: [
+    ["19:00", "Accueil des invités"],
+    ["19:30", "Entrée des mariés"],
+    ["20:30", "Dîner"],
+    ["22:00", "Pièce montée"],
+    ["23:00", "Soirée dansante"]
+  ],
+  dress: ["#f6e2e4", "#e9a3b2", "#c96d84", "#a3b98c", "#e8d9bf"],
+  images: {
+    photo: "https://images.unsplash.com/photo-1519741497674-611481863552?w=600&h=800&fit=crop"
+  }
+};
+
+(function () {
+  const $ = s => document.querySelector(s), all = s => document.querySelectorAll(s);
+  const C = CONFIG, when = new Date(C.date);
+  const months = ["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"];
+  const days = ["dimanche","lundi","mardi","mercredi","jeudi","vendredi","samedi"];
+  const pad = n => String(n).padStart(2, "0");
+
+  // ----- Textes
+  const F = Object.assign({}, C, { time: when.getHours() + "h" + pad(when.getMinutes()) });
+  all("[data-f]").forEach(el => el.textContent = F[el.dataset.f] || "");
+  const fillLines = (el, txt) => { el.textContent = ""; String(txt || "").split(/\s*[|/]\s*/).forEach((l, i) => { const s = document.createElement("span"); s.textContent = l.trim(); s.style.transitionDelay = (i * .45) + "s"; el.append(s); }); };
+  all("[data-lines]").forEach(el => fillLines(el, el.dataset.lines));
+  all("[data-f-lines]").forEach(el => fillLines(el, C[el.dataset.fLines]));
+  all("[data-names]").forEach(el => { el.textContent = ""; const a = document.createElement("span"); a.className = "amp"; a.textContent = " & "; el.append(C.bride, a, C.groom); });
+  all("[data-when]").forEach(el => { el.innerHTML = ""; const b = document.createElement("b"); b.textContent = when.getDate() + " " + months[when.getMonth()]; el.append(days[when.getDay()].replace(/^./, c => c.toUpperCase()) + " | ", b, " | " + when.getFullYear()); });
+  all("[data-date-short]").forEach(el => el.textContent = pad(when.getDate()) + " · " + pad(when.getMonth() + 1) + " · " + when.getFullYear());
+  document.title = "Mariage · " + C.bride + " & " + C.groom;
+
+  // ----- Motif de lotus des panneaux de l'enveloppe
+  const pat = "data:image/svg+xml," + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="240" height="300">' + document.querySelector("svg.defs").innerHTML.replace(/<clipPath[\s\S]*?<\/clipPath>/g, "") + '<use href="#stem" x="10" y="20" width="80" height="280"/><use href="#stem" x="150" y="-90" width="80" height="280"/><use href="#stem" x="150" y="210" width="80" height="280"/></svg>');
+  all("#intro .pat").forEach(p => p.style.backgroundImage = 'url("' + pat + '")');
+
+  // ----- Photo
+  const ph = $("#photo"); if (C.images && C.images.photo) ph.style.backgroundImage = 'url("' + C.images.photo + '")';
+
+  // ----- Carte : capture d'écran si fournie, sinon carte Google intégrée
+  const link = C.mapLink || "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(C.mapQuery || C.address);
+  $("#mapCard").href = link; $("#mapBtn").href = link;
+  const map = $("#map");
+  if (C.mapImage) { const i = new Image(); i.src = C.mapImage; i.alt = "Plan d'accès"; map.append(i); }
+  else { const f = document.createElement("iframe"); f.title = "Plan d'accès"; f.loading = "lazy"; f.tabIndex = -1; f.src = "https://www.google.com/maps?q=" + encodeURIComponent(C.mapQuery || C.address) + "&z=15&output=embed"; map.append(f); }
+
+  // ----- Programme et dress code
+  C.program.forEach(([t, label], i) => { const st = document.createElement("div"); st.className = "st reveal"; st.style.transitionDelay = (i * .25) + "s"; st.innerHTML = "<b></b><span></span>"; st.querySelector("b").textContent = t; st.querySelector("span").textContent = label; $("#program").append(st); });
+  C.dress.forEach((c, i) => { const d = document.createElement("span"); d.className = "swatch"; d.style.background = c; d.style.setProperty("--i", i); d.title = c; $("#swatches").append(d); });
+
+  // ----- Apparitions au défilement
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold: .2, rootMargin: "0px 0px -8% 0px" });
+  const watch = () => all(".reveal,.lines,.grow").forEach(el => io.observe(el));
+
+  // ----- Pétales de lotus qui tombent
+  const cv = $("#petals"), ctx = cv.getContext("2d"), P = [];
+  let petalsOn = false;
+  function size() { const r = Math.min(2, devicePixelRatio || 1); cv.width = innerWidth * r; cv.height = innerHeight * r; ctx.setTransform(r, 0, 0, r, 0, 0); }
+  size(); addEventListener("resize", size);
+  for (let i = 0; i < 16; i++) P.push({ x: Math.random() * innerWidth, y: -Math.random() * innerHeight, s: 5 + Math.random() * 6, v: .35 + Math.random() * .55, w: Math.random() * 6.28, r: Math.random() * 6.28 });
+  function petals() {
+    if (!petalsOn) return; ctx.clearRect(0, 0, innerWidth, innerHeight);
+    P.forEach(p => { p.y += p.v; p.w += .015; p.r += .01; p.x += Math.sin(p.w) * .45; if (p.y > innerHeight + 20) { p.y = -20; p.x = Math.random() * innerWidth; }
+      ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.r); ctx.scale(1, .55 + .45 * Math.abs(Math.cos(p.w)));
+      const g = ctx.createLinearGradient(0, -p.s, 0, p.s); g.addColorStop(0, "#eaa5b5"); g.addColorStop(1, "#fbeef0"); ctx.fillStyle = g; ctx.globalAlpha = .8;
+      ctx.beginPath(); ctx.moveTo(0, -p.s); ctx.quadraticCurveTo(p.s * .9, 0, 0, p.s); ctx.quadraticCurveTo(-p.s * .9, 0, 0, -p.s); ctx.fill(); ctx.restore(); });
+    requestAnimationFrame(petals);
+  }
+
+  // ----- Musique : fichier si fourni, sinon petite mélodie au piano
+  const Music = (function () {
+    let ac, master, timer, audio, playing = false, step = 0, next = 0;
+    const N = [523.25, 587.33, 659.25, 783.99, 880, 783.99, 659.25, 587.33, 523.25, 659.25, 783.99, 1046.5, 987.77, 783.99, 659.25, 587.33];
+    function note(f, t) { const o = ac.createOscillator(), g = ac.createGain(); o.type = "sine"; o.frequency.value = f; g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(.22, t + .02); g.gain.exponentialRampToValueAtTime(.001, t + 1.6); o.connect(g); g.connect(master); o.start(t); o.stop(t + 1.7); }
+    function sched() { while (next < ac.currentTime + .4) { note(N[step % N.length], next); if (step % 4 === 0) note(N[step % N.length] / 2, next); next += .42; step++; } }
+    return {
+      start() { if (C.music) { audio = audio || Object.assign(new Audio(C.music), { loop: true, volume: .6 }); return audio.play().then(() => playing = true).catch(() => playing = false); }
+        ac = ac || new (window.AudioContext || window.webkitAudioContext)(); if (!master) { master = ac.createGain(); master.gain.value = .3; master.connect(ac.destination); }
+        ac.resume(); next = ac.currentTime + .05; clearInterval(timer); timer = setInterval(sched, 100); sched(); playing = true; return Promise.resolve(); },
+      stop() { if (audio) audio.pause(); if (ac) { clearInterval(timer); ac.suspend(); } playing = false; },
+      get playing() { return playing; }
+    };
+  })();
+  const musicBtn = $("#music");
+  function setMusicUI(on) { musicBtn.classList.toggle("muted", !on); musicBtn.setAttribute("aria-pressed", String(on)); musicBtn.setAttribute("aria-label", on ? "Couper la musique" : "Activer la musique"); }
+  window.setMusicUI = setMusicUI;
+  musicBtn.addEventListener("click", async () => { if (Music.playing) { Music.stop(); setMusicUI(false); } else { await Music.start(); setMusicUI(Music.playing); } });
+
+  // ----- Ouverture de l'enveloppe
+  const intro = $("#intro"); let opened = false;
+  function open() {
+    if (opened) return; opened = true; intro.classList.add("open");
+    Music.start().then(() => setMusicUI(Music.playing)); musicBtn.classList.add("show");
+    setTimeout(() => { intro.classList.add("gone"); document.body.classList.remove("locked"); window.scrollTo(0, 0); watch(); petalsOn = true; petals(); }, 1500);
+    setTimeout(() => intro.remove(), 2400);
+  }
+  intro.addEventListener("click", open);
+  intro.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); } });
+
+  // ----- Compte à rebours
+  function tick() { let s = Math.max(0, Math.floor((when - Date.now()) / 1000));
+    $("#cd-d").textContent = Math.floor(s / 86400); s %= 86400; $("#cd-h").textContent = pad(Math.floor(s / 3600)); s %= 3600; $("#cd-m").textContent = pad(Math.floor(s / 60)); $("#cd-s").textContent = pad(s % 60); }
+  tick(); setInterval(tick, 1000);
+
+  // ----- RSVP : ouvre WhatsApp avec la réponse si un numéro est configuré
+  $("#form").addEventListener("submit", e => {
+    e.preventDefault(); const f = new FormData(e.target);
+    const msg = f.get("name") + " : " + f.get("rep") + " (" + (f.get("nb") || 1) + " pers.)" + (f.get("note") ? "\n" + f.get("note") : "");
+    if (C.whatsapp) window.open("https://wa.me/" + C.whatsapp.replace(/\D/g, "") + "?text=" + encodeURIComponent(msg), "_blank", "noopener");
+    $("#thanks").textContent = "Merci " + f.get("name") + ", votre réponse a bien été notée.";
+    e.target.reset();
+  });
+})();
+</script>
+</body>
+</html>

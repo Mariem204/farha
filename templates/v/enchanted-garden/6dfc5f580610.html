@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Enchanted Garden · Wedding Invitation</title>
+<style>
+@font-face{font-family:'Cormorant Garamond';font-style:italic;font-weight:400 500;font-display:swap;src:url("/media/x/3e2c4175a96de7.woff2") format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Cormorant Garamond';font-style:normal;font-weight:400 600;font-display:swap;src:url("/media/x/c47ff12887a36d.woff2") format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'DM Sans';font-style:normal;font-weight:400 600;font-display:swap;src:url("/media/x/7c87a648293fbb.woff2") format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Pinyon Script';font-style:normal;font-weight:400 400;font-display:swap;src:url("/media/x/6fbb000d02c97a.woff2") format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+body{margin:0}
+a{color:#5f6e45}a:hover{color:#4a5735}
+.fg-root *{box-sizing:border-box}
+.script{font-family:'Pinyon Script',cursive;font-weight:400}
+.serif{font-family:'Cormorant Garamond',Georgia,serif}
+.sans{font-family:'DM Sans',system-ui,sans-serif}
+
+/* scroller */
+.scroller{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;opacity:0;transition:opacity 1.4s ease;scrollbar-width:none;z-index:1}
+.scroller::-webkit-scrollbar{display:none}
+.scroller.on{opacity:1}
+.scene{position:sticky;top:0;height:844px;overflow:hidden;transform-origin:50% 30%;will-change:transform}
+.scene+.scene{box-shadow:0 -26px 50px rgba(40,30,20,.24)}
+.pulse{transform-box:fill-box;transform-origin:center;animation:pulse 2.2s ease-out infinite}
+@keyframes pulse{from{transform:scale(.6);opacity:.55}to{transform:scale(2.8);opacity:0}}
+.mapcard{transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s}
+.mapcard:hover{transform:translateY(-2px);box-shadow:0 14px 28px rgba(60,80,110,.2)}
+.mapcard:focus-visible{outline:2px solid #9b4f6e;outline-offset:3px}
+.swc{display:block;width:42px;height:42px;border-radius:50%;box-shadow:0 0 0 3px #fff,0 0 0 4px rgba(200,171,120,.7),0 6px 14px rgba(90,60,40,.16);transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+.swc:hover{transform:scale(1.12)}
+
+/* reveal */
+.rv>*{opacity:0;transform:translateY(22px);transition:opacity 1.1s ease,transform 1.3s cubic-bezier(.2,.8,.2,1)}
+.rv.on>*{opacity:1;transform:none}
+.rv.on>*:nth-child(2){transition-delay:.25s}
+.rv.on>*:nth-child(3){transition-delay:.5s}
+.rv.on>*:nth-child(4){transition-delay:.75s}
+.rv.on>*:nth-child(5){transition-delay:1s}
+.rv.on>*:nth-child(6){transition-delay:1.2s}
+.nm{display:block;filter:blur(10px);letter-spacing:.18em;opacity:0;transition:filter 1.8s ease,letter-spacing 2s cubic-bezier(.2,.8,.2,1),opacity 1.4s ease}
+.on .nm{filter:blur(0);letter-spacing:0;opacity:1}
+.on .nm.n2{transition-delay:.6s}
+
+/* gate */
+.gate{position:absolute;inset:0;z-index:5;overflow:hidden}
+.gateWorld{position:absolute;inset:0;transform-origin:195px 500px;transition:transform 1.9s cubic-bezier(.6,0,.3,1),opacity 1.1s ease .7s}
+.gate.zoom .gateWorld{transform:scale(3.4);opacity:0}
+.gate.zoom{pointer-events:none}
+.doors{position:absolute;left:70px;top:205px;width:250px;height:595px;perspective:900px}
+.door{position:absolute;top:0;width:125px;height:595px;transition:transform 2.2s cubic-bezier(.55,.05,.25,1);filter:drop-shadow(0 6px 10px rgba(60,40,20,.35))}
+.doorL{left:0;transform-origin:0 50%}
+.doorR{left:125px;transform-origin:100% 50%}
+.gate.open .doorL{transform:rotateY(-110deg)}
+.gate.open .doorR{transform:rotateY(110deg)}
+.gateUI{transition:opacity .7s ease}
+.gate.open .gateUI{opacity:0;pointer-events:none}
+.glow{animation:glow 5s ease-in-out infinite}
+@keyframes glow{0%,100%{opacity:.55}50%{opacity:.9}}
+.gate.open .glow{animation:none;opacity:1}
+.rays{animation:rays 9s ease-in-out infinite;transform-origin:50% 0}
+@keyframes rays{0%,100%{opacity:.35;transform:rotate(-2deg)}50%{opacity:.6;transform:rotate(2deg)}}
+
+/* sway + float */
+.sway{animation:sway 7s ease-in-out infinite;transform-origin:50% 0}
+.sway2{animation:sway 8.5s ease-in-out -3s infinite;transform-origin:50% 0}
+@keyframes sway{0%,100%{rotate:-1.6deg}50%{rotate:1.6deg}}
+.breeze{animation:breeze 6s ease-in-out infinite;transform-origin:50% 100%}
+@keyframes breeze{0%,100%{rotate:-1deg}50%{rotate:1.2deg}}
+.bob{animation:bob 2.2s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+
+/* button */
+.btn{position:relative;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:0 28px;border-radius:999px;cursor:pointer;text-decoration:none;transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s ease,background-color .35s ease}
+.btn:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(90,60,40,.22)}
+.btn:active{transform:translateY(0) scale(.98)}
+.btn:focus-visible{outline:2px solid #9b4f6e;outline-offset:3px}
+.btn::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-20deg);animation:shine 4.5s ease-in-out infinite}
+@keyframes shine{0%,70%{left:-60%}100%{left:130%}}
+
+/* butterflies */
+.fx{position:absolute;inset:0;pointer-events:none;z-index:6;overflow:hidden}
+.bf{position:absolute;left:0;top:0}
+.wing{transform-box:view-box;transform-origin:20px 15px;animation:flap .26s ease-in-out infinite alternate}
+@keyframes flap{from{transform:scaleX(1)}to{transform:scaleX(.22)}}
+.f1{animation:fly1 19s ease-in-out infinite}
+.f2{animation:fly2 23s ease-in-out -7s infinite}
+.f3{animation:fly3 27s ease-in-out -14s infinite}
+.f4{animation:fly4 21s ease-in-out -4s infinite}
+@keyframes fly1{0%{transform:translate(-60px,640px) rotate(18deg)}20%{transform:translate(70px,520px) rotate(4deg)}40%{transform:translate(150px,560px) rotate(28deg)}60%{transform:translate(240px,380px) rotate(-6deg)}80%{transform:translate(300px,300px) rotate(16deg)}100%{transform:translate(460px,160px) rotate(10deg)}}
+@keyframes fly2{0%{transform:translate(440px,260px) rotate(-20deg) scale(.8)}25%{transform:translate(300px,180px) rotate(-6deg) scale(.8)}50%{transform:translate(220px,240px) rotate(-28deg) scale(.8)}75%{transform:translate(90px,120px) rotate(-4deg) scale(.8)}100%{transform:translate(-70px,60px) rotate(-14deg) scale(.8)}}
+@keyframes fly3{0%{transform:translate(120px,900px) rotate(4deg) scale(.65)}30%{transform:translate(60px,700px) rotate(-12deg) scale(.65)}55%{transform:translate(170px,560px) rotate(14deg) scale(.65)}80%{transform:translate(110px,420px) rotate(-8deg) scale(.65)}100%{transform:translate(220px,-60px) rotate(6deg) scale(.65)}}
+@keyframes fly4{0%{transform:translate(460px,720px) rotate(-16deg) scale(.9)}30%{transform:translate(330px,640px) rotate(-30deg) scale(.9)}60%{transform:translate(260px,700px) rotate(-8deg) scale(.9)}100%{transform:translate(-70px,470px) rotate(-22deg) scale(.9)}}
+
+/* petals */
+.pt{position:absolute;top:-30px;width:13px;height:10px;border-radius:13px 0 13px 0;opacity:.85;animation:fall 15s linear infinite}
+@keyframes fall{0%{transform:translate(0,-40px) rotate(0)}25%{transform:translate(34px,220px) rotate(100deg)}50%{transform:translate(-12px,450px) rotate(190deg)}75%{transform:translate(38px,680px) rotate(280deg)}100%{transform:translate(4px,920px) rotate(370deg)}}
+
+/* nav */
+.dots{position:absolute;right:10px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:2px;z-index:3;transition:opacity 1s}
+.dot{width:24px;height:24px;border:0;background:transparent;padding:0;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.dot span{width:7px;height:7px;border-radius:50%;background:rgba(255,248,237,.7);box-shadow:0 0 0 1px rgba(95,110,69,.55);transition:transform .3s,background-color .3s}
+.dot.act span{background:#9b4f6e;transform:scale(1.35);box-shadow:0 0 0 1px #fff8ed}
+.dot:focus-visible{outline:2px solid #9b4f6e;border-radius:50%}
+
+/* form */
+.fld{display:flex;flex-direction:column;gap:6px}
+.lbl{font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#5b4a3f}
+.inp{width:100%;height:44px;border:1px solid #d6c5aa;border-radius:12px;background:#fffdf9;padding:0 14px;font-family:'DM Sans',sans-serif;font-size:15px;color:#3f332c;transition:border-color .25s,box-shadow .25s}
+.inp:focus{outline:none;border-color:#9b4f6e;box-shadow:0 0 0 3px rgba(232,183,200,.55)}
+textarea.inp{height:72px;padding:10px 14px;resize:none;line-height:1.4}
+.inp.bad{border-color:#b3261e}
+.err{font-family:'DM Sans',sans-serif;font-size:12px;color:#a1221b;margin:0}
+.seg{flex:1;min-height:44px;border:1px solid #d6c5aa;background:#fffdf9;border-radius:12px;font-family:'DM Sans',sans-serif;font-size:14px;color:#3f332c;cursor:pointer;transition:all .25s}
+.seg:hover{border-color:#9b4f6e}
+.seg.sel{background:#9b4f6e;border-color:#9b4f6e;color:#fff8ed}
+.seg:focus-visible{outline:2px solid #9b4f6e;outline-offset:2px}
+.linkbtn{background:none;border:0;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#5f6e45;display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 10px}
+
+/* reduced motion */
+.rm *, .rm *::after{animation:none !important;transition-duration:.01ms !important;transition-delay:0s !important}
+@media (prefers-reduced-motion: reduce){.fg-root *, .fg-root *::after{animation:none !important;transition-duration:.01ms !important;transition-delay:0s !important}}
+.rm .fx{display:none}
+[hidden]{display:none!important}
+/* le modèle (390 × 844) s'adapte à l'écran sans être déformé ni coupé */
+html,body{height:100%;margin:0;overflow:hidden;background:#FFF8ED}
+#root{position:absolute!important;left:50%;top:50%;transform-origin:50% 50%;transform:translate(-50%,-50%) scale(var(--fit,1))}
+</style>
+</head>
+<body>
+<div class="fg-root" id="root" style="position: relative; width: 390px; height: 844px; overflow: hidden; background: #FFF8ED; color: #3f332c; font-family: 'DM Sans', system-ui, sans-serif" data-canvas-width="390" data-canvas-height="844" data-document-role="page" data-label="Enchanted Garden – Invitation">
+
+<!-- ============ SCENES 02–05 ============ -->
+<div class="scroller" id="scroller">
+
+<!-- 02 · THE SECRET GARDEN -->
+<section class="scene" aria-label="The secret garden" style="background: #cfe3f2" data-scene="0">
+<img loading="lazy" decoding="async" data-img="be101cfe" alt="" style="position: absolute; left: 0; top: -80px; width: 390px; height: 1000px; object-fit: cover; object-position: 50% 30%; " data-px="0 bg">
+<div style="position: absolute; left: 0; right: 0; bottom: 0; height: 520px; background: linear-gradient(180deg, rgba(255,248,237,0) 0%, rgba(214,226,190,0.55) 45%, rgba(165,181,138,0.75) 100%)"></div>
+<img loading="lazy" decoding="async" data-img="c163d7f4" alt="" style="position: absolute; left: -125px; bottom: -110px; width: 640px; " data-px="0 mid">
+<img loading="lazy" decoding="async" class="breeze" data-img="ac39e116" alt="" style="position: absolute; left: -78px; bottom: -150px; width: 190px; filter: blur(1.2px); " data-px="0 fg">
+<img loading="lazy" decoding="async" class="breeze" data-img="ac39e116" alt="" style="position: absolute; right: -84px; bottom: -170px; width: 200px; filter: blur(1.2px); scale: -1 1; " data-px="0 fg">
+
+<div class="rv" data-on="0" style="position: absolute; left: 0; right: 0; top: 0; height: 844px; display: flex; flex-direction: column; align-items: center">
+<p class="sans" style="margin: 86px 0 0; padding: 9px 18px; border-radius: 999px; background: rgba(255,248,237,0.86); font-size: 11px; font-weight: 600; letter-spacing: 0.28em; text-transform: uppercase; color: #4f5c3a">Together with their families</p>
+<div style="position: relative; width: 320px; height: 389px; margin-top: 16px">
+<div style="position: absolute; left: 44px; top: 40px; width: 232px; height: 300px; border-radius: 50%; background: radial-gradient(ellipse at 50% 40%, #FFFDF8 0%, #FFF8ED 55%, #f3e5d2 100%)"></div>
+<img loading="lazy" decoding="async" data-img="7de2a011" alt="" style="position: absolute; left: 0; top: 0; width: 320px; height: 389px">
+<div style="position: absolute; left: 50px; top: 52px; width: 220px; height: 280px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center">
+<span class="script nm" style="font-size: 58px; line-height: 1; color: #8f4565"><span data-c="p1"></span></span>
+<span class="serif" style="font-size: 30px; font-style: italic; color: #8a6f3e; line-height: 1.2">&amp;</span>
+<span class="script nm n2" style="font-size: 58px; line-height: 1; color: #8f4565"><span data-c="p2"></span></span>
+</div>
+</div>
+<p class="serif" style="margin: 14px 0 0; width: 300px; padding: 12px 18px; border-radius: 20px; background: rgba(255,248,237,0.86); font-size: 21px; font-style: italic; line-height: 1.3; text-align: center; color: #45372f">Joyfully invite you to celebrate their wedding.</p>
+</div>
+<div class="bob" style="position: absolute; left: 0; right: 0; bottom: 22px; display: flex; flex-direction: column; align-items: center; gap: 2px; color: #fff8ed">
+<span class="sans" style="font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; text-shadow: 0 1px 4px rgba(40,50,30,0.5)">Scroll</span>
+<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="filter: drop-shadow(0 1px 3px rgba(40,50,30,0.5))"><path d="m6 9 6 6 6-6"></path></svg>
+</div>
+</section>
+
+<!-- 03 · THE CELEBRATION -->
+<section class="scene" aria-label="Save the date" style="background: linear-gradient(180deg, #FFF8ED 0%, #fbeef0 55%, #f3e3e6 100%)" data-scene="1">
+<img loading="lazy" decoding="async" data-img="be101cfe" alt="" style="position: absolute; left: 0; top: -60px; width: 390px; height: 560px; object-fit: cover; object-position: 50% 70%; opacity: 0.55; -webkit-mask-image: linear-gradient(180deg, #000 30%, transparent 100%); mask-image: linear-gradient(180deg, #000 30%, transparent 100%); " data-px="1 bg">
+<img loading="lazy" decoding="async" class="sway" data-img="d44a737c" alt="" style="position: absolute; left: 90px; top: -40px; width: 210px; " data-px="1 mid">
+<img loading="lazy" decoding="async" class="sway2" data-img="ac39e116" alt="" style="position: absolute; left: -70px; top: -70px; width: 190px; rotate: -18deg; " data-px="1 fg">
+<img loading="lazy" decoding="async" class="sway" data-img="ac39e116" alt="" style="position: absolute; right: -70px; top: -70px; width: 190px; scale: -1 1; rotate: 18deg; " data-px="1 fg">
+<img loading="lazy" decoding="async" class="breeze" data-img="8c7a9237" alt="" style="position: absolute; left: -46px; bottom: -40px; width: 170px">
+<img loading="lazy" decoding="async" class="breeze" data-img="8c7a9237" alt="" style="position: absolute; right: -46px; bottom: -40px; width: 170px; scale: -1 1">
+
+<div class="rv" data-on="1" style="position: absolute; left: 0; right: 0; top: 232px; display: flex; flex-direction: column; align-items: center; text-align: center">
+<h2 class="script" style="margin: 0; font-size: 54px; line-height: 1.1; color: #8f4565">Save the Date</h2>
+<p class="serif" style="margin: 6px 0 0; font-size: 28px; font-weight: 600; letter-spacing: 0.03em; color: #3f332c"><span data-c="dateLabel"></span></p>
+<p class="serif" style="margin: 4px 0 0; font-size: 19px; font-style: italic; color: #6b5a4e"><span data-c="timeLabel"></span></p>
+<div aria-hidden="true" style="display: flex; align-items: center; gap: 10px; margin-top: 18px; color: #C8AB78">
+<span style="width: 56px; height: 1px; background: #C8AB78"></span>
+<svg width="10" height="10" viewBox="0 0 10 10"><path d="M5 0 10 5 5 10 0 5z" fill="currentColor"></path></svg>
+<span style="width: 56px; height: 1px; background: #C8AB78"></span>
+</div>
+<div role="timer" aria-label="Countdown to the wedding" style="display: flex; gap: 10px; margin-top: 20px">
+<div style="width: 74px; height: 88px; border-radius: 16px; background: rgba(255,255,255,0.62); border: 1px solid rgba(200,171,120,0.7); box-shadow: 0 10px 24px rgba(155,79,110,0.12); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px">
+<span class="serif" style="font-size: 38px; font-weight: 500; line-height: 1; color: #3f332c; font-variant-numeric: tabular-nums" data-cd="d">00</span>
+<span class="sans" style="font-size: 10px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: #6b5a4e">Days</span>
+</div>
+<div style="width: 74px; height: 88px; border-radius: 16px; background: rgba(255,255,255,0.62); border: 1px solid rgba(200,171,120,0.7); box-shadow: 0 10px 24px rgba(155,79,110,0.12); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px">
+<span class="serif" style="font-size: 38px; font-weight: 500; line-height: 1; color: #3f332c; font-variant-numeric: tabular-nums" data-cd="h">00</span>
+<span class="sans" style="font-size: 10px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: #6b5a4e">Hours</span>
+</div>
+<div style="width: 74px; height: 88px; border-radius: 16px; background: rgba(255,255,255,0.62); border: 1px solid rgba(200,171,120,0.7); box-shadow: 0 10px 24px rgba(155,79,110,0.12); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px">
+<span class="serif" style="font-size: 38px; font-weight: 500; line-height: 1; color: #3f332c; font-variant-numeric: tabular-nums" data-cd="m">00</span>
+<span class="sans" style="font-size: 10px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: #6b5a4e">Minutes</span>
+</div>
+<div style="width: 74px; height: 88px; border-radius: 16px; background: rgba(255,255,255,0.62); border: 1px solid rgba(200,171,120,0.7); box-shadow: 0 10px 24px rgba(155,79,110,0.12); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px">
+<span class="serif" style="font-size: 38px; font-weight: 500; line-height: 1; color: #3f332c; font-variant-numeric: tabular-nums" data-cd="s">00</span>
+<span class="sans" style="font-size: 10px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: #6b5a4e">Seconds</span>
+</div>
+</div>
+</div>
+</section>
+
+<!-- 04 · THE VENUE -->
+<section class="scene" aria-label="The venue" style="background: #cfe3f2" data-scene="2">
+<img loading="lazy" decoding="async" data-img="be101cfe" alt="" style="position: absolute; left: 0; top: -80px; width: 390px; height: 1000px; object-fit: cover; object-position: 50% 60%; " data-px="2 bg">
+<svg aria-hidden="true" width="390" height="420" viewBox="0 0 390 420" style="position: absolute; left: 0; top: 400px; " data-px="2 mid">
+<defs>
+<linearGradient id="haze" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFF8ED" stop-opacity="0"></stop><stop offset="1" stop-color="#FFF8ED" stop-opacity="0.7"></stop></linearGradient>
+</defs>
+<path d="M0 120 C60 80 110 70 170 100 C230 130 280 70 390 90 V420 H0Z" fill="#C9B6E4" opacity="0.55"></path>
+<path d="M0 170 C70 130 140 150 200 160 C270 172 320 130 390 150 V420 H0Z" fill="#b9c79f" opacity="0.85"></path>
+<path d="M0 220 C80 195 150 210 230 205 C300 200 340 185 390 195 V420 H0Z" fill="#A5B58A"></path>
+<g fill="#7f915f">
+<path d="M58 210 C52 180 56 150 62 132 C68 150 72 180 66 210Z"></path>
+<path d="M76 212 C71 188 74 166 79 152 C84 166 87 188 82 212Z"></path>
+<path d="M320 196 C315 168 318 142 324 126 C330 142 333 168 328 196Z"></path>
+</g>
+<rect width="390" height="420" fill="url(#haze)"></rect>
+</svg>
+<img loading="lazy" decoding="async" class="sway2" data-img="ac39e116" alt="" style="position: absolute; left: -64px; top: -60px; width: 180px; rotate: -12deg; " data-px="2 fg">
+<svg aria-hidden="true" width="390" height="260" viewBox="0 0 390 260" style="position: absolute; left: 0; bottom: 0">
+<defs>
+<linearGradient id="stoneB" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6efe3"></stop><stop offset="1" stop-color="#ddcfb7"></stop></linearGradient>
+<path id="bal" d="M-11 18H11V28C11 34 5 36 5 42C5 66 18 80 18 112C18 144 8 156 8 170V182H-8V170C-8 156 -18 144 -18 112C-18 80 -5 66 -5 42C-5 36 -11 34 -11 28Z"></path>
+</defs>
+<g fill="url(#stoneB)" stroke="#c4b291" stroke-width="1">
+<use href="#bal" x="20"></use><use href="#bal" x="59"></use><use href="#bal" x="98"></use><use href="#bal" x="137"></use><use href="#bal" x="176"></use><use href="#bal" x="215"></use><use href="#bal" x="254"></use><use href="#bal" x="293"></use><use href="#bal" x="332"></use><use href="#bal" x="371"></use>
+</g>
+<rect x="0" y="0" width="390" height="20" fill="#f4ecdf" stroke="#c4b291"></rect>
+<rect x="0" y="0" width="390" height="5" fill="#fffaf1"></rect>
+<rect x="0" y="182" width="390" height="18" fill="#e9dfcd" stroke="#c4b291"></rect>
+<rect x="0" y="200" width="390" height="60" fill="#d9cbb2"></rect>
+</svg>
+<img loading="lazy" decoding="async" class="breeze" data-img="8c7a9237" alt="" style="position: absolute; left: -22px; bottom: 256px; width: 118px">
+<img loading="lazy" decoding="async" class="breeze" data-img="8c7a9237" alt="" style="position: absolute; right: -22px; bottom: 256px; width: 118px; scale: -1 1">
+
+<div class="rv" data-on="2" style="position: absolute; left: 40px; top: 112px; width: 310px; padding: 28px 24px 26px; border-radius: 28px; background: rgba(255,248,237,0.88); box-shadow: 0 20px 50px rgba(60,80,110,0.18); display: flex; flex-direction: column; align-items: center; text-align: center">
+<h2 class="script" style="margin: 0; font-size: 46px; line-height: 1.1; color: #8f4565">The Venue</h2>
+<p class="serif" style="margin: 6px 0 0; font-size: 34px; font-weight: 600; line-height: 1.1; color: #3f332c"><span data-c="venue"></span></p>
+<p class="sans" style="margin: 10px 0 0; font-size: 12px; font-weight: 600; letter-spacing: 0.24em; text-transform: uppercase; color: #5f6e45"><span data-c="city"></span></p>
+<a class="mapcard" href="#" data-maps target="_blank" rel="noopener" aria-label="Open the venue in Google Maps" style="margin-top: 16px; display: block; position: relative; width: 262px; height: 136px; border-radius: 16px; overflow: hidden; border: 1px solid #e2d3bb; box-shadow: 0 8px 18px rgba(60,80,110,0.12)">
+<svg aria-hidden="true" width="262" height="136" viewBox="0 0 262 136" style="display: block">
+<rect width="262" height="136" fill="#f2ede3"></rect>
+<path d="M150 8h62a8 8 0 0 1 8 8v34a8 8 0 0 1-8 8h-62a8 8 0 0 1-8-8V16a8 8 0 0 1 8-8z" fill="#d3e2bf"></path>
+<circle cx="46" cy="30" r="22" fill="#dce8ca"></circle>
+<path d="M0 98C40 90 70 112 110 106C150 100 172 122 262 112V136H0Z" fill="#B8DDF1"></path>
+<g fill="none" stroke-linecap="round" stroke="#ddd2bf">
+<path d="M-10 64C60 60 120 72 272 54" stroke-width="11"></path>
+<path d="M96 -10C100 40 120 80 128 146" stroke-width="9"></path>
+<path d="M0 24L262 40" stroke-width="6"></path>
+<path d="M200 -10L232 146" stroke-width="6"></path>
+<path d="M30 146L62 0" stroke-width="5"></path>
+</g>
+<g fill="none" stroke-linecap="round" stroke="#ffffff">
+<path d="M-10 64C60 60 120 72 272 54" stroke-width="8"></path>
+<path d="M96 -10C100 40 120 80 128 146" stroke-width="6"></path>
+<path d="M0 24L262 40" stroke-width="3.5"></path>
+<path d="M200 -10L232 146" stroke-width="3.5"></path>
+<path d="M30 146L62 0" stroke-width="2.5"></path>
+</g>
+<g transform="translate(150 62)">
+<circle class="pulse" r="10" fill="#9b4f6e"></circle>
+<path d="M0 0C-9-9-11-14-11-19A11 11 0 0 1 11-19C11-14 9-9 0 0Z" fill="#9b4f6e" stroke="#ffffff" stroke-width="2"></path>
+<circle cy="-19" r="4" fill="#ffffff"></circle>
+</g>
+</svg>
+<span class="sans" style="position: absolute; left: 10px; bottom: 8px; padding: 4px 8px; border-radius: 8px; background: rgba(255,255,255,0.92); font-size: 10px; font-weight: 600; letter-spacing: 0.04em; color: #3f332c"><span data-c="venue"></span></span>
+</a>
+<a class="btn sans" href="#" data-maps target="_blank" rel="noopener" style="margin-top: 22px; background: #5f6e45; color: #FFF8ED; font-size: 13px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase">
+<svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>
+View Location
+</a>
+</div>
+</section>
+
+<!-- 05 · RSVP -->
+<section class="scene" aria-label="RSVP" style="background: linear-gradient(180deg, #fdf1f3 0%, #FFF8ED 60%, #f5ecdd 100%)" data-scene="3">
+<img loading="lazy" decoding="async" data-img="be101cfe" alt="" style="position: absolute; left: 0; top: 0; width: 390px; height: 380px; object-fit: cover; opacity: 0.45; -webkit-mask-image: linear-gradient(180deg, #000 20%, transparent 100%); mask-image: linear-gradient(180deg, #000 20%, transparent 100%); " data-px="3 bg">
+<img loading="lazy" decoding="async" class="sway2" data-img="ac39e116" alt="" style="position: absolute; left: -62px; top: -54px; width: 160px; rotate: -20deg">
+<img loading="lazy" decoding="async" class="sway" data-img="ac39e116" alt="" style="position: absolute; right: -62px; top: -54px; width: 160px; scale: -1 1; rotate: 20deg">
+
+<div class="rv" data-on="3" style="position: absolute; left: 0; right: 0; top: 22px; display: flex; flex-direction: column; align-items: center">
+<div style="position: relative; width: 164px; height: 200px">
+<div style="position: absolute; left: 23px; top: 20px; width: 118px; height: 155px; border-radius: 50%; background: radial-gradient(ellipse at 50% 40%, #FFFDF8 0%, #FFF8ED 60%, #f3e5d2 100%)"></div>
+<img loading="lazy" decoding="async" data-img="7de2a011" alt="" style="position: absolute; left: 0; top: 0; width: 164px; height: 200px">
+<p class="script" style="position: absolute; left: 28px; top: 32px; width: 108px; height: 136px; margin: 0; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 23px; line-height: 1.12; color: #8f4565">We saved a place for you.</p>
+</div>
+<p class="serif" style="margin: 8px 0 0; font-size: 26px; font-style: italic; color: #3f332c">Will you join us?</p>
+<div style="margin-top: 12px; width: 330px; padding: 14px 16px 12px; border-radius: 20px; background: rgba(255,255,255,0.62); border: 1px solid #e7d8c3; display: flex; flex-direction: column; align-items: center; gap: 12px">
+<p class="sans" style="margin: 0; font-size: 11px; font-weight: 600; letter-spacing: 0.28em; text-transform: uppercase; color: #5b4a3f">Dress Code</p>
+<div role="list" id="swatches" aria-label="Dress code colours" style="display: flex; gap: 16px">
+<div role="listitem" style="display: flex; flex-direction: column; align-items: center; gap: 7px"><span class="swc" style="background: #E8B7C8"></span><small class="sans" data-dress-name style="font-size: 10px; color: #5b4a3f">Blush</small></div>
+<div role="listitem" style="display: flex; flex-direction: column; align-items: center; gap: 7px"><span class="swc" style="background: #A5B58A"></span><small class="sans" data-dress-name style="font-size: 10px; color: #5b4a3f">Sage</small></div>
+<div role="listitem" style="display: flex; flex-direction: column; align-items: center; gap: 7px"><span class="swc" style="background: #FFF8ED"></span><small class="sans" data-dress-name style="font-size: 10px; color: #5b4a3f">Cream</small></div>
+<div role="listitem" style="display: flex; flex-direction: column; align-items: center; gap: 7px"><span class="swc" style="background: #B8DDF1"></span><small class="sans" data-dress-name style="font-size: 10px; color: #5b4a3f">Sky</small></div>
+<div role="listitem" style="display: flex; flex-direction: column; align-items: center; gap: 7px"><span class="swc" style="background: #C9B6E4"></span><small class="sans" data-dress-name style="font-size: 10px; color: #5b4a3f">Lavender</small></div>
+</div>
+</div>
+</div>
+
+<div style="position: absolute; left: 20px; top: 404px; width: 350px">
+<form id="msgForm" novalidate="novalidate" aria-label="Message for the couple" style="padding: 20px; border-radius: 22px; background: rgba(255,255,255,0.74); border: 1px solid #e7d8c3; box-shadow: 0 18px 40px rgba(155,79,110,0.10); display: flex; flex-direction: column; gap: 12px">
+<div class="fld">
+<label class="lbl" for="rsvp-name">Guest Name</label>
+<input id="rsvp-name" class="inp" type="text" autocomplete="name" placeholder="Your full name">
+<p class="err" id="errName" hidden>Please enter your name.</p>
+</div>
+<div class="fld">
+<label class="lbl" for="rsvp-msg">Message for the Couple</label>
+<textarea id="rsvp-msg" class="inp" placeholder="A few words of love for the couple"></textarea>
+<p class="err" id="errMsg" hidden>Please write a few words.</p>
+</div>
+<button type="submit" id="msgBtn" class="btn sans" style="border: 0; width: 100%; background: #9b4f6e; color: #FFF8ED; font-size: 13px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase">
+<svg aria-hidden="true" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"></path><path d="m21.854 2.147-10.94 10.939"></path></svg>
+<span id="msgBtnLabel">Send your message</span>
+</button>
+<p role="status" id="msgNote" hidden class="sans" style="margin: 0; padding: 10px 12px; border-radius: 12px; background: #fbeaea; color: #8c1d18; font-size: 13px; line-height: 1.4"></p>
+</form>
+<div id="msgSent" hidden role="status" style="padding: 34px 24px; border-radius: 22px; background: rgba(255,255,255,0.8); border: 1px solid #e7d8c3; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px">
+<div style="width: 56px; height: 56px; border-radius: 50%; background: #A5B58A; color: #fff; display: flex; align-items: center; justify-content: center">
+<svg aria-hidden="true" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>
+</div>
+<p class="script" style="margin: 0; font-size: 40px; color: #8f4565">Thank you</p>
+<p class="serif" style="margin: 0; font-size: 20px; font-style: italic; color: #45372f"><span id="msgThanks"></span></p>
+</div>
+</div>
+
+<div style="position: absolute; left: 0; right: 0; bottom: 14px; display: flex; flex-direction: column; align-items: center; gap: 2px">
+<button type="button" class="linkbtn" id="replay">
+<svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
+Replay the entrance
+</button>
+<p class="serif" style="margin: 0; font-size: 13px; font-style: italic; color: #6b5a4e">FARHA — More than an invitation, a magical experience.</p>
+</div>
+</section>
+</div>
+
+<!-- nav dots -->
+<nav class="dots" id="dots" aria-label="Scenes" hidden>
+<button type="button" class="dot" aria-label="Go to The secret garden" data-go="0"><span></span></button>
+<button type="button" class="dot" aria-label="Go to Save the date" data-go="1"><span></span></button>
+<button type="button" class="dot" aria-label="Go to The venue" data-go="2"><span></span></button>
+<button type="button" class="dot" aria-label="Go to RSVP" data-go="3"><span></span></button>
+</nav>
+
+<!-- ============ SCENE 01 · THE ENCHANTED ENTRANCE ============ -->
+<div class="gate" id="gate" aria-label="The enchanted entrance">
+<div class="gateWorld">
+<img loading="lazy" decoding="async" data-img="be101cfe" alt="" style="position: absolute; left: 0; top: 0; width: 390px; height: 844px; object-fit: cover; object-position: 50% 20%">
+
+<!-- the garden beyond the gate -->
+<div style="position: absolute; left: 70px; top: 205px; width: 250px; height: 595px; border-radius: 125px 125px 0 0; overflow: hidden; background: #cfe3f2">
+<img loading="lazy" decoding="async" data-img="be101cfe" alt="" style="position: absolute; left: -70px; top: -205px; width: 390px; height: 844px; object-fit: cover; object-position: 50% 20%">
+<div style="position: absolute; left: 0; right: 0; bottom: 0; height: 380px; background: linear-gradient(180deg, rgba(165,181,138,0) 0%, #b9c79f 40%, #A5B58A 100%)"></div>
+<img loading="lazy" decoding="async" data-img="c163d7f4" alt="" style="position: absolute; left: -95px; bottom: -40px; width: 440px">
+<div class="glow" style="position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 38%, rgba(255,246,222,0.95) 0%, rgba(255,246,222,0.35) 40%, rgba(255,246,222,0) 70%)"></div>
+<div class="rays" style="position: absolute; left: -40px; top: 0; width: 330px; height: 595px; background: repeating-linear-gradient(100deg, rgba(255,250,235,0) 0px, rgba(255,250,235,0) 22px, rgba(255,250,235,0.35) 30px, rgba(255,250,235,0) 44px); filter: blur(6px)"></div>
+</div>
+
+<!-- wrought-iron gate -->
+<div class="doors">
+<svg class="door doorL" aria-hidden="true" width="125" height="595" viewBox="0 0 125 595">
+<defs>
+<linearGradient id="iron" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e3cd9c"></stop><stop offset="0.5" stop-color="#C8AB78"></stop><stop offset="1" stop-color="#977944"></stop></linearGradient>
+</defs>
+<g fill="none" stroke="url(#iron)" stroke-linecap="round">
+<path d="M3 595V125A122 122 0 0 1 125 3" stroke-width="6"></path>
+<path d="M122 595V6" stroke-width="5"></path>
+<path d="M14 69.5V595M28 48.2V595M42 33.5V595M56 22.8V595M70 14.8V595M84 8.9V595M98 5.0V595M112 2.7V595" stroke-width="2.6"></path>
+<path d="M3 200H122M3 214H122M3 470H122M3 484H122M3 588H122" stroke-width="3"></path>
+<circle cx="21" cy="207" r="5" stroke-width="1.8"></circle><circle cx="49" cy="207" r="5" stroke-width="1.8"></circle><circle cx="77" cy="207" r="5" stroke-width="1.8"></circle><circle cx="105" cy="207" r="5" stroke-width="1.8"></circle>
+<circle cx="21" cy="477" r="5" stroke-width="1.8"></circle><circle cx="49" cy="477" r="5" stroke-width="1.8"></circle><circle cx="77" cy="477" r="5" stroke-width="1.8"></circle><circle cx="105" cy="477" r="5" stroke-width="1.8"></circle>
+<path d="M122 300A40 40 0 0 0 122 380" stroke-width="3.2"></path>
+<path d="M122 314A26 26 0 0 0 122 366" stroke-width="2.4"></path>
+<path d="M122 340C108 326 96 330 98 340C100 350 112 352 122 340" stroke-width="2.2"></path>
+<path d="M122 300C100 290 80 300 84 318C88 334 104 326 100 316" stroke-width="2.2"></path>
+<path d="M122 380C100 390 80 380 84 362C88 346 104 354 100 364" stroke-width="2.2"></path>
+<path d="M18 160C30 120 60 110 70 130C78 146 60 156 52 146" stroke-width="2.2"></path>
+<path d="M60 110C70 80 100 62 112 80C120 94 104 104 96 94" stroke-width="2.2"></path>
+<path d="M10 540C30 520 54 524 54 540C54 552 40 554 36 546" stroke-width="2"></path>
+<path d="M66 540C86 520 110 524 110 540C110 552 96 554 92 546" stroke-width="2"></path>
+</g>
+<path d="M122 330a10 10 0 1 0 0 20z" fill="#C8AB78"></path>
+</svg>
+<svg class="door doorR" aria-hidden="true" width="125" height="595" viewBox="0 0 125 595">
+<g transform="matrix(-1 0 0 1 125 0)">
+<g fill="none" stroke="url(#iron)" stroke-linecap="round">
+<path d="M3 595V125A122 122 0 0 1 125 3" stroke-width="6"></path>
+<path d="M122 595V6" stroke-width="5"></path>
+<path d="M14 69.5V595M28 48.2V595M42 33.5V595M56 22.8V595M70 14.8V595M84 8.9V595M98 5.0V595M112 2.7V595" stroke-width="2.6"></path>
+<path d="M3 200H122M3 214H122M3 470H122M3 484H122M3 588H122" stroke-width="3"></path>
+<circle cx="21" cy="207" r="5" stroke-width="1.8"></circle><circle cx="49" cy="207" r="5" stroke-width="1.8"></circle><circle cx="77" cy="207" r="5" stroke-width="1.8"></circle><circle cx="105" cy="207" r="5" stroke-width="1.8"></circle>
+<circle cx="21" cy="477" r="5" stroke-width="1.8"></circle><circle cx="49" cy="477" r="5" stroke-width="1.8"></circle><circle cx="77" cy="477" r="5" stroke-width="1.8"></circle><circle cx="105" cy="477" r="5" stroke-width="1.8"></circle>
+<path d="M122 300A40 40 0 0 0 122 380" stroke-width="3.2"></path>
+<path d="M122 314A26 26 0 0 0 122 366" stroke-width="2.4"></path>
+<path d="M122 340C108 326 96 330 98 340C100 350 112 352 122 340" stroke-width="2.2"></path>
+<path d="M122 300C100 290 80 300 84 318C88 334 104 326 100 316" stroke-width="2.2"></path>
+<path d="M122 380C100 390 80 380 84 362C88 346 104 354 100 364" stroke-width="2.2"></path>
+<path d="M18 160C30 120 60 110 70 130C78 146 60 156 52 146" stroke-width="2.2"></path>
+<path d="M60 110C70 80 100 62 112 80C120 94 104 104 96 94" stroke-width="2.2"></path>
+<path d="M10 540C30 520 54 524 54 540C54 552 40 554 36 546" stroke-width="2"></path>
+<path d="M66 540C86 520 110 524 110 540C110 552 96 554 92 546" stroke-width="2"></path>
+</g>
+<path d="M122 330a10 10 0 1 0 0 20z" fill="#C8AB78"></path>
+</g>
+</svg>
+</div>
+
+<!-- stone arch -->
+<svg aria-hidden="true" width="390" height="844" viewBox="0 0 390 844" style="position: absolute; left: 0; top: 0">
+<defs>
+<linearGradient id="stone" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f5eee2"></stop><stop offset="0.6" stop-color="#e7dcc8"></stop><stop offset="1" stop-color="#d6c7ac"></stop></linearGradient>
+<linearGradient id="stoneSide" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#000" stop-opacity="0.10"></stop><stop offset="0.5" stop-color="#000" stop-opacity="0"></stop><stop offset="1" stop-color="#000" stop-opacity="0.10"></stop></linearGradient>
+</defs>
+<path fill-rule="evenodd" d="M-10 844V172Q195 40 400 172V844ZM70 844V330A125 125 0 0 1 320 330V844Z" fill="url(#stone)"></path>
+<path fill-rule="evenodd" d="M-10 844V172Q195 40 400 172V844ZM70 844V330A125 125 0 0 1 320 330V844Z" fill="url(#stoneSide)"></path>
+<path d="M70 844V330A125 125 0 0 1 320 330V844" fill="none" stroke="#a99773" stroke-width="7" stroke-opacity="0.45"></path>
+<path d="M58 844V330A137 137 0 0 1 332 330V844" fill="none" stroke="#c9b99b" stroke-width="1.5"></path>
+<path d="M74.3 297.6L28.9 285.5M86.7 267.5L46.0 244.0M106.6 241.6L73.4 208.4M132.5 221.7L109.0 181.0M162.6 209.3L150.5 163.9M227.4 209.3L239.5 163.9M257.5 221.7L281.0 181.0M283.4 241.6L316.6 208.4M303.3 267.5L344.0 244.0M315.7 297.6L361.1 285.5" stroke="#c4b291" stroke-width="1.2"></path>
+<path d="M178 207L212 207L220 146L170 146Z" fill="#efe6d6" stroke="#b9a684" stroke-width="1.2"></path>
+<path d="M195 160l6 12-6 12-6-12z" fill="#C8AB78"></path>
+<g stroke="#c9b99b" stroke-width="1.2" stroke-opacity="0.8">
+<path d="M-10 400H58M-10 470H58M-10 540H58M-10 610H58M-10 680H58M-10 750H58"></path>
+<path d="M332 400H400M332 470H400M332 540H400M332 610H400M332 680H400M332 750H400"></path>
+<path d="M24 400V470M10 470V540M30 540V610M14 610V680M28 680V750M366 400V470M380 470V540M360 540V610M376 610V680M362 680V750"></path>
+</g>
+<rect x="46" y="322" width="40" height="13" rx="2" fill="#efe6d6" stroke="#b9a684"></rect>
+<rect x="304" y="322" width="40" height="13" rx="2" fill="#efe6d6" stroke="#b9a684"></rect>
+<rect x="-10" y="800" width="410" height="44" fill="#cdbd9f"></rect>
+<rect x="-10" y="800" width="410" height="3" fill="#e9dfcc"></rect>
+</svg>
+
+<!-- roses on the arch -->
+<img loading="lazy" decoding="async" class="sway2" data-img="ac39e116" alt="" style="position: absolute; left: -40px; top: 92px; width: 190px; rotate: -38deg">
+<img loading="lazy" decoding="async" class="sway" data-img="ac39e116" alt="" style="position: absolute; right: -40px; top: 92px; width: 190px; scale: -1 1; rotate: 38deg">
+<img loading="lazy" decoding="async" class="sway" data-img="ac39e116" alt="" style="position: absolute; left: 140px; top: 70px; width: 110px">
+<img loading="lazy" decoding="async" class="breeze" data-img="8c7a9237" alt="" style="position: absolute; left: -52px; bottom: 30px; width: 168px">
+<img loading="lazy" decoding="async" class="breeze" data-img="8c7a9237" alt="" style="position: absolute; right: -52px; bottom: 30px; width: 168px; scale: -1 1">
+</div>
+
+<!-- entrance copy + button -->
+<div class="gateUI" style="position: absolute; inset: 0; pointer-events: none">
+<div style="position: absolute; left: 0; right: 0; top: 0; height: 200px; background: linear-gradient(180deg, rgba(255,248,237,0.92) 0%, rgba(255,248,237,0.6) 55%, rgba(255,248,237,0) 100%)"></div>
+<div style="position: absolute; left: 0; right: 0; top: 26px; display: flex; flex-direction: column; align-items: center; text-align: center">
+<p class="sans" style="margin: 0; font-size: 11px; font-weight: 600; letter-spacing: 0.42em; color: #6b5a4e">FARHA</p>
+<h1 class="script" style="margin: 4px 0 0; font-size: 54px; line-height: 1.05; color: #8f4565">You’re Invited</h1>
+</div>
+<div style="position: absolute; left: 0; right: 0; bottom: 0; height: 230px; background: linear-gradient(180deg, rgba(255,248,237,0) 0%, rgba(255,248,237,0.85) 45%, rgba(255,248,237,0.96) 100%)"></div>
+<div style="position: absolute; left: 0; right: 0; bottom: 40px; display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center">
+<p class="serif" style="margin: 0; width: 280px; font-size: 21px; font-style: italic; line-height: 1.3; color: #45372f">A beautiful story is about to begin.</p>
+<button type="button" class="btn serif" id="openGate" style="pointer-events: auto; border: 1px solid #C8AB78; background: #FFF8ED; color: #3f332c; font-size: 18px; font-weight: 600; letter-spacing: 0.12em; box-shadow: 0 8px 22px rgba(143,69,101,0.18)">
+<svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8f4565" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7.5a4.5 4.5 0 1 1 4.5 4.5M12 7.5A4.5 4.5 0 1 0 7.5 12M12 7.5V9m-4.5 3a4.5 4.5 0 1 0 4.5 4.5M7.5 12H9m7.5 0a4.5 4.5 0 1 1-4.5 4.5m4.5-4.5H15m-3 4.5V15"></path><circle cx="12" cy="12" r="3"></circle></svg>
+Enter the Garden
+</button>
+</div>
+</div>
+</div>
+
+<!-- ============ AMBIENT FX ============ -->
+<div class="fx" aria-hidden="true">
+<span class="pt" style="left: 30px; background: #f2c4d2; animation-delay: -2s"></span>
+<span class="pt" style="left: 88px; background: #fbe3ea; animation-duration: 18s; animation-delay: -9s"></span>
+<span class="pt" style="left: 140px; background: #E8B7C8; animation-duration: 16s; animation-delay: -5s"></span>
+<span class="pt" style="left: 200px; background: #fff1f4; animation-duration: 20s; animation-delay: -13s"></span>
+<span class="pt" style="left: 252px; background: #f2c4d2; animation-duration: 17s; animation-delay: -1s"></span>
+<span class="pt" style="left: 306px; background: #E8B7C8; animation-duration: 19s; animation-delay: -11s"></span>
+<span class="pt" style="left: 350px; background: #fbe3ea; animation-duration: 15s; animation-delay: -7s"></span>
+<span class="pt" style="left: 170px; background: #ead9f2; animation-duration: 22s; animation-delay: -16s"></span>
+
+<div class="bf f1"><svg width="40" height="30" viewBox="0 0 40 30"><g class="wing"><path d="M20 15C12 1 1 2 3 10C4 16 12 17 20 15Z" fill="#E8B7C8"></path><path d="M20 16C12 18 6 26 11 28C16 29 19 22 20 16Z" fill="#d998ae"></path></g><g transform="matrix(-1 0 0 1 40 0)"><g class="wing"><path d="M20 15C12 1 1 2 3 10C4 16 12 17 20 15Z" fill="#E8B7C8"></path><path d="M20 16C12 18 6 26 11 28C16 29 19 22 20 16Z" fill="#d998ae"></path></g></g><ellipse cx="20" cy="16" rx="1.4" ry="7" fill="#5b4a3f"></ellipse></svg></div>
+<div class="bf f2"><svg width="40" height="30" viewBox="0 0 40 30"><g class="wing"><path d="M20 15C12 1 1 2 3 10C4 16 12 17 20 15Z" fill="#C9B6E4"></path><path d="M20 16C12 18 6 26 11 28C16 29 19 22 20 16Z" fill="#ad97d4"></path></g><g transform="matrix(-1 0 0 1 40 0)"><g class="wing"><path d="M20 15C12 1 1 2 3 10C4 16 12 17 20 15Z" fill="#C9B6E4"></path><path d="M20 16C12 18 6 26 11 28C16 29 19 22 20 16Z" fill="#ad97d4"></path></g></g><ellipse cx="20" cy="16" rx="1.4" ry="7" fill="#5b4a3f"></ellipse></svg></div>
+<div class="bf f3"><svg width="40" height="30" viewBox="0 0 40 30"><g class="wing"><path d="M20 15C12 1 1 2 3 10C4 16 12 17 20 15Z" fill="#B8DDF1"></path><path d="M20 16C12 18 6 26 11 28C16 29 19 22 20 16Z" fill="#8fc4e3"></path></g><g transform="matrix(-1 0 0 1 40 0)"><g class="wing"><path d="M20 15C12 1 1 2 3 10C4 16 12 17 20 15Z" fill="#B8DDF1"></path><path d="M20 16C12 18 6 26 11 28C16 29 19 22 20 16Z" fill="#8fc4e3"></path></g></g><ellipse cx="20" cy="16" rx="1.4" ry="7" fill="#5b4a3f"></ellipse></svg></div>
+<div class="bf f4"><svg width="40" height="30" viewBox="0 0 40 30"><g class="wing"><path d="M20 15C12 1 1 2 3 10C4 16 12 17 20 15Z" fill="#f6d9a8"></path><path d="M20 16C12 18 6 26 11 28C16 29 19 22 20 16Z" fill="#e8b7c8"></path></g><g transform="matrix(-1 0 0 1 40 0)"><g class="wing"><path d="M20 15C12 1 1 2 3 10C4 16 12 17 20 15Z" fill="#f6d9a8"></path><path d="M20 16C12 18 6 26 11 28C16 29 19 22 20 16Z" fill="#e8b7c8"></path></g></g><ellipse cx="20" cy="16" rx="1.4" ry="7" fill="#5b4a3f"></ellipse></svg></div>
+</div>
+
+</div>
+<script>
+// ===== Données personnalisables (formulaire Farha) =====
+const CONFIG = {
+  bride: "Sophie",
+  groom: "Adam",
+  date: "2027-06-20T17:00:00",
+  venue: "The Rose Garden",
+  address: "Tunis, Tunisia",
+  mapQuery: "",
+  mapLink: "",
+  dress: [["#E8B7C8", "Blush"], ["#A5B58A", "Sage"], ["#FFF8ED", "Cream"], ["#B8DDF1", "Sky"], ["#C9B6E4", "Lavender"]]
+};
+
+(function () {
+  'use strict';
+  var C = CONFIG, IMG = {"7de2a011": "/media/x/10237f4132fe5c.webp", "8c7a9237": "/media/x/5913f090d49249.webp", "ac39e116": "/media/x/28c4d218d6bd71.webp", "be101cfe": "/media/x/05adc3f12a17b1.webp", "c163d7f4": "/media/x/fef8e856a53675.webp", "d44a737c": "/media/x/6180aeb001903d.webp"}, SCENE_H = 844;
+  var $ = function (s) { return document.querySelector(s); }, all = function (s) { return [].slice.call(document.querySelectorAll(s)); };
+  all('img[data-img]').forEach(function (i) { i.src = IMG[i.getAttribute('data-img')]; });
+  var pad = function (n) { return (n < 10 ? '0' : '') + n; };
+
+  // ----- le modèle (390 × 844) remplit l'écran sans être coupé -----
+  var root = $('#root');
+  function fit() { root.style.setProperty('--fit', Math.min(innerWidth / 390, innerHeight / 844)); }
+  fit(); addEventListener('resize', fit);
+
+  // ----- textes (date et heure écrites en anglais, comme le modèle) -----
+  var d = new Date(C.date), ok = !isNaN(d.getTime());
+  var DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  var WORDS = ['twelve', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven'];
+  function timeLabel(x) {
+    var h = x.getHours(), m = x.getMinutes(), part = h < 12 ? 'in the morning' : h < 18 ? 'in the afternoon' : 'in the evening', w = WORDS[h % 12];
+    if (h === 12 && m === 0) return 'At noon';
+    if (m === 0) return 'At ' + w + " o'clock " + part;
+    if (m === 30) return 'At half past ' + w + ' ' + part;
+    if (m === 15) return 'At quarter past ' + w + ' ' + part;
+    return 'At ' + (h % 12 || 12) + ':' + pad(m) + ' ' + part;
+  }
+  var T = { p1: C.bride, p2: C.groom, venue: C.venue, city: C.address,
+    dateLabel: ok ? DAYS[d.getDay()] + ', ' + d.getDate() + ' ' + MONTHS[d.getMonth()] + ' ' + d.getFullYear() : '',
+    timeLabel: ok ? timeLabel(d) : '' };
+  all('[data-c]').forEach(function (el) { var v = T[el.getAttribute('data-c')]; if (v != null) el.textContent = v; });
+  var q = C.mapQuery || [C.venue, C.address].filter(Boolean).join(', ');
+  var maps = /^https:\/\//.test(C.mapLink || '') ? C.mapLink : 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(q);
+  all('[data-maps]').forEach(function (a) { a.href = maps; });
+  var sw = all('#swatches .swc'), nm = all('#swatches [data-dress-name]');
+  (C.dress || []).forEach(function (x, i) { var hex = Array.isArray(x) ? x[0] : x, n = Array.isArray(x) ? x[1] : ''; if (sw[i]) sw[i].style.background = hex; if (nm[i] && n) nm[i].textContent = n; });
+
+  // ----- compte à rebours -----
+  var cd = {}; all('[data-cd]').forEach(function (el) { cd[el.getAttribute('data-cd')] = el; });
+  function tick() {
+    var diff = ok ? Math.max(0, d.getTime() - Date.now()) : 0;
+    cd.d.textContent = String(Math.floor(diff / 864e5)); cd.h.textContent = pad(Math.floor(diff / 36e5) % 24);
+    cd.m.textContent = pad(Math.floor(diff / 6e4) % 60); cd.s.textContent = pad(Math.floor(diff / 1e3) % 60);
+  }
+  tick(); setInterval(tick, 1000);
+
+  // ----- scènes : parallaxe, passage d'une scène à l'autre, apparitions -----
+  var rm = false; try { rm = matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+  if (rm) root.classList.add('rm');
+  var scroller = $('#scroller'), scenes = all('[data-scene]'), px = all('[data-px]'), ons = all('[data-on]'), dots = all('#dots .dot');
+  var sy = 0, maxSy = 0, entered = false, snapT = 0;
+  function render() {
+    px.forEach(function (el) {
+      var a = el.getAttribute('data-px').split(' '), local = rm ? 0 : sy - (+a[0]) * SCENE_H, k = a[1] === 'bg' ? 0.35 : a[1] === 'mid' ? 0.15 : -0.22;
+      el.style.transform = 'translateY(' + (local * k).toFixed(1) + 'px)';
+    });
+    scenes.forEach(function (el) {
+      var t = +el.getAttribute('data-scene'), p = (sy - t * SCENE_H) / SCENE_H, qq = Math.min(Math.abs(p), 1);
+      if (rm) { el.style.transform = 'none'; el.style.filter = 'none'; el.style.borderRadius = '0'; return; }
+      if (p > 0) {
+        var e = qq * qq * (3 - 2 * qq);
+        el.style.transform = 'scale(' + (1 - 0.1 * e).toFixed(4) + ') translateY(' + (-40 * e).toFixed(1) + 'px)';
+        el.style.filter = 'brightness(' + (1 - 0.35 * e).toFixed(3) + ') saturate(' + (1 - 0.2 * e).toFixed(3) + ')';
+        el.style.borderRadius = (24 * e).toFixed(1) + 'px';
+      } else { var rr = (34 * qq).toFixed(1); el.style.transform = 'none'; el.style.filter = 'none'; el.style.borderRadius = rr + 'px ' + rr + 'px 0 0'; }
+    });
+    ons.forEach(function (el) { var j = +el.getAttribute('data-on'); el.classList.toggle('on', entered && maxSy >= j * SCENE_H - 460); });
+    var active = Math.round(sy / SCENE_H);
+    dots.forEach(function (b, k) { b.classList.toggle('act', k === active); });
+  }
+  scroller.addEventListener('scroll', function () {
+    sy = scroller.scrollTop; maxSy = Math.max(maxSy, sy); render();
+    // léger aimant : une fois le défilement arrêté, on glisse vers la scène la plus proche
+    clearTimeout(snapT);
+    snapT = setTimeout(function () { var target = Math.round(scroller.scrollTop / SCENE_H) * SCENE_H; if (Math.abs(scroller.scrollTop - target) > 2) scroller.scrollTo({ top: target, behavior: rm ? 'auto' : 'smooth' }); }, 140);
+  }, { passive: true });
+  dots.forEach(function (b) { b.addEventListener('click', function () { scroller.scrollTo({ top: (+b.getAttribute('data-go')) * SCENE_H, behavior: rm ? 'auto' : 'smooth' }); }); });
+
+  // ----- portail d'entrée -----
+  var gate = $('#gate'), phase = 'closed', timers = [];
+  $('#openGate').addEventListener('click', function () {
+    if (phase !== 'closed') return; phase = 'open'; gate.classList.add('open');
+    timers.push(setTimeout(function () { phase = 'zoom'; gate.classList.add('zoom'); entered = true; scroller.classList.add('on'); $('#dots').hidden = false; render(); }, rm ? 200 : 1800));
+    timers.push(setTimeout(function () { phase = 'done'; gate.hidden = true; }, rm ? 500 : 3400));
+  });
+  $('#replay').addEventListener('click', function () {
+    timers.forEach(clearTimeout); timers = []; scroller.scrollTop = 0; sy = 0; maxSy = 0; entered = false; phase = 'closed';
+    scroller.classList.remove('on'); $('#dots').hidden = true; gate.hidden = false; gate.classList.remove('open', 'zoom'); render();
+  });
+  render();
+
+  // ----- « Message for the Couple » : envoyé au site Farha, qui le transmet par e-mail aux mariés -----
+  var form = $('#msgForm'), nameIn = $('#rsvp-name'), msgIn = $('#rsvp-msg'), sending = false;
+  nameIn.addEventListener('input', function () { nameIn.classList.remove('bad'); $('#errName').hidden = true; });
+  msgIn.addEventListener('input', function () { msgIn.classList.remove('bad'); $('#errMsg').hidden = true; });
+  form.addEventListener('submit', function (ev) {
+    ev.preventDefault(); if (sending) return;
+    var n = nameIn.value.trim(), m = msgIn.value.trim(), bad = false;
+    if (!n) { nameIn.classList.add('bad'); $('#errName').hidden = false; bad = true; }
+    if (!m) { msgIn.classList.add('bad'); $('#errMsg').hidden = false; bad = true; }
+    $('#msgNote').hidden = true; if (bad) return;
+    var id = Math.random().toString(36).slice(2), done = false;
+    sending = true; $('#msgBtnLabel').textContent = 'Sending…';
+    function finish(okk, err) {
+      if (done) return; done = true; removeEventListener('message', on); sending = false; $('#msgBtnLabel').textContent = 'Send your message';
+      if (okk) { $('#msgThanks').textContent = 'Your message has reached ' + C.bride + ' & ' + C.groom + ', ' + n + '.'; form.hidden = true; $('#msgSent').hidden = false; }
+      else { var note = $('#msgNote'); note.textContent = err || 'We couldn’t send your message. Please check your connection and try again.'; note.hidden = false; }
+    }
+    function on(e) { var x = e.data; if (x && x.type === 'farha:rsvp-result' && x.id === id) finish(x.ok, x.error); }
+    addEventListener('message', on);
+    if (window.parent === window) { finish(true); return; }
+    try { parent.postMessage({ type: 'farha:rsvp', id: id, name: n, attending: true, kind: 'mot', message: m.slice(0, 560) }, '*'); } catch (e) {}
+    setTimeout(function () { finish(true); }, 15000);
+  });
+})();
+
+</script>
+</body>
+</html>

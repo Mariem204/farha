@@ -1,0 +1,501 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Remise de diplôme · Bleu nuit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cinzel:wght@400;500&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Cutive+Mono&family=Great+Vibes&family=Patrick+Hand&display=swap" rel="stylesheet">
+<style>
+:root{
+  --page:#22385a;      /* fond bleu nuit autour de la carte */
+  --cream:#f4efe9;
+  --lace:#ece6df;
+  --ink:#28344a;
+  --muted:#7a8494;
+  --rose:#9fb6d6;
+  --mauve:#3f6299;
+  --mauve-dk:#1f3a64;
+  --gold:#b8924f;
+  --gold-lt:#e3c98f;
+  --line:#dcd1c8;
+  --script:'Great Vibes',cursive;
+  --caps:'Cinzel',serif;
+  --serif:'Cormorant Garamond',serif;
+  --arabic:'Amiri',serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--page);color:var(--ink);font-family:var(--serif);font-size:18px;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+.card{max-width:480px;margin:0 auto;background:var(--cream);overflow:hidden;box-shadow:0 0 70px rgba(40,20,30,.35)}
+section{position:relative;padding:76px 28px;text-align:center}
+
+/* Typo */
+.eyebrow{font-family:var(--caps);font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--mauve-dk)}
+.title{display:flex;flex-direction:column;align-items:center;margin-bottom:26px}
+.title .script{font-family:var(--script);font-size:50px;line-height:1.05;color:var(--mauve-dk)}
+.title .caps{font-family:var(--caps);font-size:15px;letter-spacing:.24em;text-transform:uppercase;margin-top:2px}
+.lead{font-size:19px;line-height:1.6}
+.divider{width:120px;height:14px;margin:22px auto;color:var(--gold)}
+
+/* Apparitions en fondu */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity 1.1s ease,transform 1.1s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:none}
+.d1{transition-delay:.15s}.d2{transition-delay:.3s}.d3{transition-delay:.45s}.d4{transition-delay:.6s}
+
+/* Fond dentelle brodée (photo) éclaircie */
+.lace{background-color:var(--lace);background-image:linear-gradient(rgba(244,239,233,var(--veil,.72)),rgba(244,239,233,var(--veil,.72))),var(--lace-img);background-size:auto,360px;background-position:center}
+
+/* ---------- 1. Couverture ---------- */
+#hero{padding:0;background:#ece6dc}
+.hero-art{position:relative;aspect-ratio:534/860;overflow:hidden}
+.hero-art>img{position:absolute;inset:0;width:100%;height:100%;animation:heroIn 1.6s ease both}
+@keyframes heroIn{from{opacity:0;transform:scale(1.04)}}
+.hero-txt{position:absolute;left:7%;right:7%;top:38.5%;z-index:5;display:flex;flex-direction:column;align-items:center}
+.hero-year{font-family:var(--caps);font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-top:10px}
+#hero .degree{color:var(--ink);font-size:clamp(9px,2.6vw,12px);letter-spacing:.12em;margin-top:8px;line-height:1.7}
+#hero .eyebrow{margin-bottom:4px}
+#hero .scroll-hint{position:static;padding:12px 0 14px}
+.panel{position:relative;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:64px 22px 54px;
+  border:1px solid rgba(255,255,255,.9);outline:1px solid rgba(150,130,120,.25);outline-offset:-9px;
+  background:radial-gradient(ellipse at 50% 45%,rgba(250,247,243,.82),rgba(244,239,233,.45) 70%);box-shadow:inset 0 0 0 10px rgba(255,255,255,.35),inset 0 0 40px rgba(120,100,90,.12),0 2px 6px rgba(80,60,60,.08)}
+.cap{width:110px;margin-bottom:14px;animation:capFloat 5s ease-in-out infinite}
+.cap .tassel{transform-origin:20px 26px;animation:tassel 3.2s ease-in-out infinite}
+@keyframes capFloat{50%{transform:translateY(-6px) rotate(-2deg)}}
+@keyframes tassel{50%{transform:rotate(7deg)}}
+.verse{font-family:var(--arabic);font-size:24px;line-height:1.6;color:#22304a;direction:rtl;display:flex;align-items:center;gap:10px}
+.verse i{font-style:normal;font-size:15px;color:var(--gold)}
+.frame{position:relative;width:min(240px,60vw);margin:22px auto 18px;aspect-ratio:520/772}
+.frame .photo{position:absolute;inset:0;background-size:cover;background-position:center 20%;-webkit-mask-size:100% 100%;mask-size:100% 100%}
+.frame img{position:absolute;inset:0;width:100%;height:100%;filter:drop-shadow(0 10px 14px rgba(70,45,30,.35))}
+.frame::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(115deg,transparent 40%,rgba(255,240,200,.45) 50%,transparent 60%) -200% 0/250% 100% no-repeat;animation:shine 5s 1.5s ease-in-out infinite;-webkit-mask-size:100% 100%;mask-size:100% 100%}
+@keyframes shine{0%{background-position:-200% 0}40%,100%{background-position:200% 0}}
+.hero-name{font-family:var(--script);font-size:clamp(36px,10.5vw,52px);line-height:1;color:var(--mauve-dk)}
+.degree{font-family:var(--caps);font-size:12px;letter-spacing:.22em;text-transform:uppercase;margin-top:12px;line-height:1.8}
+.flower{position:absolute;pointer-events:none;filter:drop-shadow(0 8px 10px rgba(80,40,50,.22));z-index:3}
+.fl-tr{width:42%;right:-6%;top:-14px;transform-origin:100% 0;animation:sway 7s ease-in-out infinite}
+.fl-bl{width:44%;left:-8%;bottom:-12px;transform-origin:0 100%;animation:sway3 9s ease-in-out infinite}
+@keyframes sway{50%{transform:rotate(-4deg)}}
+@keyframes sway3{50%{transform:rotate(4deg)}}
+.scroll-hint{position:absolute;bottom:18px;left:0;right:0;font-family:var(--caps);font-size:9px;letter-spacing:.3em;color:var(--muted);animation:pulse 2.4s infinite}
+@keyframes pulse{50%{opacity:.3}}
+/* pétales qui tombent */
+.petals{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:4}
+.petal{position:absolute;top:-30px;width:14px;height:11px;border-radius:150% 0 150% 0;background:radial-gradient(circle at 30% 30%,#dfe8f5,#7f9cc8);opacity:.85;animation:fall linear infinite}
+@keyframes fall{
+  0%{transform:translate(0,0) rotate(0)}
+  50%{transform:translate(var(--sway),50vh) rotate(200deg)}
+  100%{transform:translate(0,105vh) rotate(420deg)}
+}
+
+/* ---------- 2. Pompon à basculer ---------- */
+#tassel{padding:64px 28px}
+.toss{position:relative;display:inline-block;cursor:pointer;-webkit-tap-highlight-color:transparent;border:0;background:none}
+.toss svg{width:170px;overflow:visible}
+.toss .t-cord{transform-origin:85px 46px}
+/* le pompon passe de droite à gauche, comme à la cérémonie */
+.toss.done .t-cord{animation:flipTassel 1.3s cubic-bezier(.4,.1,.3,1) forwards}
+@keyframes flipTassel{0%{transform:rotate(0)}45%{transform:rotate(-100deg)}75%{transform:scaleX(-1) rotate(-14deg)}100%{transform:scaleX(-1)}}
+.toss:not(.done){animation:nudge 2.8s ease-in-out infinite}
+@keyframes nudge{0%,80%,100%{transform:none}86%{transform:rotate(-3deg)}92%{transform:rotate(3deg)}}
+.toss-hint{font-family:var(--caps);font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--muted);margin-top:16px}
+.toss-msg{font-family:var(--script);font-size:40px;color:var(--mauve-dk);height:0;opacity:0;transition:opacity 1s .6s,height .6s;overflow:hidden}
+.toss-msg.show{height:60px;opacity:1}
+.confetti{position:fixed;width:8px;height:12px;pointer-events:none;z-index:50;border-radius:2px}
+
+/* ---------- 3. Message ---------- */
+#mot{overflow:hidden;padding-top:90px}
+#message{overflow:hidden;padding-bottom:120px}
+#mot .sign{margin-top:28px}
+#mot .sign .script{font-family:var(--script);font-size:36px;color:var(--mauve-dk)}
+
+/* ---------- 4. Calendrier ---------- */
+#date{background-color:#efebe4;background-image:repeating-linear-gradient(0deg,rgba(120,100,80,.035) 0 1px,transparent 1px 3px),repeating-linear-gradient(90deg,rgba(120,100,80,.03) 0 1px,transparent 1px 4px)}
+.month{font-family:var(--caps);font-size:22px;letter-spacing:.3em;text-transform:uppercase;margin-bottom:22px}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);row-gap:12px;max-width:380px;margin:0 auto}
+.cal .wd{font-family:'Cutive Mono',monospace;font-size:15px;font-weight:700;color:#1d2638;padding-bottom:8px}
+.cal .n{position:relative;font-family:'Patrick Hand',cursive;font-size:22px;color:#2a3446;height:38px;display:flex;align-items:center;justify-content:center}
+.cal .n span{display:inline-block;transform:translateY(var(--dy)) rotate(var(--rot))}
+.cal .n.day{color:var(--mauve-dk);font-weight:700}
+.cal .n.day svg.ring{position:absolute;left:50%;top:50%;width:52px;height:44px;margin:-22px 0 0 -26px;overflow:visible}
+.cal .n.day svg.ring path{fill:none;stroke:var(--mauve);stroke-width:1.6;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1.4s .8s ease}
+.cal.in .n.day svg.ring path{stroke-dashoffset:0}
+.cal .n.day svg.mini-cap{position:absolute;width:34px;right:-10px;bottom:-14px;opacity:0;transform:translateY(-30px) rotate(-30deg);transition:opacity .6s 1.8s,transform .9s 1.8s cubic-bezier(.3,1.5,.5,1)}
+.cal.in .n.day svg.mini-cap{opacity:1;transform:rotate(-8deg)}
+.when{margin-top:28px;font-family:var(--caps);font-size:13px;letter-spacing:.2em;text-transform:uppercase;line-height:2}
+.count{display:flex;justify-content:center;gap:10px;margin-top:24px}
+.count div{width:66px;padding:10px 0;border:1px solid var(--line);background:rgba(255,255,255,.5)}
+.count b{display:block;font-family:var(--caps);font-weight:400;font-size:24px;color:var(--mauve-dk)}
+.count small{font-family:var(--caps);font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+
+/* ---------- 5. Lieu ---------- */
+#lieu .venue{font-family:var(--caps);font-size:14px;letter-spacing:.14em;text-transform:uppercase}
+#lieu .addr{font-style:italic;margin-top:4px}
+.pin-photo{position:relative;display:block;width:84%;margin:40px auto 34px;background:#fff;padding:9px 9px 36px;transform:rotate(2.5deg);box-shadow:0 18px 30px rgba(70,40,50,.25);text-decoration:none;color:var(--ink);transition:transform .4s}
+.pin-photo:hover{transform:rotate(0) scale(1.02)}
+.pin-photo .map{position:relative;aspect-ratio:1.15;overflow:hidden;background:#e8e2dc}
+.pin-photo .map img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+/* carte agrandie puis recadrée : les boutons Google sortent du cadre */
+.pin-photo iframe{position:absolute;left:-70px;top:-70px;width:calc(100% + 140px);height:calc(100% + 140px);border:0;pointer-events:none;filter:saturate(.7) sepia(.12) hue-rotate(-12deg)}
+.pin-photo .label{position:absolute;left:0;right:0;bottom:6px;font-family:var(--script);font-size:26px;color:var(--mauve-dk)}
+.pin-rose{position:absolute;width:110px;left:-38px;top:-44px;-webkit-mask-image:radial-gradient(closest-side,#000 70%,transparent);mask-image:radial-gradient(closest-side,#000 70%,transparent);z-index:2;transform:rotate(-20deg);filter:drop-shadow(0 6px 6px rgba(60,30,40,.3))}
+.btn{display:inline-block;font-family:var(--caps);font-size:11px;letter-spacing:.2em;text-transform:uppercase;padding:14px 28px;text-decoration:none;border:0;cursor:pointer;transition:background .3s,color .3s}
+.btn.mauve{background:var(--mauve-dk);color:#fff}
+.btn.mauve:hover{background:var(--ink)}
+
+/* ---------- 6. Programme ---------- */
+#programme{background:linear-gradient(rgba(31,58,100,.92),rgba(22,41,74,.95)),var(--lace-img) center/520px;color:#eef3fa}
+#programme .title .script{color:#eef3fa}
+.timeline{position:relative;margin:10px -8px 0}
+.tl-path{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+.tl-path path{fill:none;stroke:var(--gold-lt);stroke-width:1.3;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 3s cubic-bezier(.4,.1,.3,1) .2s}
+.timeline.in .tl-path path{stroke-dashoffset:0}
+.step{position:relative;height:118px;display:flex;align-items:center}
+.step::before{content:"";position:absolute;left:50%;top:50%;width:10px;height:10px;margin:-5px;transform:rotate(45deg);background:var(--gold-lt);box-shadow:0 0 0 4px rgba(227,201,143,.22)}
+.step .txt{width:50%;padding:0 26px;text-align:right}
+.step.right .txt{margin-left:50%;text-align:left}
+.step b{display:block;font-family:var(--caps);font-weight:400;font-size:17px;letter-spacing:.08em;color:var(--gold-lt)}
+.step span{display:block;font-family:var(--script);font-size:25px;line-height:1.15}
+
+/* ---------- 7. Dress code ---------- */
+.swatches{display:flex;justify-content:center;gap:12px;margin:26px 0 6px}
+.swatch{width:44px;height:44px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(0,0,0,.06),0 3px 6px rgba(80,50,60,.12);opacity:0;transform:scale(.4);transition:opacity .6s ease,transform .7s cubic-bezier(.3,1.5,.5,1);transition-delay:calc(var(--i)*.12s)}
+.in .swatch{opacity:1;transform:none}
+
+/* ---------- 8. Petit mot ---------- */
+#message{background:var(--lace)}
+form{display:flex;flex-direction:column;gap:14px;text-align:left;margin-top:24px}
+label{font-family:var(--caps);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+input,textarea{width:100%;margin-top:6px;padding:12px 14px;border:1px solid var(--line);background:#fffdfb;font:18px var(--serif);color:var(--ink);border-radius:0}
+input:focus,textarea:focus{outline:1px solid var(--mauve);border-color:var(--mauve)}
+form .btn{align-self:center;margin-top:8px}
+.thanks{font-family:var(--script);font-size:32px;color:var(--mauve-dk);margin-top:18px}
+
+footer{background:var(--mauve-dk);color:#e6edf7;padding:46px 20px;text-align:center}
+footer .verse{justify-content:center;color:#e6edf7;font-size:20px}
+footer .hero-name{color:#fff;font-size:40px;margin-top:12px}
+footer .eyebrow{color:#c9d6ea;margin-top:8px}
+
+@media (max-width:380px){
+  .title .script{font-size:44px}
+  .hero-name{font-size:46px}
+  .verse{font-size:20px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important}
+  .reveal,.swatch{transition:none!important;opacity:1!important;transform:none!important}
+  .petals{display:none}
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="capTop" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#4a6fa8"/><stop offset=".5" stop-color="#2c4a7a"/><stop offset="1" stop-color="#1f3a64"/>
+    </linearGradient>
+    <linearGradient id="capBase" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2a4570"/><stop offset="1" stop-color="#16294a"/>
+    </linearGradient>
+    <linearGradient id="goldG" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f1dca6"/><stop offset=".5" stop-color="#c9a15c"/><stop offset="1" stop-color="#9c7a3c"/>
+    </linearGradient>
+    <!-- mortier : réutilisé en haut, au pompon et dans le calendrier -->
+    <symbol id="mortar" viewBox="0 0 120 80">
+      <path d="M30 34v16c0 8 13 13 30 13s30-5 30-13V34" fill="url(#capBase)"/>
+      <path d="M60 6 116 28 60 50 4 28z" fill="url(#capTop)"/>
+      <path d="M60 12 104 28 60 44 16 28z" fill="none" stroke="rgba(255,235,240,.35)" stroke-width=".8"/>
+      <path d="M44 28c4-6 12-6 16 0 4-6 12-6 16 0-4 6-12 6-16 0-4 6-12 6-16 0z" fill="none" stroke="rgba(255,235,240,.45)" stroke-width=".8"/>
+      <circle cx="60" cy="28" r="2.6" fill="#16294a"/>
+    </symbol>
+  </defs>
+</svg>
+
+<main class="card">
+
+  <!-- 1. Couverture -->
+  <section id="hero">
+    <div class="hero-art">
+      <img loading="lazy" decoding="async" data-img="hero" alt="">
+      <div class="petals" id="petals"></div>
+      <div class="hero-txt">
+        <p class="eyebrow reveal d1">Fier diplômé</p>
+        <h1 class="hero-name reveal d2" data-field="name"></h1>
+        <p class="degree reveal d3"><span data-field="degree"></span><br><span data-field="school"></span></p>
+        <p class="hero-year reveal d4" data-field="promo"></p>
+      </div>
+    </div>
+    <p class="scroll-hint">Faites défiler</p>
+  </section>
+
+  <!-- 2. Pompon -->
+  <section id="tassel">
+    <p class="eyebrow reveal">La tradition</p>
+    <div class="title reveal d1"><span class="script">Faites basculer le pompon</span></div>
+    <button class="toss reveal d2" id="toss" aria-label="Faire basculer le pompon">
+      <svg viewBox="0 0 170 130" aria-hidden="true">
+        <use href="#mortar" x="25" y="18" width="120" height="80"/>
+        <g class="t-cord"><path d="M85 46 135 44v40" fill="none" stroke="#1f3a64" stroke-width="1.8"/><path d="M130 82h10l3 26h-16z" fill="#2a4570"/><path d="M130 85h10" stroke="url(#goldG)" stroke-width="4"/></g>
+      </svg>
+    </button>
+    <p class="toss-hint reveal d3" id="tossHint">Touchez le mortier</p>
+    <p class="toss-msg" id="tossMsg">Officiellement diplômé !</p>
+  </section>
+
+  <!-- 3. Message -->
+  <section id="mot" class="lace">
+    <img loading="lazy" decoding="async" class="flower fl-tr" data-img="flTR" alt="">
+    <svg class="divider reveal" viewBox="0 0 120 14" aria-hidden="true"><path d="M0 7h46M74 7h46" stroke="currentColor" stroke-width=".8"/><path d="M60 1l6 6-6 6-6-6z" fill="none" stroke="currentColor"/><circle cx="60" cy="7" r="1.5" fill="currentColor"/></svg>
+    <div class="frame reveal">
+      <div class="photo" id="photo"></div>
+      <img loading="lazy" decoding="async" data-img="frame" alt="">
+    </div>
+    <p class="lead reveal d1">Avec une immense fierté et beaucoup d’émotion, nous avons la joie de vous inviter à célébrer l’obtention du diplôme de</p>
+    <p class="hero-name reveal d2" style="margin:14px 0" data-field="name"></p>
+    <p class="lead reveal d3">Des années de travail, de nuits blanches et de courage récompensées. Votre présence rendra ce jour encore plus précieux.</p>
+    <div class="sign reveal d4"><p class="eyebrow">Avec amour,</p><p class="script" data-field="family"></p></div>
+  </section>
+
+  <!-- 4. Calendrier -->
+  <section id="date">
+    <div class="title reveal"><span class="script">Le jour J</span></div>
+    <p class="month reveal d1" id="month"></p>
+    <div class="cal reveal d2" id="cal"></div>
+    <p class="when reveal d3" id="when"></p>
+    <div class="count reveal d4">
+      <div><b id="cd-d">0</b><small>jours</small></div>
+      <div><b id="cd-h">0</b><small>heures</small></div>
+      <div><b id="cd-m">0</b><small>min</small></div>
+      <div><b id="cd-s">0</b><small>sec</small></div>
+    </div>
+  </section>
+
+  <!-- 5. Lieu -->
+  <section id="lieu" class="lace">
+    <div class="title reveal"><span class="script">Le lieu</span><span class="caps">de la célébration</span></div>
+    <p class="venue reveal d1" data-field="venue"></p>
+    <p class="addr reveal d1" data-field="address"></p>
+    <a class="pin-photo reveal d2" id="mapCard" target="_blank" rel="noopener">
+      <img loading="lazy" decoding="async" class="pin-rose" data-img="flBL" alt="">
+      <div class="map" id="map"></div>
+      <span class="label" data-field="venueShort"></span>
+    </a>
+    <a class="btn mauve reveal d3" id="mapBtn" target="_blank" rel="noopener">Ouvrir la carte</a>
+  </section>
+
+  <!-- 6. Programme -->
+  <section id="programme">
+    <div class="title reveal"><span class="script">Programme</span><span class="caps">de la journée</span></div>
+    <div class="timeline reveal" id="timeline"></div>
+  </section>
+
+  <!-- 7. Dress code -->
+  <section id="dress" class="lace">
+    <div class="title reveal"><span class="script">Dress code</span></div>
+    <p class="lead reveal d1">Des tons bleu nuit, ciel et crème pour accompagner le diplôme en photo.</p>
+    <div class="swatches reveal" id="swatches"></div>
+  </section>
+
+  <!-- 8. Petit mot -->
+  <section id="message">
+    <img loading="lazy" decoding="async" class="flower fl-bl" data-img="flBL" alt="">
+    <div class="title reveal"><span class="script">Un petit mot</span><span class="caps">pour le diplômé</span></div>
+    <p class="lead reveal d1">Un souhait, un souvenir, un encouragement : il lui fera chaud au cœur.</p>
+    <form id="form" class="reveal d2">
+      <label>Nom et prénom<input type="text" name="name" required autocomplete="name"></label>
+      <label>Votre message<textarea name="note" rows="5" required></textarea></label>
+      <button class="btn mauve" type="submit">Envoyer mon mot</button>
+    </form>
+    <p class="thanks" id="thanks" aria-live="polite"></p>
+  </section>
+
+  <footer>
+    <p class="verse reveal"><i>۞</i><span data-field="verse"></span><i>۞</i></p>
+    <p class="hero-name reveal d1" data-field="name"></p>
+    <p class="eyebrow reveal d2" data-field="promo"></p>
+  </footer>
+</main>
+
+<script>
+/* ======== Tout le contenu de l’invitation se modifie ici ======== */
+const CONFIG = {
+  name: "Youssef Ben Salah",
+  degree: "Diplôme d’Ingénieur en Informatique",
+  school: "École Nationale d’Ingénieurs de Tunis",
+  year: "2027",
+  family: "La famille Ben Salah",
+  verse: "وَآخِرُ دَعْوَاهُمْ أَنِ الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ",
+  date: "2027-07-03T10:00:00",
+  venue: "Salle des fêtes « Le Jardin »",
+  venueShort: "Le Jardin",
+  address: "Les Berges du Lac, Tunis",
+  mapQuery: "Les Berges du Lac, Tunis",
+  mapImage: "",          // capture d’écran Google Maps (facultatif) ; vide = carte Google intégrée
+  mapLink: "",           // lien Google Maps (facultatif) ; vide = recherche de l’adresse
+  whatsapp: "",          // numéro au format international, ex. 21612345678 ; vide = message affiché seulement
+  program: [
+    ["10:00", "Soutenance du PFE"],
+    ["12:00", "Remise du diplôme"],
+    ["14:00", "Cérémonie"]
+  ],
+  dress: ["#f3efe6", "#c9d6e8", "#6f8fbf", "#1f3a64", "#c8a86a"],
+  images: {
+    photo: "https://images.unsplash.com/photo-1619279302118-43033660826a?w=700&fit=crop",
+    lace:  "https://images.unsplash.com/photo-1787919897665-8d6c758f9bfd?w=900"
+  }
+};
+
+(function () {
+  const $ = s => document.querySelector(s), all = s => document.querySelectorAll(s);
+  const C = CONFIG, when = new Date(C.date);
+  const pad = n => String(n).padStart(2, "0");
+  const months = ["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"];
+  const days = ["dimanche","lundi","mardi","mercredi","jeudi","vendredi","samedi"];
+
+  // Cadre doré, masque du cadre, couverture et fleurs bleues intégrés
+  const ART = {
+    frame: "/media/x/216129c82d1546.webp",
+    mask: "/media/x/dfe70bc3eafb33.webp",
+    hero: "/media/x/6e3f594b093195.webp",
+    flTR: "/media/x/88c796db9e92d7.webp",
+    flBL: "/media/x/346c0aeef1cb0d.webp"
+  };
+
+  // Textes
+  const F = Object.assign({}, C, { promo: "Promotion " + C.year });
+  all("[data-field]").forEach(el => el.textContent = F[el.dataset.field] || "");
+
+  // Images
+  all("[data-img]").forEach(img => img.src = ART[img.dataset.img]);
+  document.documentElement.style.setProperty("--lace-img", `url("${C.images.lace}")`);
+  const photo = $("#photo");
+  photo.style.backgroundImage = `url("${C.images.photo}")`;
+  photo.style.webkitMaskImage = photo.style.maskImage = `url("${ART.mask}")`;
+  const shine = document.createElement("style");
+  shine.textContent = `.frame::after{-webkit-mask-image:url("${ART.frame}");mask-image:url("${ART.frame}")}`;
+  document.head.append(shine);
+  C.dress.forEach((c, i) => { const d = document.createElement("span"); d.className = "swatch"; d.style.background = c; d.style.setProperty("--i", i); d.title = c; $("#swatches").append(d); });
+
+  // Pétales
+  const petals = $("#petals");
+  for (let i = 0; i < 16; i++) {
+    const p = document.createElement("span");
+    p.className = "petal";
+    p.style.left = Math.random() * 100 + "%";
+    p.style.animationDuration = 9 + Math.random() * 8 + "s";
+    p.style.animationDelay = -Math.random() * 14 + "s";
+    p.style.setProperty("--sway", (Math.random() * 120 - 60) + "px");
+    p.style.transform = `scale(${.6 + Math.random() * .7})`;
+    petals.append(p);
+  }
+
+  // Pompon : bascule + confettis
+  const toss = $("#toss");
+  toss.addEventListener("click", () => {
+    if (toss.classList.contains("done")) return;
+    toss.classList.add("done");
+    $("#tossHint").style.opacity = 0;
+    $("#tossMsg").classList.add("show");
+    const r = toss.getBoundingClientRect(), colors = ["#c9a0a8", "#e6c7c4", "#c8a86a", "#2c4a7a", "#f3ebe2"];
+    for (let i = 0; i < 46; i++) {
+      const c = document.createElement("span");
+      c.className = "confetti";
+      c.style.background = colors[i % colors.length];
+      c.style.left = r.left + r.width / 2 + "px"; c.style.top = r.top + r.height / 3 + "px";
+      document.body.append(c);
+      const a = Math.random() * Math.PI * 2, v = 90 + Math.random() * 160;
+      c.animate([
+        { transform: "translate(0,0) rotate(0)", opacity: 1 },
+        { transform: `translate(${Math.cos(a) * v}px,${Math.sin(a) * v - 80}px) rotate(${Math.random() * 540}deg)`, opacity: 1, offset: .45 },
+        { transform: `translate(${Math.cos(a) * v * 1.3}px,${Math.sin(a) * v + 260}px) rotate(${Math.random() * 900}deg)`, opacity: 0 }
+      ], { duration: 1900 + Math.random() * 900, easing: "cubic-bezier(.2,.6,.4,1)" }).onfinish = () => c.remove();
+    }
+  });
+
+  // Calendrier du mois, jour J entouré à la main et coiffé d’un mortier
+  $("#month").textContent = months[when.getMonth()] + " " + when.getFullYear();
+  const cal = $("#cal");
+  ["Lu", "Ma", "Me", "Je", "Ve", "Sa", "Di"].forEach(d => { const s = document.createElement("div"); s.className = "wd"; s.textContent = d; cal.append(s); });
+  const first = new Date(when.getFullYear(), when.getMonth(), 1), offset = (first.getDay() + 6) % 7;
+  const last = new Date(when.getFullYear(), when.getMonth() + 1, 0).getDate();
+  for (let i = 0; i < offset; i++) cal.append(document.createElement("div"));
+  for (let n = 1; n <= last; n++) {
+    const c = document.createElement("div"), j = Math.sin(n * 12.9898) * 43758.5453 % 1;
+    c.className = "n" + (n === when.getDate() ? " day" : "");
+    c.innerHTML = `<span style="--dy:${(j * 5).toFixed(1)}px;--rot:${(j * 4).toFixed(1)}deg">${n}</span>`;
+    if (n === when.getDate()) c.insertAdjacentHTML("beforeend",
+      '<svg class="ring" viewBox="0 0 52 44"><path pathLength="1" d="M30 4C14 2 3 12 4 23s12 18 25 17 20-9 19-19S36 3 22 6"/></svg>' +
+      '<svg class="mini-cap" viewBox="0 0 120 92"><use href="#mortar" width="120" height="80"/><path d="M60 28 104 30v30" fill="none" stroke="#1f3a64" stroke-width="3"/><path d="M99 58h10l2 18h-14z" fill="#2a4570"/></svg>');
+    cal.append(c);
+  }
+  $("#when").textContent = `${days[when.getDay()]} ${when.getDate()} ${months[when.getMonth()]} ${when.getFullYear()} · ${pad(when.getHours())}h${pad(when.getMinutes())}`;
+
+  // Compte à rebours
+  function tick() {
+    let s = Math.max(0, Math.floor((when - Date.now()) / 1000));
+    $("#cd-d").textContent = Math.floor(s / 86400); s %= 86400;
+    $("#cd-h").textContent = pad(Math.floor(s / 3600)); s %= 3600;
+    $("#cd-m").textContent = pad(Math.floor(s / 60));
+    $("#cd-s").textContent = pad(s % 60);
+  }
+  tick(); setInterval(tick, 1000);
+
+  // Carte épinglée : capture d’écran si fournie, sinon carte Google intégrée
+  const link = C.mapLink || "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(C.mapQuery);
+  $("#mapCard").href = link; $("#mapBtn").href = link;
+  if (C.mapImage) { const i = new Image(); i.src = C.mapImage; i.alt = "Plan d’accès"; $("#map").append(i); }
+  else {
+    const f = document.createElement("iframe");
+    f.title = "Plan d’accès"; f.loading = "lazy"; f.tabIndex = -1;
+    f.src = "https://www.google.com/maps?q=" + encodeURIComponent(C.mapQuery) + "&z=15&output=embed";
+    $("#map").append(f);
+  }
+
+  // Programme : étapes en alternance, reliées par un chemin doré
+  const tl = $("#timeline"), n = C.program.length, ROW = 118;
+  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg"), path = document.createElementNS(svg.namespaceURI, "path");
+  svg.setAttribute("class", "tl-path"); svg.setAttribute("aria-hidden", "true");
+  path.setAttribute("pathLength", "1"); svg.append(path); tl.append(svg);
+  function drawPath() {
+    const W = tl.clientWidth, cx = W / 2, amp = W * .2, h = ROW / 2;
+    if (!W) return;
+    let d = `M${cx} 0 C${cx} ${h * .4} ${cx} ${h * .6} ${cx} ${h}`;
+    for (let i = 0; i < n; i++) {
+      const y = i * ROW + h, x = cx + (i % 2 ? -amp : amp);
+      d += i < n - 1 ? ` C${x} ${y + ROW * .38} ${x} ${y + ROW * .62} ${cx} ${y + ROW}` : ` C${cx} ${y + h * .4} ${cx} ${y + h * .6} ${cx} ${y + h}`;
+    }
+    svg.setAttribute("viewBox", `0 0 ${W} ${n * ROW}`);
+    path.setAttribute("d", d);
+  }
+  new ResizeObserver(drawPath).observe(tl);
+  C.program.forEach(([t, label], i) => {
+    const st = document.createElement("div");
+    st.className = "step reveal" + (i % 2 ? " right" : "");
+    st.style.transitionDelay = (0.25 + i * 0.4) + "s";
+    st.innerHTML = '<div class="txt"><b></b><span></span></div>';
+    st.querySelector("b").textContent = t; st.querySelector("span").textContent = label;
+    tl.append(st);
+  });
+
+  // Apparitions en fondu au défilement
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+  }), { threshold: .15, rootMargin: "0px 0px -6% 0px" });
+  all(".reveal").forEach(el => io.observe(el));
+
+  // Petit mot : ouvre WhatsApp si un numéro est configuré
+  $("#form").addEventListener("submit", e => {
+    e.preventDefault();
+    const f = new FormData(e.target);
+    const msg = f.get("name") + "\n" + f.get("note");
+    if (C.whatsapp) window.open("https://wa.me/" + C.whatsapp.replace(/\D/g, "") + "?text=" + encodeURIComponent(msg), "_blank", "noopener");
+    $("#thanks").textContent = "Merci, " + f.get("name") + " !";
+    e.target.reset();
+  });
+})();
+</script>
+</body>
+</html>

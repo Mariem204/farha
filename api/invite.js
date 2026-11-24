@@ -48,7 +48,7 @@ module.exports = async function handler(req, res) {
     if (!r.ok || !/<head>/.test(page)) throw new Error('page ' + r.status);
   } catch (e) { console.error('invite: page', e.message); res.setHeader('Location', '/'); return res.status(302).end(); }
 
-  let code = '', d = {};
+  let code = '', d = {}, created = '';
   const base = (process.env.SUPABASE_URL || '').trim().replace(/\/+$/, '').replace(/\/rest\/v1$/, '');
   const key = (process.env.SUPABASE_SERVICE_ROLE_KEY || '').trim();
   if (SLUG_RE.test(s) && /^https:\/\/[a-z0-9-]+\.supabase\.co$/.test(base) && key) {
@@ -57,7 +57,7 @@ module.exports = async function handler(req, res) {
       if (r.ok) {
         const j = JSON.parse(await r.text());
         if (j && /^[A-Za-z0-9_-]{10,12000}$/.test(j.i || '')) {
-          code = j.i;
+          code = j.i; created = /^\d{4}-\d{2}-\d{2}T[\d:.]+Z$/.test(j.created || '') ? j.created : '';
           const o = JSON.parse(Buffer.from(code.replace(/-/g, '+').replace(/_/g, '/'), 'base64').toString('utf8'));
           d = (o && o.d && typeof o.d === 'object') ? o.d : {};
         }
@@ -77,7 +77,7 @@ module.exports = async function handler(req, res) {
       .replace(/(<meta name="twitter:description" content=")[^"]*/, '$1' + desc)
       .replace(/(<meta property="og:url" content=")[^"]*/, '$1' + esc(site + '/' + s))
       // le contenu de l'invitation est inscrit tout de suite : la page s'ouvre directement sur l'invitation
-      .replace('<head>', '<head><script>history.replaceState(null,"",location.pathname+"#i=' + code + '");document.documentElement.classList.add("farha-guest")</script>');
+      .replace('<head>', '<head><script>history.replaceState(null,"",location.pathname+"#i=' + code + '");' + (created ? 'window.FARHA_LINK_CREATED="' + created + '";' : '') + 'document.documentElement.classList.add("farha-guest")</script>');
     res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=300');
   } else {
     res.setHeader('Cache-Control', 'no-store');

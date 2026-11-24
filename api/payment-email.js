@@ -111,11 +111,11 @@ module.exports = async function handler(req, res) {
   // Date et heure de la commande (heure de Tunis).
   const placedAt = new Date().toLocaleString('fr-FR', { timeZone: 'Africa/Tunis', day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' });
   const ref = order.reference || 'en attente';
-  // Motif du virement : « Cadeau mariage invitation digitale », « Cadeau henna invitation digitale »… + référence.
+  // Motif du virement : « Cadeau mariage », « Cadeau henna », « Cadeau fiançailles »…
   const MOTIF = { 'Mariage': 'Mariage', '7enna': 'Henna', 'Wteya': 'Wtiya', 'Fiançailles': 'Fiançailles', 'Anniversaire': 'Anniversaire', 'Baby shower': 'Baby shower',
     'Bridal party': 'Bridal party', 'Tahara': 'Tahara', 'Diplôme': 'Soutenance', 'Naissance': 'Naissance' };
   const kind = MOTIF[order.category];
-  const motif = [kind ? 'Cadeau ' + kind.toLowerCase() + ' invitation digitale' : 'Cadeau invitation digitale', order.reference].filter(Boolean).join(' · ');
+  const motif = kind ? 'Cadeau ' + kind.toLowerCase() : 'Cadeau';
   const recap = [['Commande passée le', placedAt], ['Modèle', order.model], ['Invitation', order.names], ['Date de l’événement', order.date], ['Lieu', order.place],
     ['Musique', order.music], ['Prix de l’invitation', order.base + ' DT'], ...(order.musicPrice ? [['Prix de la musique', order.musicPrice + ' DT']] : []),
     ['Total à régler', order.total + ' DT']];
@@ -125,9 +125,9 @@ module.exports = async function handler(req, res) {
   const cTitle = 'Votre invitation est prête ✦';
   const cIntro = ['Bonjour ' + customer.name + ',', 'Merci pour votre commande sur Farha ! Voici le récapitulatif et les informations pour le règlement.'];
   const cRows = [['Référence de la commande', ref], ...recap,
-    ['Titulaire du compte', BANK.titulaire], ['Banque', BANK.banque], ['RIB', BANK.rib], ['IBAN', BANK.iban], ['Code BIC', BANK.bic], ['Motif du virement', motif]];
+    ['Titulaire du compte', BANK.titulaire], ['Banque', BANK.banque], ['RIB', BANK.rib], ['Motif du virement', motif]];
   // sans RIB configuré, le client est prévenu qu'on lui envoie les coordonnées
-  const noBank = !BANK.rib && !BANK.iban;
+  const noBank = !BANK.rib;
   const cOutro = [noBank ? 'L’équipe Farha vous envoie les coordonnées bancaires pour le virement de ' + order.total + ' DT.' : 'Pour confirmer votre commande, effectuez un virement de ' + order.total + ' DT avec le motif ci-dessus.',
     'Dès réception du virement, l’équipe Farha vous envoie le lien de votre invitation, prêt à partager avec vos invités.',
     'Une question ? Répondez simplement à cet e-mail.', 'L’équipe Farha ✦ · Téléphone et WhatsApp : ' + PHONE];

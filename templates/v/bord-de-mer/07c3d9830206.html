@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bord de Mer · Invitation de mariage</title>
+<style>
+@font-face{font-family:'Bodoni Moda';font-style:italic;font-weight:400 500;font-display:swap;src:url("/media/x/3d6740166d538e.woff2") format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Bodoni Moda';font-style:normal;font-weight:400 500;font-display:swap;src:url("/media/x/0492c86153615a.woff2") format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Homemade Apple';font-style:normal;font-weight:400 400;font-display:swap;src:url("/media/x/8e31b976fff7d1.woff2") format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Manrope';font-style:normal;font-weight:400 700;font-display:swap;src:url("/media/x/756049f32875c8.woff2") format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+body{margin:0}
+a{color:#2F5A6E}a:hover{color:#1f4252}
+.tp *{box-sizing:border-box}
+.bod{font-family:'Bodoni Moda',Didot,Georgia,serif}
+.hand{font-family:'Homemade Apple',cursive}
+.man{font-family:'Manrope',system-ui,sans-serif}
+
+/* ---------- scroller + scene stack ---------- */
+.scroller{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;opacity:0;transition:opacity 1.2s ease;scrollbar-width:none;z-index:1;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;
+background:linear-gradient(180deg,#e6f0f2 0%,#FBF6EC 8%,#f6efe3 19%,#dcebf0 26%,#bcd7e2 35%,#b4d2de 41%,#cfe2e3 47%,#f0e6d4 53%,#FBF6EC 62%,#f8f0e3 76%,#f3e8d6 90%,#ecdcc3 100%);background-size:100% 3376px;background-attachment:local}
+.scroller::-webkit-scrollbar{display:none}
+.scroller.on{opacity:1}
+.scene{position:relative;height:844px;overflow:visible}
+
+/* ---------- reveals ---------- */
+.rv>*{opacity:0;transform:translateY(20px);transition:opacity 1.1s ease,transform 1.3s cubic-bezier(.2,.8,.2,1)}
+.rv.on>*{opacity:1;transform:none}
+.rv.on>*:nth-child(2){transition-delay:.18s}
+.rv.on>*:nth-child(3){transition-delay:.36s}
+.rv.on>*:nth-child(4){transition-delay:.54s}
+.rv.on>*:nth-child(5){transition-delay:.72s}
+.rv.on>*:nth-child(6){transition-delay:.9s}
+.lf2{transition:transform 1.6s cubic-bezier(.2,.8,.2,1)}
+.lf2L{transform:translateX(-120%)}
+.lf2R{transform:translateX(120%)}
+.on .lf2{transform:none}
+.zf{opacity:0;transform:scale(.8);transition:opacity 1.2s ease .2s,transform 1.8s cubic-bezier(.2,.8,.2,1) .2s}
+.on .zf{opacity:1;transform:none}
+.tx>*{opacity:0;transform:translateY(12px);transition:opacity 1s ease,transform 1.2s cubic-bezier(.2,.8,.2,1)}
+.on .tx>*{opacity:1;transform:none}
+.on .tx>*:nth-child(1){transition-delay:.9s}
+.on .tx>*:nth-child(2){transition-delay:1.15s}
+.on .tx>*:nth-child(3){transition-delay:1.4s}
+.shl{opacity:0;transform:scale(.6) rotate(-18deg);transition:opacity 1.2s ease .3s,transform 1.6s cubic-bezier(.3,1.4,.5,1) .3s}
+.on .shl{opacity:1;transform:none}
+.on .shl.d2{transition-delay:.6s}
+.fp{opacity:0;transition:opacity 1.6s ease .4s}
+.on .fp{opacity:.95}
+
+/* ---------- intro (scene 01) ---------- */
+.intro{position:absolute;inset:0;z-index:5;overflow:hidden}
+.introBg{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 92%, #efe2cc 0%, #f6efe2 40%, #FBF6EC 70%);transition:opacity 1s ease}
+.intro.reveal .introBg{opacity:0}
+.intro.reveal{pointer-events:none}
+.coco{transition:transform 1.4s cubic-bezier(.6,0,.35,1)}
+.intro.dive .coco{transform:translateY(-780px) rotate(-28deg) scale(.7)}
+.lf{transition:opacity .9s ease}
+.lfL{animation:leafInL 1.9s cubic-bezier(.2,.8,.2,1) both}
+.lfR{animation:leafInR 1.9s cubic-bezier(.2,.8,.2,1) .15s both}
+@keyframes leafInL{from{transform:translate(-115%,30%) rotate(-14deg)}to{transform:none}}
+@keyframes leafInR{from{transform:translate(115%,-30%) rotate(14deg)}to{transform:none}}
+.intro.reveal .lf{opacity:0}
+.cocoIn{animation:cocoIn 1.4s cubic-bezier(.2,.8,.2,1) 1s both}
+@keyframes cocoIn{from{opacity:0;transform:translateY(50px) scale(.9)}to{opacity:1;transform:none}}
+.ci{animation:ciIn 1.1s cubic-bezier(.2,.8,.2,1) both}
+@keyframes ciIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.copy{transition:opacity .6s ease,transform .9s cubic-bezier(.6,0,.35,1)}
+.intro.dive .copy{opacity:0;transform:translateY(-28px)}
+
+/* ---------- ambient ---------- */
+.float{animation:float 6s ease-in-out infinite}
+@keyframes float{0%,100%{translate:0 0;rotate:-2deg}50%{translate:0 -12px;rotate:2deg}}
+.sway{animation:sway 7s ease-in-out infinite;transform-origin:100% 0}
+.swayB{animation:sway 8s ease-in-out -2s infinite;transform-origin:0 100%}
+.swayT{animation:sway 6s ease-in-out infinite;transform-origin:50% 0}
+@keyframes sway{0%,100%{rotate:-1.8deg}50%{rotate:1.8deg}}
+.jelly{animation:jdrift 15s ease-in-out infinite}
+@keyframes jdrift{0%,100%{transform:translate(0,0) rotate(-3deg)}25%{transform:translate(20px,-28px) rotate(2deg)}50%{transform:translate(-6px,-52px) rotate(-1deg)}75%{transform:translate(-22px,-22px) rotate(3deg)}}
+.jpulse{animation:jpulse 3.4s ease-in-out infinite;transform-origin:50% 20%}
+@keyframes jpulse{0%,100%{scale:1 1}50%{scale:1.05 .94}}
+.caustic{animation:caustic 11s ease-in-out infinite alternate}
+@keyframes caustic{from{transform:translate(-20px,0) scale(1);opacity:.5}to{transform:translate(30px,40px) scale(1.15);opacity:.85}}
+.bub{position:absolute;bottom:-20px;border-radius:50%;border:1px solid rgba(255,255,255,.7);background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.8),rgba(255,255,255,.08) 60%);animation:rise 12s linear infinite}
+@keyframes rise{0%{transform:translate(0,0);opacity:0}10%{opacity:1}100%{transform:translate(18px,-880px);opacity:0}}
+.wave1{animation:wave 10s linear infinite}
+.wave2{animation:wave 15s linear infinite reverse}
+@keyframes wave{from{transform:translateX(0)}to{transform:translateX(-390px)}}
+.pearl{position:absolute;border-radius:50%;background:radial-gradient(circle at 34% 28%,#ffffff 0%,#f4f0ea 35%,#d9d2c6 75%,#bfb7aa 100%);box-shadow:0 4px 10px rgba(80,70,60,.18);animation:drift 9s ease-in-out infinite}
+@keyframes drift{0%,100%{translate:0 0}50%{translate:6px -14px}}
+
+/* ---------- fx overlay ---------- */
+.fx{position:absolute;inset:0;pointer-events:none;z-index:6;overflow:hidden}
+.gull{position:absolute;left:0;top:0}
+.g1{animation:glide1 26s linear infinite}
+.g2{animation:glide2 34s linear -12s infinite}
+@keyframes glide1{0%{transform:translate(430px,70px) rotate(4deg)}50%{transform:translate(170px,120px) rotate(-3deg)}100%{transform:translate(-140px,60px) rotate(5deg)}}
+@keyframes glide2{0%{transform:translate(440px,230px) rotate(-2deg)}50%{transform:translate(200px,180px) rotate(4deg)}100%{transform:translate(-120px,250px) rotate(-3deg)}}
+.pt{position:absolute;top:-30px;width:12px;height:9px;border-radius:12px 0 12px 0;opacity:.8;animation:fall 17s linear infinite}
+@keyframes fall{0%{transform:translate(0,-40px) rotate(0)}25%{transform:translate(30px,220px) rotate(100deg)}50%{transform:translate(-12px,450px) rotate(190deg)}75%{transform:translate(34px,680px) rotate(280deg)}100%{transform:translate(4px,920px) rotate(370deg)}}
+
+/* ---------- shutters ---------- */
+.win{position:absolute;perspective:700px}
+.shut{position:absolute;top:0;width:50%;height:100%;border:6px solid #9dbccb;background:repeating-linear-gradient(180deg,#b9d3de 0 7px,#8fb1c1 7px 9px,#c8dde6 9px 14px);box-shadow:inset 0 0 0 2px #c9dde6,inset 0 0 18px rgba(40,70,90,.18);transition:transform 1.6s cubic-bezier(.55,.05,.25,1)}
+.shutL{left:0;transform-origin:0 50%}
+.shutR{right:0;transform-origin:100% 50%}
+.win.open .shutL{transform:rotateY(-104deg)}
+.win.open .shutR{transform:rotateY(104deg)}
+.knob{position:absolute;top:50%;width:6px;height:18px;margin-top:-9px;border-radius:3px;background:#C8AB78}
+.winBtn{position:absolute;inset:0;border:0;background:transparent;cursor:pointer;padding:0}
+.winBtn:focus-visible{outline:2px solid #2F5A6E;outline-offset:3px}
+.venue{opacity:0;transform:scale(.94);transition:opacity .9s ease .7s,transform 1.2s cubic-bezier(.2,.8,.2,1) .7s}
+.win.open .venue{opacity:1;transform:none}
+.tapHint{animation:hint 2.4s ease-in-out infinite}
+@keyframes hint{0%,100%{opacity:.75;transform:translateY(0)}50%{opacity:1;transform:translateY(-3px)}}
+
+/* ---------- buttons ---------- */
+.btn{position:relative;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:0 30px;border-radius:999px;border:0;cursor:pointer;text-decoration:none;font-family:'Manrope',sans-serif;font-size:13px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(47,90,110,.25)}
+.btn:active{transform:scale(.98)}
+.btn:focus-visible{outline:2px solid #2F5A6E;outline-offset:3px}
+.btn::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.45),transparent);transform:skewX(-20deg);animation:shine 5s ease-in-out infinite}
+@keyframes shine{0%,72%{left:-60%}100%{left:130%}}
+
+/* ---------- nav ---------- */
+.dots{position:absolute;right:8px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:2px;z-index:3}
+.dot{width:24px;height:24px;border:0;background:transparent;padding:0;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.dot span{width:7px;height:7px;border-radius:50%;background:rgba(251,246,236,.8);box-shadow:0 0 0 1px rgba(47,90,110,.5);transition:transform .3s,background-color .3s}
+.dot.act span{background:#2F5A6E;transform:scale(1.35)}
+.dot:focus-visible{outline:2px solid #2F5A6E;border-radius:50%}
+
+/* ---------- form ---------- */
+.fld{display:flex;flex-direction:column;gap:6px}
+.lbl{font-family:'Manrope',sans-serif;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#3d4f57}
+.inp{width:100%;height:44px;border:1px solid #d5c6ad;border-radius:12px;background:#fffdf8;padding:0 14px;font-family:'Manrope',sans-serif;font-size:15px;color:#2E3F48;transition:border-color .25s,box-shadow .25s}
+.inp:focus{outline:none;border-color:#2F5A6E;box-shadow:0 0 0 3px rgba(169,203,218,.6)}
+textarea.inp{height:70px;padding:10px 14px;resize:none;line-height:1.4}
+.inp.bad{border-color:#b3261e}
+.err{font-family:'Manrope',sans-serif;font-size:12px;color:#a1221b;margin:0}
+.seg{flex:1;min-height:44px;border:1px solid #d5c6ad;background:#fffdf8;border-radius:12px;font-family:'Manrope',sans-serif;font-size:13px;font-weight:600;color:#2E3F48;cursor:pointer;transition:all .25s}
+.seg:hover{border-color:#2F5A6E}
+.seg.sel{background:#2F5A6E;border-color:#2F5A6E;color:#FBF6EC}
+.seg:focus-visible{outline:2px solid #2F5A6E;outline-offset:2px}
+.linkbtn{background:none;border:0;cursor:pointer;font-family:'Manrope',sans-serif;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#2F5A6E;display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 10px}
+
+/* ---------- reduced motion ---------- */
+.rm *, .rm *::after{animation:none !important;transition-duration:.01ms !important;transition-delay:0s !important}
+@media (prefers-reduced-motion: reduce){.tp *, .tp *::after{animation:none !important;transition-duration:.01ms !important;transition-delay:0s !important}}
+.rm .fx .gull, .rm .fx .pt{display:none}
+[hidden]{display:none!important}
+html,body{height:100%;margin:0;overflow:hidden;background:#FBF6EC}
+#root{position:absolute!important;left:50%;top:50%;transform-origin:50% 50%;transform:translate(-50%,-50%) scale(var(--fit,1))}
+</style>
+</head>
+<body>
+<div class="tp" id="root" style="position: relative; width: 390px; height: 844px; overflow: hidden; background: #FBF6EC; color: #2E3F48; font-family: 'Manrope', system-ui, sans-serif" data-canvas-width="390" data-canvas-height="844" data-document-role="page" data-label="Bord de Mer – Invitation">
+
+<div class="scroller" id="scroller">
+
+<!-- 02 · THE REVEAL -->
+<section class="scene" aria-label="La révélation" style="z-index: 2">
+<div data-on="0" style="position: absolute; inset: 0">
+<span class="pearl" style="left: 52px; top: 196px; width: 16px; height: 16px"></span>
+<span class="pearl" style="left: 74px; top: 222px; width: 9px; height: 9px; animation-delay: -3s"></span>
+<span class="pearl" style="right: 46px; top: 600px; width: 18px; height: 18px; animation-delay: -5s"></span>
+<span class="pearl" style="right: 74px; top: 628px; width: 10px; height: 10px; animation-delay: -1s"></span>
+<span class="pearl" style="left: 300px; top: 168px; width: 8px; height: 8px; animation-delay: -6s"></span>
+
+<div class="rv" data-on="0" style="position: absolute; left: 0; right: 0; top: 70px; display: flex; flex-direction: column; align-items: center; text-align: center">
+<p class="hand" style="margin: 0; font-size: 14px; color: #2F5A6E">avec tout notre amour</p>
+<h2 class="bod" style="margin: 10px 0 0; font-size: 40px; font-weight: 400; line-height: 1.05; color: #22343c">Vous êtes <span style="font-style: italic">invités</span></h2>
+</div>
+<div class="zf" style="position: absolute; left: 20px; top: 210px; width: 350px; height: 364px; transform-origin: 50% 45%">
+<img loading="lazy" decoding="async" data-farha-photo="Photo des mariés" src="/media/x/6434777b034642.webp" alt="Photo des mariés" style="position: absolute; left: 72px; top: 44px; width: 218px; height: 238px; object-fit: cover">
+<img loading="lazy" decoding="async" data-img="789e77c3" alt="" style="position: absolute; left: 0; top: 0; width: 350px; height: 364px; pointer-events: none">
+</div>
+</div>
+<div class="tapHint" style="position: absolute; left: 0; right: 0; bottom: 22px; display: flex; flex-direction: column; align-items: center; gap: 2px; color: #2F5A6E">
+<span class="man" style="font-size: 10px; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase">Défiler</span>
+<svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg>
+</div>
+</section>
+
+<!-- 03 · SAVE THE DATE -->
+<section class="scene" aria-label="Réservez la date" style="z-index: 1">
+<div class="caustic" style="position: absolute; left: -80px; top: -60px; width: 420px; height: 360px; border-radius: 50%; background: radial-gradient(ellipse, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0) 65%)"></div>
+<div class="caustic" style="position: absolute; right: -120px; top: 260px; width: 380px; height: 320px; border-radius: 50%; background: radial-gradient(ellipse, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 65%); animation-delay: -5s"></div>
+<span class="bub" style="left: 60px; width: 10px; height: 10px"></span>
+<span class="bub" style="left: 120px; width: 6px; height: 6px; animation-duration: 15s; animation-delay: -6s"></span>
+<span class="bub" style="left: 300px; width: 12px; height: 12px; animation-duration: 18s; animation-delay: -3s"></span>
+<span class="bub" style="left: 340px; width: 7px; height: 7px; animation-duration: 13s; animation-delay: -9s"></span>
+<div class="jelly" style="position: absolute; left: 228px; top: 34px; width: 90px; opacity: 0.45; filter: blur(1.5px); animation-delay: -6s; translate: 0 0" data-px="1 bgX">
+<img loading="lazy" decoding="async" class="jpulse" data-img="2f92678c" alt="" style="display: block; width: 90px">
+</div>
+<div class="jelly" style="position: absolute; left: 18px; top: 66px; width: 175px; translate: 0 0" data-px="1 midX">
+<img loading="lazy" decoding="async" class="jpulse" data-img="2f92678c" alt="" style="display: block; width: 175px">
+</div>
+
+<div class="rv" data-on="1" style="position: absolute; left: 0; right: 0; top: 290px; display: flex; flex-direction: column; align-items: center; text-align: center">
+<p class="hand" style="margin: 0; font-size: 14px; color: #2F5A6E">à noter dans votre agenda</p>
+<h2 class="bod" style="margin: 6px 0 0; font-size: 46px; font-weight: 400; font-style: italic; line-height: 1; color: #22343c">Réservez la date</h2>
+<p class="bod" style="margin: 14px 0 0; font-size: 26px; font-weight: 500; letter-spacing: 0.06em; color: #22343c"><span data-c="dateLabel"></span></p>
+<p class="man" style="margin: 6px 0 0; font-size: 12px; font-weight: 700; letter-spacing: 0.24em; text-transform: uppercase; color: #2F5A6E"><span data-c="timeLabel"></span></p>
+<div role="timer" aria-label="Compte à rebours jusqu’à la célébration" style="display: flex; gap: 10px; margin-top: 22px">
+<div style="width: 72px; height: 86px; border-radius: 18px; background: rgba(251,246,236,0.7); border: 1px solid rgba(255,255,255,0.9); box-shadow: 0 10px 24px rgba(47,90,110,0.14); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px">
+<span class="bod" style="font-size: 34px; line-height: 1; color: #22343c; font-variant-numeric: tabular-nums" data-cd="d">00</span>
+<span class="man" style="font-size: 9px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #3d4f57">Jours</span>
+</div>
+<div style="width: 72px; height: 86px; border-radius: 18px; background: rgba(251,246,236,0.7); border: 1px solid rgba(255,255,255,0.9); box-shadow: 0 10px 24px rgba(47,90,110,0.14); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px">
+<span class="bod" style="font-size: 34px; line-height: 1; color: #22343c; font-variant-numeric: tabular-nums" data-cd="h">00</span>
+<span class="man" style="font-size: 9px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #3d4f57">Heures</span>
+</div>
+<div style="width: 72px; height: 86px; border-radius: 18px; background: rgba(251,246,236,0.7); border: 1px solid rgba(255,255,255,0.9); box-shadow: 0 10px 24px rgba(47,90,110,0.14); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px">
+<span class="bod" style="font-size: 34px; line-height: 1; color: #22343c; font-variant-numeric: tabular-nums" data-cd="m">00</span>
+<span class="man" style="font-size: 9px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #3d4f57">Minutes</span>
+</div>
+<div style="width: 72px; height: 86px; border-radius: 18px; background: rgba(251,246,236,0.7); border: 1px solid rgba(255,255,255,0.9); box-shadow: 0 10px 24px rgba(47,90,110,0.14); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px">
+<span class="bod" style="font-size: 34px; line-height: 1; color: #22343c; font-variant-numeric: tabular-nums" data-cd="s">00</span>
+<span class="man" style="font-size: 9px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #3d4f57">Secondes</span>
+</div>
+</div>
+</div>
+</section>
+
+<!-- 04 · FIND YOUR WAY -->
+<section class="scene" aria-label="Le lieu">
+<div class="rv" data-on="2" style="position: absolute; left: 0; right: 0; top: 48px; display: flex; flex-direction: column; align-items: center; text-align: center">
+<p class="hand" style="margin: 0; font-size: 14px; color: #2F5A6E">trouvez votre chemin</p>
+<h2 class="bod" style="margin: 8px 0 0; font-size: 36px; font-weight: 400; line-height: 1.05; color: #22343c">Rendez-vous<br><span style="font-style: italic">au bord de la mer</span></h2>
+</div>
+
+<div data-on="2" style="position: absolute; inset: 0; pointer-events: none">
+<img loading="lazy" decoding="async" class="fp" data-img="dfe25f88" alt="" style="position: absolute; left: 6px; bottom: 74px; width: 150px; rotate: -14deg">
+</div>
+
+<div style="position: absolute; left: -20px; top: 172px; width: 430px; height: 374px; translate: 0 0" data-px="2 midX">
+<div class="win" id="win" style="left: 113px; top: 84px; width: 220px; height: 216px">
+<div style="position: absolute; inset: 0; overflow: hidden; background: linear-gradient(180deg, #d8ebf2 0%, #eef6f6 52%, #a9cbda 53%, #8fb8cb 100%)">
+<svg aria-hidden="true" width="440" height="60" viewBox="0 0 440 60" class="wave1" style="position: absolute; left: 0; top: 118px">
+<path d="M0 10Q27.5 0 55 10T110 10T165 10T220 10T275 10T330 10T385 10T440 10V60H0Z" fill="#c4dde7" opacity="0.8"></path>
+</svg>
+<div class="venue" style="position: absolute; left: 14px; right: 14px; top: 26px; padding: 14px 10px; border-radius: 14px; background: rgba(251,246,236,0.92); box-shadow: 0 8px 18px rgba(47,90,110,0.15); text-align: center">
+<p class="bod" style="margin: 0; font-size: 22px; font-weight: 500; line-height: 1.15; color: #22343c"><span data-c="venueName"></span></p>
+<p class="man" style="margin: 8px 0 0; font-size: 10px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: #2F5A6E"><span data-c="location"></span></p>
+</div>
+</div>
+<div class="shut shutL"><span class="knob" style="right: 6px"></span></div>
+<div class="shut shutR"><span class="knob" style="left: 6px"></span></div>
+<button type="button" class="winBtn" id="winBtn" aria-label="Ouvrir les volets pour découvrir le lieu">
+<span class="man tapHint" style="position: absolute; left: 50%; top: 50%; translate: -50% -50%; padding: 8px 14px; border-radius: 999px; background: rgba(251,246,236,0.95); font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: #2F5A6E; white-space: nowrap; box-shadow: 0 6px 14px rgba(47,90,110,0.2)">Touchez pour ouvrir</span>
+</button>
+
+</div>
+<img loading="lazy" decoding="async" data-img="56356451" alt="" style="position: absolute; left: 0; top: 0; width: 430px; height: 374px; pointer-events: none">
+</div>
+
+<div style="position: absolute; left: 0; right: 0; top: 560px; display: flex; justify-content: center">
+<a class="btn" href="#" data-maps target="_blank" rel="noopener" style="background: #2F5A6E; color: #FBF6EC">
+<svg aria-hidden="true" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"></polygon></svg>
+Itinéraire
+</a>
+</div>
+
+<svg aria-hidden="true" width="780" height="110" viewBox="0 0 780 110" class="wave2" style="position: absolute; left: 0; bottom: 0">
+<path d="M0 30Q48.75 12 97.5 30T195 30T292.5 30T390 30T487.5 30T585 30T682.5 30T780 30V110H0Z" fill="#BFDCCF" opacity="0.7"></path>
+</svg>
+<svg aria-hidden="true" width="780" height="80" viewBox="0 0 780 80" class="wave1" style="position: absolute; left: 0; bottom: 0">
+<path d="M0 26Q48.75 6 97.5 26T195 26T292.5 26T390 26T487.5 26T585 26T682.5 26T780 26V80H0Z" fill="#A9CBDA" opacity="0.75"></path>
+<path d="M0 26Q48.75 6 97.5 26T195 26T292.5 26T390 26T487.5 26T585 26T682.5 26T780 26" fill="none" stroke="#ffffff" stroke-width="2" opacity="0.8"></path>
+</svg>
+</section>
+
+<!-- 05 · RSVP & FINAL MOMENT -->
+<section class="scene" aria-label="Un mot pour les mariés" style="overflow: hidden">
+<img loading="lazy" decoding="async" class="swayT" data-img="cc61ca3e" alt="" style="position: absolute; left: 14px; top: -14px; width: 118px">
+<img loading="lazy" decoding="async" data-img="32797126" alt="" style="position: absolute; right: -44px; top: 200px; width: 148px; rotate: 9deg; filter: drop-shadow(-8px 14px 18px rgba(80,60,40,0.18)); translate: 0 0" data-px="3 midX">
+<span class="pearl" style="left: 20px; top: 250px; width: 12px; height: 12px"></span>
+<span class="pearl" style="left: 36px; top: 268px; width: 7px; height: 7px; animation-delay: -4s"></span>
+<span class="pearl" style="right: 108px; top: 690px; width: 14px; height: 14px; animation-delay: -2s"></span>
+
+<div class="rv" data-on="3" style="position: absolute; right: 22px; top: 44px; width: 220px; display: flex; flex-direction: column; align-items: flex-end; text-align: right">
+<h2 class="bod" style="margin: 0; font-size: 30px; font-weight: 400; line-height: 1.08; color: #22343c">Les beaux<br>moments<br><span style="font-style: italic">se vivent ensemble</span></h2>
+<p class="hand" style="margin: 14px 0 0; font-size: 13px; color: #2F5A6E">Un mot pour les mariés</p>
+</div>
+
+<div style="position: absolute; left: 20px; top: 238px; width: 300px">
+<form id="msgForm" novalidate="novalidate" aria-label="Un mot pour les mariés" style="padding: 18px; border-radius: 22px; background: rgba(255,255,255,0.78); border: 1px solid #eadbc4; box-shadow: 0 18px 40px rgba(47,90,110,0.12); display: flex; flex-direction: column; gap: 12px">
+<div class="fld">
+<label class="lbl" for="tp-name">Votre nom</label>
+<input id="tp-name" class="inp" data-f="name" type="text" autocomplete="name" placeholder="Votre nom complet">
+<p class="err" id="errName" hidden>Merci d’indiquer votre nom.</p>
+</div>
+<div class="fld">
+<label class="lbl" for="tp-msg">Votre message</label>
+<textarea id="tp-msg" class="inp" data-f="msg" placeholder="Quelques mots pour les mariés" style="height: 110px"></textarea>
+<p class="err" id="errMsg" hidden>Merci d’écrire quelques mots.</p>
+</div>
+<button type="submit" class="btn" style="width: 100%; background: #2F5A6E; color: #FBF6EC">
+<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"></path><path d="m21.854 2.147-10.94 10.939"></path></svg>
+<span id="msgBtnLabel">Envoyer</span>
+</button>
+<p role="status" id="msgNote" hidden class="man" style="margin: 0; padding: 10px 12px; border-radius: 12px; background: #fbeaea; color: #8c1d18; font-size: 12px; line-height: 1.45"></p>
+</form>
+<div id="msgSent" hidden role="status" style="padding: 32px 22px; border-radius: 22px; background: rgba(255,255,255,0.82); border: 1px solid #eadbc4; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px">
+<div style="width: 54px; height: 54px; border-radius: 50%; background: #2F5A6E; color: #FBF6EC; display: flex; align-items: center; justify-content: center">
+<svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>
+</div>
+<p class="bod" style="margin: 0; font-size: 30px; font-style: italic; color: #22343c">Merci</p>
+<p class="man" style="margin: 0; font-size: 14px; line-height: 1.5; color: #3d4f57"><span id="msgThanks"></span></p>
+</div>
+
+</div>
+
+<div style="position: absolute; left: 0; right: 0; bottom: 18px; display: flex; flex-direction: column; align-items: center">
+<button type="button" class="linkbtn" id="replay">
+<svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
+Revoir
+</button>
+<p class="bod" style="margin: 0; font-size: 16px; letter-spacing: 0.42em; color: #22343c">FARHA</p>
+<p class="hand" style="margin: 6px 0 0; font-size: 10px; color: #4b5a60">Votre moment, magnifiquement mis en lumière.</p>
+</div>
+</section>
+</div>
+
+<nav class="dots" id="dots" aria-label="Scènes" hidden>
+<button type="button" class="dot" aria-label="Aller à : La révélation" data-go="0"><span></span></button>
+<button type="button" class="dot" aria-label="Aller à : La date" data-go="1"><span></span></button>
+<button type="button" class="dot" aria-label="Aller à : Le lieu" data-go="2"><span></span></button>
+<button type="button" class="dot" aria-label="Aller à : Un mot pour les mariés" data-go="3"><span></span></button>
+</nav>
+
+<!-- 01 · WELCOME TO PARADISE -->
+<div class="intro" id="intro" aria-label="Bienvenue">
+<div class="introBg"></div>
+<div class="lf lfR" style="position: absolute; right: -70px; top: -60px; width: 350px">
+<img loading="lazy" decoding="async" class="sway" data-img="3e9c9ff4" alt="" style="display: block; width: 350px">
+</div>
+<div class="lf lfL" style="position: absolute; left: -70px; bottom: -70px; width: 350px">
+<img loading="lazy" decoding="async" class="swayB" data-img="3e9c9ff4" alt="" style="display: block; width: 350px; scale: -1 -1">
+</div>
+<div class="copy" style="position: absolute; left: 0; right: 0; top: 34px; display: flex; justify-content: center">
+<p class="man ci" style="margin: 0; font-size: 10px; font-weight: 700; letter-spacing: 0.42em; color: #4b5a60; animation-delay: 1.3s">FARHA · INVITATIONS DIGITALES</p>
+</div>
+<div class="coco" style="position: absolute; left: 82px; top: 128px; width: 226px">
+<div class="cocoIn">
+<img loading="lazy" decoding="async" class="float" data-img="33ce841f" alt="Noix de coco, perles et hibiscus blanc" style="display: block; width: 226px; filter: drop-shadow(0 26px 24px rgba(110,74,50,0.22))">
+</div>
+</div>
+<div class="copy" style="position: absolute; left: 0; right: 0; top: 446px; display: flex; flex-direction: column; align-items: center; text-align: center">
+<h1 class="bod ci" style="margin: 0; font-weight: 400; color: #22343c; line-height: 0.95; animation-delay: 1.6s">
+<span style="display: block; font-size: 50px; letter-spacing: 0.04em">LES VAGUES</span>
+<span style="display: block; font-size: 38px; font-style: italic; letter-spacing: 0.02em; margin-top: 6px">vous invitent</span>
+</h1>
+<p class="bod ci" style="margin: 20px 0 0; width: 290px; font-size: 18px; font-style: italic; line-height: 1.35; color: #4b5a60; animation-delay: 1.9s">Vous êtes invités à un moment inoubliable.</p>
+<button type="button" class="btn ci" id="openIntro" style="margin-top: 28px; background: #2F5A6E; color: #FBF6EC; animation-delay: 2.2s">
+<svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"></path><path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"></path><path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"></path></svg>
+Plonger
+</button>
+</div>
+</div>
+
+
+<!-- ambient -->
+<div class="fx" aria-hidden="true">
+<svg width="390" height="844" style="position: absolute; left: 0; top: 0; opacity: 0.07; mix-blend-mode: multiply">
+<filter id="tpGrain"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"></feTurbulence><feColorMatrix type="saturate" values="0"></feColorMatrix></filter>
+<rect width="390" height="844" filter="url(#tpGrain)"></rect>
+</svg>
+<img loading="lazy" decoding="async" class="gull g1" data-img="c6d2cdaf" alt="" style="width: 58px; rotate: 6deg">
+<img loading="lazy" decoding="async" class="gull g2" data-img="c6d2cdaf" alt="" style="width: 38px; rotate: -4deg; opacity: 0.8">
+<span class="pt" style="left: 44px; background: #fdf8f0; animation-delay: -3s"></span>
+<span class="pt" style="left: 128px; background: #F1CFCB; animation-duration: 21s; animation-delay: -11s"></span>
+<span class="pt" style="left: 214px; background: #fdf8f0; animation-duration: 19s; animation-delay: -6s"></span>
+<span class="pt" style="left: 290px; background: #F1CFCB; animation-duration: 23s; animation-delay: -15s"></span>
+<span class="pt" style="left: 350px; background: #fdf8f0; animation-duration: 18s; animation-delay: -1s"></span>
+</div>
+
+</div>
+<script>
+// ===== Données personnalisables (formulaire Farha) =====
+const CONFIG = {
+  bride: "Lina",
+  groom: "Karim",
+  date: "2027-07-17T18:00:00",
+  venue: "Villa Azur",
+  address: "Route de la Corniche, Hammamet",
+  mapQuery: "",
+  mapLink: ""
+};
+(function () {
+  'use strict';
+  var C = CONFIG, O = {"fields": [["dateLabel", "@date"], ["timeLabel", "@time"], ["venueName", "venue"], ["location", "address"]], "days": ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"], "months": ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"], "timePrefix": "", "timeSep": "h", "px": {"bgX": 0.3, "midX": 0.14, "fgX": -0.2}, "openPhase": "dive", "t1": 1450, "t2": 2500, "btn": "Envoyer", "sending": "Envoi…", "thanks": "Votre message a bien été transmis aux mariés, {name}.", "error": "Votre message n’a pas pu être envoyé. Vérifiez votre connexion et réessayez."}, IMG = {"2f92678c": "/media/x/74c4f6531d2f45.webp", "32797126": "/media/x/4dc3fada7b06c4.webp", "33ce841f": "/media/x/8ab7c6cb7e26b1.webp", "3e9c9ff4": "/media/x/b2e2b9ef4d7944.webp", "56356451": "/media/x/447137f71c10e5.webp", "789e77c3": "/media/x/5c7b7a87d2fd8a.webp", "c6d2cdaf": "/media/x/e8911f2e9ad1ee.webp", "cc61ca3e": "/media/x/b1cf14ac57ca09.webp", "dfe25f88": "/media/x/0914796b0e017a.webp"}, H = 844;
+  var $ = function (s) { return document.querySelector(s); }, all = function (s) { return [].slice.call(document.querySelectorAll(s)); };
+  all('img[data-img]').forEach(function (i) { i.src = IMG[i.getAttribute('data-img')]; });
+  var pad = function (n) { return (n < 10 ? '0' : '') + n; };
+  // le modèle (390 × 844) remplit l'écran sans être coupé
+  var root = $('#root');
+  function fit() { root.style.setProperty('--fit', Math.min(innerWidth / 390, innerHeight / 844)); }
+  fit(); addEventListener('resize', fit);
+  // textes
+  var d = new Date(C.date), ok = !isNaN(d.getTime());
+  var dateLabel = '', timeLabel = '';
+  if (ok) {
+    dateLabel = (O.days ? O.days[d.getDay()] + ' ' : '') + d.getDate() + ' ' + O.months[d.getMonth()] + ' ' + d.getFullYear();
+    timeLabel = O.timePrefix + pad(d.getHours()) + O.timeSep + pad(d.getMinutes());
+  }
+  var V = {}; O.fields.forEach(function (f) { V[f[0]] = f[1] === '@date' ? dateLabel : f[1] === '@time' ? timeLabel : C[f[1]]; });
+  (O.letters || []).forEach(function (L) {
+    var box = document.querySelector('[data-letters="' + L[0] + '"]'); if (!box) return;
+    Array.from(String(C[L[1]] || '')).forEach(function (ch, i) { var s = document.createElement('span'); s.className = 'lt'; s.style.transitionDelay = (L[2] + i * 0.06).toFixed(2) + 's'; s.textContent = ch === ' ' ? '\u00a0' : ch; box.appendChild(s); });
+  });
+  all('[data-c]').forEach(function (el) { var v = V[el.getAttribute('data-c')]; if (v != null) el.textContent = v; });
+  var q = C.mapQuery || [C.venue, C.address].filter(Boolean).join(', ');
+  var maps = /^https:\/\//.test(C.mapLink || '') ? C.mapLink : 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(q);
+  all('[data-maps]').forEach(function (a) { a.href = maps; });
+  // compte à rebours
+  var cd = {}; all('[data-cd]').forEach(function (el) { cd[el.getAttribute('data-cd')] = el; });
+  function tick() {
+    var diff = ok ? Math.max(0, d.getTime() - Date.now()) : 0;
+    cd.d.textContent = String(Math.floor(diff / 864e5)); cd.h.textContent = pad(Math.floor(diff / 36e5) % 24);
+    cd.m.textContent = pad(Math.floor(diff / 6e4) % 60); cd.s.textContent = pad(Math.floor(diff / 1e3) % 60);
+  }
+  tick(); setInterval(tick, 1000);
+  // scènes : parallaxe et apparitions
+  var rm = false; try { rm = matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+  if (rm) root.classList.add('rm');
+  var scroller = $('#scroller'), px = all('[data-px]'), ons = all('[data-on]'), dots = all('#dots .dot'), sy = 0, maxSy = 0, entered = false, raf = 0;
+  function render() {
+    px.forEach(function (el) { var a = el.getAttribute('data-px').split(' '), local = rm ? 0 : sy - (+a[0]) * H; el.style.translate = '0 ' + (local * O.px[a[1]]).toFixed(1) + 'px'; });
+    ons.forEach(function (el) { var j = +el.getAttribute('data-on'); el.classList.toggle('on', entered && maxSy >= j * H - 460); });
+    var active = Math.round(sy / H); dots.forEach(function (b, k) { b.classList.toggle('act', k === active); });
+  }
+  scroller.addEventListener('scroll', function () { if (raf) return; raf = requestAnimationFrame(function () { raf = 0; sy = scroller.scrollTop; maxSy = Math.max(maxSy, sy); render(); }); }, { passive: true });
+  dots.forEach(function (b) { b.addEventListener('click', function () { scroller.scrollTo({ top: (+b.getAttribute('data-go')) * H, behavior: rm ? 'auto' : 'smooth' }); }); });
+  // ouverture
+  var intro = $('#intro'), phase = 'closed', timers = [], win = $('#win');
+  $('#openIntro').addEventListener('click', function () {
+    if (phase !== 'closed') return; phase = O.openPhase; intro.classList.add(O.openPhase);
+    timers.push(setTimeout(function () { phase = 'reveal'; intro.classList.add(O.phase2 || 'reveal'); entered = true; scroller.classList.add('on'); $('#dots').hidden = false; render(); }, rm ? 150 : O.t1));
+    timers.push(setTimeout(function () { phase = 'done'; intro.hidden = true; }, rm ? 400 : O.t2));
+  });
+  if (win) $('#winBtn').addEventListener('click', function () { win.classList.add('open'); $('#winBtn').hidden = true; });
+  $('#replay').addEventListener('click', function () {
+    timers.forEach(clearTimeout); timers = []; scroller.scrollTop = 0; sy = 0; maxSy = 0; entered = false; phase = 'closed';
+    scroller.classList.remove('on'); $('#dots').hidden = true; intro.hidden = false; intro.classList.remove(O.openPhase, O.phase2 || 'reveal');
+    if (win) { win.classList.remove('open'); $('#winBtn').hidden = false; } render();
+  });
+  render();
+  // un mot : envoyé au site Farha, qui le transmet par e-mail
+  var form = $('#msgForm'), nameIn = form.querySelector('[data-f=name]'), msgIn = form.querySelector('[data-f=msg]'), sending = false;
+  nameIn.addEventListener('input', function () { nameIn.classList.remove('bad'); $('#errName').hidden = true; });
+  msgIn.addEventListener('input', function () { msgIn.classList.remove('bad'); $('#errMsg').hidden = true; });
+  form.addEventListener('submit', function (ev) {
+    ev.preventDefault(); if (sending) return;
+    var n = nameIn.value.trim(), m = msgIn.value.trim(), bad = false;
+    if (!n) { nameIn.classList.add('bad'); $('#errName').hidden = false; bad = true; }
+    if (!m) { msgIn.classList.add('bad'); $('#errMsg').hidden = false; bad = true; }
+    $('#msgNote').hidden = true; if (bad) return;
+    var id = Math.random().toString(36).slice(2), done = false;
+    sending = true; $('#msgBtnLabel').textContent = O.sending;
+    function finish(okk, err) {
+      if (done) return; done = true; removeEventListener('message', on); sending = false; $('#msgBtnLabel').textContent = O.btn;
+      if (okk) { $('#msgThanks').textContent = O.thanks.replace('{name}', n).replace('{bride}', C.bride || '').replace('{groom}', C.groom || ''); form.hidden = true; $('#msgSent').hidden = false; }
+      else { var note = $('#msgNote'); note.textContent = err || O.error; note.hidden = false; }
+    }
+    function on(e) { var x = e.data; if (x && x.type === 'farha:rsvp-result' && x.id === id) finish(x.ok, x.error); }
+    addEventListener('message', on);
+    if (window.parent === window) { finish(true); return; }
+    try { parent.postMessage({ type: 'farha:rsvp', id: id, name: n, attending: true, kind: 'mot', message: m.slice(0, 560) }, '*'); } catch (e) {}
+    setTimeout(function () { finish(true); }, 15000);
+  });
+})();
+
+</script>
+</body>
+</html>
