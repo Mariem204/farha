@@ -21,7 +21,7 @@
       [5, 4, 3, 2, 1].map(n => el('option', { value: String(n) }, stars(n))));
     rating.value = state.rating;
     const list = el('div', {});
-    box.append(el('p', { class: 'note' }, 'Les avis publiés s’affichent dans la section « Ce que disent nos clients » de l’accueil (12 plus récents). Sans avis publié, la section est masquée.'),
+    box.append(el('p', { class: 'note' }, 'Lien à envoyer aux clients pour donner leur avis : https://www.invitation-digitale.tn/donner-mon-avis — chaque avis arrive « En attente ». « Publier » l’affiche sur la page « Vos avis » (www.invitation-digitale.tn/avis) ; « Masquer » le retire du site.'),
       el('div', { class: 'toolbar' }, search, status, rating), list);
     let timer = null;
     search.oninput = () => { clearTimeout(timer); timer = setTimeout(() => { state.q = search.value; state.page = 0; load(list); }, 300); };
@@ -50,7 +50,7 @@
     const cards = data.map(f => {
       const actions = el('div', { class: 'row-actions' });
       if (f.status !== 'published') actions.append(act(f, 'Publier', 'btn primary sm', { status: 'published' },
-        'Publier cet avis ?', `L’avis de ${f.author_name} apparaîtra sur la page d’accueil sous la forme « prénom + initiale du nom » (ex. « Amira B. »), avec la note, le texte et le modèle ; jamais l’e-mail.`, list));
+        'Publier cet avis ?', `L’avis de ${f.author_name} apparaîtra sur la page « Vos avis » sous la forme « prénom + initiale du nom » (ex. « Amira B. »), avec la note, le texte et le modèle ; jamais l’e-mail.`, list));
       if (f.status !== 'hidden') actions.append(act(f, 'Masquer', 'btn ghost sm', { status: 'hidden' },
         'Masquer cet avis ?', `L’avis de ${f.author_name} ne sera plus affiché sur le site. Il reste dans l’admin.`, list));
       actions.append(del(f, list));
