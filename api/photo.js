@@ -51,7 +51,8 @@ module.exports = async function handler(req, res) {
       if (!r.ok) { res.setHeader('Cache-Control', 'no-store'); return res.status(r.status === 400 || r.status === 404 ? 404 : 502).end(); }
       const buf = Buffer.from(await r.arrayBuffer());
       res.setHeader('Content-Type', MIME[m[1]]);
-      res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+      // mise en cache par le CDN de Vercel : la photo n'est lue qu'une fois dans Supabase, ensuite servie depuis le cache
+      res.setHeader('Cache-Control', 'public, max-age=31536000, s-maxage=31536000, immutable');
       return res.status(200).send(buf);
     } catch (e) { console.error('photo: lecture', e.message); res.setHeader('Cache-Control', 'no-store'); return res.status(502).end(); }
   }
