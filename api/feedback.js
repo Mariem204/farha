@@ -1,6 +1,6 @@
-// Farha · /api/feedback — enregistre un avis client, toujours « en attente » de modération.
+// Farha · /api/feedback — enregistre un avis client, publié automatiquement (désactivable dans le back-office).
 // Mêmes variables d'environnement Vercel que /api/orders : SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY.
-// Un avis n'est visible sur le site qu'après publication dans l'admin.
+// L'admin peut le désactiver (« Masqué ») ou le réactiver depuis le back-office.
 
 const MAX_PER_EMAIL_10_MIN = 3;
 const TAGS_MAX = 10;
@@ -70,7 +70,7 @@ module.exports = async function handler(req, res) {
     await rest(base, key, 'feedbacks', {
       method: 'POST',
       headers: { Prefer: 'return=minimal' },
-      body: JSON.stringify({ author_name: name, author_email: email, rating, tags, message, template_id: templateId, status: 'pending' })
+      body: JSON.stringify({ author_name: name, author_email: email, rating, tags, message, template_id: templateId, status: 'published' }) // publié tout de suite ; désactivable dans le back-office
     });
     return res.status(201).json({ ok: true });
   } catch (e) {

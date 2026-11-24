@@ -7,8 +7,8 @@
   const { db, el, toast, confirm, fmtDate, registerRoute } = window.FarhaAdmin;
 
   const PAGE = 25;
-  const STATUS = { pending: 'En attente', published: 'Publié', hidden: 'Masqué' };
-  const state = { q: '', status: 'pending', rating: '', page: 0 };
+  const STATUS = { pending: 'En attente', published: 'Activé', hidden: 'Désactivé' };
+  const state = { q: '', status: '', rating: '', page: 0 };
   const errText = e => /permission denied|row-level/i.test((e && e.message) || '') ? 'Action refusée : droits insuffisants.' : ((e && e.message) || String(e));
   const stars = n => '★'.repeat(n) + '☆'.repeat(5 - n);
 
@@ -21,7 +21,7 @@
       [5, 4, 3, 2, 1].map(n => el('option', { value: String(n) }, stars(n))));
     rating.value = state.rating;
     const list = el('div', {});
-    box.append(el('p', { class: 'note' }, 'Lien à envoyer aux clients pour donner leur avis : https://www.invitation-digitale.tn/votre-avis-farha-invitation-digitale — chaque avis arrive « En attente ». « Publier » l’affiche sur la page « Vos avis » (www.invitation-digitale.tn/avis) ; « Masquer » le retire du site.'),
+    box.append(el('p', { class: 'note' }, 'Lien à envoyer aux clients pour donner leur avis : https://www.invitation-digitale.tn/votre-avis-farha-invitation-digitale — chaque avis est publié automatiquement sur la page « Vos avis » (www.invitation-digitale.tn/avis). « Désactiver » le retire du site, « Activer » le remet.'),
       el('div', { class: 'toolbar' }, search, status, rating), list);
     let timer = null;
     search.oninput = () => { clearTimeout(timer); timer = setTimeout(() => { state.q = search.value; state.page = 0; load(list); }, 300); };
@@ -49,10 +49,10 @@
     }
     const cards = data.map(f => {
       const actions = el('div', { class: 'row-actions' });
-      if (f.status !== 'published') actions.append(act(f, 'Publier', 'btn primary sm', { status: 'published' },
-        'Publier cet avis ?', `L’avis de ${f.author_name} apparaîtra sur la page « Vos avis » sous la forme « prénom + initiale du nom » (ex. « Amira B. »), avec la note, le texte et le modèle ; jamais l’e-mail.`, list));
-      if (f.status !== 'hidden') actions.append(act(f, 'Masquer', 'btn ghost sm', { status: 'hidden' },
-        'Masquer cet avis ?', `L’avis de ${f.author_name} ne sera plus affiché sur le site. Il reste dans l’admin.`, list));
+      if (f.status !== 'published') actions.append(act(f, 'Activer', 'btn primary sm', { status: 'published' },
+        'Activer cet avis ?', `L’avis de ${f.author_name} apparaîtra sur la page « Vos avis » sous la forme « prénom + initiale du nom » (ex. « Amira B. »), avec la note, le texte et le modèle ; jamais l’e-mail.`, list));
+      if (f.status !== 'hidden') actions.append(act(f, 'Désactiver', 'btn ghost sm', { status: 'hidden' },
+        'Désactiver cet avis ?', `L’avis de ${f.author_name} ne sera plus affiché sur le site. Il reste dans l’admin.`, list));
       actions.append(del(f, list));
       return el('article', { class: 'review-admin' },
         el('div', { class: 'review-head' },
