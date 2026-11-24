@@ -50,6 +50,10 @@
   ],
   "rewrites": [
     {
+      "source": "/invitation/wtiya-nesrine",
+      "destination": "/perso/wtiya-nesrine.html"
+    },
+    {
       "source": "/invitation/oussema-et-nesrine",
       "destination": "/perso/oussema-et-nesrine.html"
     },

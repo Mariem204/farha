@@ -414,6 +414,17 @@ const CONFIG = {
   dots.forEach(function (b) { b.addEventListener('click', function () { scroller.scrollTo({ top: T(+b.getAttribute('data-go')), behavior: rm ? 'auto' : 'smooth' }); }); });
   // ouverture
   var intro = $('#intro'), phase = 'closed', timers = [], win = $('#win');
+  // musique : Canon de Pachelbel (violoncelle et piano), lancée à l'ouverture de l'invitation
+  var bgm = new Audio('/media/perso/canon-in-d.mp3'); bgm.loop = true; bgm.preload = 'auto'; bgm.volume = .7;
+  var mb = document.createElement('button'); mb.type = 'button'; mb.id = 'musicBtn'; mb.setAttribute('aria-label', 'Musique');
+  mb.innerHTML = '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M9 18.5a3 3 0 1 1-2-2.83V5l12-2.5v12a3 3 0 1 1-2-2.83V6.6L9 8.3z"/></svg>';
+  mb.style.cssText = 'position:fixed;left:16px;bottom:18px;z-index:20;width:46px;height:46px;border-radius:50%;border:1px solid #d9cbb4;background:radial-gradient(circle at 35% 30%,#fffdf8,#efe6d8);color:#5d6450;box-shadow:0 6px 14px rgba(120,100,80,.25);display:none;align-items:center;justify-content:center;cursor:pointer';
+  document.body.appendChild(mb);
+  function musicUI() { mb.style.opacity = bgm.paused ? '.6' : '1'; mb.setAttribute('aria-pressed', String(!bgm.paused)); mb.style.animation = bgm.paused ? 'none' : 'spinMb 6s linear infinite'; }
+  var st = document.createElement('style'); st.textContent = '@keyframes spinMb{to{transform:rotate(360deg)}}'; document.head.appendChild(st);
+  mb.addEventListener('click', function () { if (bgm.paused) bgm.play().catch(function () {}); else bgm.pause(); });
+  bgm.addEventListener('play', musicUI); bgm.addEventListener('pause', musicUI);
+  $('#openIntro').addEventListener('click', function () { mb.style.display = 'flex'; bgm.play().catch(function () {}); musicUI(); });
   $('#openIntro').addEventListener('click', function () {
     if (phase !== 'closed') return; phase = O.openPhase; intro.classList.add(O.openPhase);
     timers.push(setTimeout(function () { phase = 'reveal'; intro.classList.add(O.phase2 || 'reveal'); entered = true; scroller.classList.add('on'); $('#dots').hidden = false; render(); }, rm ? 150 : O.t1));
