@@ -219,10 +219,26 @@
     const history = el('section', { class: 'card' }, el('h3', {}, 'Historique'),
       events.length ? el('ol', { class: 'timeline' }, events) : el('p', { class: 'sub' }, 'Aucun événement.'));
 
+    // Suppression définitive (commande, articles, invitation et réponses des invités)
+    const del = el('button', { type: 'button', class: 'btn ghost warn' }, 'Supprimer cette commande');
+    del.onclick = async () => {
+      if (!(await confirm('Supprimer cette commande ?', `${order.reference} sera supprimée définitivement, avec son invitation et les réponses des invités. Cette action est irréversible.`, 'Supprimer définitivement'))) return;
+      del.disabled = true; del.textContent = 'Suppression…';
+      try {
+        const { data: s } = await db.auth.getSession();
+        const cfg = window.FARHA_CONFIG || {};
+        const r = await fetch('/api/order-delete', { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + (s && s.session && s.session.access_token || ''), 'X-Farha-Anon': cfg.SUPABASE_ANON_KEY || '' }, body: JSON.stringify({ id }) });
+        const j = await r.json().catch(() => ({}));
+        if (!r.ok) throw new Error(j.error || 'HTTP ' + r.status);
+        toast('Commande ' + order.reference + ' supprimée.', 'ok');
+        dlg.close(); onChange();
+      } catch (e) { toast(e.message || 'Suppression impossible', 'error'); del.disabled = false; del.textContent = 'Supprimer cette commande'; }
+    };
+
     body.replaceChildren(
       el('div', { class: 'sheet-head' }, el('h2', {}, order.reference), el('span', { class: 'sub' }, 'Reçue le ' + fmtDate(order.created_at))),
       el('div', { class: 'cards' }, client, content, payment, processing, history),
-      el('div', { class: 'actions' }, close));
+      el('div', { class: 'actions' }, del, close));
   }
 
   registerRoute('commandes', { title: 'Commandes', lead: 'Recherche, filtres, paiement et traitement séparés, historique.', render });
