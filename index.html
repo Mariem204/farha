@@ -1841,19 +1841,20 @@ function farhaShortLink(long){
   .catch(e=>{console.warn('Farha : lien court impossible ('+(e&&e.message||e)+'), lien complet utilisé.');return long});
 }
 function farhaShrinkPhoto(src){return new Promise(res=>{if(src.length<3e6)return res(src);const img=new Image();img.onload=()=>{const k=Math.min(1,1400/Math.max(img.naturalWidth,img.naturalHeight)),c=document.createElement('canvas');c.width=Math.round(img.naturalWidth*k);c.height=Math.round(img.naturalHeight*k);c.getContext('2d').drawImage(img,0,0,c.width,c.height);res(c.toDataURL('image/jpeg',.82))};img.onerror=()=>res(src);img.src=src})}
-function farhaUploadPhotos(){
+const farhaPhotoBusy={};
+function farhaUploadPhotos(maxWait){
  const t=chosen,list=t&&farhaState.photos[t.id];if(!list||!list.some(p=>typeof p==='string'&&/^data:/.test(p)))return Promise.resolve();
  const one=(p,i)=>{if(typeof p!=='string'||!/^data:/.test(p))return Promise.resolve();
-  const done=farhaPhotoUrls[p]?Promise.resolve(farhaPhotoUrls[p]):farhaShrinkPhoto(p).then(img=>{const up=u=>fetch(u,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({image:img})}).then(r=>r.ok?r.json():Promise.reject(new Error('HTTP '+r.status)));
+  const done=farhaPhotoUrls[p]?Promise.resolve(farhaPhotoUrls[p]):farhaPhotoBusy[p]||(farhaPhotoBusy[p]=farhaShrinkPhoto(p).then(img=>{const up=u=>fetch(u,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({image:img})}).then(r=>r.ok?r.json():Promise.reject(new Error('HTTP '+r.status)));
     // sur une preview (ou si le service local échoue), la photo est enregistrée par le site principal
-    return up('/api/photo').catch(e=>/^(www\.)?invitation-digitale\.tn$/.test(location.hostname)?Promise.reject(e):up('https://www.invitation-digitale.tn/api/photo'))}).then(j=>{const u=j&&j.url;if(!/^https:\/\//.test(u||''))throw new Error('réponse invalide');farhaPhotoUrls[p]=u;return u});
+    return up('/api/photo').catch(e=>/^(www\.)?invitation-digitale\.tn$/.test(location.hostname)?Promise.reject(e):up('https://www.invitation-digitale.tn/api/photo'))}).then(j=>{const u=j&&j.url;if(!/^https:\/\//.test(u||''))throw new Error('réponse invalide');farhaPhotoUrls[p]=u;return u}).catch(e=>{delete farhaPhotoBusy[p];throw e}));
   return done.then(u=>{if(list[i]===p)list[i]=u}).catch(e=>console.warn('Farha : photo non enregistrée ('+(e&&e.message||e)+'), elle ne sera pas dans le lien.'))};
- // 25 s au plus : sans réponse, la commande continue (le lien part sans la photo)
- return Promise.race([Promise.all(list.map(one)),new Promise(r=>setTimeout(r,25000))]);
+ // les photos partent dès qu'elles sont choisies ; au paiement on attend la fin (60 s au plus)
+ return Promise.race([Promise.all(list.map(one)),new Promise(r=>setTimeout(r,maxWait||60000))]);
 }
 function farhaSetPhoto(i,file){
  const t=chosen;$('photoStatus').textContent='Préparation de la photo…';
- farhaReadPhoto(file).then(src=>{if(chosen!==t)return;const list=farhaState.photos[t.id]||(farhaState.photos[t.id]=[]);list[i]=src;farhaState.ver.photos++;$('photoStatus').textContent='';farhaRenderControls();farhaSync()},
+ farhaReadPhoto(file).then(src=>{if(chosen!==t)return;const list=farhaState.photos[t.id]||(farhaState.photos[t.id]=[]);list[i]=src;farhaState.ver.photos++;$('photoStatus').textContent='';farhaRenderControls();farhaSync();farhaUploadPhotos()},
   e=>{$('photoStatus').textContent=e.message});
 }
 
