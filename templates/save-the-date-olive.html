@@ -69,7 +69,8 @@ section{position:relative;padding:2.6rem 0 1rem}
 .vinyl .disc{width:100%;height:100%;border-radius:50%;background:repeating-radial-gradient(circle,#5c5f3d 0 1.5px,#4c4f31 1.5px 3px);box-shadow:0 8px 16px rgba(0,0,0,.4);display:grid;place-items:center}
 .vinyl .lbl{width:38%;aspect-ratio:1;border-radius:50%;background:var(--wine);display:grid;place-items:center;color:var(--cream)}
 .vinyl .lbl svg{width:46%;height:46%;fill:currentColor}
-.vinyl.playing .disc{animation:spin 4s linear infinite}
+.vinyl .disc{animation:spin 6s linear infinite}
+.vinyl.playing .disc{animation-duration:4s}
 @keyframes spin{to{transform:rotate(360deg)}}
 .vinyl:focus-visible{outline:2px solid var(--cream);outline-offset:4px;border-radius:50%}
 .in .oval{transform:translateY(-72px) rotate(-4deg)}.in .vinyl{transform:translateY(-58px)}
