@@ -37,6 +37,27 @@ module.exports = async function handler(req, res) {
     const a = await fetch(base + '/rest/v1/rpc/is_admin', { method: 'POST', headers: { apikey: anon, Authorization: 'Bearer ' + token, 'Content-Type': 'application/json' }, body: '{}' });
     if (!a.ok || (await a.json()) !== true) return res.status(403).json({ error: 'Réservé aux administrateurs' });
 
+    // rattrapage : anciennes commandes de modèle dont le total ne comptait pas la musique (+5 DT)
+    if (body.action === 'fix-totals') {
+      const r = await fetch(base + '/rest/v1/orders?select=id,total_dt,order_items(label,details)&kind=eq.template&limit=2000', { headers: svc(key) });
+      if (!r.ok) return res.status(502).json({ error: 'Lecture impossible' });
+      let fixed = 0;
+      for (const o of await r.json()) {
+        const items = o.order_items || [];
+        if (items.some(i => /^Musique/.test(i.label || ''))) continue;
+        const d = (items[0] && items[0].details) || {};
+        const sup = Number(d.supplement_musique || 0), modele = Number(d.prix_modele);
+        if (!(sup > 0) || !isFinite(modele) || Math.abs(Number(o.total_dt) - modele) > 0.001) continue;
+        const enc = encodeURIComponent(o.id);
+        const u = await fetch(base + '/rest/v1/orders?id=eq.' + enc, { method: 'PATCH', headers: svc(key), body: JSON.stringify({ total_dt: modele + sup }) });
+        if (!u.ok) continue;
+        await fetch(base + '/rest/v1/order_items', { method: 'POST', headers: svc(key, { Prefer: 'return=minimal' }),
+          body: JSON.stringify({ order_id: o.id, template_id: null, label: 'Musique d’ambiance', unit_price_dt: sup, quantity: 1, details: { music_type: d.music_type || 'oui' } }) });
+        fixed++;
+      }
+      return res.status(200).json({ ok: true, fixed });
+    }
+
     const price = priceOf(body.price);
     if (price === null) return res.status(400).json({ error: 'Prix invalide' });
 

@@ -8,6 +8,7 @@
 
 const SUR_MESURE_PRICE = 120;         // Création sur mesure, en DT (170 DT d'origine, -66 % pendant la promo)
 const SUR_MESURE_ORIGINAL = 170;
+const MUSIC_PRICE = 5;               // musique d'ambiance choisie dans le formulaire (+5 DT)
 // Prix fixés par catégorie : ils passent avant ceux de l'admin.
 const FIXED_PRICES = { 'Mariage': 86, 'Anniversaire': 24, '7enna': 36, 'Wteya': 86, 'Baby shower': 36, 'Fiançailles': 30, 'Bridal party': 36 };
 // Prix d'origine (barrés sur le site) et promo Happy Friday : -66 % sur le prix d'origine,
@@ -154,6 +155,9 @@ module.exports = async function handler(req, res) {
       }
     }
 
+    // supplément musique (modèles payants) : ajouté au total, sur une ligne à part
+    const music = kind === 'template' && details.music_type ? MUSIC_PRICE : 0;
+    if (kind === 'template') { details.prix_modele = String(unit); details.supplement_musique = String(music); details.prix_total = String(unit + music); }
     step = 'commande';
     const [order] = await rest(base, key, 'orders?select=id,reference,total_dt', {
       method: 'POST',
@@ -164,7 +168,7 @@ module.exports = async function handler(req, res) {
         customer_email: customer.email,
         customer_phone: customer.phone,
         customer_address: customer.address,
-        total_dt: unit,
+        total_dt: unit + music,
         payment_status: 'unpaid',
         processing_status: kind === 'test' ? 'completed' : 'new'
       })
@@ -175,6 +179,11 @@ module.exports = async function handler(req, res) {
       headers: { Prefer: 'return=minimal' },
       body: JSON.stringify({ order_id: order.id, template_id: template ? template.id : null, label, unit_price_dt: unit, quantity: 1, details })
     });
+    if (music) await rest(base, key, 'order_items', {
+      method: 'POST',
+      headers: { Prefer: 'return=minimal' },
+      body: JSON.stringify({ order_id: order.id, template_id: null, label: 'Musique d’ambiance', unit_price_dt: music, quantity: 1, details: { music_type: details.music_type } })
+    }).catch(e => console.error('orders: ligne musique', e.status || '', e.message));
     // Le lien /i/<slug> est un plus : s'il échoue, la commande reste enregistrée et l'admin la voit.
     let invitation = null;
     if (template) try {
