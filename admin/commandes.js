@@ -221,8 +221,8 @@
       el('a', { href: '#/invitations?q=' + encodeURIComponent(invitation.slug), onclick: 'this.closest("dialog").close()' }, '/i/' + invitation.slug),
       ' · ', el('span', { class: 'badge inv-' + invitation.status }, INV[invitation.status])) : '';
     let priceEdit = '';
-    if (order.kind === 'sur_mesure') {
-      // prix libre pour les commandes sur mesure / personnalisées
+    if (order.kind !== 'test') {
+      // prix modifiable par l'admin (sur mesure, personnalisée, ou correction d'une commande de modèle)
       const pin = el('input', { type: 'number', min: '0', step: '0.001', inputmode: 'decimal', value: String(Number(order.total_dt || 0)), 'aria-label': 'Prix (DT)' });
       const pbtn = el('button', { type: 'button', class: 'btn ghost sm' }, 'Modifier le prix');
       pbtn.onclick = async () => {

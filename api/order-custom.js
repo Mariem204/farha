@@ -65,10 +65,26 @@ module.exports = async function handler(req, res) {
       const id = String(body.id || '');
       if (!/^[0-9a-f-]{8,40}$/i.test(id)) return res.status(400).json({ error: 'Commande invalide' });
       const enc = encodeURIComponent(id);
-      const r = await fetch(base + '/rest/v1/orders?kind=eq.sur_mesure&id=eq.' + enc, { method: 'PATCH', headers: svc(key, { Prefer: 'return=representation' }), body: JSON.stringify({ total_dt: price }) });
+      const r = await fetch(base + '/rest/v1/orders?id=eq.' + enc + '&select=id,kind', { method: 'PATCH', headers: svc(key, { Prefer: 'return=representation' }), body: JSON.stringify({ total_dt: price }) });
       const rows = r.ok ? await r.json() : null;
       if (!r.ok) { console.error('order-custom: prix', r.status); return res.status(502).json({ error: 'Modification impossible' }); }
-      if (!rows.length) return res.status(404).json({ error: 'Seules les commandes sur mesure ont un prix modifiable' });
+      if (!rows.length) return res.status(404).json({ error: 'Commande introuvable' });
+      // commande de modèle : seul le total change ; si le nouveau prix enlève la musique, sa ligne est retirée
+      if (rows[0].kind === 'template') {
+        const mi = await fetch(base + '/rest/v1/order_items?select=id,unit_price_dt,label,details&order_id=eq.' + enc, { headers: svc(key) });
+        const items = mi.ok ? await mi.json() : [];
+        const mus = items.filter(i => /^Musique/.test(i.label || ''));
+        const sum = items.reduce((t, i) => t + Number(i.unit_price_dt || 0), 0);
+        const musSum = mus.reduce((t, i) => t + Number(i.unit_price_dt || 0), 0);
+        if (mus.length && Math.abs(price - (sum - musSum)) < 0.001) {
+          await fetch(base + '/rest/v1/order_items?order_id=eq.' + enc + '&label=like.Musique*', { method: 'DELETE', headers: svc(key) });
+          // musique retirée par l'admin : notée sur la ligne du modèle, pour que le rattrapage ne la remette pas
+          const main = items.find(i => !/^Musique/.test(i.label || ''));
+          if (main && main.id != null) await fetch(base + '/rest/v1/order_items?id=eq.' + encodeURIComponent(main.id), { method: 'PATCH', headers: svc(key),
+            body: JSON.stringify({ details: Object.assign({}, main.details, { supplement_musique: '0', prix_total: String(price) }) }) });
+        }
+        return res.status(200).json({ ok: true });
+      }
       await fetch(base + '/rest/v1/order_items?order_id=eq.' + enc, { method: 'PATCH', headers: svc(key), body: JSON.stringify({ unit_price_dt: price }) });
       return res.status(200).json({ ok: true });
     }
