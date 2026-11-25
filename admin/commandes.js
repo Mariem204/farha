@@ -107,6 +107,9 @@
     const add = el('button', { type: 'button', class: 'btn primary sm' }, '+ Commande personnalisée');
     box.append(el('div', { class: 'toolbar' }, search, pay, proc, kind, period, add), banner, list);
     const refresh = () => { load(list); persoBanner(banner, refresh); };
+    // une fois par session : les anciennes commandes avec musique reçoivent leur total complet
+    if (!window.__farhaTotalsFixed) { window.__farhaTotalsFixed = true;
+      adminApi('/api/order-custom', { action: 'fix-totals' }).then(j => { if (j.fixed) { toast(j.fixed + ' commande(s) : musique ajoutée au total.', 'ok'); load(list); } }).catch(() => {}); }
     add.onclick = () => customForm(null, refresh);
     persoBanner(banner, refresh);
 
