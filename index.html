@@ -915,7 +915,8 @@ html.fp-lock main,html.fp-lock .farha-header{transform:scale(var(--fp-zoom,1.06)
 <p class="pkg-lead">Une jolie invitation pour chaque fête, du modèle animé à la création pensée spécialement pour vous.</p>
 <div class="pkg-grid">
 <article class="pkg"><span class="pkg-label">01 · Essentiel</span><h3>Votre invitation</h3><div class="pkg-price farha-pkg-price"><small>À partir de</small> 24 DT</div><p class="pkg-desc">Choisissez un modèle animé et personnalisez vos informations.</p><ul><li>Modèles au choix</li><li>Date, lieu et prénoms</li><li>Animations</li><li>Google Maps selon modèle</li></ul><button type="button" onclick="goSection('themes')">Découvrir les thèmes</button></article>
-<article class="pkg featured"><span class="pkg-label">02 · Sur mesure</span><h3>Votre univers</h3><div class="pkg-price farha-pkg-price"><small aria-hidden="true" style="visibility:hidden">À partir de</small>Tarif sur demande</div><p class="pkg-desc">Une création unique imaginée spécialement pour vous.</p><ul><li>Votre idée, votre style</li><li>Design exclusif</li><li>Couleurs et ambiance</li><li>Échange personnalisé</li></ul><button type="button" onclick="show('request')">Raconter mon idée</button></article>
+<article class="pkg pkg-assist"><span class="pkg-new">Nouveau</span><span class="pkg-label">02 · Assistance</span><h3>On s’occupe de tout</h3><div class="pkg-price farha-pkg-price"><small>Prix du modèle</small> + 10 DT</div><p class="pkg-desc">Choisissez votre modèle, envoyez-nous vos informations : nous remplissons l’invitation pour vous.</p><ul><li>Le modèle de votre choix</li><li>Vous nous envoyez vos coordonnées</li><li>Nous remplissons tout pour vous</li><li>Votre lien prêt à partager</li></ul><button type="button" onclick="window.open('https://wa.me/21692891770?text='+encodeURIComponent('Bonjour Farha, je souhaite la formule Assistance : je choisis mon modèle et vous remplissez l’invitation pour moi.'),'_blank','noopener')">Demander l’assistance</button></article>
+<article class="pkg featured"><span class="pkg-label">03 · Sur mesure</span><h3>Votre univers</h3><div class="pkg-price farha-pkg-price" id="pkgBespokePrice"><small>Création unique</small> 120 DT <s class="pkg-old">170 DT</s></div><p class="pkg-desc">Une création unique imaginée spécialement pour vous.</p><ul><li>Votre idée, votre style</li><li>Design exclusif</li><li>Couleurs et ambiance</li><li>Échange personnalisé</li></ul><button type="button" onclick="show('request')">Raconter mon idée</button></article>
 
 </div><p class="pkg-note">Les prix des modèles varient selon le type d'événement. Les paiements et la publication individuelle des invitations ne sont pas encore automatisés.</p>
 </section>
@@ -3430,7 +3431,10 @@ addEventListener('message',function(e){
 <style id="farha-formules">
 #packages .pkg .farha-pkg-price{display:block!important;font:600 34px/1 'DM Sans',sans-serif;letter-spacing:-.01em}
 #packages .pkg .farha-pkg-price small{display:block;margin-bottom:6px;font:500 12px/1 'DM Sans',sans-serif;letter-spacing:.12em;text-transform:uppercase;opacity:.75}
-@media(min-width:801px){#packages .pkg-grid{grid-template-columns:repeat(2,minmax(0,1fr));max-width:none;margin-left:-26px;margin-right:-26px}}
+@media(min-width:801px){#packages .pkg-grid{grid-template-columns:repeat(3,minmax(0,1fr));max-width:none;margin-left:-26px;margin-right:-26px}}
+#packages .pkg{position:relative}
+#packages .pkg .pkg-old{font-size:.5em;opacity:.55;font-weight:500;margin-left:4px}
+#packages .pkg-new{position:absolute;top:-12px;right:18px;background:#c9a14a;color:#4a0916;font:700 11px/1 'DM Sans',sans-serif;letter-spacing:.14em;text-transform:uppercase;padding:7px 12px;border-radius:20px;box-shadow:0 6px 16px #4c263026}
 </style>
 <!-- /FARHA-FORMULES -->
 <!-- FARHA-NOMS : noms courts des modèles (remplacent aussi ceux venant de l'admin). -->
@@ -3552,13 +3556,18 @@ addEventListener('message',function(e){
 <!-- FARHA-PROMO-FORMULES : pendant la promo, la formule Essentiel affiche le plus petit prix réduit, avec 24 DT barré. -->
 <script>
 (function(){
- var el=document.querySelector('#packages .pkg:not(.featured) .farha-pkg-price');if(!el||typeof farhaPrice!=='function')return;var html0=el.innerHTML;
+ var el=document.querySelector('#packages .pkg:not(.featured):not(.pkg-assist) .farha-pkg-price');if(!el||typeof farhaPrice!=='function')return;var html0=el.innerHTML;
  function upd(){if(!(window.farhaPromoOn&&farhaPromoOn())||typeof templates==='undefined'||!templates.length){el.innerHTML=html0;return}
   var m=Math.min.apply(null,templates.map(function(t){return farhaPrice(t)}).filter(function(n){return n>0}));if(!isFinite(m))return;
   el.innerHTML='<small>À partir de</small> '+m+' DT <s style="font-size:.5em;opacity:.55;font-weight:500">24 DT</s>'}
  if(typeof renderCatalog==='function'){var rc=renderCatalog;renderCatalog=function(){var r=rc.apply(this,arguments);upd();return r}}
  upd();
 })();
+</script>
+<script>
+// Sur mesure : 170 DT d'origine ; 120 DT hors promo, -66 % pendant le Happy Friday (même calcul dans api/orders.js)
+(function(){var el=document.getElementById('pkgBespokePrice');if(!el||!window.farhaPromoOn||!farhaPromoOn())return;
+ el.innerHTML='<small>Création unique</small> '+Math.round(170*.34)+' DT <s class="pkg-old">170 DT</s>'})();
 </script>
 <!-- /FARHA-PROMO-FORMULES -->
 <!-- FARHA-LIEN-MODELE : /#modele=<id> ouvre directement la page du modèle (liens depuis les pages par occasion) -->

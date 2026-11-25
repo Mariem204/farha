@@ -6,7 +6,8 @@
 // Étape 5 : chaque commande de modèle crée aussi son invitation (lien /i/<slug>) :
 //   test gratuit → publiée tout de suite ; commande payante → brouillon, publiée par l'admin.
 
-const SUR_MESURE_PRICE = 50;          // Création sur mesure, en DT
+const SUR_MESURE_PRICE = 120;         // Création sur mesure, en DT (170 DT d'origine, -66 % pendant la promo)
+const SUR_MESURE_ORIGINAL = 170;
 // Prix fixés par catégorie : ils passent avant ceux de l'admin.
 const FIXED_PRICES = { 'Mariage': 86, 'Anniversaire': 24, '7enna': 36, 'Wteya': 86, 'Baby shower': 36, 'Fiançailles': 30, 'Bridal party': 36 };
 // Prix d'origine (barrés sur le site) et promo Happy Friday : -66 % sur le prix d'origine,
@@ -126,7 +127,8 @@ module.exports = async function handler(req, res) {
     // Prix et libellé calculés côté serveur.
     let template = null, unit = 0, label, fileSlug = '';
     if (kind === 'sur_mesure') {
-      unit = SUR_MESURE_PRICE;
+      const now = Date.now();
+      unit = now >= PROMO.start && now < PROMO.end ? Math.round(SUR_MESURE_ORIGINAL * PROMO.keep) : SUR_MESURE_PRICE;
       label = 'Création sur mesure';
     } else {
       const slug = clean(body.template_slug, 40);
